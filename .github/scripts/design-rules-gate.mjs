@@ -48,6 +48,7 @@ const BLOCKING = [
   'packages/design-tokens',
   'packages/design-components',
   'packages/design-app-runtime',
+  'packages/design-bindings',
   'packages/kit-chat',
 ]
 /**

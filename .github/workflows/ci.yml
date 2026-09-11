@@ -1,28 +1,30 @@
 # The gate. A rule nobody runs is a guideline.
 #
-# BLOCKING FROM DAY ONE, AND GREEN ON ARRIVAL. Those are not in tension here, and
-# getting both is the reason this file looks the way it does. CW-20260910-0119 was
-# offered two options — wire it blocking and accept a documented red, or wire it
-# non-blocking and flip later. Neither is good:
+# BLOCKING FROM DAY ONE, AND GREEN ON ARRIVAL. Those are not in tension, and getting
+# both is the reason this file looks the way it does. The gate blocks on the packages
+# authored clean against the contract, and REPORTS on the pre-contract fork whose
+# migration nobody has been asked to do yet. Scope, not suppression.
 #
-#   blocking-and-red    a build that is red the day it lands trains everyone to
-#                       ignore it, which is exactly how a gate gets disabled.
-#   non-blocking        nothing forces the flip, "later" is unowned, and meanwhile
-#                       new violations land freely — so it fails at the one job a
-#                       gate has, which is stopping NEW drift.
+# WHAT THIS REPLACED, BECAUSE THE LESSON IS WORTH MORE THAN THE FILE. The first
+# version recorded the fork's two inherited lint errors in .github/lint-baseline.json
+# by exact count, and failed the build if the count rose OR FELL — a fall meaning
+# someone had fixed one and the baseline was stale. That is a rule about the STATE of
+# a mutable file, and it breaks the build when the codebase IMPROVES.
 #
-# So: blocking, with the inherited red recorded as a RATCHET
-# (.github/lint-baseline.json). The two react-refresh errors in json-payload.tsx
-# come from the sysop-ui fork and are tolerated by exact signature; a third error,
-# an error anywhere new, or one of those two being fixed all fail the build. The
-# baseline can only shrink, and when CW-0125 splits those helpers out it goes to
-# zero and the ratchet quietly becomes an ordinary gate.
+#   A gate may assert a PROPERTY OF THE CODE. It may never assert a QUANTITY OF THE
+#   CODEBASE. "This package has no violations" is a property. "This file contains
+#   exactly two errors" is a census — and a census punishes progress.
+#     — Chrispian, 2026-09-11, removing the ratchet
 #
-# NO `command -v tool && tool || echo skipping` ANYWHERE. That idiom prints the
-# skip message when the tool runs and finds something, which is why go-envelopes'
+# Both gate scripts now have the same shape: a BLOCKING list, a REPORT_ONLY list, and
+# no counting. Each REPORT_ONLY entry names the TASK that retires it, because an owner
+# with a task beats a tripwire with a number.
+#
+# NO `command -v tool && tool || echo skipping` ANYWHERE. That idiom prints the skip
+# message when the tool runs and finds something, which is why go-envelopes'
 # `make vuln` reports a real finding as "not installed". Every step here is its own
-# `run:`, so exit codes propagate on their own, and the two gate scripts use
-# explicit, distinct exit codes rather than boolean chaining.
+# `run:`, so exit codes propagate on their own, and both gate scripts use explicit,
+# distinct exit codes rather than boolean chaining.
 
 name: CI
 
@@ -70,13 +72,13 @@ jobs:
       - name: build
         run: npm run build
 
-      # Blocking, ratcheted. See .github/lint-baseline.json for what is tolerated,
-      # who owns it, and how it exits.
-      - name: lint (ratcheted against the inherited baseline)
+      # Blocking for packages authored clean; reporting-only for kit-dashboard, the
+      # pre-contract fork. Counts nothing, so fixing something never fails the build.
+      - name: lint (blocking on authored packages, reporting on the fork)
         run: node .github/scripts/lint-gate.mjs
 
-      # Blocking for packages authored against the token contract; reporting-only
-      # for kit-dashboard, which is a pre-contract fork whose migration is
-      # CW-0125/0126. Turns itself on when CW-0124 publishes the vocabulary.
+      # Same policy as the lint step above: blocking for packages authored against
+      # the token contract, reporting-only for kit-dashboard. Turned itself on when
+      # CW-0124 published the vocabulary.
       - name: design rules (the one rule)
         run: node .github/scripts/design-rules-gate.mjs

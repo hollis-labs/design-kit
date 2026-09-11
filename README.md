@@ -56,22 +56,32 @@ across every workspace, on every push to `main` and every pull request.
 
 It is **blocking from day one and green on arrival**, which is not a contradiction:
 
-- **Lint is ratcheted, not exempted.** design-kit was forked from `libs/sysop-ui`,
-  which had no CI and whose lint was already red — 2 `react-refresh` errors in
-  `json-payload.tsx`, present at the identical lines in sysop-ui on its own pinned
-  plugin. `.github/lint-baseline.json` records them by exact signature, with the
-  cause, the owner (CW-20260910-0125) and how they go away. A third error, an error
-  anywhere new, **or one of those two being fixed** all fail the build. The baseline
-  can only shrink.
+- **Lint is scoped, not suppressed.** The five packages authored clean against the
+  contract block at zero. `kit-dashboard` — forked from `libs/sysop-ui`, which had no
+  CI and whose lint was already red — is **reported every run with its counts, and
+  never blocks**. Its two `react-refresh` errors in `json-payload.tsx` are present at
+  the identical lines in sysop-ui on its own pinned plugin, so they are inherited, not
+  introduced. `CW-20260910-0131` retires the exemption by rebasing the package;
+  `CW-20260910-0125` removes the two errors along the way.
 
-  Do not add to that file to turn a build green. Fix the error, or route the
-  decision to the epic lead.
+  **The gate counts nothing, deliberately.** An earlier version recorded those two
+  errors by exact count in `.github/lint-baseline.json` and failed the build if the
+  count rose *or fell* — a fall meaning someone had fixed one. That is a rule about
+  the state of a mutable file, and it breaks the build when the codebase improves:
 
-- **The design rules are blocking for packages authored against the contract** and
-  **reporting-only for `kit-dashboard`**, which carries ~263 violations because it
-  predates the contract by construction. Its migration is CW-0125/0126. The count
-  is printed on every run rather than hidden, so the debt stays visible without
-  stopping work nobody has been asked to do yet.
+  > A gate may assert a **property of the code**. It may never assert a **quantity of
+  > the codebase**. "This package has no violations" is a property. "This file
+  > contains exactly two errors" is a census — and a census punishes progress.
+
+  What that trades away, stated plainly: nothing notices if `kit-dashboard`'s error
+  count grows. The debt stays visible on every run and is owned by a named task rather
+  than by a tripwire, which is the better half of the trade before release.
+
+- **The design rules use the same policy** — blocking for packages authored against
+  the contract, reporting-only for `kit-dashboard`, which predates the contract by
+  construction. Its migration is CW-20260910-0125. The count is printed on every run
+  rather than hidden, so the debt stays visible without stopping work nobody has been
+  asked to do yet. Two gates, one policy.
 
 - **The design rules are not enforced yet**, and CI says so out loud. They need the
   token vocabulary from `@hollis-labs/design-tokens` (CW-20260910-0124), and the

@@ -23,7 +23,7 @@
  * count grows. This does not — kit-dashboard is report-only, so new lint errors there
  * are printed and do not block. That is the deliberate trade. The debt is visible
  * every run, it is owned by a real task rather than by a build failure, and the
- * moment CW-20260910-0131 rebases kit-dashboard it moves into BLOCKING and the
+ * moment CW-20260910-0125 rewires kit-dashboard it moves into BLOCKING and the
  * exemption is deleted. An owner with a task beats a tripwire with a number.
  *
  * NO `command -v tool && tool || echo skipping` ANYWHERE. That idiom prints the skip
@@ -69,7 +69,7 @@ const BLOCKING = [
  * libs/sysop-ui at aef2dff, which reports the identical errors at the identical lines
  * on its own pinned plugin. Not a regression introduced by the fork.
  *
- * EXIT CONDITION, and it is a task rather than a number: CW-20260910-0131 rebases
+ * EXIT CONDITION, and it is a task rather than a number: CW-20260910-0125 rewires
  * kit-dashboard onto the extracted packages. When that lands, move this entry into
  * BLOCKING and delete this comment. CW-20260910-0125 removes the two react-refresh
  * errors along the way by splitting json-payload's helpers out — which needs no
@@ -147,13 +147,13 @@ console.log('lint-gate — scoped by package. Nothing here counts anything.\n')
 const reported = scan(REPORT_ONLY)
 if (reported.linted.length > 0) {
   console.log(`REPORTED, not blocking — ${reported.linted.join(', ')}`)
-  console.log('  A pre-contract fork of sysop-ui. Joins BLOCKING at CW-20260910-0131.')
+  console.log('  A pre-contract fork of sysop-ui. Joins BLOCKING at CW-20260910-0125.')
   console.log(`  ${reported.total} error(s):`)
   for (const [rule, n] of [...reported.byRule.entries()].sort((a, b) => b[1] - a[1])) {
     console.log(`    ${String(n).padStart(5)}  ${rule}`)
   }
   if (reported.total > 0 && ci) {
-    notice(`kit-dashboard carries ${reported.total} lint error(s), inherited from the sysop-ui fork. Not blocking, and not hidden. Owner: CW-20260910-0131.`)
+    notice(`kit-dashboard carries ${reported.total} lint error(s), inherited from the sysop-ui fork. Not blocking, and not hidden. Owner: CW-20260910-0125.`)
   }
 }
 

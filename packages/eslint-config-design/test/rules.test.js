@@ -191,6 +191,35 @@ tester.run('no-arbitrary-scale', noArbitraryScale, {
 })
 
 // ---------------------------------------------------------------------------
+// CLOSING THE SCALE must be a config change, not a rewrite.
+//
+// Chrispian chose extend-now and kept closing it alive as a future option. The
+// close is: stop exporting INHERITED_TEXT_STEPS from design-tokens. These two cases
+// pin that a passed table REPLACES the defaults — if the rule merged Tailwind's
+// steps in unconditionally, `text-[14px]` would forever report as "restates
+// text-sm" and the close would be unrepresentable without editing the rule.
+// ---------------------------------------------------------------------------
+const closedScale = [{ text: { 9: 'micro', 10: 'caption', 11: 'label', 13: 'control' } }]
+tester.run('no-arbitrary-scale (scale closed)', noArbitraryScale, {
+  valid: [],
+  invalid: [
+    {
+      // With Tailwind's steps withdrawn, 14px no longer has a name to restate — it
+      // is off-scale, suggestion only, and NOT silently autofixed to `text-sm`.
+      code: 'const c = "text-[14px]"', options: closedScale,
+      output: null,
+      errors: [{ messageId: 'offScale', suggestions: 1 }],
+    },
+    {
+      // A contract step still autofixes under the closed scale.
+      code: 'const c = "text-[13px]"', options: closedScale,
+      output: 'const c = "text-control"',
+      errors: [{ messageId: 'named' }],
+    },
+  ],
+})
+
+// ---------------------------------------------------------------------------
 // no-color-literal
 // ---------------------------------------------------------------------------
 tester.run('no-color-literal', noColorLiteral, {

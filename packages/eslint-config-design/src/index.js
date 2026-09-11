@@ -93,6 +93,16 @@ export async function designConfig(options = {}) {
 
   const configs = [
     {
+      // Build output is generated, so linting it reports the generator's choices
+      // as the author's. It caught a PLACEHOLDER_CHART_COLOR literal in a
+      // design-tokens .d.ts — a true statement about a generated file and a
+      // useless finding. Excluded here rather than in this repo's gate so every
+      // consumer inherits it; a repo that builds to dist should not have to
+      // rediscover this.
+      name: 'design/ignore-build-output',
+      ignores: ['**/dist/**', '**/build/**', '**/*.d.ts', '**/coverage/**'],
+    },
+    {
       name: 'design/rules',
       files,
       plugins: { design: plugin },

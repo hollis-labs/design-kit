@@ -51,7 +51,7 @@ const TARGETS = [
   { name: 'hadron', glob: 'apps/hadron/cmd/hadron-app/frontend/src' },
 ]
 
-const eslint = new ESLint({ cwd: ROOT, overrideConfigFile: true, overrideConfig: config, ignore: false })
+const eslint = new ESLint({ cwd: ROOT, overrideConfigFile: true, overrideConfig: config, ignore: false, errorOnUnmatchedPattern: false })
 
 const RULES = [
   'design/no-color-literal', 'design/no-raw-palette-utility',

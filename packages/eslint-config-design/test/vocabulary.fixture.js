@@ -1,52 +1,29 @@
 /**
- * A vocabulary standing in for @hollis-labs/design-tokens until CW-0124 lands it.
+ * The REAL contract, from @hollis-labs/design-tokens, plus the two idiom families
+ * the discrimination tests need.
  *
- * The 43 color names are docs/token-contract.md's appendix verbatim. `mode-*` is
- * added because Nanite declares it and it is half of the test case that matters
- * most: `bg-mode-default` and `bg-bg-elevated` are REAL tokens that a structural
- * parser reports as invented, while `bg-bg-surface` is genuinely invented. Those
- * three have to come out differently.
+ * This used to restate the 43 token names by hand because the tokens package was
+ * an empty stub. It landed (d995bd6), so the restatement is gone — these tests now
+ * run against the actual contract, and they fail if it changes underneath them,
+ * which is the point.
+ *
+ * `mode-*` is added because NANITE declares `--color-mode-*` today and it is half
+ * of the test case that matters most: `bg-mode-default` and `bg-bg-elevated` are
+ * real tokens a structural parser calls invented, while `bg-bg-surface` is genuinely
+ * invented. Under the contract Nanite's would become `chat-mode-*`, but the rule has
+ * to be right about the vocabulary a repo ACTUALLY declares, so the fixture models
+ * one that declares them.
  */
+export {
+  TEXT_TOKENS, RADIUS_TOKENS, TRACKING_TOKENS, IDIOM_PREFIXES,
+  SHADCN_ALIASES, DEPRECATED_TOKENS,
+  INHERITED_TEXT_STEPS, INHERITED_RADIUS_STEPS, INHERITED_TRACKING_STEPS,
+  TEXT_SCALE, RADIUS_SCALE, TRACKING_SCALE,
+} from '@hollis-labs/design-tokens'
+
+import { COLOR_TOKENS as CONTRACT_COLORS } from '@hollis-labs/design-tokens'
+
 export const COLOR_TOKENS = [
-  'bg', 'bg-elevated', 'surface', 'surface-hover', 'surface-active',
-  'fg', 'fg-secondary', 'fg-muted', 'fg-faint',
-  'border', 'border-subtle', 'divider',
-  'primary', 'primary-hover', 'primary-active', 'primary-muted', 'primary-fg',
-  'brand', 'brand-hover', 'brand-active', 'brand-muted', 'brand-fg',
-  'selection', 'selection-fg', 'ring',
-  'danger', 'danger-hover', 'danger-muted', 'danger-fg',
-  'warning', 'warning-muted', 'warning-fg',
-  'success', 'success-muted', 'success-fg',
-  'info', 'info-muted', 'info-fg',
-  'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
-  // Nanite's chat idiom, declared: --color-mode-default etc.
+  ...CONTRACT_COLORS,
   'mode-default', 'mode-planner', 'mode-architect', 'mode-writer',
 ]
-/**
- * Contract §3.7 — generated, never authored by hand, but a vendored shadcn
- * component names them and they resolve, so they are part of the legal
- * vocabulary. Leaving them out made the rule report `primary-foreground` in
- * badge.tsx as invented, which it is not.
- */
-export const SHADCN_ALIASES = [
-  'background', 'foreground', 'card', 'card-foreground', 'popover', 'popover-foreground',
-  'muted', 'muted-foreground', 'secondary', 'secondary-foreground',
-  'accent', 'accent-foreground', 'destructive', 'destructive-foreground',
-  'primary-foreground', 'input',
-]
-
-/**
- * Names that EXIST today and the contract retires (§3.3), with where they go.
- * Distinct from an invented name: these render correctly right now, so calling
- * them "renders nothing" would be false and alarming. They are a migration
- * surface, and the rule says so.
- */
-export const DEPRECATED_TOKENS = {
-  'border-strong': 'border',
-  'border-soft': 'divider',
-}
-
-export const TEXT_TOKENS = ['micro', 'caption', 'label', 'control']
-export const RADIUS_TOKENS = ['panel', 'control']
-export const TRACKING_TOKENS = ['label']
-export const IDIOM_PREFIXES = ['dash', 'chat']

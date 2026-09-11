@@ -70,13 +70,22 @@ export default {
     const enabled = new Set(opts.dimensions ?? ['type', 'radius', 'tracking'])
     const sourceCode = context.sourceCode
 
-    // Contract steps are injected (they come from TEXT_TOKENS / RADIUS_TOKENS);
-    // Tailwind's inherited steps live in one place so that CLOSING the scale
-    // later is a config change plus one array, not a rewrite of this rule.
+    // A PASSED TABLE REPLACES THE DEFAULT; IT DOES NOT MERGE WITH IT. This is the
+    // difference between a rule that can close the scale and one that cannot.
+    //
+    // Chrispian chose extend-Tailwind-now and deliberately kept closing it alive as
+    // a future option. Closing it means `text-sm` stops being a legal name — so if
+    // this rule merged Tailwind's steps in unconditionally, `text-[14px]` would
+    // forever report as "restates the named step text-sm" and the close would be
+    // unrepresentable without editing this file. Replacing means the whole
+    // operation is: drop INHERITED_TEXT_STEPS from what design-tokens exports.
+    //
+    // The TW_* tables below are the fallback for a consumer running these rules
+    // with no tokens package at all. They are not the source of truth.
     const steps = {
-      type: { ...TW_TEXT_STEPS, ...(opts.text ?? {}) },
-      radius: { ...TW_RADIUS_STEPS, ...(opts.radius ?? {}) },
-      tracking: { ...TW_TRACKING_STEPS, ...(opts.tracking ?? {}) },
+      type: opts.text ?? TW_TEXT_STEPS,
+      radius: opts.radius ?? TW_RADIUS_STEPS,
+      tracking: opts.tracking ?? TW_TRACKING_STEPS,
     }
 
     return classStringVisitor(sourceCode, (text, locate) => {

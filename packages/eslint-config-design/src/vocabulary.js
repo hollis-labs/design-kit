@@ -65,9 +65,15 @@ export function vocabularyFrom(mod, source = 'explicit') {
     text, radius, tracking,
     // Step VALUES, not just names — the scale rule needs them to tell
     // "restates a named step" (autofix) from "off the scale" (suggest only).
-    textScale: scaleOf(mod.TEXT_SCALE ?? mod.textScale, text, 'text'),
-    radiusScale: scaleOf(mod.RADIUS_SCALE ?? mod.radiusScale, radius, 'radius'),
-    trackingScale: scaleOf(mod.TRACKING_SCALE ?? mod.trackingScale, tracking, 'tracking'),
+    //
+    // The COMPLETE table: Tailwind's inherited steps plus the contract's added
+    // ones, both from the tokens package. That is what makes closing the scale a
+    // change to one array in design-tokens rather than a rewrite here — drop the
+    // inherited steps from that export and every arbitrary value that used to
+    // restate one becomes an off-scale error, with no edit to these rules.
+    textScale: { ...(mod.INHERITED_TEXT_STEPS ?? {}), ...(mod.TEXT_SCALE ?? {}) },
+    radiusScale: { ...(mod.INHERITED_RADIUS_STEPS ?? {}), ...(mod.RADIUS_SCALE ?? {}) },
+    trackingScale: { ...(mod.INHERITED_TRACKING_STEPS ?? {}), ...(mod.TRACKING_SCALE ?? {}) },
     idioms: [...(mod.IDIOM_PREFIXES ?? mod.idiomPrefixes ?? [])],
     // name -> replacement, for names that work today and the contract retires.
     deprecated: { ...(mod.DEPRECATED_TOKENS ?? mod.deprecatedTokens ?? {}) },
@@ -75,39 +81,6 @@ export function vocabularyFrom(mod, source = 'explicit') {
   }
 }
 
-/**
- * THE ONE PLACE THIS PACKAGE RESTATES THE CONTRACT, and it is a fallback, not a
- * source. The contract states each added step's value in prose (§4 type, §5
- * radius, §6 tracking) but the tokens package currently exports only the NAMES.
- * The scale rule cannot work from names alone — it needs the value to know
- * whether `text-[13px]` restates `text-control`.
- *
- * When @hollis-labs/design-tokens exports TEXT_SCALE / RADIUS_SCALE /
- * TRACKING_SCALE as name -> value maps, that wins and this is never consulted.
- * Until then this is a second list, and a second list drifts — which is why it is
- * flagged here loudly rather than buried, and why it is reported as a handoff
- * rather than quietly relied on.
- */
-export const CONTRACT_STEP_VALUES = {
-  text: { micro: 9, caption: 10, label: 11, control: 13 },
-  radius: { panel: 10, control: 6 },
-  tracking: { label: 0.16 },
-}
-
-/** Prefer the package's own values; fall back to the documented contract values. */
-function scaleOf(provided, names, dimension) {
-  if (provided && typeof provided === 'object') {
-    const out = {}
-    for (const [k, v] of Object.entries(provided)) out[k] = Number(v)
-    return out
-  }
-  const fallback = CONTRACT_STEP_VALUES[dimension] ?? {}
-  const out = {}
-  for (const name of names) {
-    if (fallback[name] !== undefined) out[name] = fallback[name]
-  }
-  return out
-}
 
 /**
  * Resolve the vocabulary from the tokens package.

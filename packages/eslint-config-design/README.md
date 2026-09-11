@@ -66,12 +66,18 @@ and if it cannot be resolved this config **throws rather than falling back**. A 
 config that silently substitutes a stale vocabulary fails a build for the wrong
 reason; one that refuses to load tells you what to fix.
 
-> **Open handoff to CW-20260910-0124.** The tokens package needs to export step
-> **values**, not only names — `TEXT_SCALE`, `RADIUS_SCALE`, `TRACKING_SCALE` as
-> `name -> value` maps. `no-arbitrary-scale` cannot tell "restates `text-control`"
-> from "off the scale" without them. Until that lands, `CONTRACT_STEP_VALUES` in
-> `src/vocabulary.js` is the documented fallback and it is **the one place this
-> package restates the contract**. It is flagged loudly rather than buried.
+> **Resolved.** `@hollis-labs/design-tokens` (d995bd6) exports `TEXT_SCALE`,
+> `RADIUS_SCALE` and `TRACKING_SCALE` as name→value maps, plus
+> `INHERITED_TEXT_STEPS` / `INHERITED_RADIUS_STEPS` / `INHERITED_TRACKING_STEPS`.
+> `CONTRACT_STEP_VALUES` is gone — this package no longer restates any part of the
+> contract. The `TW_*` tables in `src/tailwind.js` are a fallback for a consumer
+> running these rules with no tokens package at all, not a source of truth.
+>
+> **Closing the type scale is now one array.** A scale table passed in options
+> **replaces** the default rather than merging with it, so withdrawing
+> `INHERITED_TEXT_STEPS` from what `design-tokens` exports makes every arbitrary
+> value that used to restate a Tailwind step become an off-scale error, with no edit
+> to these rules. Pinned by `no-arbitrary-scale (scale closed)` in the tests.
 
 ## Usage
 
@@ -99,6 +105,13 @@ await designConfig({
 ```
 
 ## Two exemptions, and why one is much narrower than the other
+
+**Build output is never linted.** `**/dist/**`, `**/build/**`, `**/*.d.ts` and
+`**/coverage/**` are ignored, because linting generated files reports the
+generator's choices as the author's — it caught a `PLACEHOLDER_CHART_COLOR` literal
+in a `design-tokens` `.d.ts`, which is a true statement about a generated file and a
+useless finding. This lives in the shared config rather than in one repo's CI, so a
+consumer that builds to `dist` does not have to rediscover it.
 
 **The theme layer is exempt from the color rules, and this is load-bearing.**
 Layer 3 is the only layer permitted to name a color. Without the exemption, Nanite

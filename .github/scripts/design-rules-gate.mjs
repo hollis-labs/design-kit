@@ -97,7 +97,7 @@ const withParser = config.map((c) => (c.files && c.plugins
   : c))
 
 async function countIn(dirs) {
-  const eslint = new ESLint({ cwd: repoRoot, overrideConfigFile: true, overrideConfig: withParser, ignore: false })
+  const eslint = new ESLint({ cwd: repoRoot, overrideConfigFile: true, overrideConfig: withParser, ignore: false, errorOnUnmatchedPattern: false })
   const results = await eslint.lintFiles(dirs.map((d) => `${repoRoot}/${d}/**/*.{ts,tsx}`))
   const byRule = new Map()
   const sites = []

@@ -30,6 +30,10 @@ const OPTIONS = {
 
 const eslint = new ESLint({
   cwd: ROOT, ignore: false, overrideConfigFile: true,
+  // ESLint THROWS AllFilesIgnoredError when a glob matches only ignored files —
+  // which now happens for any package whose ts files all live under dist/. A gate
+  // that crashes instead of reporting zero is worse than one that misses.
+  errorOnUnmatchedPattern: false,
   overrideConfig: [{
     files: ['**/*.{ts,tsx}'],
     languageOptions: {

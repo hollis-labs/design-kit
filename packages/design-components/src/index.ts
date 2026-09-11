@@ -16,6 +16,14 @@
  * Built on Base UI (`@base-ui/react`), a peer. See CW-20260910-0140.
  */
 
+/*
+ * The primitives. `ui/table.tsx` and `ui/tabs.tsx` are exported here despite
+ * being unused inside sysop-ui — `DataTable` hand-rolls its markup and
+ * `layout/tab-strip.tsx` re-implements a tab bar, both of which are the dashboard's
+ * page-chrome variants and stay in kit-dashboard. Base keeps the primitives.
+ */
+export * from './components/ui'
+
 /* The utility every component needs, and the other half of sysop-ui's lib/utils. */
 export { cn } from './lib/utils'
 

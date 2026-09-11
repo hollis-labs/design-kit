@@ -50,7 +50,15 @@ const BLOCKING = [
   'packages/design-app-runtime',
   'packages/kit-chat',
 ]
-/** Pre-contract fork — reported, never blocking. Migration: CW-0125 / CW-0126. */
+/**
+ * Pre-contract fork — reported, never blocking. Migration: CW-20260910-0125.
+ *
+ * Was "CW-0125 / CW-0126" while it was unclear which of them would rewire this
+ * package. CW-0126 has since landed design-app-runtime WITHOUT touching
+ * kit-dashboard — one writer per package — so 0125 owns all of this debt, including
+ * rewiring kit-dashboard onto design-app-runtime. Pointing at a closed task is how a
+ * stale owner survives in a message everyone reads.
+ */
 const REPORT_ONLY = ['packages/kit-dashboard']
 
 let designConfig, ESLint
@@ -142,7 +150,7 @@ if (reported.unregistered > 0) {
   console.log('   disable directives for plugins this config does not register — not findings)')
 }
 if (reported.total > 0 && ci) {
-  notice(`kit-dashboard carries ${reported.total} design-rule violations, owned by CW-20260910-0125/0126. Not blocking, and not hidden.`)
+  notice(`kit-dashboard carries ${reported.total} design-rule violations, owned by CW-20260910-0125. Not blocking, and not hidden.`)
 }
 
 console.log(`\nBLOCKING — ${BLOCKING.join(', ')}`)

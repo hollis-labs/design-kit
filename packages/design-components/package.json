@@ -41,7 +41,7 @@
   "types": "./dist/src/index.d.ts",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && vite build",
-    "prepare": "npm run build",
+    "prepack": "npm run build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "test": "vitest",

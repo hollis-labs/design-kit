@@ -10,6 +10,27 @@ interface JsonViewerProps {
 
 // Matches: a quoted string (optionally a key — trailed by `:`), a literal
 // (true/false/null), or a number.
+//
+// KNOWN, AND LATENT RATHER THAN BROKEN — read this before styling a syntax role.
+// The `\s*` sits INSIDE the match, so when a string is followed by whitespace the
+// match carries that whitespace and the emitted `<span>` wraps it. In practice
+// that is the last element before a closing bracket, and only strings: literals
+// and numbers have no trailing `\s*`, and a string followed by `,` or `:` stops
+// at the quote. `{"tags":["one","two"]}` pretty-printed yields one such match —
+// `"two"\n  ` — whose span swallows the newline and the bracket's indent.
+//
+// `classFor` already tolerates it (hence the `trimEnd()`), and while these roles
+// are colour-only it renders identically, which is why it has survived. It stops
+// being invisible the moment a role takes a `background`, `border`, `underline`
+// or `padding` — the span then paints across the line break — and that is exactly
+// what a syntax-palette design pass would add.
+//
+// The fix is a lookahead rather than a consumed suffix: match the quoted run and
+// assert `(?=\s*:)` to recognise a key, which ends every match at the closing
+// quote (verified: 0 matches carry trailing whitespace, all 5 keys still
+// classify). It is NOT a pure refactor — the `:` stops being part of the key's
+// span and renders in the surrounding text colour — so it is left alone
+// deliberately, to land with the design pass rather than ahead of it.
 const TOKEN = /("(?:[^"\\]|\\.)*"\s*:?|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g
 
 /**

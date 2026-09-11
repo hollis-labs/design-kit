@@ -91,6 +91,7 @@
 
   /* Letter-spacing — §6. Above Tailwind's top step (`widest`, 0.1em). */
   --tracking-label: 0.16em;
+  --tracking-eyebrow: 0.28em;
 }
 
 /* ── Convenience: the contract layer as ordinary custom properties ──────────

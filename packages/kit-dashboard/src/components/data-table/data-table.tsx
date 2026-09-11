@@ -132,7 +132,7 @@ export function DataTable<T>({
   return (
     <div className="w-full overflow-x-auto">
       <table className="w-full min-w-full">
-        <thead className="text-caption uppercase tracking-[.28em] text-text-subtle">
+        <thead className="text-caption uppercase tracking-eyebrow text-text-subtle">
           <tr className="border-b border-border-strong">
             {selectable && (
               <th className="w-8 py-1.5 pl-[14px] pr-0">

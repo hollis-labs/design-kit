@@ -3,12 +3,12 @@ import { Toaster as Sonner, type ToasterProps } from "sonner"
 const Toaster = (props: ToasterProps) => {
   return (
     <Sonner
-      // TODO(round-1): `dark` is the dashboard's taste, not an idiom-free
-      // default — a light app gets a dark toaster unless it passes `theme`.
-      // sonner's own default is `system`. Left as-is pending the appearance
-      // round rather than changed quietly; `{...props}` spreads last, so a
-      // consumer can already override it.
-      theme="dark"
+      // `system`, decided in review round 2, on the same reasoning as the raised
+      // Card and Dialog: the generic primitive gets the conventional behaviour and
+      // the dense-ops opinion stays with the idiom that wants it. sysop-ui
+      // hardcoded `dark`, so a light app got a dark toaster. kit-dashboard passes
+      // `theme="dark"` if it wants one — `{...props}` spreads last.
+      theme="system"
       className="toaster group"
       // NO `icons` OVERRIDE, and removing it is a pure subtraction. sonner ships
       // its own SuccessIcon / ErrorIcon / WarningIcon / InfoIcon / Loader

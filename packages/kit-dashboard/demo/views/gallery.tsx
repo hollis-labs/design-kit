@@ -136,7 +136,7 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   return (
     <section className="space-y-3">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-label font-semibold uppercase tracking-[.18em] text-text-soft">
+        <h2 className="text-label font-semibold uppercase tracking-label text-text-soft">
           {title}
         </h2>
         {note ? <span className="text-label text-text-subtle">{note}</span> : null}

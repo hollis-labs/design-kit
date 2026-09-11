@@ -9,7 +9,7 @@ function SectionTitle({ icon, title, meta }: { icon: ReactNode; title: string; m
     <div className="flex min-h-9 items-center justify-between gap-3 border-b border-border bg-panel px-3">
       <div className="flex min-w-0 items-center gap-2">
         <span className="text-text-subtle">{icon}</span>
-        <h2 className="truncate text-label font-semibold uppercase tracking-[.18em] text-text-muted">
+        <h2 className="truncate text-label font-semibold uppercase tracking-label text-text-muted">
           {title}
         </h2>
       </div>

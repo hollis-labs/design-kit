@@ -264,14 +264,20 @@ tester.run('no-arbitrary-scale', noArbitraryScale, {
         suggestions: [{ desc: 'Use text-caption (10)', output: 'const c = "text-caption"' }],
       }],
     },
-    // The two spellings of one tracking value both land on the same step.
-    { code: 'const c = "tracking-[.18em]"', options: scaleOpts(contract), output: null, errors: [{ messageId: 'offScale', suggestions: 1 }] },
-    { code: 'const c = "tracking-[0.18em]"', options: scaleOpts(contract), output: null, errors: [{ messageId: 'offScale', suggestions: 1 }] },
-    // Exact contract tracking value -> autofix.
+    // The two spellings of one tracking value both land on the same step — and
+    // that value is now 0.18em, `tracking-label`'s, so both AUTOFIX. They were
+    // `offScale` until review round 3 moved `label` from the band's midpoint to
+    // its mode; the inversion below is the same change seen from the other side.
     {
-      code: 'const c = "tracking-[0.16em]"', options: scaleOpts(contract),
+      code: 'const c = "tracking-[.18em]"', options: scaleOpts(contract),
       output: 'const c = "tracking-label"', errors: [{ messageId: 'named' }],
     },
+    {
+      code: 'const c = "tracking-[0.18em]"', options: scaleOpts(contract),
+      output: 'const c = "tracking-label"', errors: [{ messageId: 'named' }],
+    },
+    // And 0.16em, which used to be the exact match, is now off-scale.
+    { code: 'const c = "tracking-[0.16em]"', options: scaleOpts(contract), output: null, errors: [{ messageId: 'offScale', suggestions: 1 }] },
     // Computed values are reported but never autofixed. Real: kit x3.
     {
       code: 'const c = "rounded-[min(var(--radius-md),10px)]"', options: scaleOpts(contract),

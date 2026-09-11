@@ -46,7 +46,7 @@ export function SettingsPanel({ title, icon, children, className }: SettingsPane
     >
       <div className="flex h-9 items-center gap-2 border-b border-border-subtle px-4 text-text-subtle">
         {icon ? <span className="shrink-0 text-text-subtle">{icon}</span> : null}
-        <h2 className="truncate text-label font-semibold uppercase tracking-[.18em] text-text-muted">
+        <h2 className="truncate text-label font-semibold uppercase tracking-label text-text-muted">
           {title}
         </h2>
       </div>
@@ -98,7 +98,7 @@ export function SettingsNotice({
 
   return (
     <div className={cn('rounded border px-3 py-2', toneClassName, className)}>
-      <div className="text-label font-semibold uppercase tracking-[.14em]">{title}</div>
+      <div className="text-label font-semibold uppercase tracking-label">{title}</div>
       <div className="mt-1 text-xs text-text-soft">{description}</div>
     </div>
   )

@@ -30,7 +30,7 @@ export function PriorityBadge({ priority, className = '' }: PriorityBadgeProps) 
   const config = PRIORITY[priority] ?? PRIORITY[3]
   return (
     <span
-      className={`rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-[0.18em] ${config.className} ${className}`}
+      className={`rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label ${config.className} ${className}`}
     >
       {config.label}
     </span>

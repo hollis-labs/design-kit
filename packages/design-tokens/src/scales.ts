@@ -86,14 +86,26 @@ export type TrackingToken = (typeof TRACKING_TOKENS)[number]
  * micro-label band (0.12–0.20em, 86 uses) sits ABOVE anything Tailwind offers —
  * the same shape of gap as the type scale.
  *
- * 0.16 is the midpoint of that band, not a measured mode. The contract's author
- * flagged it as judgement rather than spec. Re-derived here and kept: the band's
- * two-way spellings make a true mode unrecoverable (`.16em` and `0.16em` are one
- * value written twice), and any choice inside 0.14–0.18 is within a pixel at
- * these sizes. Not load-bearing; a design pass may move it.
+ * SUPERSEDED, and left here because the correction is the interesting part. This
+ * read: "0.16 is the midpoint of that band, not a measured mode... the band's
+ * two-way spellings make a true mode unrecoverable." The spellings do collapse —
+ * `.16em` and `0.16em` are one value — but collapsing them and then COUNTING gives
+ * a clear bimodal distribution rather than an unrecoverable one. The mode is 0.2
+ * and 0.18, not the midpoint. A design pass did move it; see `label` below.
  */
 export const TRACKING_SCALE = {
-  label: 0.16,
+  // 0.18, NOT 0.16 — changed in review round 2 after the distribution was counted.
+  //
+  // This was 0.16 with a note two lines up admitting it: "the midpoint of that
+  // band, not a measured mode." Counting the band rather than bracketing it gives
+  // 8 sites at 0.2em, 7 at 0.18em, 4 at 0.14em, 1 at 0.12em — bimodal, with 15 of
+  // 20 at 0.18 or above. A step at 0.16 landed BETWEEN the two largest clusters
+  // and matched neither, which is why twenty sites stayed arbitrary rather than
+  // folding: the scale was asking them to move to a value none of them had chosen.
+  //
+  // Naming the mode makes 7 exact and brings 8 more within 0.02. The question was
+  // never whether those sites were sloppy.
+  label: 0.18,
   // §11 — added in review round 2. The widest uppercase register: 10px, faint,
   // semibold. Two authors reached 0.28em independently — `empty-state`'s `eyebrow`
   // prop and `data-table`'s <thead> — in different packages, with the same

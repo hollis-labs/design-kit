@@ -94,7 +94,7 @@ test("Tailwind's radius ladder is NOT overridden — this is the silent-divergen
 })
 
 test('tracking-label sits above anything Tailwind offers', () => {
-  assert.equal(TRACKING_SCALE.label, 0.16)
+  assert.equal(TRACKING_SCALE.label, 0.18)
   assert.ok(TRACKING_SCALE.label > INHERITED_TRACKING_STEPS.widest)
 })
 
@@ -114,7 +114,7 @@ test('the scale maps match what the contract document states in prose', () => {
     {
       text: { micro: 9, caption: 10, label: 11, control: 13 },
       radius: { panel: 10, control: 6 },
-      tracking: { label: 0.16, eyebrow: 0.28 },
+      tracking: { label: 0.18, eyebrow: 0.28 },
     },
   )
 })

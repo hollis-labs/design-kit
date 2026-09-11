@@ -50,7 +50,7 @@ export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
       }
       aside={
         <div className="space-y-2 p-4">
-          <p className="text-caption font-semibold uppercase tracking-[.18em] text-text-subtle">
+          <p className="text-caption font-semibold uppercase tracking-label text-text-subtle">
             Run stats
           </p>
           <MetaList

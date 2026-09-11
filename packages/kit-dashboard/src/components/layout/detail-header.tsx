@@ -36,7 +36,7 @@ export function DetailHeader({
   actions,
 }: DetailHeaderProps) {
   const backClassName =
-    'flex items-center gap-1 text-label uppercase tracking-[.14em] text-text-subtle transition-colors hover:text-foreground'
+    'flex items-center gap-1 text-label uppercase tracking-label text-text-subtle transition-colors hover:text-foreground'
 
   return (
     <div>

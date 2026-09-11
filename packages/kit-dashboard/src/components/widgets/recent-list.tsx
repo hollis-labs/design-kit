@@ -39,7 +39,7 @@ export function RecentList<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-label text-muted-foreground">
           {title}
         </span>
         <span className="font-mono text-caption text-muted-foreground/80 tabular-nums">

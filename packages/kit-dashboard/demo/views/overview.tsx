@@ -77,7 +77,7 @@ export function OverviewView() {
       {/* Page header */}
       <div className="flex shrink-0 items-center justify-between border-b border-border bg-bg px-4 py-2">
         <div className="min-w-0">
-          <p className="text-label uppercase tracking-[.18em] text-text-subtle">Agent Ops — Overview</p>
+          <p className="text-label uppercase tracking-label text-text-subtle">Agent Ops — Overview</p>
           <p className="mt-0.5 truncate font-mono text-label text-text-subtle">
             catalog root: ~/dev/hollis-labs/agent-workspaces
           </p>

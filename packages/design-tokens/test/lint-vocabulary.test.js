@@ -51,7 +51,7 @@ test('the scale VALUES reach the rule, not just the names', { skip: !lint }, () 
   assert.equal(vocab.textScale.control, 13)
   assert.equal(vocab.textScale.label, 11)
   assert.equal(vocab.radiusScale.panel, 10)
-  assert.equal(vocab.trackingScale.label, 0.16)
+  assert.equal(vocab.trackingScale.label, 0.18)
 })
 
 test('THE FALLBACK THIS PACKAGE DELETES agrees with the contract', { skip: !lint }, () => {

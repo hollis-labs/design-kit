@@ -7,7 +7,7 @@ interface PageHeaderProps {
 export function PageHeader({ title, children }: PageHeaderProps) {
   return (
     <div className="flex items-center justify-between border-b border-border bg-bg px-4 py-2.5">
-      <h1 className="text-label font-semibold uppercase tracking-[.18em] text-text-soft">
+      <h1 className="text-label font-semibold uppercase tracking-label text-text-soft">
         {title}
       </h1>
       {children && <div className="flex items-center gap-2">{children}</div>}

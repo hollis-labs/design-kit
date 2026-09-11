@@ -596,7 +596,7 @@
   }
 
   .hud-label {
-    @apply text-[11px] uppercase tracking-[0.16em] text-text-subtle;
+    @apply text-[11px] uppercase tracking-label text-text-subtle;
   }
 
   .hud-skeleton {
@@ -608,7 +608,7 @@
   }
 
   .hud-table thead tr {
-    @apply border-b border-border bg-panel-hover text-left text-[11px] uppercase tracking-[0.14em] text-text-subtle;
+    @apply border-b border-border bg-panel-hover text-left text-[11px] uppercase tracking-label text-text-subtle;
   }
 
   .hud-table tbody tr {

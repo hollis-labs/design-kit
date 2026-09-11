@@ -29,7 +29,7 @@ export function ThemeSwitcher() {
         <Palette className="h-4 w-4" />
       </PopoverTrigger>
       <PopoverContent side="right" align="end" className="w-56 p-1">
-        <p className="px-2 py-1.5 text-caption font-semibold uppercase tracking-[.2em] text-text-subtle">
+        <p className="px-2 py-1.5 text-caption font-semibold uppercase tracking-label text-text-subtle">
           Palette
         </p>
         {THEME_OPTIONS.map((option) => (
@@ -40,7 +40,7 @@ export function ThemeSwitcher() {
             className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm text-text transition-colors hover:bg-muted"
           >
             <span className="flex-1">{option.label}</span>
-            <span className="text-caption uppercase tracking-[.2em] text-text-subtle">
+            <span className="text-caption uppercase tracking-label text-text-subtle">
               {option.shortLabel}
             </span>
             {theme === option.value && <Check className="h-3.5 w-3.5 text-status-routed" />}

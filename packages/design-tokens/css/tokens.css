@@ -90,7 +90,7 @@
   --radius-control: 0.375rem; /* 6px — alias of Tailwind's `md` */
 
   /* Letter-spacing — §6. Above Tailwind's top step (`widest`, 0.1em). */
-  --tracking-label: 0.16em;
+  --tracking-label: 0.18em;
   --tracking-eyebrow: 0.28em;
 }
 

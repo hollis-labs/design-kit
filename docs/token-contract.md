@@ -790,10 +790,16 @@ there; 6 built-in themes with complete dark and light sets; hex concentration in
    — the vendored shadcn primitives' state syntax. `data-[state=open]:bg-surface` names a selector
    and a token; it is categorically not a component naming a value. Nanite's chat directory has
    **zero** of them.)*
-   On the three dimensions that actually have tokens: **kit 2.0 per 100 (223 real values), Nanite chat
-   3.1 per 100 (467 real values)** — and the kit's 154 genuine violations include `text-[10px]`×38,
-   `text-[11px]`×32, `text-[9px]`×12 plus tracking in four spellings. So the kit is **cleaner than
-   Nanite on scale but not clean**, which is the claim that survives.
+   Stripping the selectors leaves **223 real arbitrary values** in the kit against **467** in Nanite's
+   chat. Narrowing further to the three dimensions that actually have tokens — which is what the lint
+   rules report — gives **kit 2.0 per 100 (154 violations), Nanite chat 3.1 per 100 (355)**. The kit's
+   154 include `text-[10px]`×38, `text-[11px]`×32, `text-[9px]`×12 plus tracking in four spellings. So
+   the kit is **cleaner than Nanite on scale but not clean**, which is the claim that survives — and it
+   survives on either measure, since 2.9 vs 4.2 across all real values orders the same way.
+   *(Second correction, same day, by CW-0119: this paragraph originally paired the three-dimension
+   RATES with the all-real-value COUNTS — "2.0 per 100 (223 real values)". Each number was right alone
+   and the pairing was wrong, which is the identical failure mode this paragraph exists to document.
+   Worth fixing on principle even though the conclusion never moved.)*
    The original error is itself the fourth instance of this epic's recurring shape — a headline number
    counting something that is not the thing it names. See [[verify_capability_claims_against_write_path]].
    **What this still supports:** the scale problem is not Nanite-specific, which §11.5 and the Tether

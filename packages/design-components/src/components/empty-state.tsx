@@ -41,18 +41,12 @@ export function EmptyState({
       {ICONS[variant]}
       <div className="space-y-1">
         {eyebrow ? (
-          // TODO(round-2): this was `tracking-[0.28em]`, and round 1 decided a
-          // step SHOULD exist for it rather than folding — but the value is part
-          // of Chrispian's design pass and `tracking-eyebrow` is not in the
-          // contract yet. `tracking-label` (0.16) is the nearest that exists;
-          // this package is enforced at zero, so an arbitrary value would fail
-          // the gate rather than wait politely. Visibly tighter than intended
-          // until the step lands, and then it is one rename.
-          //
-          // The other 0.28em site is kit-dashboard's data-table <thead> — same
-          // register, same 10px uppercase faint construction, reached
-          // independently. That is what made it a role rather than an outlier.
-          <p className="text-caption font-semibold uppercase tracking-label text-fg-faint">
+          // `tracking-eyebrow` — the step added in review round 2, at the 0.28em
+          // this site had before the contract had a name for it. It rendered
+          // visibly tighter in the interim, because an arbitrary value could not
+          // pass a gate enforced at zero and `tracking-label` (0.16) was the
+          // nearest that existed. Restored, not changed.
+          <p className="text-caption font-semibold uppercase tracking-eyebrow text-fg-faint">
             {eyebrow}
           </p>
         ) : null}

@@ -30,6 +30,44 @@ import { parseUtility, tokenizeClassString } from '../class-parser.js'
  * actually declares — so `text-center`, `text-sm` and `border-2` are never
  * candidates. An unrecognised family is ignored rather than flagged, which trades
  * a false negative for never crying wolf. `strictFamilies` flips that.
+ *
+ * ── IT ALSO READS `var(--…)`, AND THAT HALF HAS ITS OWN EVIDENCE ─────────────
+ *
+ * Everything above reads CLASS NAMES. That is where the rule was pointed, and it
+ * is why nine dead token references survived a package this gate reported clean:
+ *
+ *   time-series-chart  var(--muted-foreground) var(--popover) var(--border)
+ *                      var(--popover-foreground)   axis ticks + tooltip + cursor
+ *   donut-chart        var(--muted)                the track
+ *   sonner             var(--popover) var(--popover-foreground) var(--border)
+ *
+ * All nine sat in inline style objects and SVG props, so no rule could read them.
+ * The chart's tooltip had never been themed; its axis labels rendered SVG-default
+ * black. `no-color-literal` caught an `rgba()` four lines from one of them,
+ * because a literal is a string a rule looks at and a `var()` was not.
+ *
+ * TWO CHECKS, and the second is the one that found the nine:
+ *
+ *   var(--color-X)  X must be a declared token. Same membership test, same family
+ *                   gate, as a class naming X.
+ *   var(--X)        where X IS a declared token — the bug. Tokens are emitted as
+ *                   `--color-X`, so `var(--X)` names a property that does not
+ *                   exist. Every one of the nine is this shape: an author reaching
+ *                   for a real token through a name shadcn's template uses and
+ *                   this codebase never declared.
+ *
+ * WHAT IT DELIBERATELY DOES NOT JUDGE. A `var(--x)` whose name is not a token is
+ * ignored — `--radius`, `--anchor-width`, `--normal-bg` and any property a
+ * third-party library declares are all legitimate, and a rule that guessed at them
+ * would cry wolf on every one. `ignore` takes a property name for the rest.
+ *
+ * BLIND SPOT, STATED BECAUSE AN INSTRUMENT THAT HIDES ONE IS HOW THIS CLASS
+ * SURVIVED: a property name built by concatenation — `var(--color-${name})` — is
+ * invisible. The reference is split across template chunks, so there is no
+ * complete name to test. It is skipped rather than guessed at.
+ *
+ * AND IT IS NOT THE RESOLVABILITY CHECK. A declared token whose value layer is
+ * undefined still passes: the name is in the contract, and this rule tests names.
  */
 export default {
   meta: {
@@ -52,6 +90,8 @@ export default {
       undefinedNoSuggestion: 'Token "{{token}}" is not in the contract, so "{{cls}}" renders nothing at all.',
       unknownFamily: 'Token family "{{family}}" is not declared in the contract, so "{{cls}}" renders nothing at all.',
       retired: 'Token "{{token}}" is retired by the contract — use "{{replacement}}". It still renders today, so this is a migration, not a break.',
+      bareTokenProperty: '"var({{prop}})" names the token "{{token}}", but tokens are emitted as `--color-{{token}}`. This property is declared nowhere, so it resolves to nothing — write "var(--color-{{token}})".',
+      undefinedCustomProperty: 'Token "{{token}}" is not in the contract, so "var({{prop}})" resolves to nothing.',
     },
   },
   create(context) {
@@ -124,6 +164,44 @@ export default {
           context.report({ loc, messageId: 'undefinedToken', data: { token: value, cls: tok.raw, suggestion: `"${hint}"` } })
         } else {
           context.report({ loc, messageId: 'undefinedNoSuggestion', data: { token: value, cls: tok.raw } })
+        }
+      }
+
+      // ── var(--…) references ────────────────────────────────────────────────
+      //
+      // The closing `)` or `,` is REQUIRED, and that is what skips a name built by
+      // concatenation: `var(--color-${x})` ends its template chunk at `--color-`,
+      // with no terminator, so it never matches. Guessing at a partial name is how
+      // a rule starts reporting things that are not there.
+      for (const m of text.matchAll(/var\(\s*--([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\s*[),]/g)) {
+        const bare = m[1]
+        const prop = `--${bare}`
+        if (ignore.has(prop) || ignore.has(bare)) continue
+
+        const start = m.index + m[0].indexOf(prop)
+        const at = () => rangeToLoc(sourceCode, locate(start, prop.length))
+
+        if (bare.startsWith('color-')) {
+          const token = bare.slice('color-'.length)
+          if (!token || tokens.has(token)) continue
+          const family = token.split('-')[0]
+          if (palette.has(family)) continue
+          // Same conservatism as the class path: only judge a family the
+          // vocabulary declares, so an app's own `--color-brandish-thing` is not
+          // this rule's business.
+          if (!families.has(family)) continue
+          if (deprecated[token] !== undefined) {
+            context.report({ loc: at(), messageId: 'retired', data: { token, replacement: deprecated[token] } })
+            continue
+          }
+          context.report({ loc: at(), messageId: 'undefinedCustomProperty', data: { token, prop } })
+          continue
+        }
+
+        // A bare token name. Tokens are emitted as `--color-X`, so this names a
+        // property that does not exist — the shape all nine dead references had.
+        if (tokens.has(bare)) {
+          context.report({ loc: at(), messageId: 'bareTokenProperty', data: { prop, token: bare } })
         }
       }
     })

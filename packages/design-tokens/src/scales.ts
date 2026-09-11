@@ -78,7 +78,7 @@ export const RADIUS_ALIASES = { control: 'md' } as const
  *
  * The gap between 23 spellings and 17 values IS the finding.
  */
-export const TRACKING_TOKENS = ['label'] as const
+export const TRACKING_TOKENS = ['label', 'eyebrow'] as const
 export type TrackingToken = (typeof TRACKING_TOKENS)[number]
 
 /**
@@ -92,7 +92,20 @@ export type TrackingToken = (typeof TRACKING_TOKENS)[number]
  * value written twice), and any choice inside 0.14–0.18 is within a pixel at
  * these sizes. Not load-bearing; a design pass may move it.
  */
-export const TRACKING_SCALE = { label: 0.16 } as const satisfies Record<TrackingToken, number>
+export const TRACKING_SCALE = {
+  label: 0.16,
+  // §11 — added in review round 2. The widest uppercase register: 10px, faint,
+  // semibold. Two authors reached 0.28em independently — `empty-state`'s `eyebrow`
+  // prop and `data-table`'s <thead> — in different packages, with the same
+  // construction. That independent convergence is what made it a ROLE rather than
+  // an outlier, and it is why the name is `eyebrow` and not `widest`.
+  //
+  // It sits well outside the 0.12-0.20em band `label` was derived from, which is
+  // the other half of the argument: folding it there was a visible change, and
+  // this package carried one for a while because an arbitrary value could not pass
+  // the gate.
+  eyebrow: 0.28,
+} as const satisfies Record<TrackingToken, number>
 
 /* ───────────────── TAILWIND'S OWN STEPS — INHERITED, IN ONE PLACE ─────────── */
 

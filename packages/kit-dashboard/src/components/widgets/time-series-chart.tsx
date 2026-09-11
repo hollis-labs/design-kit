@@ -216,7 +216,11 @@ export function TimeSeriesChart<T>({
               tickFormatter={(v: number) => formatValue(v)}
             />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+              // A CLASS, NOT A `fill` VALUE, and the distinction is load-bearing:
+              // recharts spreads these onto an SVG <Rectangle> as PRESENTATION
+              // ATTRIBUTES, and `var()` is not resolved in those. `fill="var(--x)"`
+              // would render nothing. A className goes through CSS, where it is.
+              cursor={{ className: 'fill-fg', fillOpacity: 0.03 }}
               contentStyle={tooltipContentStyle}
               formatter={tooltipFormatter}
             />

@@ -410,6 +410,17 @@
     color-mix(in oklab, var(--theme-color-status-indexed) 60%, var(--theme-color-text));
 }
 
+/* Priority chip fills — derived, for the same reason the status labels are.
+ * `priority-badge` mixed the status colour 22% into the page background inline,
+ * so the chip reads as a dark solid block. Computing a colour from two others is
+ * theme-layer work; the component names the result. Ratio unchanged. */
+:root {
+  --theme-color-priority-p1-bg:
+    color-mix(in oklab, var(--theme-color-status-blocked) 22%, var(--theme-color-bg));
+  --theme-color-priority-p2-bg:
+    color-mix(in oklab, var(--theme-color-status-queued) 22%, var(--theme-color-bg));
+}
+
 @theme inline {
   /* System font — no Geist */
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -493,6 +504,10 @@
   --color-status-inbox-label: var(--theme-color-status-inbox-label);
   --color-status-routed-label: var(--theme-color-status-routed-label);
   --color-status-indexed-label: var(--theme-color-status-indexed-label);
+
+  /* Priority chip fills — see above. */
+  --color-priority-p1-bg: var(--theme-color-priority-p1-bg);
+  --color-priority-p2-bg: var(--theme-color-priority-p2-bg);
 
   /* radius */
   --radius: 0.375rem;

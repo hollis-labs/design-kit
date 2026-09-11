@@ -20,7 +20,16 @@ export function CompositionBars({ items, className }: CompositionBarsProps) {
             key={item.label}
             style={{
               width: `${(item.value / total) * 100}%`,
-              backgroundColor: `color-mix(in oklab, var(--color-text) ${Math.max(30, 88 - index * 12)}%, transparent)`,
+              // NOT A DERIVED TOKEN, because the ramp is computed per segment:
+              // each bar is a step fainter than the last. A token per step would
+              // be six tokens describing an arithmetic sequence, and it would
+              // still be wrong for a seventh segment.
+              //
+              // `color-mix(… , transparent)` IS alpha, so this says the same thing
+              // by naming the token and setting opacity — no colour function, no
+              // literal, and the ramp stays where it is computed.
+              backgroundColor: 'var(--color-fg)',
+              opacity: Math.max(30, 88 - index * 12) / 100,
             }}
             title={`${item.label}: ${item.value}`}
           />

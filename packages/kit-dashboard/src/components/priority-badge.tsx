@@ -4,18 +4,19 @@ interface PriorityBadgeProps {
   className?: string
 }
 
-// P1/P2 use a deep tint — the status color mixed into the page background —
-// so the chip reads as a dark solid block, matching Torque's `*-950/40` look.
-// P3 is the neutral panel tone.
+// P1/P2 use a deep tint — the status colour mixed into the page background — so
+// the chip reads as a dark solid block, matching Torque's `*-950/40` look. The mix
+// itself lives in styles/theme.css, where computing a colour belongs; this names
+// the result. P3 is the neutral panel tone.
 const PRIORITY: Record<number, { className: string; label: string }> = {
   1: {
     className:
-      'bg-[color-mix(in_oklab,var(--color-status-blocked)_22%,var(--color-bg))] text-status-blocked',
+      'bg-priority-p1-bg text-status-blocked',
     label: 'P1',
   },
   2: {
     className:
-      'bg-[color-mix(in_oklab,var(--color-status-queued)_22%,var(--color-bg))] text-status-queued',
+      'bg-priority-p2-bg text-status-queued',
     label: 'P2',
   },
   3: { className: 'bg-panel-2 text-text-subtle', label: 'P3' },

@@ -2,7 +2,7 @@
   "name": "@hollis-labs/eslint-config-design",
   "version": "0.0.0",
   "private": true,
-  "description": "The gate — shared ESLint flat config enforcing that a component names a token, never a value.",
+  "description": "The gate — ESLint flat config enforcing that a component names a token, never a value.",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -12,6 +12,29 @@
   "type": "module",
   "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./rules/*": "./src/rules/*.js"
+  },
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "design-system",
+    "tokens",
+    "tailwind"
+  ],
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\"",
+    "test:run": "node --test \"test/**/*.test.js\"",
+    "scale-report": "node scripts/scale-usage-report.mjs"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "typescript-eslint": "^8.58.0"
   }
 }

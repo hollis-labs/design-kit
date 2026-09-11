@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@hollis-labs/design-tokens/tokens.css";
 
 /*
  * Sysop UI — canonical theme.
@@ -213,6 +214,90 @@
   --theme-color-status-inbox: rgb(255 255 0);
   --theme-color-status-routed: rgb(0 255 255);
   --theme-color-status-indexed: rgb(0 255 0);
+}
+
+/* ───────────────────── THE CONTRACT'S VALUE LAYER ─────────────────────────
+ *
+ * `@import "@hollis-labs/design-tokens/tokens.css"` above brings in the contract
+ * NAMES — 59 `--color-*` entries inside `@theme inline`, every one of which reads
+ * a `--hl-*`. That file defines no values at all; they live in the contract's own
+ * `themes/*.css`, which this package deliberately does not import. The two-level
+ * split is what makes the vocabulary adoptable without the palette.
+ *
+ * So this block supplies `--hl-*` FROM THE VALUES THIS KIT ALREADY HAS. It is
+ * additive and changes no pixel: every mapping below was derived from this file's
+ * own `@theme inline` block, so a component that migrates from `text-text-subtle`
+ * to `text-fg-faint` resolves to the identical colour.
+ *
+ * WHY `:root` IS THE RIGHT SCOPE, since it looks like it should need repeating per
+ * palette. `data-theme` is set on `document.documentElement`, and the
+ * `[data-theme="..."]` blocks above match THAT SAME ELEMENT — so does `:root`.
+ * A custom property is resolved where it is USED, against that element's computed
+ * value, so one declaration per token picks up whichever palette is live. If the
+ * theme scope is ever moved off the root element, this block breaks and has to
+ * move with it.
+ *
+ * DERIVED, NOT TRANSCRIBED. Each value was read out of `@theme inline` below by
+ * matching the contract token to the shadcn alias or retired name the kit already
+ * maps. That matters for one of them: `selection` comes from `--color-accent`
+ * (the neutral hover surface, `panel-2`) and NOT from `--theme-color-accent`,
+ * which is this kit's near-white action colour and belongs to `primary`. The
+ * contract documents that collision explicitly; naively inverting its
+ * `DEPRECATED_TOKENS` map would have wired `selection` to the wrong one.
+ *
+ * It also makes the 20 name collisions with the contract's block harmless: where
+ * both define `--color-border`, both resolve to `--theme-color-border`.
+ *
+ * PRECEDENCE: A RETIRED NAME BEATS A SHADCN ALIAS, and getting that backwards
+ * costs a real colour. `fg-muted` has two candidate sources — shadcn's
+ * `muted-foreground`, which this kit maps to `text-subtle`, and the contract's
+ * retirement of `text-soft`, which maps to `text-soft`. The retirement is the
+ * exact 1:1 rename of the same step; the shadcn alias is a COARSER vocabulary
+ * collapsing four text steps onto one, so it lands on whichever the kit happened
+ * to pick. Preferring the alias silently moved `fg-muted` from #a1a1aa to
+ * #71717a. Caught by comparing compiled utilities, not by reading the maps.
+ *
+ * TWENTY-FOUR CONTRACT TOKENS ARE DELIBERATELY LEFT UNSET — brand-*, chart-1..5,
+ * primary-hover/active/muted, danger-hover/fg, warning-fg/muted, success*, info*,
+ * surface-active. This kit has no value for any of them, and NO COMPONENT IN THIS
+ * PACKAGE NAMES ONE (verified against every utility in src/ and demo/). Inventing
+ * values nobody asked for is how a palette acquires colours no designer chose.
+ * They arrive with CW-20260911-0071, which swaps this block for the contract's own
+ * themes.
+ * ------------------------------------------------------------------------- */
+:root {
+  /* Surfaces */
+  --hl-bg: var(--theme-color-bg);
+  --hl-bg-elevated: var(--theme-color-panel-2);
+  --hl-surface: var(--theme-color-panel-2);
+  --hl-surface-hover: var(--theme-color-panel-hover);
+
+  /* Text */
+  --hl-fg: var(--theme-color-text);
+  --hl-fg-secondary: var(--theme-color-text-muted);
+  --hl-fg-muted: var(--theme-color-text-soft);
+  --hl-fg-faint: var(--theme-color-text-subtle);
+
+  /* Borders */
+  --hl-border: var(--theme-color-border);
+  --hl-border-subtle: var(--theme-color-border);
+  --hl-divider: var(--theme-color-border-soft);
+
+  /* Interactive and identity */
+  --hl-primary: var(--theme-color-accent);
+  --hl-primary-fg: var(--theme-color-accent-foreground);
+  --hl-selection: var(--theme-color-panel-2);
+  --hl-selection-fg: var(--theme-color-text);
+  --hl-ring: var(--theme-color-ring);
+
+  /* Feedback */
+  --hl-danger: var(--theme-color-danger);
+  --hl-danger-muted: var(--theme-color-danger-soft);
+  --hl-warning: var(--theme-color-warning);
+
+  /* Fonts */
+  --hl-font-sans: var(--font-sans);
+  --hl-font-mono: var(--font-mono);
 }
 
 @theme inline {

@@ -37,7 +37,7 @@ export function FilterBar({
   const showClear = Boolean(onClear) && anyActive
 
   return (
-    <div className="flex flex-col border-b border-border-strong bg-bg">
+    <div className="flex flex-col border-b border-border bg-bg">
       {/* Row 1: search hero + summary + clear */}
       <div className="flex items-center gap-3 px-4 py-2">
         <SearchInput
@@ -46,7 +46,7 @@ export function FilterBar({
           placeholder={searchPlaceholder}
           ariaLabel={searchAriaLabel}
         />
-        <div className="inline-flex h-8 items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 text-caption uppercase tracking-wider text-text-soft">
+        <div className="inline-flex h-8 items-center gap-1.5 rounded border border-border-subtle bg-panel-2/50 px-2 text-caption uppercase tracking-wider text-text-soft">
           <SlidersHorizontal className="h-3.5 w-3.5" />
           {activeFilterCount}
         </div>
@@ -60,7 +60,7 @@ export function FilterBar({
             type="button"
             onClick={onClear}
             aria-label="Clear all filters and search"
-            className="rounded border border-border-strong bg-transparent px-2 py-1 text-caption uppercase tracking-wider text-text-muted transition-colors hover:border-border hover:text-text"
+            className="rounded border border-border bg-transparent px-2 py-1 text-caption uppercase tracking-wider text-text-muted transition-colors hover:border-border-subtle hover:text-text"
           >
             Clear
           </button>
@@ -69,7 +69,7 @@ export function FilterBar({
 
       {/* Row 2: app-composed chip row */}
       {children && (
-        <div className="border-t border-border-strong px-4 py-2">
+        <div className="border-t border-border px-4 py-2">
           <div className="flex flex-wrap items-center gap-3 text-xs">{children}</div>
         </div>
       )}

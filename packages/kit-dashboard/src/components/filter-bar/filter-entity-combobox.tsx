@@ -72,7 +72,7 @@ export function FilterEntityCombobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger
         aria-label={ariaLabel}
-        className="inline-flex h-7 items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 text-caption tracking-wider transition-colors hover:border-border-strong"
+        className="inline-flex h-7 items-center gap-1.5 rounded border border-border-subtle bg-panel-2/50 px-2 text-caption tracking-wider transition-colors hover:border-border"
       >
         <span className="text-text-soft">{icon}</span>
         <span className={isMuted ? 'text-text-subtle' : 'text-text'}>{displayLabel}</span>
@@ -82,7 +82,7 @@ export function FilterEntityCombobox({
         <Command className={onCreate ? 'h-[300px]' : undefined}>
           <CommandInput placeholder="Search…" className="h-8 text-label" />
           {showStateControls && (
-            <div className="flex items-center gap-2 border-b border-border px-2 py-2 text-label">
+            <div className="flex items-center gap-2 border-b border-border-subtle px-2 py-2 text-label">
               <label className="flex items-center gap-1.5 text-text-soft">
                 <input
                   type="checkbox"
@@ -92,7 +92,7 @@ export function FilterEntityCombobox({
                 Show inactive
               </label>
               <select
-                className="ml-auto h-7 rounded-md border border-border bg-panel px-2 text-label text-text-muted"
+                className="ml-auto h-7 rounded-md border border-border-subtle bg-panel px-2 text-label text-text-muted"
                 value={sortOrder}
                 onChange={(e) => setSortOrder(e.target.value as 'updated' | 'title')}
                 aria-label="Sort order"
@@ -138,7 +138,7 @@ export function FilterEntityCombobox({
           {onCreate && (
             <>
               <CommandSeparator />
-              <div className="sticky bottom-0 border-t border-border bg-popover p-1">
+              <div className="sticky bottom-0 border-t border-border-subtle bg-popover p-1">
                 <button
                   type="button"
                   className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm text-text transition-colors hover:bg-muted"

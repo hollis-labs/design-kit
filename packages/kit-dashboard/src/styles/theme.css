@@ -291,10 +291,13 @@
   --hl-fg-muted: var(--theme-color-text-soft);
   --hl-fg-faint: var(--theme-color-text-subtle);
 
-  /* Borders.
+  /* Borders — the 3-to-3 mapping, decided by Chrispian in review round 3.
    *
-   * HELD, NOT DECIDED — 21 sites still name `border-strong` and this mapping is
-   * why they have not moved. `DEPRECATED_TOKENS` retires `border-strong -> border`
+   *   kit border-strong  ->  contract border          the prominent one
+   *   kit border         ->  contract border-subtle   the quieter one
+   *   kit border-soft    ->  contract divider
+   *
+   * The contract's own `DEPRECATED_TOKENS` collapses the first two into `border`,
    * on the stated grounds that "border-strong was 80% alpha of border — weaker
    * than what it claimed to strengthen." THAT IS TRUE IN HALF THE PALETTES:
    *
@@ -303,21 +306,18 @@
    *   p1-green     border rgb(38 74 47)     strong rgb(82 153 101 / 70%)  DIFFERENT
    *   p3-amber     border rgb(86 65 26)     strong rgb(160 122 52 / 74%)  DIFFERENT
    *
-   * A mid green at 70% is not a weaker dark green, it is another colour. So the
-   * retirement collapses two visibly distinct borders in the phosphor palettes,
-   * and it is a palette decision wearing a token-rename costume.
+   * A mid green at 70% is not a weaker dark green. The kit has three border tokens
+   * and the contract has three border ROLES, so they map one-to-one and no colour
+   * is lost — which is why this is a pure rename with zero visual change, verified
+   * across all four palettes, rather than the collapse the retirement implied.
    *
-   * There is also a 3-to-3 reading the contract did not take: the kit has three
-   * border tokens and the contract has three border ROLES, so kit `border-strong`
-   * (the prominent one) could be contract `border` and kit `border` could be
-   * `border-subtle`. Whether that was considered and rejected, or the phosphor
-   * case was never seen, is a question for the contract's author.
-   *
-   * With Chrispian in review round 3. Reported, not blocking — kit-dashboard is
-   * REPORT_ONLY on design-rules, so nothing waits on this. Do not "tidy" the 21
-   * sites in passing; the answer decides which ~20 of the 44 border sites change.
+   * `--color-border` BELOW IS REMAPPED TOO, deliberately: the kit's own @theme
+   * block shadows the contract's for the 20 colliding names, so changing `--hl-*`
+   * alone would have moved nothing. And `@layer base`'s `* { border-color }` names
+   * `border-subtle` now — it always wanted the quieter border, and under this
+   * mapping that is what the quieter border is called.
    */
-  --hl-border: var(--theme-color-border);
+  --hl-border: var(--theme-color-border-strong);
   --hl-border-subtle: var(--theme-color-border);
   --hl-divider: var(--theme-color-border-soft);
 
@@ -463,7 +463,7 @@
   --color-accent: var(--theme-color-panel-2);
   --color-accent-foreground: var(--theme-color-text);
   --color-destructive: var(--theme-color-danger);
-  --color-border: var(--theme-color-border);
+  --color-border: var(--theme-color-border-strong);
   --color-input: var(--theme-color-border);
   --color-ring: var(--theme-color-ring);
 
@@ -519,7 +519,7 @@
 
 @layer base {
   * {
-    border-color: var(--color-border);
+    border-color: var(--color-border-subtle);
     outline-color: var(--theme-color-ring-soft);
     /* Hide scrollbars app-wide — regions still scroll, the bar is just
        never painted. Firefox / legacy-Edge. */
@@ -579,12 +579,12 @@
 @layer components {
   .hud-panel {
     @apply rounded-md border bg-panel;
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border);
   }
 
   .hud-input {
     @apply w-full rounded-md border bg-panel px-3 py-2 text-[13px] leading-4 text-foreground outline-none transition;
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border);
   }
   .hud-input:focus {
     box-shadow: 0 0 0 2px var(--color-ring);
@@ -592,7 +592,7 @@
 
   .hud-button {
     @apply rounded-md border bg-panel px-3 py-2 text-[13px] leading-4 text-foreground transition hover:bg-panel-hover disabled:cursor-not-allowed disabled:opacity-60;
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border);
   }
 
   .hud-label {
@@ -642,7 +642,7 @@
 
   .hud-modal {
     @apply w-full max-w-[26rem] rounded-md border bg-panel p-4;
-    border-color: var(--color-border-strong);
+    border-color: var(--color-border);
   }
 }
 

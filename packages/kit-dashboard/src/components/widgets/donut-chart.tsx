@@ -72,7 +72,7 @@ export function DonutChart({
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border-subtle/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height: size + 4 }}
         >
           No data recorded

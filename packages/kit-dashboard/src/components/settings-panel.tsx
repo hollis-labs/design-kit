@@ -42,9 +42,9 @@ export interface SettingsStatusPillProps {
 export function SettingsPanel({ title, icon, children, className }: SettingsPanelProps) {
   return (
     <section
-      className={cn('min-w-0 border-b border-border-strong bg-panel last:border-b-0', className)}
+      className={cn('min-w-0 border-b border-border bg-panel last:border-b-0', className)}
     >
-      <div className="flex h-9 items-center gap-2 border-b border-border px-4 text-text-subtle">
+      <div className="flex h-9 items-center gap-2 border-b border-border-subtle px-4 text-text-subtle">
         {icon ? <span className="shrink-0 text-text-subtle">{icon}</span> : null}
         <h2 className="truncate text-label font-semibold uppercase tracking-[.18em] text-text-muted">
           {title}

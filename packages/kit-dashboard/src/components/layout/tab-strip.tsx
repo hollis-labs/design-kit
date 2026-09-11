@@ -27,7 +27,7 @@ interface TabStripProps<K extends string> {
  */
 export function TabStrip<K extends string>({ tabs, value, onChange, actions }: TabStripProps<K>) {
   return (
-    <div className="flex items-center justify-between border-b border-border-strong bg-bg px-4">
+    <div className="flex items-center justify-between border-b border-border bg-bg px-4">
       <div className="flex items-center gap-4">
         {tabs.map((tab) => {
           const active = tab.key === value

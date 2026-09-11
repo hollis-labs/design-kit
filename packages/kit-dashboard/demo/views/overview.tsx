@@ -75,7 +75,7 @@ export function OverviewView() {
   return (
     <div className="flex min-h-0 flex-1 flex-col bg-bg">
       {/* Page header */}
-      <div className="flex shrink-0 items-center justify-between border-b border-border-strong bg-bg px-4 py-2">
+      <div className="flex shrink-0 items-center justify-between border-b border-border bg-bg px-4 py-2">
         <div className="min-w-0">
           <p className="text-label uppercase tracking-[.18em] text-text-subtle">Agent Ops — Overview</p>
           <p className="mt-0.5 truncate font-mono text-label text-text-subtle">
@@ -148,11 +148,11 @@ export function OverviewView() {
               <Kpi label="Avg Time" value="4m 12s" />
               <Kpi label="Projects" value={7} />
             </KpiGrid>
-            <div className="border-b border-border p-3">
+            <div className="border-b border-border-subtle p-3">
               <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">State mix</div>
               <CompositionBars items={SESSION_STATES} />
             </div>
-            <div className="border-t border-border">
+            <div className="border-t border-border-subtle">
               <MiniTrend label="24h sessions" value={sum(SESSION_TREND)} data={SESSION_TREND} />
             </div>
           </Panel>
@@ -172,7 +172,7 @@ export function OverviewView() {
               <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Top tools</div>
               <BarList items={TOP_TOOLS} />
             </div>
-            <div className="border-t border-border p-3">
+            <div className="border-t border-border-subtle p-3">
               <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Latency bands</div>
               <CompositionBars items={LATENCY_BANDS} />
             </div>
@@ -185,11 +185,11 @@ export function OverviewView() {
               <Kpi label="Recent"   value={66} />
               <Kpi label="Kinds"    value={3} />
             </KpiGrid>
-            <div className="border-b border-border p-3">
+            <div className="border-b border-border-subtle p-3">
               <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Scope mix</div>
               <CompositionBars items={MSG_SCOPE} />
             </div>
-            <div className="border-t border-border">
+            <div className="border-t border-border-subtle">
               <MiniTrend label="24h messages" value={sum(MSG_TREND)} data={MSG_TREND} />
             </div>
           </Panel>

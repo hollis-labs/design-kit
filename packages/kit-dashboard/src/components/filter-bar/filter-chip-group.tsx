@@ -21,11 +21,11 @@ interface FilterChipGroupProps {
   onToggle: (value: string) => void
 }
 
-const DEFAULT_ACTIVE = 'border-border-strong bg-panel-hover text-text'
+const DEFAULT_ACTIVE = 'border-border bg-panel-hover text-text'
 // Active chips carry a faint inset ring; inactive chips are dimmed — mirrors
 // Torque's filter-bar chip states.
 const ACTIVE_RING = 'ring-1 ring-inset ring-text/15'
-const INACTIVE = 'border-border bg-panel-2/50 text-text-subtle opacity-50 hover:text-text-soft'
+const INACTIVE = 'border-border-subtle bg-panel-2/50 text-text-subtle opacity-50 hover:text-text-soft'
 
 /**
  * Multi-select chip row — the facet toggle used in `FilterBar`'s chip row

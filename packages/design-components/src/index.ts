@@ -30,6 +30,30 @@ export { cn } from './lib/utils'
 /* Toast — ships with `ui/sonner.tsx`'s <Toaster/>, which it requires. */
 export { notifyError, notifySuccess } from './lib/toast'
 
+/*
+ * Components. Tone-carrying primitives share one scale; see lib/tone.
+ */
+export { Pill } from './components/pill'
+export { LiveDot } from './components/live-dot'
+export { Callout } from './components/callout'
+export { CopyableId } from './components/copyable-id'
+export { OverflowMenu } from './components/overflow-menu'
+export type { OverflowAction } from './components/overflow-menu'
+
+/*
+ * The row-activation protocol, moved DOWN from kit-dashboard so base stops
+ * emitting markup whose meaning lived one layer up. A kit imports the selector.
+ */
+export {
+  ROW_INTERACTIVE_ATTR,
+  ROW_INTERACTIVE_SELECTOR,
+  rowInteractiveProps,
+} from './lib/row-activation'
+
+/* The one tone scale, typed from the contract's own Tone. */
+export { TONES, TONE_CLASSES, TONE_FILL_CLASSES } from './lib/tone'
+export type { Tone } from './lib/tone'
+
 /* The column contract. The table that renders it is kit; the contract is not. */
 export { alignClass, compareBy } from './lib/column'
 export type { ColumnDef, SortDir, SortState } from './lib/column'

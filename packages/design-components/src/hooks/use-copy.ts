@@ -25,7 +25,16 @@ export function useCopy(resetMs = 1500): UseCopyResult {
 
   const copy = useCallback(
     (text: string) => {
-      void navigator.clipboard
+      // GUARDED, and this is a repair rather than caution. sysop-ui wrote
+      // `navigator.clipboard.writeText(...)` and caught only the promise
+      // rejection — but `navigator.clipboard` is UNDEFINED outside a secure
+      // context, and reading `.writeText` off it throws synchronously, out of a
+      // click handler, aborting React's dispatch for that event. The doc comment
+      // said failures are swallowed silently; they were not. Found by the first
+      // test written against this package, where jsdom has no clipboard.
+      const clipboard = navigator.clipboard
+      if (!clipboard) return
+      void clipboard
         .writeText(text)
         .then(() => {
           setCopied(true)

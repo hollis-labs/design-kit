@@ -7,5 +7,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+  "//include": "demo/ IS TYPECHECKED. It was not, and a build is not a substitute: the demo built green while rendering <RowActionMenu>, a component that no longer exists, because rollup does not resolve JSX identifiers. It would have crashed on open. The demo is also this repo's only consumer of all three packages at once, which makes it the one place the split is exercised end to end.",
+  "include": ["src", "demo", "vite.config.ts", "vitest.config.ts"]
 }

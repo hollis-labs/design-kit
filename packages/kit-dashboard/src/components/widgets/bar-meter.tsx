@@ -1,4 +1,4 @@
-import { cn } from '../../lib/utils'
+import { cn } from '@hollis-labs/design-components'
 
 /** One labeled row in a {@link BarMeter}. */
 export interface BarMeterRow {

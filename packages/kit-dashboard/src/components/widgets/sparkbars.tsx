@@ -1,4 +1,4 @@
-import { cn } from '../../lib/utils'
+import { cn } from '@hollis-labs/design-components'
 
 export interface SparkbarsProps {
   data: number[]

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { SlidersHorizontal } from 'lucide-react'
-import { FilterSearchInput } from './filter-search-input'
+import { SearchInput } from '@hollis-labs/design-components'
 
 interface FilterBarProps {
   searchQuery: string
@@ -40,7 +40,7 @@ export function FilterBar({
     <div className="flex flex-col border-b border-border-strong bg-bg">
       {/* Row 1: search hero + summary + clear */}
       <div className="flex items-center gap-3 px-4 py-2">
-        <FilterSearchInput
+        <SearchInput
           value={searchQuery}
           onChange={onSearchChange}
           placeholder={searchPlaceholder}

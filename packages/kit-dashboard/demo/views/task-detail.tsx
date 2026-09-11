@@ -1,14 +1,8 @@
-import {
-  CopyableId,
-  DetailSection,
-  EmptyState,
-  JsonViewer,
-  MetaList,
-  Pill,
-  PriorityBadge,
-  formatRelativeTime,
-} from '../../src'
-import { DetailHeader, DetailPageLayout } from '../../src/layout'
+import { PriorityBadge } from '../../src'
+import { formatRelativeTime } from '@hollis-labs/design-app-runtime'
+import { CopyableId, DetailSection, EmptyState, JsonViewer, MetaList, Pill } from '@hollis-labs/design-components'
+import { DetailHeader } from '../../src/layout'
+import { DetailPageLayout } from '@hollis-labs/design-components'
 import { getTask } from '../fixtures/tasks'
 
 /**

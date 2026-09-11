@@ -1,16 +1,8 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { ChevronDown, Plus } from 'lucide-react'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from '../ui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { ScrollArea } from '../ui/scroll-area'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@hollis-labs/design-components'
+import { Popover, PopoverContent, PopoverTrigger } from '@hollis-labs/design-components'
+import { ScrollArea } from '@hollis-labs/design-components'
 
 export interface FilterEntityComboboxItem {
   id: string

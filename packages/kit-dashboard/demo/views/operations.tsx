@@ -1,21 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Copy, ExternalLink, Trash2 } from 'lucide-react'
-import {
-  Button,
-  ConfirmDialog,
-  CopyableId,
-  EmptyState,
-  PriorityBadge,
-  StatusBadge,
-  formatRelativeTime,
-  statusTone,
-} from '../../src'
-import {
-  FilterChipGroup,
-  RowActionMenu,
-  type ColumnDef,
-  type FilterChip,
-} from '../../src/data'
+import { PriorityBadge, StatusBadge, statusTone } from '../../src'
+import { formatRelativeTime } from '@hollis-labs/design-app-runtime'
+import { Button, ConfirmDialog, CopyableId, EmptyState } from '@hollis-labs/design-components'
+import { FilterChipGroup, type FilterChip } from '../../src/data'
+import { OverflowMenu, type ColumnDef } from '@hollis-labs/design-components'
 import { OperationsTablePage } from '../../src/layout'
 import { TASKS, type DemoTask } from '../fixtures/tasks'
 
@@ -144,7 +133,7 @@ export function OperationsView({ onOpenTask }: OperationsViewProps) {
         header: '',
         align: 'right',
         cell: (t) => (
-          <RowActionMenu
+          <OverflowMenu
             actions={[
               {
                 label: 'Open',

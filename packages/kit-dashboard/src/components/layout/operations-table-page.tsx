@@ -3,8 +3,8 @@ import { ListPageLayout } from './list-page-layout'
 import { PageHeader } from '../page-header'
 import { SummaryCards, type SummaryCard } from '../summary-cards'
 import { FilterBar } from '../filter-bar'
-import { Skeleton } from '../ui/skeleton'
-import { DataTable, type ColumnDef, type SortState } from '../data-table'
+import { Skeleton, type ColumnDef, type SortState } from '@hollis-labs/design-components'
+import { DataTable } from '../data-table'
 
 interface OperationsTablePageProps<T> {
   /* ---- header ---- */

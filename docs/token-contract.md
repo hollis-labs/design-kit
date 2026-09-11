@@ -792,7 +792,12 @@ there; 6 built-in themes with complete dark and light sets; hex concentration in
    **zero** of them.)*
    Stripping the selectors leaves **223 real arbitrary values** in the kit against **467** in Nanite's
    chat. Narrowing further to the three dimensions that actually have tokens — which is what the lint
-   rules report — gives **kit 2.0 per 100 (154 violations), Nanite chat 3.1 per 100 (355)**. The kit's
+   rules report — gives **kit 2.0 per 100 (154 / 7,801 lines), Nanite chat 3.1 per 100 (355 / 11,311)**.
+   *(Denominators stated deliberately. A reader cannot check "2.0 per 100" but can check "154 / 7,801",
+   and both errors this paragraph has carried were JOIN errors — correct numbers divided by or paired
+   with the wrong thing. Note Nanite's rate rounds to 3.1 or 3.2 depending on whether the denominator
+   is ESLint's file set (11,311) or a `find` over `*.ts,*.tsx` (11,245); the numerator is identical and
+   the ordering is unaffected. That is measurement noise, not a third error.)* The kit's
    154 include `text-[10px]`×38, `text-[11px]`×32, `text-[9px]`×12 plus tracking in four spellings. So
    the kit is **cleaner than Nanite on scale but not clean**, which is the claim that survives — and it
    survives on either measure, since 2.9 vs 4.2 across all real values orders the same way.

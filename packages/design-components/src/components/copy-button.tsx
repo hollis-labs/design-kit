@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { Button } from './ui/button'
-import { CheckGlyph, CopyGlyph } from './icons'
+import { Check, Copy } from 'lucide-react'
 import { useCopy } from '../hooks/use-copy'
 
 interface CopyButtonProps
@@ -29,7 +29,7 @@ export function CopyButton({
   const { copied, copy } = useCopy()
   return (
     <Button variant={variant} size={size} onClick={() => copy(text)} {...props}>
-      {copied ? <CheckGlyph /> : <CopyGlyph />}
+      {copied ? <Check /> : <Copy />}
       {copied ? copiedLabel : label}
     </Button>
   )

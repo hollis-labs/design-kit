@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Button } from './ui/button'
-import { CircleAlertGlyph, InboxGlyph, SearchXGlyph } from './icons'
+import { AlertCircle, Inbox, SearchX } from 'lucide-react'
 
 export type EmptyStateVariant = 'empty' | 'no-results' | 'error'
 
@@ -19,9 +19,9 @@ interface EmptyStateProps {
 }
 
 const ICONS: Record<EmptyStateVariant, ReactNode> = {
-  empty: <InboxGlyph className="h-10 w-10 text-fg-faint" />,
-  'no-results': <SearchXGlyph className="h-10 w-10 text-fg-faint" />,
-  error: <CircleAlertGlyph className="h-10 w-10 text-danger-muted" />,
+  empty: <Inbox className="h-10 w-10 text-fg-faint" />,
+  'no-results': <SearchX className="h-10 w-10 text-fg-faint" />,
+  error: <AlertCircle className="h-10 w-10 text-danger-muted" />,
 }
 
 /**

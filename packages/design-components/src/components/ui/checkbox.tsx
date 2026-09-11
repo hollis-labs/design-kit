@@ -1,7 +1,7 @@
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
-import { CheckGlyph, MinusGlyph } from '../icons'
+import { CheckIcon, MinusIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
@@ -18,8 +18,8 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         data-slot="checkbox-indicator"
         className="flex items-center justify-center text-current"
       >
-        <CheckGlyph className="size-3.5 group-data-indeterminate/checkbox:hidden" />
-        <MinusGlyph className="hidden size-3.5 group-data-indeterminate/checkbox:block" />
+        <CheckIcon className="size-3.5 group-data-indeterminate/checkbox:hidden" />
+        <MinusIcon className="hidden size-3.5 group-data-indeterminate/checkbox:block" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

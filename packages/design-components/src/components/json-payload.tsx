@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useCopy } from '../hooks/use-copy'
 import { safeParseObject, scalarStr } from '../lib/payload'
-import { CheckGlyph, CopyGlyph, EyeGlyph } from './icons'
+import { Check, Copy, Eye } from 'lucide-react'
 import { JsonViewer } from './json-viewer'
 import { CopyButton } from './copy-button'
 import { DetailDialog } from './detail-dialog'
@@ -35,7 +35,7 @@ export function PayloadActions({
         }}
         className="rounded p-1 text-fg-faint transition-colors hover:bg-surface-hover hover:text-fg"
       >
-        <EyeGlyph className="h-3.5 w-3.5" />
+        <Eye className="h-3.5 w-3.5" />
       </button>
       <button
         type="button"
@@ -48,9 +48,9 @@ export function PayloadActions({
         className="rounded p-1 text-fg-faint transition-colors hover:bg-surface-hover hover:text-fg"
       >
         {copied ? (
-          <CheckGlyph className="h-3.5 w-3.5 text-success" />
+          <Check className="h-3.5 w-3.5 text-success" />
         ) : (
-          <CopyGlyph className="h-3.5 w-3.5" />
+          <Copy className="h-3.5 w-3.5" />
         )}
       </button>
     </div>

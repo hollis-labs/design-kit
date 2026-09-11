@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ChevronLeftGlyph, ChevronRightGlyph, SearchGlyph } from './icons'
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { cn } from '../lib/utils'
 import { Button } from './ui/button'
 import { ScrollArea } from './ui/scroll-area'
@@ -73,7 +73,7 @@ function TransferListPane({
           <div className="font-mono text-label text-fg-muted">{items.length}</div>
         </div>
         <label className="mt-2 flex h-8 items-center gap-2 rounded-md border border-border bg-bg px-2 text-fg-muted">
-          <SearchGlyph className="h-3.5 w-3.5" />
+          <Search className="h-3.5 w-3.5" />
           <input
             className="min-w-0 flex-1 bg-transparent text-xs text-fg outline-none placeholder:text-fg-faint"
             value={search}
@@ -206,7 +206,7 @@ export function TransferList({
             disabled={availableActive.size === 0}
             aria-label="Add selected items"
           >
-            <ChevronRightGlyph className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
             type="button"
@@ -216,7 +216,7 @@ export function TransferList({
             disabled={selectedActive.size === 0}
             aria-label="Remove selected items"
           >
-            <ChevronLeftGlyph className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" />
           </Button>
         </div>
       </div>

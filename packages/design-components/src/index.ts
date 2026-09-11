@@ -68,10 +68,11 @@ export type { TransferListItem } from './components/transfer-list'
 export { safeParseObject, scalarStr } from './lib/payload'
 
 /*
- * The icon prop shape. The glyphs themselves are NOT exported — this package
- * does not ship an icon set and should not look like it does.
+ * The icon prop shape. `lucide-react` is a PEER dependency — the consumer picks
+ * the icon library and its major version — so this package ships a shape, not a
+ * set. See lib/icon for which of the two shapes a slot should take.
  */
-export type { IconComponent } from './components/icons'
+export type { IconComponent } from './lib/icon'
 
 /*
  * The row-activation protocol, moved DOWN from kit-dashboard so base stops

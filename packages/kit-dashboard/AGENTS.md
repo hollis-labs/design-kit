@@ -1,6 +1,6 @@
-# sysop-ui
+# kit-dashboard
 
-`@hollis-labs/sysop-ui` — the System Operations React kit: generic shell
+`@hollis-labs/kit-dashboard` — the System Operations React kit: generic shell
 components, shadcn/ui primitives, the canonical `[data-theme]` palette, layout
 presets, `DataTable`, filters, widgets, charts and data hooks. It is the
 generic shell only. App-specific domain code — fragment/route/task models, app
@@ -51,7 +51,9 @@ portfolio, and `theme.css` ships as raw CSS the app imports once. Apps converge
 on it; the older hand-rolled HUD CSS is retired. Do not fork palette decisions
 into a consumer.
 
-This package is published to npm and consumed by Cerberus and Tether — one via
-a local file link, one via a version pin (see the roadmap's table). A change to
-an export's name or shape is a downstream break even when this repo's own build
-is green.
+This package is NOT published under the `kit-dashboard` name yet, and nothing
+consumes it. Its predecessor `@hollis-labs/sysop-ui` 0.9.0 is published, frozen,
+and still serving Cerberus and Tether — one via a local file link, one via a
+version pin (see the roadmap's table). Treat the export surface as a contract
+anyway: it is what those consumers will migrate onto, so a change to an export's
+name or shape is a downstream break even when this repo's own build is green.

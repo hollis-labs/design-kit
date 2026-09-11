@@ -1,9 +1,13 @@
-# @hollis-labs/sysop-ui
+# @hollis-labs/kit-dashboard
 
-**Sysop UI** — the System Operations React kit. A shared package of generic
-shell components, shadcn/ui primitives, the canonical `[data-theme]` palette,
-and data hooks, extracted from the most-evolved app frontends (Torque's GUI and
-Fragments Engine's Sysop).
+**Kit Dashboard** — the dashboard idiom. A package of generic shell
+components, shadcn/ui primitives, the `[data-theme]` palette, and data hooks,
+extracted from the most-evolved app frontends (Torque's GUI and Fragments
+Engine's Sysop).
+
+Forked whole from `@hollis-labs/sysop-ui` 0.9.0 and unchanged since, so this is
+still that kit — only the package name moved. A KIT is layers 3 + 1 of the
+design-kit layering: which components exist and how pages lay out.
 
 - React 19 · Vite 5 · Tailwind v4 · shadcn/ui (`base-nova` style)
 - The `[data-theme]` + Tailwind `@theme` token system is **canonical** — the
@@ -38,19 +42,19 @@ dependency-free hand-rolled SVG/markup.
 The root entrypoint is intentionally narrow and mirrors `ui`:
 
 ```ts
-import { Button, PageHeader, applyTheme } from '@hollis-labs/sysop-ui'
+import { Button, PageHeader, applyTheme } from '@hollis-labs/kit-dashboard'
 ```
 
 Optional domains live behind explicit subpaths:
 
 | Entry | Use for |
 | --- | --- |
-| `@hollis-labs/sysop-ui/ui` | Theme helpers, shell chrome, formatters, visual primitives, shadcn `ui/*` |
-| `@hollis-labs/sysop-ui/api` | API client/context helpers, normalizers, polling/SSE hooks, storage/list cursor helpers |
-| `@hollis-labs/sysop-ui/layout` | Page skeletons such as `ListPageLayout`, `DetailPageLayout`, `TabStrip` |
-| `@hollis-labs/sysop-ui/data` | `DataTable`, `RowActionMenu`, filter-bar pieces |
-| `@hollis-labs/sysop-ui/widgets` | Lightweight SVG/markup widgets that do not use `recharts` |
-| `@hollis-labs/sysop-ui/charts` | `TimeSeriesChart` and any future charting components backed by `recharts` |
+| `@hollis-labs/kit-dashboard/ui` | Theme helpers, shell chrome, formatters, visual primitives, shadcn `ui/*` |
+| `@hollis-labs/kit-dashboard/api` | API client/context helpers, normalizers, polling/SSE hooks, storage/list cursor helpers |
+| `@hollis-labs/kit-dashboard/layout` | Page skeletons such as `ListPageLayout`, `DetailPageLayout`, `TabStrip` |
+| `@hollis-labs/kit-dashboard/data` | `DataTable`, `RowActionMenu`, filter-bar pieces |
+| `@hollis-labs/kit-dashboard/widgets` | Lightweight SVG/markup widgets that do not use `recharts` |
+| `@hollis-labs/kit-dashboard/charts` | `TimeSeriesChart` and any future charting components backed by `recharts` |
 
 Recommended rule:
 
@@ -63,40 +67,39 @@ Recommended rule:
 
 ## Consuming the kit
 
-Install from the public npm registry:
+**Not published under this name yet.** `@hollis-labs/kit-dashboard` is a
+workspace package inside `hollis-labs/design-kit`; publishing it is a separate,
+deliberate step (Torque CW-20260910-0131). Until then:
 
-### In an app
+### In this monorepo
 
-```bash
-npm install @hollis-labs/sysop-ui
-```
+It is an npm workspace, so it is already linked — depend on it by name and root
+`npm install` wires it up. `npm install` at the root also builds `dist/` via this
+package's `prepare` script.
 
-If you need an explicit version, pin a published tag:
+### In an app outside the monorepo
 
-```bash
-npm install @hollis-labs/sysop-ui@0.7.2
-```
-
-### Local development
-
-When working on the kit and a consuming app together, link the working copy:
+Apps consuming the kit today still use the published, frozen
+`@hollis-labs/sysop-ui` 0.9.0, which is byte-identical to this package's `src/`.
+Nothing has migrated onto `kit-dashboard`, and adoption is each project's own
+work. To try it against an app before it is published, link the working copy:
 
 ```bash
 # from the consuming app
-npm install file:../../libs/sysop-ui
+npm install file:../../libs/design-kit/packages/kit-dashboard
 ```
 
-Run `npm run build` in `libs/sysop-ui` after changes (or `npm run build --
---watch`) so the linked `dist/` stays fresh.
+Run `npm run build` in `packages/kit-dashboard` after changes (or `npm run build
+-- --watch`) so the linked `dist/` stays fresh.
 
 ### Wire it up
 
 ```ts
 // 1. Import the canonical theme once (e.g. in main.tsx)
-import '@hollis-labs/sysop-ui/theme.css'
+import '@hollis-labs/kit-dashboard/theme.css'
 
 // 2. Apply the persisted palette before first paint
-import { applyTheme, getInitialTheme } from '@hollis-labs/sysop-ui/ui'
+import { applyTheme, getInitialTheme } from '@hollis-labs/kit-dashboard/ui'
 applyTheme(getInitialTheme())
 ```
 
@@ -124,7 +127,7 @@ Minimal shell example:
 
 ```tsx
 import { Suspense, lazy } from 'react'
-import { NavRail, PageHeader } from '@hollis-labs/sysop-ui/ui'
+import { NavRail, PageHeader } from '@hollis-labs/kit-dashboard/ui'
 
 const OperationsPage = lazy(() =>
   import('./pages/operations').then((module) => ({ default: module.OperationsPage })),
@@ -150,8 +153,8 @@ A page is generic kit chrome + app-specific content:
 ```tsx
 import {
   PageHeader, SummaryCards, EmptyState, StatusBadge,
-} from '@hollis-labs/sysop-ui/ui'
-import { DataTable, type ColumnDef } from '@hollis-labs/sysop-ui/data'
+} from '@hollis-labs/kit-dashboard/ui'
+import { DataTable, type ColumnDef } from '@hollis-labs/kit-dashboard/data'
 
 interface Widget { id: string; name: string; status: string }
 
@@ -200,7 +203,7 @@ For the API layer, build a concrete client on `createApiClient` and a typed
 context with `createApiContext`:
 
 ```ts
-import { createApiClient, createApiContext } from '@hollis-labs/sysop-ui/api'
+import { createApiClient, createApiContext } from '@hollis-labs/kit-dashboard/api'
 
 const http = createApiClient({ baseUrl: '' })
 export const apiClient = {
@@ -222,7 +225,7 @@ Questions to answer in the report:
 
 - which modules are in the entry chunk
 - which pages moved into route chunks after `React.lazy`
-- whether `recharts` appears only in the page chunks that import `@hollis-labs/sysop-ui/charts`
+- whether `recharts` appears only in the page chunks that import `@hollis-labs/kit-dashboard/charts`
 
 ## Scripts
 

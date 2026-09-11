@@ -1,4 +1,8 @@
-import { TONES as CONTRACT_TONES, type Tone as ContractTone } from '@hollis-labs/design-tokens'
+import {
+  TONES as CONTRACT_TONES,
+  type Tone as ContractTone,
+  type Accent as ContractAccent,
+} from '@hollis-labs/design-tokens'
 
 /**
  * THE ONE TONE SCALE, DEFINED ONCE.
@@ -61,3 +65,36 @@ export const TONE_FILL_CLASSES = {
   warning: 'bg-warning',
   info: 'bg-info',
 } as const satisfies Record<Tone, string>
+
+/**
+ * ACCENTS — the tones plus `primary` and `brand`, again straight off the
+ * contract. `Accent` is what a component offers when the choice is "tint this",
+ * not "signal a state": a Metric's value, a section's edge.
+ *
+ * Kept beside the tones rather than in each component because two files needed
+ * the same six names on the same day, which is how three copies of the tone map
+ * happened in sysop-ui.
+ */
+export type Accent = ContractAccent | 'neutral'
+
+/** Text colour per accent. */
+export const ACCENT_TEXT_CLASSES = {
+  neutral: 'text-fg',
+  success: 'text-success',
+  warning: 'text-warning',
+  danger: 'text-danger',
+  info: 'text-info',
+  primary: 'text-primary',
+  brand: 'text-brand',
+} as const satisfies Record<Accent, string>
+
+/** Left-edge colour per accent, for accent-bordered surfaces. */
+export const ACCENT_BORDER_L_CLASSES = {
+  neutral: 'border-l-border',
+  success: 'border-l-success',
+  warning: 'border-l-warning',
+  danger: 'border-l-danger',
+  info: 'border-l-info',
+  primary: 'border-l-primary',
+  brand: 'border-l-brand',
+} as const satisfies Record<Accent, string>

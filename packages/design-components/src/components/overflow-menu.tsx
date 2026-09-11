@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { MoreHorizontal } from 'lucide-react'
+import { EllipsisGlyph } from './icons'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -56,7 +56,7 @@ export function OverflowMenu({
           aria-label={ariaLabel}
           className="inline-flex h-7 w-7 items-center justify-center rounded-md text-fg-muted transition-colors hover:bg-surface-hover hover:text-fg"
         >
-          <MoreHorizontal className="h-4 w-4" />
+          <EllipsisGlyph className="h-4 w-4" />
         </DropdownMenuTrigger>
         {/* The portaled content is marked too: menu-item clicks bubble
             synthetically to the ancestor row, whose handler checks the DOM with

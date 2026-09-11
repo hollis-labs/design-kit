@@ -48,6 +48,28 @@ export { ProgressBar } from './components/progress-bar'
 export { DetailPageLayout } from './components/layout/detail-page-layout'
 export { OverflowMenu } from './components/overflow-menu'
 export type { OverflowAction } from './components/overflow-menu'
+export { CollapsibleSection } from './components/collapsible-section'
+export { Combobox } from './components/combobox'
+export { CopyButton } from './components/copy-button'
+export { EmptyState } from './components/empty-state'
+export type { EmptyStateVariant } from './components/empty-state'
+export { JsonModal, PayloadActions, PayloadSummary } from './components/json-payload'
+export type { JsonModalProps, PayloadActionsProps, PayloadSummaryProps } from './components/json-payload'
+export { SearchInput } from './components/search-input'
+export { TransferList } from './components/transfer-list'
+export type { TransferListItem } from './components/transfer-list'
+
+/*
+ * Payload parsers, split out of `json-payload.tsx` rather than exempted from the
+ * react-refresh rule. They were the last two lint errors in the repo.
+ */
+export { safeParseObject, scalarStr } from './lib/payload'
+
+/*
+ * The icon prop shape. The glyphs themselves are NOT exported — this package
+ * does not ship an icon set and should not look like it does.
+ */
+export type { IconComponent } from './components/icons'
 
 /*
  * The row-activation protocol, moved DOWN from kit-dashboard so base stops
@@ -61,7 +83,8 @@ export {
 
 /* The one tone scale, typed from the contract's own Tone. */
 export { TONES, TONE_CLASSES, TONE_FILL_CLASSES } from './lib/tone'
-export type { Tone } from './lib/tone'
+export { ACCENT_TEXT_CLASSES, ACCENT_BORDER_L_CLASSES } from './lib/tone'
+export type { Tone, Accent } from './lib/tone'
 
 /* The column contract. The table that renders it is kit; the contract is not. */
 export { alignClass, compareBy } from './lib/column'

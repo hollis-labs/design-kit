@@ -1,5 +1,4 @@
 import { Toaster as Sonner, type ToasterProps } from "sonner"
-import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
 
 const Toaster = (props: ToasterProps) => {
   return (
@@ -11,13 +10,12 @@ const Toaster = (props: ToasterProps) => {
       // consumer can already override it.
       theme="dark"
       className="toaster group"
-      icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
-        error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
-      }}
+      // NO `icons` OVERRIDE, and removing it is a pure subtraction. sonner ships
+      // its own SuccessIcon / ErrorIcon / WarningIcon / InfoIcon / Loader
+      // (verified in sonner/dist/index.mjs); sysop-ui overrode all five with
+      // lucide, which is 5 of the 19 icons this package would otherwise have had
+      // to vendor. A consumer who wants different ones passes `icons` through the
+      // spread below.
       style={
         {
           // A REPAIR, NOT A PORT. sysop-ui reached for shadcn's stock raw

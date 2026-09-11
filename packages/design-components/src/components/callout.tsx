@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react'
-import { AlertCircle, AlertTriangle, CircleCheck, Info } from 'lucide-react'
+import { CircleAlertGlyph, CircleCheckGlyph, InfoGlyph, TriangleAlertGlyph } from './icons'
 import { cn } from '../lib/utils'
 import { TONE_CLASSES, type Tone } from '../lib/tone'
 
 const TONE_ICONS: Record<Tone, ReactNode> = {
-  neutral: <Info />,
-  success: <CircleCheck />,
-  danger: <AlertCircle />,
-  warning: <AlertTriangle />,
-  info: <Info />,
+  neutral: <InfoGlyph />,
+  success: <CircleCheckGlyph />,
+  danger: <CircleAlertGlyph />,
+  warning: <TriangleAlertGlyph />,
+  info: <InfoGlyph />,
 }
 
 interface CalloutProps {

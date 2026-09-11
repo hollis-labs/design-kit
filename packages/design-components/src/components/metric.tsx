@@ -1,19 +1,5 @@
 import type { ReactNode } from 'react'
-import { type Accent } from '@hollis-labs/design-tokens'
-
-/**
- * Accent name -> utility. Keyed by the contract's `Accent`, so adding or
- * removing an accent token in design-tokens is a compile error here rather than
- * a prop that quietly points at nothing.
- */
-const ACCENT_CLASSES = {
-  success: 'text-success',
-  warning: 'text-warning',
-  danger: 'text-danger',
-  info: 'text-info',
-  primary: 'text-primary',
-  brand: 'text-brand',
-} as const satisfies Record<Accent, string>
+import { ACCENT_TEXT_CLASSES, type Accent } from '../lib/tone'
 
 interface MetricProps {
   label: string
@@ -47,7 +33,7 @@ export function Metric({ label, value, hint, accent }: MetricProps) {
       <span className="text-caption uppercase tracking-label text-fg-faint">{label}</span>
       <span
         className={`font-mono text-2xl font-semibold tabular-nums ${
-          accent ? ACCENT_CLASSES[accent] : 'text-fg'
+          accent ? ACCENT_TEXT_CLASSES[accent] : 'text-fg'
         }`}
       >
         {value}

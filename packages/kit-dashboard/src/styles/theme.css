@@ -348,6 +348,61 @@
   --hl-font-mono: var(--font-mono);
 }
 
+/* ─────────────── DERIVED STATUS LABEL COLOURS — a THEME-layer job ───────────
+ *
+ * `lib/status.ts` used to carry these inline, as
+ * `text-[color-mix(in_oklab,var(--color-status-done)_60%,var(--color-text))]`,
+ * once per status. That is a colour literal AND an arbitrary value, so both
+ * design rules reported all twelve — 24 findings from one pattern in one file.
+ *
+ * THE COMPONENT WAS DOING THEME-LAYER WORK. Deriving one colour from two others
+ * is definitionally what this layer is for: it is the only layer permitted to
+ * name a colour, and so the only one permitted to compute one. The rule was not
+ * wrong and the file was not unlucky — the expression was in the wrong place.
+ *
+ * WHY THE MIX EXISTS AT ALL, so nobody replaces it with a flat shade: the label
+ * is derived toward the palette's own text colour rather than toward white,
+ * which is what keeps the two phosphor palettes coherent — green mixes toward
+ * green, amber toward amber. A static lighter token per status would need
+ * 12 x 4 hand-picked values and would be wrong again the moment a fifth palette
+ * lands.
+ *
+ * `archived` mixes at 55% rather than 60%. That was an inline inconsistency; it
+ * is now this declaration's ratio, which is where a difference like that can be
+ * seen and changed.
+ *
+ * ONE DECLARATION EACH, AT :root, IS CORRECT — the `[data-theme]` blocks above
+ * match the same element `:root` does, and a custom property resolves where it is
+ * USED, so each of these picks up whichever palette is live. Verified against
+ * compiled output in all four rather than reasoned about.
+ * ------------------------------------------------------------------------- */
+:root {
+  --theme-color-status-backlog-label:
+    color-mix(in oklab, var(--theme-color-status-backlog) 60%, var(--theme-color-text));
+  --theme-color-status-todo-label:
+    color-mix(in oklab, var(--theme-color-status-todo) 60%, var(--theme-color-text));
+  --theme-color-status-queued-label:
+    color-mix(in oklab, var(--theme-color-status-queued) 60%, var(--theme-color-text));
+  --theme-color-status-doing-label:
+    color-mix(in oklab, var(--theme-color-status-doing) 60%, var(--theme-color-text));
+  --theme-color-status-review-label:
+    color-mix(in oklab, var(--theme-color-status-review) 60%, var(--theme-color-text));
+  --theme-color-status-done-label:
+    color-mix(in oklab, var(--theme-color-status-done) 60%, var(--theme-color-text));
+  --theme-color-status-blocked-label:
+    color-mix(in oklab, var(--theme-color-status-blocked) 60%, var(--theme-color-text));
+  --theme-color-status-paused-label:
+    color-mix(in oklab, var(--theme-color-status-paused) 60%, var(--theme-color-text));
+  --theme-color-status-archived-label:
+    color-mix(in oklab, var(--theme-color-status-archived) 55%, var(--theme-color-text));
+  --theme-color-status-inbox-label:
+    color-mix(in oklab, var(--theme-color-status-inbox) 60%, var(--theme-color-text));
+  --theme-color-status-routed-label:
+    color-mix(in oklab, var(--theme-color-status-routed) 60%, var(--theme-color-text));
+  --theme-color-status-indexed-label:
+    color-mix(in oklab, var(--theme-color-status-indexed) 60%, var(--theme-color-text));
+}
+
 @theme inline {
   /* System font — no Geist */
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -417,6 +472,20 @@
   --color-status-inbox: var(--theme-color-status-inbox);
   --color-status-routed: var(--theme-color-status-routed);
   --color-status-indexed: var(--theme-color-status-indexed);
+
+  /* Derived label steps — see the block above. */
+  --color-status-backlog-label: var(--theme-color-status-backlog-label);
+  --color-status-todo-label: var(--theme-color-status-todo-label);
+  --color-status-queued-label: var(--theme-color-status-queued-label);
+  --color-status-doing-label: var(--theme-color-status-doing-label);
+  --color-status-review-label: var(--theme-color-status-review-label);
+  --color-status-done-label: var(--theme-color-status-done-label);
+  --color-status-blocked-label: var(--theme-color-status-blocked-label);
+  --color-status-paused-label: var(--theme-color-status-paused-label);
+  --color-status-archived-label: var(--theme-color-status-archived-label);
+  --color-status-inbox-label: var(--theme-color-status-inbox-label);
+  --color-status-routed-label: var(--theme-color-status-routed-label);
+  --color-status-indexed-label: var(--theme-color-status-indexed-label);
 
   /* radius */
   --radius: 0.375rem;

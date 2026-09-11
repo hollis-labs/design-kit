@@ -34,7 +34,16 @@ const repoRoot = resolve(here, '..', '..')
 const ci = process.env.GITHUB_ACTIONS === 'true'
 const notice = (msg) => console.log(ci ? `::notice title=design-rules::${msg}` : `NOTICE: ${msg}`)
 
-/** Authored against the contract — blocking. */
+/**
+ * Authored against the contract — blocking.
+ *
+ * design-app-runtime is in this list even though it is transport and holds no
+ * appearance at all (18 files, 0 findings, 0 classNames as of 2026-09-11). That is
+ * deliberate, and it is the cheap half of the boundary: the package's entire value
+ * is "adopt it without taking any appearance", so the gate should enforce that
+ * rather than trust it. Enrolling it costs nothing now and objects the day a styled
+ * helper lands there.
+ */
 const BLOCKING = [
   'packages/design-tokens',
   'packages/design-components',

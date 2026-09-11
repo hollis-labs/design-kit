@@ -2,23 +2,68 @@
   "name": "@hollis-labs/design-app-runtime",
   "version": "0.0.0",
   "private": true,
-  "description": "App runtime — api client, hooks, router, storage, toast, status.",
+  "description": "App runtime — api client, hooks, router, storage. No opinion about appearance.",
+  "keywords": [
+    "react",
+    "api-client",
+    "sse",
+    "polling",
+    "router",
+    "design-system"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hollis-labs/design-kit.git",
     "directory": "packages/design-app-runtime"
   },
+  "homepage": "https://github.com/hollis-labs/design-kit/tree/main/packages/design-app-runtime#readme",
+  "bugs": {
+    "url": "https://github.com/hollis-labs/design-kit/issues"
+  },
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "src/styles"
+  ],
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts"
-    }
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./shell-reset.css": "./src/styles/shell-reset.css"
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "build": "tsc -p tsconfig.build.json && vite build",
+    "prepare": "npm run build",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "boundary-test": "node scripts/boundary-test.mjs"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^24.12.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "4.7.0",
+    "eslint": "^9.39.4",
+    "jsdom": "^25.0.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "~6.0.2",
+    "vite": "5.4.21",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^2.1.9"
   }
 }

@@ -288,12 +288,27 @@ tester.run('no-idiom-shadowing-contract', noIdiomShadowingContract, {
 directiveTester.run('require-disable-reason', requireDisableReason, {
   valid: [
     '// eslint-disable-next-line design/no-arbitrary-scale -- optical centering, no step fits\nconst c = "text-[10.5px]"',
+    // A comment on the line above is a reason. This is how sysop-ui's use-sse.ts
+    // documents both of its disables, and demanding the `--` form would have
+    // reported well-documented code as unexplained.
+    '// events is serialized into eventsKey; the raw array would re-run every render.\n// eslint-disable-next-line design/no-arbitrary-scale\nconst c = "text-[10.5px]"',
     '// eslint-disable-next-line no-unused-vars\nconst x = 1',
     'const x = 1',
   ],
   invalid: [
     {
       code: '// eslint-disable-next-line design/no-arbitrary-scale\nconst c = "text-[10.5px]"',
+      errors: [{ messageId: 'needReason' }],
+    },
+    {
+      // A preceding comment two lines up is not an explanation of this directive.
+      code: '// unrelated note\n\n// eslint-disable-next-line design/no-arbitrary-scale\nconst c = "text-[10.5px]"',
+      errors: [{ messageId: 'needReason' }],
+    },
+    {
+      // requireInlineReason restores the strict form for a repo that wants it.
+      code: '// a real reason on the line above\n// eslint-disable-next-line design/no-arbitrary-scale\nconst c = "text-[10.5px]"',
+      options: [{ requireInlineReason: true }],
       errors: [{ messageId: 'needReason' }],
     },
     {

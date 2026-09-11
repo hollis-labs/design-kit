@@ -61,10 +61,10 @@ export function DonutChart({
     <div className={cn('flex flex-col gap-3', className)} aria-label={title}>
       {title ? (
         <div className="flex items-center justify-between">
-          <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+          <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
             {title}
           </span>
-          <span className="font-mono text-[10px] text-muted-foreground/80 tabular-nums">
+          <span className="font-mono text-caption text-muted-foreground/80 tabular-nums">
             {total} {centerLabel}
           </span>
         </div>
@@ -72,7 +72,7 @@ export function DonutChart({
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-[10px] text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height: size + 4 }}
         >
           No data recorded
@@ -86,7 +86,9 @@ export function DonutChart({
                 cy={radius}
                 r={radius - stroke / 2}
                 fill="none"
-                stroke="var(--muted)"
+                // SVG presentation attribute: `var()` does not resolve, and
+                // `--muted` is declared nowhere. The track has never had a colour.
+                className="stroke-surface"
                 strokeOpacity={0.4}
                 strokeWidth={stroke}
               />
@@ -110,10 +112,10 @@ export function DonutChart({
               className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
               style={{ paddingInline: innerRadius / 8 }}
             >
-              <span className="font-mono text-[16px] font-medium tabular-nums text-foreground">
+              <span className="font-mono text-base font-medium tabular-nums text-foreground">
                 {total}
               </span>
-              <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-muted-foreground/70">
+              <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground/70">
                 {centerLabel}
               </span>
             </div>
@@ -125,7 +127,7 @@ export function DonutChart({
               return (
                 <li
                   key={s.key}
-                  className="flex items-center justify-between gap-2 font-mono text-[10px]"
+                  className="flex items-center justify-between gap-2 font-mono text-caption"
                 >
                   <span className="inline-flex items-center gap-2 uppercase tracking-widest">
                     <span

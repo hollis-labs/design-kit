@@ -32,7 +32,7 @@ export function FilterCycleToggle<T extends string>({
       aria-label={`${ariaLabel}, current: ${active.label}`}
       title={active.title ?? `${ariaLabel}: ${active.label}`}
       onClick={() => onChange(next.value)}
-      className="inline-flex items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 py-0.5 text-[10px] uppercase tracking-wider text-text-muted transition-all hover:border-border-strong"
+      className="inline-flex items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 py-0.5 text-caption uppercase tracking-wider text-text-muted transition-all hover:border-border-strong"
     >
       {active.dotColor && (
         <span className={`inline-block h-1.5 w-1.5 rounded-full ${active.dotColor}`} />

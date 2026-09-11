@@ -55,7 +55,7 @@ interface DayBucket {
 
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1 font-mono text-[9px] text-muted-foreground">
+    <span className="inline-flex items-center gap-1 font-mono text-micro text-muted-foreground">
       <span
         className="inline-block h-2 w-2 rounded-sm"
         style={{ backgroundColor: color }}
@@ -120,18 +120,27 @@ export function TimeSeriesChart<T>({
 
   const legendVisible = showLegend ?? series.length > 1
 
+  // `fill` here lands on an SVG <text> as a PRESENTATION ATTRIBUTE, where `var()`
+  // is not resolved — and `--muted-foreground` was never declared in this codebase
+  // anyway, so this has been rendering the SVG default black since it was written.
+  // A className routes it through CSS, where both problems go away.
   const axisTick = {
-    fill: 'var(--muted-foreground)',
+    className: 'fill-fg-faint',
     fontSize: 9,
     fontFamily: 'ui-monospace',
   }
+  // These DO resolve — recharts applies `contentStyle` to a real div — but the
+  // names did not exist. `--popover`, `--border` and `--popover-foreground` are
+  // shadcn's bare template spellings, and sysop-ui rebuilt the value layer as
+  // `--theme-color-*` and kept only the `--color-*` half, so the tooltip has never
+  // been themed. Same family as sonner's three. The declared names are prefixed.
   const tooltipContentStyle = {
-    background: 'var(--popover)',
-    border: '1px solid var(--border)',
+    background: 'var(--color-popover)',
+    border: '1px solid var(--color-border)',
     borderRadius: 4,
     fontSize: 11,
     fontFamily: 'ui-monospace',
-    color: 'var(--popover-foreground)',
+    color: 'var(--color-popover-foreground)',
   }
   const tooltipFormatter = (v: unknown) =>
     formatValue(Number(Array.isArray(v) ? v[0] : (v ?? 0)))
@@ -139,7 +148,7 @@ export function TimeSeriesChart<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
           {title ? `${title} — last ${days}d` : `last ${days}d`}
         </span>
         {legendVisible ? (
@@ -153,7 +162,7 @@ export function TimeSeriesChart<T>({
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-[10px] text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height }}
         >
           {emptyLabel}
@@ -185,7 +194,9 @@ export function TimeSeriesChart<T>({
               tickFormatter={(v: number) => formatValue(v)}
             />
             <Tooltip
-              cursor={{ stroke: 'var(--border)', strokeDasharray: '2 2' }}
+              // Same presentation-attribute trap as the fill on 223, and
+              // `--border` is declared nowhere either — dead twice over.
+              cursor={{ className: 'stroke-border', strokeDasharray: '2 2' }}
               contentStyle={tooltipContentStyle}
               formatter={tooltipFormatter}
             />
@@ -216,7 +227,11 @@ export function TimeSeriesChart<T>({
               tickFormatter={(v: number) => formatValue(v)}
             />
             <Tooltip
-              cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+              // A CLASS, NOT A `fill` VALUE, and the distinction is load-bearing:
+              // recharts spreads these onto an SVG <Rectangle> as PRESENTATION
+              // ATTRIBUTES, and `var()` is not resolved in those. `fill="var(--x)"`
+              // would render nothing. A className goes through CSS, where it is.
+              cursor={{ className: 'fill-fg', fillOpacity: 0.03 }}
               contentStyle={tooltipContentStyle}
               formatter={tooltipFormatter}
             />

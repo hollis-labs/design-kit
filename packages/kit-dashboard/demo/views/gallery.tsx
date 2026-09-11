@@ -136,10 +136,10 @@ function Section({ title, note, children }: { title: string; note?: string; chil
   return (
     <section className="space-y-3">
       <div className="flex items-baseline gap-3">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[.18em] text-text-soft">
+        <h2 className="text-label font-semibold uppercase tracking-[.18em] text-text-soft">
           {title}
         </h2>
-        {note ? <span className="text-[11px] text-text-subtle">{note}</span> : null}
+        {note ? <span className="text-label text-text-subtle">{note}</span> : null}
       </div>
       <div className="hud-panel p-4">{children}</div>
     </section>
@@ -168,7 +168,7 @@ export function GalleryView() {
       <PageHeader title="sysop-ui · component gallery" />
 
       <div className="min-h-0 flex-1 space-y-8 overflow-y-auto p-6">
-        <p className="max-w-2xl text-[13px] leading-6 text-text-subtle">
+        <p className="max-w-2xl text-control leading-6 text-text-subtle">
           Individual components shown as swatches. Full-bleed page layouts —
           <code className="px-1 text-text-soft">ListPageLayout</code>,
           <code className="px-1 text-text-soft">OperationsTablePage</code>,
@@ -313,7 +313,7 @@ export function GalleryView() {
               clearable
               clearLabel="All regions"
             />
-            <span className="text-[11px] text-text-subtle">selected: {region ?? '—'}</span>
+            <span className="text-label text-text-subtle">selected: {region ?? '—'}</span>
           </div>
         </Section>
 
@@ -463,10 +463,10 @@ export function GalleryView() {
             }
           >
             <DetailSection title="Runtime">
-              <p className="text-[13px] text-text-soft">Region us-east-1 · uptime 99.999%</p>
+              <p className="text-control text-text-soft">Region us-east-1 · uptime 99.999%</p>
             </DetailSection>
             <DetailSection title="Notes">
-              <p className="text-[13px] text-text-soft">
+              <p className="text-control text-text-soft">
                 A standardized detail-dialog shell — badge, title, meta, scroll body, sticky
                 footer.
               </p>
@@ -487,13 +487,13 @@ export function GalleryView() {
             submitLabel="Create"
           >
             <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-[.16em] text-text-subtle">
+              <label className="text-label uppercase tracking-label text-text-subtle">
                 Name
               </label>
               <Input placeholder="service-name" />
             </div>
             <div className="space-y-1">
-              <label className="text-[11px] uppercase tracking-[.16em] text-text-subtle">
+              <label className="text-label uppercase tracking-label text-text-subtle">
                 Notes
               </label>
               <Textarea placeholder="Optional notes" rows={3} />
@@ -539,13 +539,13 @@ export function GalleryView() {
         <Section title="CollapsibleSection" note="accent-bordered, collapsible">
           <div className="space-y-2">
             <CollapsibleSection label="Execution context" accent="info" defaultOpen>
-              <p className="text-[13px] text-text-soft">Expanded by default.</p>
+              <p className="text-control text-text-soft">Expanded by default.</p>
             </CollapsibleSection>
             <CollapsibleSection label="Lifecycle rules" accent="warning" summary="3 rules">
-              <p className="text-[13px] text-text-soft">Collapsed — click to expand.</p>
+              <p className="text-control text-text-soft">Collapsed — click to expand.</p>
             </CollapsibleSection>
             <CollapsibleSection label="Properties" accent="neutral" collapsible={false}>
-              <p className="text-[13px] text-text-soft">Always open (collapsible=false).</p>
+              <p className="text-control text-text-soft">Always open (collapsible=false).</p>
             </CollapsibleSection>
           </div>
         </Section>
@@ -553,14 +553,14 @@ export function GalleryView() {
         <Section title="Switch">
           <div className="flex items-center gap-3">
             <Switch checked={switchOn} onCheckedChange={setSwitchOn} />
-            <span className="text-[13px] text-text-soft">{switchOn ? 'On' : 'Off'}</span>
+            <span className="text-control text-text-soft">{switchOn ? 'On' : 'Off'}</span>
           </div>
         </Section>
 
         <Section title="Checkbox" note="unchecked · checked · indeterminate · disabled">
           <div className="flex flex-wrap items-center gap-6">
             <Checkbox />
-            <label className="flex items-center gap-2 text-[13px] text-text-soft">
+            <label className="flex items-center gap-2 text-control text-text-soft">
               <Checkbox checked={checkboxOn} onCheckedChange={setCheckboxOn} />
               Notify on failure
             </label>
@@ -581,7 +581,7 @@ export function GalleryView() {
             >
               Error toast
             </Button>
-            <span className="text-[11px] text-text-subtle">
+            <span className="text-label text-text-subtle">
               the demo App mounts a single &lt;Toaster /&gt; for these to render
             </span>
           </div>
@@ -601,7 +601,7 @@ export function GalleryView() {
                 ))}
               </SelectContent>
             </Select>
-            <span className="text-[11px] text-text-subtle">selected: {selectValue ?? '—'}</span>
+            <span className="text-label text-text-subtle">selected: {selectValue ?? '—'}</span>
           </div>
         </Section>
 
@@ -615,7 +615,7 @@ export function GalleryView() {
                   A right-anchored drawer for detail panels and side content.
                 </SheetDescription>
               </SheetHeader>
-              <div className="px-4 text-[13px] text-text-soft">
+              <div className="px-4 text-control text-text-soft">
                 Region us-east-1 · uptime 99.999%
               </div>
             </SheetContent>
@@ -650,7 +650,7 @@ export function GalleryView() {
                 <CardDescription>us-east-1 · 3 replicas</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-[13px] text-text-soft">
+                <p className="text-control text-text-soft">
                   Use Card for framed content inside a scroll body — never to wrap a page
                   layout.
                 </p>
@@ -661,7 +661,7 @@ export function GalleryView() {
                 <CardTitle>billing-worker</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-[13px] text-text-soft">Compact card (size=&quot;sm&quot;).</p>
+                <p className="text-control text-text-soft">Compact card (size=&quot;sm&quot;).</p>
               </CardContent>
             </Card>
           </div>
@@ -681,7 +681,7 @@ export function GalleryView() {
                 },
               ]}
             />
-            <span className="text-[11px] text-text-subtle">
+            <span className="text-label text-text-subtle">
               the end-of-row “…” menu — Delete opens a ConfirmDialog
             </span>
           </div>
@@ -754,7 +754,7 @@ export function GalleryView() {
               <div className="flex items-center justify-between gap-3 px-1 py-2">
                 <span className="flex items-center gap-2">
                   <LiveDot tone={EVENT_TONE[e.status]} pulsing={e.status === 'running'} />
-                  <span className="font-mono text-[12px] text-text-soft">{e.id}</span>
+                  <span className="font-mono text-xs text-text-soft">{e.id}</span>
                 </span>
                 <Pill tone={EVENT_TONE[e.status]} dot>
                   {e.status}

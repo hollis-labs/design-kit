@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@hollis-labs/design-tokens/tokens.css";
 
 /*
  * Sysop UI — canonical theme.
@@ -215,6 +216,211 @@
   --theme-color-status-indexed: rgb(0 255 0);
 }
 
+/* ───────────────────── THE CONTRACT'S VALUE LAYER ─────────────────────────
+ *
+ * `@import "@hollis-labs/design-tokens/tokens.css"` above brings in the contract
+ * NAMES — 59 `--color-*` entries inside `@theme inline`, every one of which reads
+ * a `--hl-*`. That file defines no values at all; they live in the contract's own
+ * `themes/*.css`, which this package deliberately does not import. The two-level
+ * split is what makes the vocabulary adoptable without the palette.
+ *
+ * So this block supplies `--hl-*` FROM THE VALUES THIS KIT ALREADY HAS. It is
+ * additive and changes no pixel: every mapping below was derived from this file's
+ * own `@theme inline` block, so a component that migrates from `text-text-subtle`
+ * to `text-fg-faint` resolves to the identical colour.
+ *
+ * WHY `:root` IS THE RIGHT SCOPE, since it looks like it should need repeating per
+ * palette. `data-theme` is set on `document.documentElement`, and the
+ * `[data-theme="..."]` blocks above match THAT SAME ELEMENT — so does `:root`.
+ * A custom property is resolved where it is USED, against that element's computed
+ * value, so one declaration per token picks up whichever palette is live. If the
+ * theme scope is ever moved off the root element, this block breaks and has to
+ * move with it.
+ *
+ * DERIVED, NOT TRANSCRIBED. Each value was read out of `@theme inline` below by
+ * matching the contract token to the shadcn alias or retired name the kit already
+ * maps. That matters for one of them: `selection` comes from `--color-accent`
+ * (the neutral hover surface, `panel-2`) and NOT from `--theme-color-accent`,
+ * which is this kit's near-white action colour and belongs to `primary`. The
+ * contract documents that collision explicitly; naively inverting its
+ * `DEPRECATED_TOKENS` map would have wired `selection` to the wrong one.
+ *
+ * It also makes the 20 name collisions with the contract's block harmless: where
+ * both define `--color-border`, both resolve to `--theme-color-border`.
+ *
+ * PRECEDENCE: A RETIRED NAME BEATS A SHADCN ALIAS, and getting that backwards
+ * costs a real colour. `fg-muted` has two candidate sources — shadcn's
+ * `muted-foreground`, which this kit maps to `text-subtle`, and the contract's
+ * retirement of `text-soft`, which maps to `text-soft`. The retirement is the
+ * exact 1:1 rename of the same step; the shadcn alias is a COARSER vocabulary
+ * collapsing four text steps onto one, so it lands on whichever the kit happened
+ * to pick. Preferring the alias silently moved `fg-muted` from #a1a1aa to
+ * #71717a. Caught by comparing compiled utilities, not by reading the maps.
+ *
+ * NINETEEN CONTRACT TOKENS ARE DELIBERATELY LEFT UNSET — chart-1..5,
+ * primary-hover/active/muted, danger-hover/fg, warning-fg/muted, success*, info*,
+ * surface-active. This kit has no value for any of them, and NO COMPONENT IN THIS
+ * PACKAGE NAMES ONE (verified against every colour utility in src/ and demo/).
+ * Inventing values nobody asked for is how a palette acquires colours no designer
+ * chose.
+ *
+ * THE TRAP THAT LEAVES, STATED PLAINLY BECAUSE THE LINTER WILL NOT STATE IT: each
+ * of those nineteen now EXISTS as a `--color-*` name resolving to an undefined
+ * `--hl-*`. A component here naming `text-success` would render nothing, and
+ * `no-undefined-token` WILL NOT TELL YOU — `success` is in the contract
+ * vocabulary, and that rule checks membership, not resolvability. If you need one
+ * of these, give it a value here in the same commit.
+ *
+ * `chart-1..5` in particular resolve in `design-tokens`' OWN themes, not here, so
+ * they stay unset in this block even after the chart palette is designed. Do not
+ * read a decision about chart colours as having filled them.
+ *
+ * They arrive with CW-20260911-0071, which swaps this block for the contract's own
+ * themes.
+ * ------------------------------------------------------------------------- */
+:root {
+  /* Surfaces */
+  --hl-bg: var(--theme-color-bg);
+  --hl-bg-elevated: var(--theme-color-panel-2);
+  --hl-surface: var(--theme-color-panel-2);
+  --hl-surface-hover: var(--theme-color-panel-hover);
+
+  /* Text */
+  --hl-fg: var(--theme-color-text);
+  --hl-fg-secondary: var(--theme-color-text-muted);
+  --hl-fg-muted: var(--theme-color-text-soft);
+  --hl-fg-faint: var(--theme-color-text-subtle);
+
+  /* Borders.
+   *
+   * HELD, NOT DECIDED — 21 sites still name `border-strong` and this mapping is
+   * why they have not moved. `DEPRECATED_TOKENS` retires `border-strong -> border`
+   * on the stated grounds that "border-strong was 80% alpha of border — weaker
+   * than what it claimed to strengthen." THAT IS TRUE IN HALF THE PALETTES:
+   *
+   *   p4-white     border rgb(39 39 42)     strong rgb(39 39 42 / 80%)    one hue
+   *   hi-contrast  border rgb(255 255 255)  strong rgb(255 255 255 / 88%) one hue
+   *   p1-green     border rgb(38 74 47)     strong rgb(82 153 101 / 70%)  DIFFERENT
+   *   p3-amber     border rgb(86 65 26)     strong rgb(160 122 52 / 74%)  DIFFERENT
+   *
+   * A mid green at 70% is not a weaker dark green, it is another colour. So the
+   * retirement collapses two visibly distinct borders in the phosphor palettes,
+   * and it is a palette decision wearing a token-rename costume.
+   *
+   * There is also a 3-to-3 reading the contract did not take: the kit has three
+   * border tokens and the contract has three border ROLES, so kit `border-strong`
+   * (the prominent one) could be contract `border` and kit `border` could be
+   * `border-subtle`. Whether that was considered and rejected, or the phosphor
+   * case was never seen, is a question for the contract's author.
+   *
+   * With Chrispian in review round 3. Reported, not blocking — kit-dashboard is
+   * REPORT_ONLY on design-rules, so nothing waits on this. Do not "tidy" the 21
+   * sites in passing; the answer decides which ~20 of the 44 border sites change.
+   */
+  --hl-border: var(--theme-color-border);
+  --hl-border-subtle: var(--theme-color-border);
+  --hl-divider: var(--theme-color-border-soft);
+
+  /* Interactive and identity */
+  --hl-primary: var(--theme-color-accent);
+  --hl-primary-fg: var(--theme-color-accent-foreground);
+  --hl-selection: var(--theme-color-panel-2);
+  --hl-selection-fg: var(--theme-color-text);
+  --hl-ring: var(--theme-color-ring);
+
+  /* Identity. The contract keeps `primary` and `brand` separate so an app can be
+   * loudly branded without a loud UI, and says explicitly that a theme MAY set
+   * them equal. This kit has one action colour, so it does — that is applying a
+   * documented default, not choosing a colour. */
+  --hl-brand: var(--hl-primary);
+  --hl-brand-hover: var(--hl-primary);
+  --hl-brand-active: var(--hl-primary);
+  --hl-brand-muted: var(--hl-primary);
+  --hl-brand-fg: var(--hl-primary-fg);
+
+  /* Feedback */
+  --hl-danger: var(--theme-color-danger);
+  --hl-danger-muted: var(--theme-color-danger-soft);
+  --hl-warning: var(--theme-color-warning);
+
+  /* Fonts */
+  --hl-font-sans: var(--font-sans);
+  --hl-font-mono: var(--font-mono);
+}
+
+/* ─────────────── DERIVED STATUS LABEL COLOURS — a THEME-layer job ───────────
+ *
+ * `lib/status.ts` used to carry these inline, as
+ * `text-[color-mix(in_oklab,var(--color-status-done)_60%,var(--color-text))]`,
+ * once per status. That is a colour literal AND an arbitrary value, so both
+ * design rules reported all twelve — 24 findings from one pattern in one file.
+ *
+ * THE COMPONENT WAS DOING THEME-LAYER WORK. Deriving one colour from two others
+ * is definitionally what this layer is for: it is the only layer permitted to
+ * name a colour, and so the only one permitted to compute one. The rule was not
+ * wrong and the file was not unlucky — the expression was in the wrong place.
+ *
+ * WHY THE MIX EXISTS AT ALL, so nobody replaces it with a flat shade: the label
+ * is derived toward the palette's own text colour rather than toward white,
+ * which is what keeps the two phosphor palettes coherent — green mixes toward
+ * green, amber toward amber. A static lighter token per status would need
+ * 12 x 4 hand-picked values and would be wrong again the moment a fifth palette
+ * lands.
+ *
+ * `archived` mixes at 55% rather than 60%. That was an inline inconsistency; it
+ * is now this declaration's ratio, which is where a difference like that can be
+ * seen and changed.
+ *
+ * THE BUILD ADDS A FALLBACK — DO NOT DELETE IT AS NOISE. lightningcss compiles
+ * each of these to the unmixed status colour first, then overrides it inside
+ * `@supports (color: color-mix(...))`. So an engine without `color-mix` gets the
+ * status colour rather than nothing. That is strictly better than the inline form
+ * behaved, and nobody asked for it; it will look like duplication in the built CSS
+ * and it is not.
+ *
+ * ONE DECLARATION EACH, AT :root, IS CORRECT — the `[data-theme]` blocks above
+ * match the same element `:root` does, and a custom property resolves where it is
+ * USED, so each of these picks up whichever palette is live. Verified against
+ * compiled output in all four rather than reasoned about.
+ * ------------------------------------------------------------------------- */
+:root {
+  --theme-color-status-backlog-label:
+    color-mix(in oklab, var(--theme-color-status-backlog) 60%, var(--theme-color-text));
+  --theme-color-status-todo-label:
+    color-mix(in oklab, var(--theme-color-status-todo) 60%, var(--theme-color-text));
+  --theme-color-status-queued-label:
+    color-mix(in oklab, var(--theme-color-status-queued) 60%, var(--theme-color-text));
+  --theme-color-status-doing-label:
+    color-mix(in oklab, var(--theme-color-status-doing) 60%, var(--theme-color-text));
+  --theme-color-status-review-label:
+    color-mix(in oklab, var(--theme-color-status-review) 60%, var(--theme-color-text));
+  --theme-color-status-done-label:
+    color-mix(in oklab, var(--theme-color-status-done) 60%, var(--theme-color-text));
+  --theme-color-status-blocked-label:
+    color-mix(in oklab, var(--theme-color-status-blocked) 60%, var(--theme-color-text));
+  --theme-color-status-paused-label:
+    color-mix(in oklab, var(--theme-color-status-paused) 60%, var(--theme-color-text));
+  --theme-color-status-archived-label:
+    color-mix(in oklab, var(--theme-color-status-archived) 55%, var(--theme-color-text));
+  --theme-color-status-inbox-label:
+    color-mix(in oklab, var(--theme-color-status-inbox) 60%, var(--theme-color-text));
+  --theme-color-status-routed-label:
+    color-mix(in oklab, var(--theme-color-status-routed) 60%, var(--theme-color-text));
+  --theme-color-status-indexed-label:
+    color-mix(in oklab, var(--theme-color-status-indexed) 60%, var(--theme-color-text));
+}
+
+/* Priority chip fills — derived, for the same reason the status labels are.
+ * `priority-badge` mixed the status colour 22% into the page background inline,
+ * so the chip reads as a dark solid block. Computing a colour from two others is
+ * theme-layer work; the component names the result. Ratio unchanged. */
+:root {
+  --theme-color-priority-p1-bg:
+    color-mix(in oklab, var(--theme-color-status-blocked) 22%, var(--theme-color-bg));
+  --theme-color-priority-p2-bg:
+    color-mix(in oklab, var(--theme-color-status-queued) 22%, var(--theme-color-bg));
+}
+
 @theme inline {
   /* System font — no Geist */
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -284,6 +490,24 @@
   --color-status-inbox: var(--theme-color-status-inbox);
   --color-status-routed: var(--theme-color-status-routed);
   --color-status-indexed: var(--theme-color-status-indexed);
+
+  /* Derived label steps — see the block above. */
+  --color-status-backlog-label: var(--theme-color-status-backlog-label);
+  --color-status-todo-label: var(--theme-color-status-todo-label);
+  --color-status-queued-label: var(--theme-color-status-queued-label);
+  --color-status-doing-label: var(--theme-color-status-doing-label);
+  --color-status-review-label: var(--theme-color-status-review-label);
+  --color-status-done-label: var(--theme-color-status-done-label);
+  --color-status-blocked-label: var(--theme-color-status-blocked-label);
+  --color-status-paused-label: var(--theme-color-status-paused-label);
+  --color-status-archived-label: var(--theme-color-status-archived-label);
+  --color-status-inbox-label: var(--theme-color-status-inbox-label);
+  --color-status-routed-label: var(--theme-color-status-routed-label);
+  --color-status-indexed-label: var(--theme-color-status-indexed-label);
+
+  /* Priority chip fills — see above. */
+  --color-priority-p1-bg: var(--theme-color-priority-p1-bg);
+  --color-priority-p2-bg: var(--theme-color-priority-p2-bg);
 
   /* radius */
   --radius: 0.375rem;

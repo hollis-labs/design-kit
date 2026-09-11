@@ -14,13 +14,13 @@ export interface BarListProps {
 /** Horizontal name/value bar list for top-k and histogram summaries. */
 export function BarList({ items, className, labelClassName }: BarListProps) {
   if (items.length === 0) {
-    return <div className={cn('text-[11px] text-text-subtle', className)}>none</div>
+    return <div className={cn('text-label text-text-subtle', className)}>none</div>
   }
   const max = Math.max(1, ...items.map((item) => item.value))
   return (
     <div className={cn('space-y-1.5', className)}>
       {items.map((item) => (
-        <div key={item.label} className="flex items-center gap-2 text-[11px]">
+        <div key={item.label} className="flex items-center gap-2 text-label">
           <span
             className={cn('w-32 shrink-0 truncate font-mono text-text-soft', labelClassName)}
             title={item.label}

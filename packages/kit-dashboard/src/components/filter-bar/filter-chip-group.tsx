@@ -37,7 +37,7 @@ export function FilterChipGroup({ label, chips, selected, onToggle }: FilterChip
   return (
     <div className="flex flex-wrap items-center gap-1">
       {label ? (
-        <span className="mr-1 text-[10px] uppercase tracking-wider text-text-subtle">{label}</span>
+        <span className="mr-1 text-caption uppercase tracking-wider text-text-subtle">{label}</span>
       ) : null}
       {chips.map((chip) => {
         const active = selected.includes(chip.value)
@@ -48,7 +48,7 @@ export function FilterChipGroup({ label, chips, selected, onToggle }: FilterChip
             aria-pressed={active}
             onClick={() => onToggle(chip.value)}
             className={cn(
-              'rounded border px-2 py-0.5 text-[10px] uppercase tracking-wider transition-all',
+              'rounded border px-2 py-0.5 text-caption uppercase tracking-wider transition-all',
               active ? `${ACTIVE_RING} ${chip.activeClassName ?? DEFAULT_ACTIVE}` : INACTIVE,
             )}
           >

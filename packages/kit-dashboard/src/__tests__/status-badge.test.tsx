@@ -11,9 +11,14 @@ describe('StatusBadge', () => {
   it('applies the themed status tone for a known status', () => {
     const { getByText } = render(<StatusBadge status="blocked" />)
     const badge = getByText('blocked').closest('span')?.parentElement
-    // The label is derived from the status token via color-mix; the fill and
-    // border use the token directly.
-    expect(badge?.className).toContain('--color-status-blocked')
+    // Every slot names the status, and NAMES IT — the label used to be an inline
+    // `color-mix(var(--color-status-blocked) 60%, var(--color-text))`, so this
+    // assertion used to look for the raw custom property in the class string. The
+    // derivation moved to the theme layer, where computing a colour belongs, and
+    // the component names the result. Asserting the token rather than the
+    // expression is also the more durable test: it survives a change to the ratio,
+    // and it fails if a slot stops following the status.
+    expect(badge?.className).toContain('text-status-blocked-label')
     expect(badge?.className).toContain('bg-status-blocked/10')
     expect(badge?.className).toContain('border-status-blocked/40')
   })

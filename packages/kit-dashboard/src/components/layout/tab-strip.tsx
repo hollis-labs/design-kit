@@ -38,7 +38,7 @@ export function TabStrip<K extends string>({ tabs, value, onChange, actions }: T
               onClick={() => onChange(tab.key)}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'inline-flex h-9 items-center gap-1.5 border-b-2 px-1 text-[11px] font-semibold uppercase tracking-[.14em] transition-colors',
+                'inline-flex h-9 items-center gap-1.5 border-b-2 px-1 text-label font-semibold uppercase tracking-[.14em] transition-colors',
                 active
                   ? 'border-text-soft text-text'
                   : 'border-transparent text-text-subtle hover:text-text-muted',
@@ -47,7 +47,7 @@ export function TabStrip<K extends string>({ tabs, value, onChange, actions }: T
               {tab.icon}
               <span>{tab.label}</span>
               {tab.count !== undefined ? (
-                <span className="rounded-sm bg-panel-2 px-1 text-[10px] font-medium tabular-nums text-text-soft">
+                <span className="rounded-sm bg-panel-2 px-1 text-caption font-medium tabular-nums text-text-soft">
                   {tab.count}
                 </span>
               ) : null}

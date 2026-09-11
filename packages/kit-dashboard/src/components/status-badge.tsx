@@ -15,7 +15,7 @@ export function StatusBadge({ status, className = '' }: StatusBadgeProps) {
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded border px-2 py-1 text-[11px] uppercase tracking-[0.14em] ${tone.border} ${tone.bg} ${tone.text} ${className}`}
+      className={`inline-flex items-center gap-2 rounded border px-2 py-1 text-label uppercase tracking-[0.14em] ${tone.border} ${tone.bg} ${tone.text} ${className}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${tone.dot}`} />
       <span>{status || 'unknown'}</span>

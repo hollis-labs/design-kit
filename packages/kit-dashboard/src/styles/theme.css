@@ -257,11 +257,24 @@
  * to pick. Preferring the alias silently moved `fg-muted` from #a1a1aa to
  * #71717a. Caught by comparing compiled utilities, not by reading the maps.
  *
- * TWENTY-FOUR CONTRACT TOKENS ARE DELIBERATELY LEFT UNSET — brand-*, chart-1..5,
+ * NINETEEN CONTRACT TOKENS ARE DELIBERATELY LEFT UNSET — chart-1..5,
  * primary-hover/active/muted, danger-hover/fg, warning-fg/muted, success*, info*,
  * surface-active. This kit has no value for any of them, and NO COMPONENT IN THIS
- * PACKAGE NAMES ONE (verified against every utility in src/ and demo/). Inventing
- * values nobody asked for is how a palette acquires colours no designer chose.
+ * PACKAGE NAMES ONE (verified against every colour utility in src/ and demo/).
+ * Inventing values nobody asked for is how a palette acquires colours no designer
+ * chose.
+ *
+ * THE TRAP THAT LEAVES, STATED PLAINLY BECAUSE THE LINTER WILL NOT STATE IT: each
+ * of those nineteen now EXISTS as a `--color-*` name resolving to an undefined
+ * `--hl-*`. A component here naming `text-success` would render nothing, and
+ * `no-undefined-token` WILL NOT TELL YOU — `success` is in the contract
+ * vocabulary, and that rule checks membership, not resolvability. If you need one
+ * of these, give it a value here in the same commit.
+ *
+ * `chart-1..5` in particular resolve in `design-tokens`' OWN themes, not here, so
+ * they stay unset in this block even after the chart palette is designed. Do not
+ * read a decision about chart colours as having filled them.
+ *
  * They arrive with CW-20260911-0071, which swaps this block for the contract's own
  * themes.
  * ------------------------------------------------------------------------- */
@@ -289,6 +302,16 @@
   --hl-selection: var(--theme-color-panel-2);
   --hl-selection-fg: var(--theme-color-text);
   --hl-ring: var(--theme-color-ring);
+
+  /* Identity. The contract keeps `primary` and `brand` separate so an app can be
+   * loudly branded without a loud UI, and says explicitly that a theme MAY set
+   * them equal. This kit has one action colour, so it does — that is applying a
+   * documented default, not choosing a colour. */
+  --hl-brand: var(--hl-primary);
+  --hl-brand-hover: var(--hl-primary);
+  --hl-brand-active: var(--hl-primary);
+  --hl-brand-muted: var(--hl-primary);
+  --hl-brand-fg: var(--hl-primary-fg);
 
   /* Feedback */
   --hl-danger: var(--theme-color-danger);

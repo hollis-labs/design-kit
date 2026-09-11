@@ -371,6 +371,13 @@
  * is now this declaration's ratio, which is where a difference like that can be
  * seen and changed.
  *
+ * THE BUILD ADDS A FALLBACK — DO NOT DELETE IT AS NOISE. lightningcss compiles
+ * each of these to the unmixed status colour first, then overrides it inside
+ * `@supports (color: color-mix(...))`. So an engine without `color-mix` gets the
+ * status colour rather than nothing. That is strictly better than the inline form
+ * behaved, and nobody asked for it; it will look like duplication in the built CSS
+ * and it is not.
+ *
  * ONE DECLARATION EACH, AT :root, IS CORRECT — the `[data-theme]` blocks above
  * match the same element `:root` does, and a custom property resolves where it is
  * USED, so each of these picks up whichever palette is live. Verified against

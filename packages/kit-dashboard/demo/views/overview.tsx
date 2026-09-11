@@ -77,8 +77,8 @@ export function OverviewView() {
       {/* Page header */}
       <div className="flex shrink-0 items-center justify-between border-b border-border-strong bg-bg px-4 py-2">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-[.18em] text-text-subtle">Agent Ops — Overview</p>
-          <p className="mt-0.5 truncate font-mono text-[11px] text-text-subtle">
+          <p className="text-label uppercase tracking-[.18em] text-text-subtle">Agent Ops — Overview</p>
+          <p className="mt-0.5 truncate font-mono text-label text-text-subtle">
             catalog root: ~/dev/hollis-labs/agent-workspaces
           </p>
         </div>
@@ -149,7 +149,7 @@ export function OverviewView() {
               <Kpi label="Projects" value={7} />
             </KpiGrid>
             <div className="border-b border-border p-3">
-              <div className="mb-2 text-[10px] uppercase tracking-[.16em] text-text-subtle">State mix</div>
+              <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">State mix</div>
               <CompositionBars items={SESSION_STATES} />
             </div>
             <div className="border-t border-border">
@@ -169,11 +169,11 @@ export function OverviewView() {
               <Kpi label="Errors" value={42} accent="var(--color-status-blocked)" />
             </KpiGrid>
             <div className="p-3">
-              <div className="mb-2 text-[10px] uppercase tracking-[.16em] text-text-subtle">Top tools</div>
+              <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Top tools</div>
               <BarList items={TOP_TOOLS} />
             </div>
             <div className="border-t border-border p-3">
-              <div className="mb-2 text-[10px] uppercase tracking-[.16em] text-text-subtle">Latency bands</div>
+              <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Latency bands</div>
               <CompositionBars items={LATENCY_BANDS} />
             </div>
           </Panel>
@@ -186,7 +186,7 @@ export function OverviewView() {
               <Kpi label="Kinds"    value={3} />
             </KpiGrid>
             <div className="border-b border-border p-3">
-              <div className="mb-2 text-[10px] uppercase tracking-[.16em] text-text-subtle">Scope mix</div>
+              <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Scope mix</div>
               <CompositionBars items={MSG_SCOPE} />
             </div>
             <div className="border-t border-border">
@@ -206,7 +206,7 @@ export function OverviewView() {
               <Kpi label="Kinds"  value={5} />
             </KpiGrid>
             <div className="p-3">
-              <div className="mb-2 text-[10px] uppercase tracking-[.16em] text-text-subtle">Event kinds</div>
+              <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Event kinds</div>
               <BarList items={TOP_EVENTS} />
             </div>
           </Panel>

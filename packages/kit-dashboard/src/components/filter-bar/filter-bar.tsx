@@ -46,12 +46,12 @@ export function FilterBar({
           placeholder={searchPlaceholder}
           ariaLabel={searchAriaLabel}
         />
-        <div className="inline-flex h-8 items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 text-[10px] uppercase tracking-wider text-text-soft">
+        <div className="inline-flex h-8 items-center gap-1.5 rounded border border-border bg-panel-2/50 px-2 text-caption uppercase tracking-wider text-text-soft">
           <SlidersHorizontal className="h-3.5 w-3.5" />
           {activeFilterCount}
         </div>
         {summary && anyActive && (
-          <span className="whitespace-nowrap text-[10px] uppercase tracking-wider text-text-subtle">
+          <span className="whitespace-nowrap text-caption uppercase tracking-wider text-text-subtle">
             {summary}
           </span>
         )}
@@ -60,7 +60,7 @@ export function FilterBar({
             type="button"
             onClick={onClear}
             aria-label="Clear all filters and search"
-            className="rounded border border-border-strong bg-transparent px-2 py-1 text-[10px] uppercase tracking-wider text-text-muted transition-colors hover:border-border hover:text-text"
+            className="rounded border border-border-strong bg-transparent px-2 py-1 text-caption uppercase tracking-wider text-text-muted transition-colors hover:border-border hover:text-text"
           >
             Clear
           </button>

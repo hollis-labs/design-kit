@@ -108,7 +108,7 @@ export function ActivityHeatmap<T>({
           return (
             <div
               key={wi}
-              className="w-[14px] shrink-0 font-mono text-[9px] text-muted-foreground/70"
+              className="w-[14px] shrink-0 font-mono text-micro text-muted-foreground/70"
             >
               {label ? label.month : ''}
             </div>
@@ -121,7 +121,7 @@ export function ActivityHeatmap<T>({
           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
             <div
               key={i}
-              className="flex h-[10px] w-[14px] items-center justify-end font-mono text-[8px] text-muted-foreground/60"
+              className="flex h-[10px] w-[14px] items-center justify-end font-mono text-micro text-muted-foreground/60"
               aria-hidden
             >
               {i % 2 === 1 ? d : ''}
@@ -154,11 +154,11 @@ export function ActivityHeatmap<T>({
       </div>
 
       <div className="mt-2 flex items-center justify-between">
-        <span className="font-mono text-[9px] text-muted-foreground/70">
+        <span className="font-mono text-micro text-muted-foreground/70">
           {totalActivity} total events
         </span>
         <div className="flex items-center gap-1">
-          <span className="font-mono text-[9px] text-muted-foreground/70">less</span>
+          <span className="font-mono text-micro text-muted-foreground/70">less</span>
           {HEAT_STYLES.map(({ className: lvlClass, style }, i) => (
             <div
               key={i}
@@ -166,7 +166,7 @@ export function ActivityHeatmap<T>({
               style={style}
             />
           ))}
-          <span className="font-mono text-[9px] text-muted-foreground/70">more</span>
+          <span className="font-mono text-micro text-muted-foreground/70">more</span>
         </div>
       </div>
     </div>

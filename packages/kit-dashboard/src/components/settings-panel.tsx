@@ -46,7 +46,7 @@ export function SettingsPanel({ title, icon, children, className }: SettingsPane
     >
       <div className="flex h-9 items-center gap-2 border-b border-border px-4 text-text-subtle">
         {icon ? <span className="shrink-0 text-text-subtle">{icon}</span> : null}
-        <h2 className="truncate text-[11px] font-semibold uppercase tracking-[.18em] text-text-muted">
+        <h2 className="truncate text-label font-semibold uppercase tracking-[.18em] text-text-muted">
           {title}
         </h2>
       </div>
@@ -98,7 +98,7 @@ export function SettingsNotice({
 
   return (
     <div className={cn('rounded border px-3 py-2', toneClassName, className)}>
-      <div className="text-[11px] font-semibold uppercase tracking-[.14em]">{title}</div>
+      <div className="text-label font-semibold uppercase tracking-[.14em]">{title}</div>
       <div className="mt-1 text-xs text-text-soft">{description}</div>
     </div>
   )
@@ -112,7 +112,7 @@ export function SettingsStatusPill({
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium',
+        'inline-flex items-center rounded-full border px-2 py-0.5 text-label font-medium',
         pending
           ? 'border-status-running/30 bg-status-running/10 text-status-running'
           : 'border-status-done/30 bg-status-done/10 text-status-done',

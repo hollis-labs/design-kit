@@ -28,12 +28,12 @@ export function SignalBars({
   const secondaryTotal = (secondaryData ?? []).reduce((sum, value) => sum + value, 0)
 
   if (data.length === 0) {
-    return <div className={cn(heightClassName, 'text-[11px] text-text-subtle', className)}>no data</div>
+    return <div className={cn(heightClassName, 'text-label text-text-subtle', className)}>no data</div>
   }
 
   return (
     <div className={cn('bg-bg', className)}>
-      <div className="flex h-7 items-center justify-between gap-3 bg-bg px-2 text-[10px] font-mono tabular-nums text-text-subtle">
+      <div className="flex h-7 items-center justify-between gap-3 bg-bg px-2 text-caption font-mono tabular-nums text-text-subtle">
         <span>peak {peak}</span>
         <span className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1">

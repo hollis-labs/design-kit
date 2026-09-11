@@ -35,10 +35,10 @@ export function BarMeter({ rows, title, max, className }: BarMeterProps) {
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="mb-1 flex items-center justify-between">
-        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
           {title}
         </span>
-        <span className="font-mono text-[10px] text-muted-foreground/80 tabular-nums">
+        <span className="font-mono text-caption text-muted-foreground/80 tabular-nums">
           {total} total
         </span>
       </div>
@@ -49,12 +49,12 @@ export function BarMeter({ rows, title, max, className }: BarMeterProps) {
           <div key={row.key}>
             <div className="mb-1 flex items-center justify-between">
               <span
-                className="font-mono text-[9px] uppercase tracking-widest"
+                className="font-mono text-micro uppercase tracking-widest"
                 style={{ color }}
               >
                 {row.label}
               </span>
-              <span className="font-mono text-[10px] tabular-nums text-muted-foreground">
+              <span className="font-mono text-caption tabular-nums text-muted-foreground">
                 {row.value}
               </span>
             </div>

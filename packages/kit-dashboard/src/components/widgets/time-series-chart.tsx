@@ -55,7 +55,7 @@ interface DayBucket {
 
 function LegendDot({ color, label }: { color: string; label: string }) {
   return (
-    <span className="inline-flex items-center gap-1 font-mono text-[9px] text-muted-foreground">
+    <span className="inline-flex items-center gap-1 font-mono text-micro text-muted-foreground">
       <span
         className="inline-block h-2 w-2 rounded-sm"
         style={{ backgroundColor: color }}
@@ -139,7 +139,7 @@ export function TimeSeriesChart<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
           {title ? `${title} — last ${days}d` : `last ${days}d`}
         </span>
         {legendVisible ? (
@@ -153,7 +153,7 @@ export function TimeSeriesChart<T>({
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-[10px] text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height }}
         >
           {emptyLabel}

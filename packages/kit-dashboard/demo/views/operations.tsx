@@ -43,13 +43,13 @@ const baseColumns: ColumnDef<DemoTask>[] = [
     sortValue: (t) => t.title,
     cell: (t) => (
       <div className="min-w-0">
-        <div className="truncate tracking-[.01em] text-text">{t.title}</div>
+        <div className="truncate text-text">{t.title}</div>
         <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-          <span className="text-[10px] text-text-subtle">{t.executor}</span>
-          <span className="font-mono text-[10px] text-text-subtle">id:</span>
+          <span className="text-caption text-text-subtle">{t.executor}</span>
+          <span className="font-mono text-caption text-text-subtle">id:</span>
           <CopyableId id={t.id} />
           {t.tags.map((tag) => (
-            <span key={tag.slug} className="font-mono text-[10px] text-text-subtle">
+            <span key={tag.slug} className="font-mono text-caption text-text-subtle">
               #{tag.name}
             </span>
           ))}
@@ -76,7 +76,7 @@ const baseColumns: ColumnDef<DemoTask>[] = [
     align: 'right',
     sortValue: (t) => t.stats.cost,
     cell: (t) => (
-      <span className="font-mono text-[11px] text-text-subtle">
+      <span className="font-mono text-label text-text-subtle">
         {t.stats.cost > 0 ? `$${t.stats.cost.toFixed(2)}` : '—'}
       </span>
     ),
@@ -87,7 +87,7 @@ const baseColumns: ColumnDef<DemoTask>[] = [
     align: 'right',
     sortValue: (t) => t.updated_at,
     cell: (t) => (
-      <span className="text-[11px] uppercase tracking-[.12em] text-text-soft">
+      <span className="text-label uppercase tracking-[.12em] text-text-soft">
         {formatRelativeTime(t.updated_at)}
       </span>
     ),

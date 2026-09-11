@@ -36,7 +36,7 @@ export function DetailHeader({
   actions,
 }: DetailHeaderProps) {
   const backClassName =
-    'flex items-center gap-1 text-[11px] uppercase tracking-[.14em] text-text-subtle transition-colors hover:text-foreground'
+    'flex items-center gap-1 text-label uppercase tracking-[.14em] text-text-subtle transition-colors hover:text-foreground'
 
   return (
     <div>
@@ -56,7 +56,7 @@ export function DetailHeader({
         {id ? (
           <>
             <span className="text-text-subtle/40">/</span>
-            <span className="font-mono text-[11px] text-text-subtle">{id}</span>
+            <span className="font-mono text-label text-text-subtle">{id}</span>
           </>
         ) : null}
       </div>

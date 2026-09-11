@@ -65,17 +65,17 @@ export function HourlyPulse<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
           {title}
         </span>
-        <span className="font-mono text-[10px] text-muted-foreground/80 tabular-nums">
+        <span className="font-mono text-caption text-muted-foreground/80 tabular-nums">
           {total} · 24h
         </span>
       </div>
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-[10px] text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height: height + 16 }}
         >
           No activity in last 24h
@@ -106,7 +106,7 @@ export function HourlyPulse<T>({
               )
             })}
           </div>
-          <div className="flex items-center justify-between font-mono text-[8px] text-muted-foreground/60">
+          <div className="flex items-center justify-between font-mono text-micro text-muted-foreground/60">
             <span>-24h</span>
             <span>-12h</span>
             <span>now</span>

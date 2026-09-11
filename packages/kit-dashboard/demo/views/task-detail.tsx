@@ -50,7 +50,7 @@ export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
       }
       aside={
         <div className="space-y-2 p-4">
-          <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-text-subtle">
+          <p className="text-caption font-semibold uppercase tracking-[.18em] text-text-subtle">
             Run stats
           </p>
           <MetaList
@@ -72,7 +72,7 @@ export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
       }
     >
       <DetailSection title="Description">
-        <p className="whitespace-pre-wrap text-[13px] leading-6 text-text-soft">
+        <p className="whitespace-pre-wrap text-control leading-6 text-text-soft">
           {task.description}
         </p>
       </DetailSection>
@@ -102,7 +102,7 @@ export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
 
       {task.blocked_reason ? (
         <DetailSection title="Blocked reason">
-          <p className="text-[13px] leading-6 text-status-blocked">{task.blocked_reason}</p>
+          <p className="text-control leading-6 text-status-blocked">{task.blocked_reason}</p>
         </DetailSection>
       ) : null}
 

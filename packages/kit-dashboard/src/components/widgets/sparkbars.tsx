@@ -10,7 +10,7 @@ export function Sparkbars({ data, className }: SparkbarsProps) {
   const max = Math.max(1, ...data)
   const rows = 6
   if (data.length === 0) {
-    return <div className={cn('h-9 text-[11px] text-text-subtle', className)}>no data</div>
+    return <div className={cn('h-9 text-label text-text-subtle', className)}>no data</div>
   }
   return (
     <div className={cn('flex h-9 items-end gap-px overflow-hidden', className)} aria-hidden>

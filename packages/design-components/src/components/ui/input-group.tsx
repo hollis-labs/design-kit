@@ -21,8 +21,11 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 /**
- * TODO(round-1) — the three `rounded-xs` below were `calc(var(--radius) - 3px)`
- * and `calc(var(--radius) - 5px)` in sysop-ui, the standard nested-corner idiom.
+ * The three `rounded-xs` below were `calc(var(--radius) - 3px)` and
+ * `calc(var(--radius) - 5px)` in sysop-ui, the standard nested-corner idiom.
+ * DECIDED by Chrispian, review round 1: fold to the nearest step. Settled, not a
+ * stopgap — he answered having seen that keeping the expression was not an
+ * option, for the reason below.
  *
  * THEY COULD NOT BE CARRIED OVER, and not because of a 1-2px preference. The
  * contract declares no bare `--radius` — only `--radius-panel` (10px) and
@@ -33,10 +36,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
  * a lint rule that reads class names.
  *
  * In sysop-ui those resolved to 3px and 1px. The contract's ladder has no step
- * between 0 and 2px, so `rounded-xs` (2px) is the nearest that renders. If the
- * appearance round adds an inner-radius step instead — the ladder has no
- * inner-radius concept, and nested surfaces hit this by construction rather than
- * by taste — this becomes one rename per site.
+ * between 0 and 2px, so `rounded-xs` (2px) is the nearest that renders.
  */
 const inputGroupAddonVariants = cva(
   "flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium text-muted-foreground select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-xs [&>svg:not([class*='size-'])]:size-4",

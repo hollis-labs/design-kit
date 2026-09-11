@@ -26,13 +26,15 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "src/styles"
   ],
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./keyframes.css": "./src/styles/keyframes.css"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

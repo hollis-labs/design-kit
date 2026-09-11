@@ -495,9 +495,23 @@ the same shape of gap as the type scale.
 | Token | Value | Meaning |
 |---|---|---|
 | `tracking-label` | 0.16em | Uppercase micro-labels. Pairs with `text-caption` and `text-label`. |
+| `tracking-eyebrow` | 0.28em | The widest uppercase register — eyebrows and dense table headers. Pairs with `text-caption`. |
 
 Everything else stays Tailwind's: the 0.04–0.08em band folds onto `wider` (0.05em) / `widest` (0.1em);
 the negative tail onto `tight` / `tighter`.
+
+**`tracking-eyebrow` was added in review round 2 (2026-09-11), during CW-20260910-0125.** It sits well
+outside the 0.12–0.20em band `label` was derived from, and it earned a name the way `label` did: two
+authors reached 0.28em independently — `empty-state`'s `eyebrow` prop in `design-components` and
+`data-table`'s `<thead>` in `kit-dashboard`, in different packages, with the same 10px uppercase faint
+construction. Convergence without coordination is this epic's standard for a role.
+
+**Still open, and recorded here so it is not rediscovered:** the 0.12–0.20em band itself. 20 sites in
+`kit-dashboard` sit at 0.12–0.2em and match neither step — 8 at 0.2em, 7 at 0.18em, 4 at 0.14em, 1 at
+0.12em (scope: `src/` + `demo/`, `.ts`/`.tsx`, excluding `dist`). 15 of the 20 are at 0.18 or 0.2, so a
+single step at 0.16 lands between the two largest clusters and matches neither. §6 notes below that 0.16
+is "the midpoint of that band, not a measured mode" — so the question is whether `label` is mis-valued
+rather than whether those sites are sloppy. Not folded pending that decision.
 
 Name adopted from CW-0116 §F, which reached `--tracking-label` independently from the kit's side.
 
@@ -915,7 +929,7 @@ this line names. Same shape as §11.6's withdrawn density figure.)*
 ```
 text      micro 9   caption 10   label 11   [xs 12]   control 13   [sm 14]   [base 16+]
 radius    [xs 2]  [sm 4]  control/[md] 6  [lg 8]  panel 10  [xl 12]  [2xl 16]  [full]
-tracking  tracking-label 0.16em   (everything else Tailwind's)
+tracking  tracking-label 0.16em   tracking-eyebrow 0.28em   (everything else Tailwind's)
 spacing   Tailwind's, unmodified — no tokens
 ```
 

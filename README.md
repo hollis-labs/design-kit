@@ -49,6 +49,67 @@ npm run test:run
 npm run demo       # kit-dashboard's component gallery
 ```
 
+## CI — the gate
+
+`.github/workflows/ci.yml` runs typecheck, test, build, lint and the design rules
+across every workspace, on every push to `main` and every pull request.
+
+It is **blocking from day one and green on arrival**, which is not a contradiction:
+
+- **Lint is ratcheted, not exempted.** design-kit was forked from `libs/sysop-ui`,
+  which had no CI and whose lint was already red — 2 `react-refresh` errors in
+  `json-payload.tsx`, present at the identical lines in sysop-ui on its own pinned
+  plugin. `.github/lint-baseline.json` records them by exact signature, with the
+  cause, the owner (CW-20260910-0125) and how they go away. A third error, an error
+  anywhere new, **or one of those two being fixed** all fail the build. The baseline
+  can only shrink.
+
+  Do not add to that file to turn a build green. Fix the error, or route the
+  decision to the epic lead.
+
+- **The design rules are blocking for packages authored against the contract** and
+  **reporting-only for `kit-dashboard`**, which carries ~263 violations because it
+  predates the contract by construction. Its migration is CW-0125/0126. The count
+  is printed on every run rather than hidden, so the debt stays visible without
+  stopping work nobody has been asked to do yet.
+
+- **The design rules are not enforced yet**, and CI says so out loud. They need the
+  token vocabulary from `@hollis-labs/design-tokens` (CW-20260910-0124), and the
+  config refuses to run without it rather than falling back to a stale list. The
+  step distinguishes "not published yet" from "ran and failed" by inspecting the
+  error and using different exit codes — it turns itself on with no edit once the
+  vocabulary lands.
+
+No step uses `command -v tool && tool || echo skipping`. That idiom prints the skip
+message when the tool runs and finds something, so a real failure is
+indistinguishable from an absent check.
+
+## Adopting the gate in a consumer repo
+
+Deliberately not automatic, and deliberately not part of this epic. Nanite and
+Tangent would fail on day one, and turning that into a red build across the
+portfolio before anyone asked converts a leverage move into a blocker. Adoption is
+each project's own task, on its own schedule.
+
+The short version:
+
+1. Install `@hollis-labs/eslint-config-design` and `@hollis-labs/design-tokens`.
+2. Add it at `severity: 'warn'` first, and read the counts. That sizes the problem
+   without stopping anyone.
+3. Run `npx eslint . --fix` for the free wins — every arbitrary value that restates
+   a named step is rewritten. Portfolio-wide that is 149 of 212 arbitrary radii.
+4. Name your theme layer in `themeFiles`. **If your hex count looks catastrophic,
+   this is almost certainly why** — Nanite's famous "463 hex" is 627 occurrences of
+   which ~590 are in its theme layer, where naming colors is correct.
+5. Declare your own idiom tokens in the vocabulary you pass, so `no-undefined-token`
+   can see your families.
+6. Flip to `error` once the count is zero.
+
+`packages/eslint-config-design/README.md` has the full version, the rule table, and
+what each exemption does and does not cover.
+
+## A note on kits
+
 A KIT is layers 3 + 1 bundled: which components exist and how pages lay out. That
 is not a CSS concern and is not swappable by variables — which is why kits are
 separate packages rather than themes.

@@ -1,0 +1,33 @@
+{
+  "$comment": [
+    "Known, inherited lint errors that CI tolerates — and only these.",
+    "",
+    "WHY THIS FILE EXISTS. design-kit was forked from libs/sysop-ui, which has no CI",
+    "and whose lint was already red. Wiring a blocking gate over that means a build",
+    "that is red on arrival, and a gate that is red for reasons nobody wrote down is",
+    "how a gate gets disabled wholesale. Suppressing the errors instead would hide",
+    "them. So they are recorded here, by rule and file, with an owner and an exit.",
+    "",
+    "THIS IS A RATCHET, NOT AN EXEMPTION. The gate fails if a count rises, if a new",
+    "signature appears, AND if a count falls — a fall means someone fixed something",
+    "and the baseline needs tightening, which is a one-line edit. The baseline can",
+    "therefore only ever shrink, and it cannot rot silently.",
+    "",
+    "DO NOT ADD TO THIS FILE to get a build green. Adding an entry is adding debt",
+    "that someone else pays. Fix the error, or route the decision to the epic lead.",
+    "",
+    "measured 2026-09-11 by CW-20260910-0119, at kit-dashboard 3d7970d"
+  ],
+  "entries": [
+    {
+      "rule": "react-refresh/only-export-components",
+      "file": "packages/kit-dashboard/src/components/json-payload.tsx",
+      "count": 2,
+      "inherited": "libs/sysop-ui at aef2dff reports the identical 2 errors at the identical lines on its own pinned plugin 0.5.2, so this is not a regression introduced by the fork",
+      "cause": "the module co-exports safeParseObject and scalarStr alongside its components",
+      "owner": "CW-20260910-0125",
+      "exit": "json-payload classifies BASE in the CW-0116 triage, so CW-0125 is touching the file anyway and splits the two helpers out during the move. That removes the error rather than hiding it.",
+      "notWidening": "the src/components/ui/** react-refresh exemption must NOT be widened to cover this. That exemption is for the shadcn variant-helper co-export pattern (buttonVariants, badgeVariants); these two are plain utilities. Stretching a narrow exemption erodes why it is narrow, and the next case cites this one as precedent."
+    }
+  ]
+}

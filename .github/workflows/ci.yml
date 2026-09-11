@@ -1,17 +1,82 @@
-# PLACEHOLDER — CW-20260910-0119 fills this in.
+# The gate. A rule nobody runs is a guideline.
 #
-# Deliberately only `workflow_dispatch`: a valid workflow that never fires on
-# its own, so the repo carries no red badge and no surprise run before the gate
-# is actually written. The real gate runs install / typecheck / lint / test /
-# build across all workspaces and enforces @hollis-labs/eslint-config-design.
+# BLOCKING FROM DAY ONE, AND GREEN ON ARRIVAL. Those are not in tension here, and
+# getting both is the reason this file looks the way it does. CW-20260910-0119 was
+# offered two options — wire it blocking and accept a documented red, or wire it
+# non-blocking and flip later. Neither is good:
+#
+#   blocking-and-red    a build that is red the day it lands trains everyone to
+#                       ignore it, which is exactly how a gate gets disabled.
+#   non-blocking        nothing forces the flip, "later" is unowned, and meanwhile
+#                       new violations land freely — so it fails at the one job a
+#                       gate has, which is stopping NEW drift.
+#
+# So: blocking, with the inherited red recorded as a RATCHET
+# (.github/lint-baseline.json). The two react-refresh errors in json-payload.tsx
+# come from the sysop-ui fork and are tolerated by exact signature; a third error,
+# an error anywhere new, or one of those two being fixed all fail the build. The
+# baseline can only shrink, and when CW-0125 splits those helpers out it goes to
+# zero and the ratchet quietly becomes an ordinary gate.
+#
+# NO `command -v tool && tool || echo skipping` ANYWHERE. That idiom prints the
+# skip message when the tool runs and finds something, which is why go-envelopes'
+# `make vuln` reports a real finding as "not installed". Every step here is its own
+# `run:`, so exit codes propagate on their own, and the two gate scripts use
+# explicit, distinct exit codes rather than boolean chaining.
+
 name: CI
 
 on:
+  push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  placeholder:
+  gate:
+    name: typecheck · test · build · lint · design rules
     runs-on: ubuntu-latest
     steps:
-      - name: Not wired up yet
-        run: echo "CI is not configured yet — see CW-20260910-0119."
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Local development is on Node 26 and kit-dashboard carries
+          # @types/node ^24; 24 is the closest stable line in Actions. The repo
+          # declares no `engines`, so this is the gate's choice, stated here rather
+          # than left implicit.
+          node-version: '24'
+          cache: npm
+
+      # `npm ci` also runs kit-dashboard's `prepare`, which builds dist/. That is
+      # deliberate — it is the same path a `github:` tag consumer takes, so a break
+      # in it is a break for them.
+      - name: install
+        run: npm ci
+
+      - name: typecheck
+        run: npm run typecheck
+
+      - name: test
+        run: npm run test:run
+
+      - name: build
+        run: npm run build
+
+      # Blocking, ratcheted. See .github/lint-baseline.json for what is tolerated,
+      # who owns it, and how it exits.
+      - name: lint (ratcheted against the inherited baseline)
+        run: node .github/scripts/lint-gate.mjs
+
+      # Blocking for packages authored against the token contract; reporting-only
+      # for kit-dashboard, which is a pre-contract fork whose migration is
+      # CW-0125/0126. Turns itself on when CW-0124 publishes the vocabulary.
+      - name: design rules (the one rule)
+        run: node .github/scripts/design-rules-gate.mjs

@@ -86,7 +86,9 @@ export function DonutChart({
                 cy={radius}
                 r={radius - stroke / 2}
                 fill="none"
-                stroke="var(--muted)"
+                // SVG presentation attribute: `var()` does not resolve, and
+                // `--muted` is declared nowhere. The track has never had a colour.
+                className="stroke-surface"
                 strokeOpacity={0.4}
                 strokeWidth={stroke}
               />

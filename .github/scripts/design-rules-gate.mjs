@@ -14,7 +14,7 @@
  *    differ. No `&&`/`||` chaining anywhere.
  *
  * 2. KIT-DASHBOARD IS A PRE-CONTRACT FORK. It carries ~215 violations because it
- *    predates the contract by construction, and its migration is CW-0125/0126's.
+ *    predates the contract by construction, and its migration is CW-0125's.
  *    Failing on it would make the gate red on arrival for work nobody has been
  *    asked to do yet. So it is REPORTED, every run, with counts — not silenced, and
  *    not blocking. The new packages, authored against the contract from the first
@@ -140,7 +140,7 @@ const reported = await countIn(REPORT_ONLY)
 
 console.log('design-rules-gate — the one rule: a component may name a token, never a value.\n')
 console.log(`REPORTED, not blocking — ${REPORT_ONLY.join(', ')}`)
-console.log('  A pre-contract fork of sysop-ui. Migration is CW-20260910-0125 / 0126.')
+console.log('  A pre-contract fork of sysop-ui. Migration is CW-20260910-0125.')
 console.log(`  ${reported.total} violation(s), across src/ and demo/:`)
 for (const [rule, n] of [...reported.byRule.entries()].sort((a, b) => b[1] - a[1])) {
   console.log(`    ${String(n).padStart(5)}  ${rule}`)

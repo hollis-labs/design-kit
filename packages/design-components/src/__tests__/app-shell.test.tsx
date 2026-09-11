@@ -14,6 +14,18 @@ import { AppShell } from '../components/layout/app-shell'
  * bug — and not the full class string. Restyling the shell does not break them;
  * dropping `min-h-0` from the column or `flex-col` from `<main>` does, which is
  * exactly the regression Cerberus shipped for months.
+ *
+ * THE CHECK THAT MAKES THIS LEGITIMATE, and the one to apply before copying the
+ * pattern: *if someone improves the code, does this fail?* Add or remove
+ * decorative classes — no. Drop `min-h-0` — yes, and that is the defect. It
+ * survives improvement and catches the bug, so it asserts a property rather than
+ * a census. Asserting the FULL className string would have been the census: it
+ * breaks on every restyle and pins appearance instead of contract.
+ *
+ * NOT PRECEDENT FOR PINNING CLASS STRINGS GENERALLY. This asserts the mechanism
+ * only because the behaviour is unreachable in the harness — the property is
+ * unobservable except through the classes that produce it. Where a behaviour CAN
+ * be observed, assert the behaviour.
  */
 function chain() {
   const outer = screen.getByTestId('shell-child').closest('div[class*="h-dvh"]')!

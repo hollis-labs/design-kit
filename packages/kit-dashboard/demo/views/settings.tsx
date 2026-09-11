@@ -1,4 +1,5 @@
-import { EmptyState, PageHeader } from '../../src'
+import { PageHeader } from '../../src'
+import { EmptyState } from '@hollis-labs/design-components'
 
 /** Placeholder settings route — proves the rail's Settings entry navigates. */
 export function SettingsView() {

@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { cn } from '../../lib/utils'
+import { cn } from '@hollis-labs/design-components'
 
 /** One stacked series in a {@link TimeSeriesChart}. */
 export interface TimeSeriesSeries<T> {

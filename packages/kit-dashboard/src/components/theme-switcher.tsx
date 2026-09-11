@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, Palette } from 'lucide-react'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@hollis-labs/design-components'
 import { applyTheme, persistTheme, readStoredTheme, THEME_OPTIONS, type ThemeName } from '../lib/theme'
 
 /**
@@ -8,7 +8,7 @@ import { applyTheme, persistTheme, readStoredTheme, THEME_OPTIONS, type ThemeNam
  * the rail's footer (above the Settings item). The trigger is a paint-palette
  * icon — deliberately not a gear, which reads as Settings.
  */
-export default function ThemeSwitcher() {
+export function ThemeSwitcher() {
   const [theme, setTheme] = useState<ThemeName>(() => readStoredTheme())
   const [open, setOpen] = useState(false)
 

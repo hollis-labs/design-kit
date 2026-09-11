@@ -6,7 +6,7 @@ import {
   type ReactNode,
   type RefObject,
 } from 'react'
-import { alignClass, compareBy, type ColumnDef, type SortState } from './column'
+import { alignClass, compareBy, type ColumnDef, type SortState } from '@hollis-labs/design-components'
 import { DataTableRow } from './data-table-row'
 
 interface DataTableProps<T> {

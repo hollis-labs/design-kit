@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { cn } from '../lib/utils'
+import { cn } from '@hollis-labs/design-components'
 
 export interface SettingsPanelProps {
   title: string

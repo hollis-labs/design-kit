@@ -1,15 +1,7 @@
 import { Activity, Database, Gauge, Mail, Plug, RefreshCw, TerminalSquare } from 'lucide-react'
-import { Button, StatusBadge, SummaryCards, cn } from '../../src'
-import {
-  BarList,
-  CompositionBars,
-  IntelligenceRow,
-  Kpi,
-  KpiGrid,
-  MiniTrend,
-  Panel,
-  SignalBars,
-} from '../../src/widgets'
+import { StatusBadge, SummaryCards } from '../../src'
+import { Button, cn } from '@hollis-labs/design-components'
+import { BarList, CompositionBars, IntelligenceRow, Kpi, KpiGrid, MiniTrend, Panel, SignalBars } from '../../src/widgets'
 
 // ---------------------------------------------------------------------------
 // Static fixture — replace with usePoll / useApi in a real app

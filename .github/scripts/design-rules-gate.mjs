@@ -59,6 +59,12 @@ const BLOCKING = [
  * kit-dashboard — one writer per package — so 0125 owns all of this debt, including
  * rewiring kit-dashboard onto design-app-runtime. Pointing at a closed task is how a
  * stale owner survives in a message everyone reads.
+ *
+ * NOT PROMOTED YET, AND THE SIBLING GATE HAS BEEN — deliberately, so nobody
+ * "fixes" the difference. CW-20260910-0125's rewire took kit-dashboard to 0 lint
+ * errors, so lint-gate.mjs moved it into BLOCKING. It still carries design-rule
+ * violations until the same task's token and scale pass lands. Two gates, two
+ * bars, one of them met.
  */
 const REPORT_ONLY = ['packages/kit-dashboard']
 

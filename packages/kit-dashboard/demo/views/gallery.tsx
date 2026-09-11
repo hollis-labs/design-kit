@@ -1,88 +1,11 @@
 import { useState, type ReactNode } from 'react'
 import { ExternalLink, Server, Trash2 } from 'lucide-react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  Badge,
-  Button,
-  Callout,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  CollapsibleSection,
-  Combobox,
-  ConfirmDialog,
-  CopyableId,
-  CopyButton,
-  DetailDialog,
-  DetailSection,
-  EmptyState,
-  FormDialog,
-  Input,
-  JsonViewer,
-  LiveDot,
-  MetaList,
-  Metric,
-  PageHeader,
-  Pill,
-  PriorityBadge,
-  ProgressBar,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SettingsField,
-  SettingsGrid,
-  SettingsPanel,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  Skeleton,
-  StatusBadge,
-  SummaryCards,
-  Switch,
-  Textarea,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  notifyError,
-  notifySuccess,
-  statusTone,
-  STATUS_KEYS,
-  type ComboboxItem,
-} from '../../src'
-import {
-  ActivityHeatmap,
-  BarMeter,
-  DonutChart,
-  HourlyPulse,
-  RecentList,
-} from '../../src/widgets'
+import { PageHeader, PriorityBadge, SettingsField, SettingsGrid, SettingsPanel, StatusBadge, SummaryCards, statusTone, STATUS_KEYS } from '../../src'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, Badge, Button, Callout, Card, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, CollapsibleSection, Combobox, ConfirmDialog, CopyableId, CopyButton, DetailDialog, DetailSection, EmptyState, FormDialog, Input, JsonViewer, LiveDot, MetaList, Metric, Pill, ProgressBar, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger, Skeleton, Switch, Textarea, Tooltip, TooltipContent, TooltipTrigger, notifyError, notifySuccess } from '@hollis-labs/design-components'
+import { ActivityHeatmap, BarMeter, DonutChart, HourlyPulse, RecentList } from '../../src/widgets'
 import { TimeSeriesChart } from '../../src/charts'
-import {
-  DataTable,
-  FilterBar,
-  FilterChipGroup,
-  FilterCycleToggle,
-  RowActionMenu,
-  type ColumnDef,
-  type CycleOption,
-  type FilterChip,
-} from '../../src/data'
+import { DataTable, FilterBar, FilterChipGroup, FilterCycleToggle, type CycleOption, type FilterChip } from '../../src/data'
+import { OverflowMenu, type ColumnDef, type ComboboxItem } from '@hollis-labs/design-components'
 import { TabStrip, type TabStripItem } from '../../src/layout'
 
 /* ---- sample data ---- */
@@ -597,10 +520,10 @@ export function GalleryView() {
             <Metric
               label="Spend (30d)"
               value="$42.18"
-              accentColor="var(--color-status-done)"
+              accent="success"
               hint="estimated"
             />
-            <Metric label="Blocked" value={3} accentColor="var(--color-status-blocked)" />
+            <Metric label="Blocked" value={3} accent="danger" />
           </div>
         </Section>
 
@@ -615,10 +538,10 @@ export function GalleryView() {
 
         <Section title="CollapsibleSection" note="accent-bordered, collapsible">
           <div className="space-y-2">
-            <CollapsibleSection label="Execution context" accent="blue" defaultOpen>
+            <CollapsibleSection label="Execution context" accent="info" defaultOpen>
               <p className="text-[13px] text-text-soft">Expanded by default.</p>
             </CollapsibleSection>
-            <CollapsibleSection label="Lifecycle rules" accent="amber" summary="3 rules">
+            <CollapsibleSection label="Lifecycle rules" accent="warning" summary="3 rules">
               <p className="text-[13px] text-text-soft">Collapsed — click to expand.</p>
             </CollapsibleSection>
             <CollapsibleSection label="Properties" accent="neutral" collapsible={false}>
@@ -744,9 +667,9 @@ export function GalleryView() {
           </div>
         </Section>
 
-        <Section title="RowActionMenu · ConfirmDialog">
+        <Section title="OverflowMenu · ConfirmDialog">
           <div className="flex items-center gap-4">
-            <RowActionMenu
+            <OverflowMenu
               actions={[
                 { label: 'Open', icon: <ExternalLink />, onSelect: () => undefined },
                 { label: 'Duplicate', onSelect: () => undefined },

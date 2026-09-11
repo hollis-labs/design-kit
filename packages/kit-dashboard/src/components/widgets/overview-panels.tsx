@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { cn } from '../../lib/utils'
-import { Card, CardContent } from '../ui/card'
+import { cn } from '@hollis-labs/design-components'
+import { Card, CardContent } from '@hollis-labs/design-components'
 import { StatusBadge } from '../status-badge'
 import { Sparkbars } from './sparkbars'
 

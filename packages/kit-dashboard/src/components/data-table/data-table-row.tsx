@@ -1,4 +1,4 @@
-import { alignClass, type ColumnDef } from './column'
+import { alignClass, type ColumnDef } from '@hollis-labs/design-components'
 
 interface DataTableRowProps<T> {
   item: T

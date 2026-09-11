@@ -60,22 +60,25 @@ const BLOCKING = [
   'packages/design-bindings',
   'packages/kit-chat',
   'packages/eslint-config-design',
+  // Promoted from REPORT_ONLY by CW-20260910-0125, its documented exit condition.
+  // The two inherited react-refresh errors were in src/components/json-payload.tsx,
+  // and the rewire deleted that file — kit-dashboard imports it from
+  // design-components now. 0 errors, so this costs nothing today and objects to the
+  // next one.
+  'packages/kit-dashboard',
 ]
 
 /**
- * Pre-contract fork of sysop-ui — reported every run, never blocking.
+ * Empty, and that is the finish line rather than an oversight — every package in
+ * this repo is now enforced at zero on lint.
  *
- * Its two inherited react-refresh errors in src/components/json-payload.tsx come from
- * libs/sysop-ui at aef2dff, which reports the identical errors at the identical lines
- * on its own pinned plugin. Not a regression introduced by the fork.
- *
- * EXIT CONDITION, and it is a task rather than a number: CW-20260910-0125 rewires
- * kit-dashboard onto the extracted packages. When that lands, move this entry into
- * BLOCKING and delete this comment. CW-20260910-0125 removes the two react-refresh
- * errors along the way by splitting json-payload's helpers out — which needs no
- * change here, because nothing counts them.
+ * NOTE, because the sibling gate looks inconsistent and is not:
+ * design-rules-gate.mjs still has kit-dashboard under REPORT_ONLY. That is correct.
+ * The two gates measure different things and kit-dashboard has met one bar and not
+ * the other — it is clean on lint and still carries design-rule violations until
+ * CW-20260910-0125's token and scale pass lands. Do not "fix" the divergence.
  */
-const REPORT_ONLY = ['packages/kit-dashboard']
+const REPORT_ONLY = []
 
 /** Lint one package directory. Returns null if it defines no lint script. */
 function lintPackage(pkgDir) {

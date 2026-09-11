@@ -1,0 +1,17 @@
+# PLACEHOLDER — CW-20260910-0119 fills this in.
+#
+# Deliberately only `workflow_dispatch`: a valid workflow that never fires on
+# its own, so the repo carries no red badge and no surprise run before the gate
+# is actually written. The real gate runs install / typecheck / lint / test /
+# build across all workspaces and enforces @hollis-labs/eslint-config-design.
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Not wired up yet
+        run: echo "CI is not configured yet — see CW-20260910-0119."

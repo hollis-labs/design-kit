@@ -1,4 +1,5 @@
 {
+  "//": "Base config every package extends. Package-specific `include`, `types`, `baseUrl` and `paths` stay in the package's own tsconfig, because `paths` resolve relative to the file that declares them.",
   "compilerOptions": {
     "target": "es2023",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
@@ -15,12 +16,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "erasableSyntaxOnly": true,
-    "ignoreDeprecations": "6.0",
-    "types": ["vite/client", "node"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "ignoreDeprecations": "6.0"
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+  "files": []
 }

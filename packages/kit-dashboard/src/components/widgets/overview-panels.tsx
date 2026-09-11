@@ -49,7 +49,7 @@ export function Kpi({ label, value, sub, accent }: KpiProps) {
     <div className="min-w-0 border-r border-border px-3 py-2 last:border-r-0">
       <div className="text-[10px] uppercase tracking-[.16em] text-text-subtle">{label}</div>
       <div
-        className="mt-1 truncate font-mono text-[20px] leading-none text-text"
+        className="mt-1 truncate font-mono text-xl leading-none text-text"
         style={accent ? { color: accent } : undefined}
       >
         {value}
@@ -81,7 +81,7 @@ export function MiniTrend({ label, value, data }: MiniTrendProps) {
     <div className="px-3 py-2">
       <div className="mb-1.5 flex h-4 items-center justify-between gap-3 px-1">
         <span className="text-[10px] uppercase tracking-[.16em] text-text-subtle">{label}</span>
-        <span className="font-mono text-[12px] tabular-nums text-text">{value}</span>
+        <span className="font-mono text-xs tabular-nums text-text">{value}</span>
       </div>
       <div className="border-y border-border-strong bg-bg px-1 py-1">
         <Sparkbars className="h-8" data={data} />
@@ -100,9 +100,9 @@ export interface IntelligenceRowProps {
 export function IntelligenceRow({ label, value, status = 'done' }: IntelligenceRowProps) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-border px-3 py-2 last:border-b-0">
-      <span className="min-w-0 truncate text-[12px] text-text-soft">{label}</span>
+      <span className="min-w-0 truncate text-xs text-text-soft">{label}</span>
       <div className="flex shrink-0 items-center gap-2">
-        <span className="font-mono text-[12px] tabular-nums text-text">{value}</span>
+        <span className="font-mono text-xs tabular-nums text-text">{value}</span>
         <StatusBadge status={status} />
       </div>
     </div>

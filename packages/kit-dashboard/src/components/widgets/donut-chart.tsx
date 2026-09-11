@@ -110,7 +110,7 @@ export function DonutChart({
               className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center"
               style={{ paddingInline: innerRadius / 8 }}
             >
-              <span className="font-mono text-[16px] font-medium tabular-nums text-foreground">
+              <span className="font-mono text-base font-medium tabular-nums text-foreground">
                 {total}
               </span>
               <span className="font-mono text-[8px] uppercase tracking-[0.2em] text-muted-foreground/70">

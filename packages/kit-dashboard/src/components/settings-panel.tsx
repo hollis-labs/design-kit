@@ -59,7 +59,7 @@ export function SettingsGrid({ children, className }: SettingsGridProps) {
   return (
     <dl
       className={cn(
-        'grid grid-cols-[10rem_minmax(0,1fr)] gap-x-4 gap-y-2 px-4 py-3 text-[12px]',
+        'grid grid-cols-[10rem_minmax(0,1fr)] gap-x-4 gap-y-2 px-4 py-3 text-xs',
         className,
       )}
     >
@@ -99,7 +99,7 @@ export function SettingsNotice({
   return (
     <div className={cn('rounded border px-3 py-2', toneClassName, className)}>
       <div className="text-[11px] font-semibold uppercase tracking-[.14em]">{title}</div>
-      <div className="mt-1 text-[12px] text-text-soft">{description}</div>
+      <div className="mt-1 text-xs text-text-soft">{description}</div>
     </div>
   )
 }

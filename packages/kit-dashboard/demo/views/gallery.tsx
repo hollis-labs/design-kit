@@ -754,7 +754,7 @@ export function GalleryView() {
               <div className="flex items-center justify-between gap-3 px-1 py-2">
                 <span className="flex items-center gap-2">
                   <LiveDot tone={EVENT_TONE[e.status]} pulsing={e.status === 'running'} />
-                  <span className="font-mono text-[12px] text-text-soft">{e.id}</span>
+                  <span className="font-mono text-xs text-text-soft">{e.id}</span>
                 </span>
                 <Pill tone={EVENT_TONE[e.status]} dot>
                   {e.status}

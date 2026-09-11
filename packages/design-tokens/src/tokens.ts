@@ -59,10 +59,10 @@ export type ChartToken = (typeof CHART_TOKENS)[number]
 /**
  * Not a design choice. A marker. Grep for it; it is meant to be found.
  *
- * Annotated `: string` rather than left to infer a literal type, on purpose: a
- * literal type would bake the value into the emitted `.d.ts`, and nothing should
- * be able to depend on WHICH placeholder this is. It changes the day the palette
- * is designed.
+ * Annotated `: string` rather than left to infer a literal type, on purpose:
+ * nothing should be able to depend on WHICH placeholder this is, because it
+ * changes the day the palette is designed. Compare against this constant, never
+ * against the magenta.
  */
 export const PLACEHOLDER_CHART_COLOR: string = '#ff00ff'
 

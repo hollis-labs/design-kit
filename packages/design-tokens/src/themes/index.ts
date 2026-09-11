@@ -26,18 +26,40 @@ export const BUILTIN_THEMES: readonly Theme[] = [...NANITE_THEMES, ...SYSOP_PALE
 /**
  * What `:root` renders before anything sets `[data-theme]`.
  *
- * Nanite's own default, kept because choosing differently would be a design call
- * and this package does not get to make those. It is worth knowing what it costs:
- * Direction C collapses `primary` toward `fg` and sets `warning` and `danger` to
- * the SAME red, so THE DEFAULT THEME CANNOT DEMONSTRATE THE CONTRACT'S SEMANTIC
- * RANGE — a caution and a failure look identical in it. The contract flagged this
- * for design review (§12.5, §12.6) and it is still open.
+ * `dir-a` — Graphite & Ink. Decided by Chrispian, 2026-09-10, on the §12.6
+ * question the contract left open.
  *
- * `dir-a` (Graphite & Ink) is the built-in that does demonstrate the range; use
- * it when showing someone what the contract buys. Changing the package default is
- * one edit here.
+ * NOT `nanite-default`, which is Nanite's own default and the obvious
+ * inheritance. Direction C is a coherent theme doing exactly what it says —
+ * "cool concrete, brand red as the only signal" — and that makes it a poor
+ * default for a package whose contract just promoted success/warning/info/danger
+ * to first-class names. Measured across its palette: `warning` and `danger` are
+ * the same red (`#d4202e`), `success` is `#c0c4c8` and `info` is `#98a0a8` —
+ * both greys. So a caution, a failure, a completion and a notice are three
+ * colours between four semantics. THE DEFAULT COULD NOT DEMONSTRATE THE CONTRACT
+ * IT SHIPS.
+ *
+ * Two criteria picked the replacement, and both matter more than taste:
+ *
+ *   · SEMANTIC CONVENTIONALITY. `dir-a` maps green / amber / red / blue onto
+ *     success / warning / danger / info in the expected roles, so the default
+ *     TEACHES the contract rather than merely satisfying it. `dir-b` was the
+ *     other muted candidate and its `success` is gold, which reads as a warning.
+ *     `dir-d` and `dir-e` are distinct but loud — Synthwave and Hacker/Terminal
+ *     are aesthetic statements, not neutral starting points.
+ *   · LIGHT MODE. All four sysop palettes are dark-only, so any of them as the
+ *     default would make the package's out-of-box experience dark-only while
+ *     `Theme.tokens.light` is optional. All six Nanite themes carry both.
+ *
+ * `dir-a` is the only built-in that is both conventional and unopinionated, and
+ * its muted register reads as a starting point rather than as someone's choice —
+ * which is what a default for six board-shaped apps should do.
+ *
+ * `nanite-default` remains a built-in. Nothing is wrong with it except being the
+ * default. `defaultDemonstratesSemanticRange` in test/themes.test.js is the guard
+ * that keeps this decision from being undone by accident.
  */
-export const DEFAULT_THEME_ID = 'nanite-default'
+export const DEFAULT_THEME_ID = 'dir-a'
 
 export function getBuiltinTheme(id: string): Theme | undefined {
   return BUILTIN_THEMES.find((t) => t.id === id)

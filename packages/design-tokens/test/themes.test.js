@@ -57,6 +57,27 @@ test('the default theme exists', () => {
   assert.ok(getBuiltinTheme(DEFAULT_THEME_ID))
 })
 
+test('the default theme DEMONSTRATES the contract it ships', () => {
+  // The guard on Chrispian's 2026-09-10 decision, encoded so the reasoning
+  // survives rather than the outcome alone.
+  //
+  // The obvious default was `nanite-default`, Nanite's own. It fails this: its
+  // `warning` and `danger` are the same red, and its `success` and `info` are
+  // both greys — three colours across four semantics. A package that just
+  // promoted success/warning/info/danger to first-class contract names should
+  // not render them indistinguishably out of the box.
+  //
+  // Any future default has to clear the same bar or change this test on purpose.
+  const theme = getBuiltinTheme(DEFAULT_THEME_ID)
+  for (const mode of modesOf(theme)) {
+    const feedback = ['success', 'warning', 'danger', 'info'].map((t) => theme.tokens[mode][t])
+    assert.equal(new Set(feedback).size, 4, `${DEFAULT_THEME_ID}/${mode}: feedback colours collide`)
+  }
+  // And it must carry light, or the out-of-box experience is dark-only while
+  // Theme.tokens.light is optional.
+  assert.deepEqual(modesOf(theme), ['dark', 'light'])
+})
+
 test('NO theme ships a designed chart palette, and every one says so', () => {
   // The single most important honesty check in this package. `chart-1..5` is the
   // one family neither implementation had, and review round 2 was explicit:

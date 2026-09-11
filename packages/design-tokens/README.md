@@ -42,7 +42,7 @@ shadcn alias layer, and ten themes that swap by attribute.
 <html data-theme="dir-a" data-mode="light">
 ```
 
-- **`data-theme`** picks the theme. Omit it and you get the default.
+- **`data-theme`** picks the theme. Omit it and you get the default, `dir-a`.
 - **`data-mode="light"`** picks light. `class="light"` works too, because that is
   what Nanite's stylesheet already keys off.
 
@@ -194,11 +194,40 @@ losing either costs the epic its working examples.
 
 | Themes | From | Modes |
 |---|---|---|
-| `nanite-default` (Concrete & Signal), `dir-a`…`dir-f` | `apps/nanite` | dark **and** light |
+| `dir-a` (Graphite & Ink — **the default**), `dir-b`, `dir-d`, `dir-e`, `dir-f`, `nanite-default` (Concrete & Signal) | `apps/nanite` | dark **and** light |
 | `sysop-p4-white`, `sysop-green-phosphor`, `sysop-amber-phosphor`, `sysop-hi-contrast` | `libs/sysop-ui` | dark only |
 
 Nanite's typed half was re-verified rather than trusted: **12 value sets × 40
 keys, one key set, zero drift.** The claim holds exactly.
+
+### Why `dir-a` is the default, and not Nanite's own
+
+Decided by Chrispian on the §12.6 question the contract left open. The obvious
+inheritance was `nanite-default`, and it fails the one thing a default for this
+package has to do — **demonstrate the contract it ships.** Direction C sets
+`warning` and `danger` to the same red (`#d4202e`), and its `success` (`#c0c4c8`)
+and `info` (`#98a0a8`) are both greys: three colours across four semantics. That
+is Direction C working exactly as designed — *"cool concrete, brand red as the
+only signal"* — which makes it a coherent theme and a poor default for a package
+whose contract just promoted `success`/`warning`/`info`/`danger` to first-class
+names.
+
+Two criteria picked `dir-a`:
+
+- **Semantic conventionality.** Green / amber / red / blue in the expected roles,
+  so the default *teaches* the contract rather than merely satisfying it.
+  `dir-b` was the other muted candidate, and its `success` is gold — which reads
+  as a warning. `dir-d` and `dir-e` are distinct but loud; Synthwave and
+  Hacker/Terminal are aesthetic statements, not neutral starting points.
+- **Light mode.** All four sysop palettes are dark-only, so any of them as the
+  default would make the out-of-box experience dark-only while
+  `Theme.tokens.light` is optional. All six Nanite themes carry both.
+
+`dir-a` is the only built-in that is both conventional and unopinionated, and its
+muted register reads as a starting point rather than as someone's choice.
+`nanite-default` remains a built-in; nothing is wrong with it except being the
+default. A test asserts the default's four feedback colours are distinct and that
+it carries light, so this decision cannot be undone by accident.
 
 ### The 88 values nobody chose — `DERIVED_TOKEN_VALUES`
 

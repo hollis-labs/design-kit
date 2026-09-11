@@ -20,6 +20,26 @@ import { parseUtility, tokenizeClassString, isComputed } from '../class-parser.j
  * `rounded-[4px]` when `rounded-sm` means the same thing.
  */
 
+/**
+ * CSS-WIDE KEYWORDS ARE NOT SCALE VALUES, AND REPORTING THEM IS A FALSE POSITIVE.
+ *
+ * `rounded-[inherit]` names no length. It defers to the parent's computed radius
+ * — which is exactly what a nested surface clipping to its container should do,
+ * and which no token can express: the scale has no step meaning "whatever my
+ * parent said". So every message this rule could emit for it is wrong, and the
+ * only escape is a disable directive, which records a rule defect as component
+ * debt in the packages that must be clean.
+ *
+ * Found at `scroll-area.tsx:20` while extracting design-components
+ * (CW-20260910-0125). `initial` / `unset` / `revert` / `revert-layer` are listed
+ * with it because they are the same category — CSS-wide keywords, legal in any
+ * property, never a point on any scale.
+ *
+ * This NARROWS the rule; it asserts nothing new. It is the same judgment already
+ * made for layout geometry and spacing above.
+ */
+const CSS_WIDE_KEYWORDS = new Set(['inherit', 'initial', 'unset', 'revert', 'revert-layer'])
+
 const PX = /^(-?\d+(?:\.\d+)?)px$/
 const REM = /^(-?\d+(?:\.\d+)?)rem$/
 const EM = /^(-?\d*(?:\.\d+)?)em$/
@@ -95,9 +115,12 @@ export default {
         const dimension = SCALE_PREFIXES[p.prefix]
         if (!enabled.has(dimension)) continue
 
+        const value = p.arbitrary
+        // A CSS-wide keyword is not a value on a scale. See CSS_WIDE_KEYWORDS.
+        if (CSS_WIDE_KEYWORDS.has(value.trim().toLowerCase())) continue
+
         const range = locate(tok.index, tok.raw.length)
         const loc = rangeToLoc(sourceCode, range)
-        const value = p.arbitrary
 
         if (isComputed(value)) {
           context.report({ loc, messageId: 'computed', data: { cls: tok.raw, dimension } })

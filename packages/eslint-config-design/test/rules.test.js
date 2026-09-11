@@ -130,6 +130,15 @@ tester.run('no-arbitrary-scale', noArbitraryScale, {
     // Arbitrary VARIANT selectors are selectors, not values.
     { code: 'const c = "data-[side=right]:rounded-md group-data-[size=sm]:text-sm"', options: scaleOpts(contract) },
     { code: 'const c = "has-[>svg]:px-2 aria-[current=page]:text-fg"', options: scaleOpts(contract) },
+    // CSS-wide keywords name no length, so no step can be equivalent and every
+    // message this rule has would be wrong. Real: scroll-area.tsx:20 carries
+    // `rounded-[inherit]` to clip to whatever surface contains it.
+    { code: 'const c = "rounded-[inherit]"', options: scaleOpts(contract) },
+    { code: 'const c = "rounded-[initial] rounded-[unset] rounded-[revert] rounded-[revert-layer]"', options: scaleOpts(contract) },
+    // The exemption is per-dimension, not radius-only.
+    { code: 'const c = "text-[inherit] tracking-[inherit]"', options: scaleOpts(contract) },
+    // CSS keywords are case-insensitive; the exemption matches that.
+    { code: 'const c = "rounded-[INHERIT]"', options: scaleOpts(contract) },
   ],
   invalid: [
     // Restates a Tailwind step -> unambiguous autofix.
@@ -186,6 +195,12 @@ tester.run('no-arbitrary-scale', noArbitraryScale, {
     {
       code: 'const c = "rounded-[min(var(--radius-md),10px)]"', options: scaleOpts(contract),
       output: null, errors: [{ messageId: 'computed' }],
+    },
+    // The keyword exemption is the exact CSS-wide set and not a prefix match —
+    // an exemption that widened by accident would silence real off-scale values.
+    {
+      code: 'const c = "rounded-[inherits]"', options: scaleOpts(contract),
+      output: null, errors: [{ messageId: 'unparsed' }],
     },
   ],
 })

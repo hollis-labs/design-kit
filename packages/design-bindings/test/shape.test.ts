@@ -108,13 +108,25 @@ const handBuilt = {
   ...valid,
   trustClass: 'core-trusted' as const,
   isolation: 'main-origin' as const,
-  inlinePayloadLimitBytes: 262144,
   state: 'available' as const,
   stateReason: '',
   contractDigest: 'sha256:forged',
 }
 // @ts-expect-error — no brand, and there is no way to write one.
 const forgedBinding: Binding = handBuilt
+
+// A kit cannot set a payload ceiling, which is the check that matters most after
+// moving it. The ceiling became resolver config on 2026-09-11, and the move would
+// have been a regression if it had landed anywhere a kit can write: a ceiling is a
+// fact only a host can know, exactly like trust and isolation. It lives in
+// ResolverConfig, and the per-row override is settable ONLY from a HostPolicy's
+// decision — so there is no field here to set.
+// @ts-expect-error — host policy. A kit may not bound its own payload.
+const selfCapped: BindingRequest = { ...valid, inlinePayloadLimitBytes: 1 }
+
+// Nor by smuggling it through a nested config object.
+// @ts-expect-error — closed; there is no resolverConfig on a declared row either.
+const selfConfigured: BindingRequest = { ...valid, resolverConfig: { inlinePayloadLimitBytes: 1 } }
 
 // A kit cannot mint a table either, so it cannot hand a host something that already
 // claims authority over wire kinds.
@@ -137,7 +149,7 @@ function resolverRefusesAnArray() {
 // A host composes freely. This is the permitted path, and it must keep compiling.
 const hostTable: BindingTable = defineBindingTable({
   contractDigest: 'sha256:test',
-  inlinePayloadLimitBytes: 262144,
+  resolverConfig: { inlinePayloadLimitBytes: 262144 },
   trust: constantTrust('core-trusted'),
   defaults: [valid],
   rows: [],
@@ -150,7 +162,8 @@ const unknown = resolve(hostTable, 'a.kind.this.host.never.heard.of')
 test('the defences in this file are checked by typecheck, not by this runner', () => {
   // Referenced so `noUnusedLocals` does not remove the assertions above.
   ok([withColour, withSize, withClassName, withOptions, badPayload].length === 5)
-  ok([selfGranted, selfIsolated, requestAsBinding, forgedBinding, forgedTable].length === 5)
+  ok([selfGranted, selfIsolated, selfCapped, selfConfigured].length === 4)
+  ok([requestAsBinding, forgedBinding, forgedTable].length === 3)
   ok(hostTable.rows.length === 1)
   ok(unknown.ok === false)
   ok(typeof resolverRefusesAnArray === 'function')

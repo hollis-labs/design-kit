@@ -62,7 +62,7 @@ const subagentSpawnApproval: BindingRequest = {
 function table() {
   return defineBindingTable({
     contractDigest: 'sha256:test',
-    inlinePayloadLimitBytes: 262144,
+    resolverConfig: { inlinePayloadLimitBytes: 262144 },
     trust: constantTrust('core-trusted'),
     rows: [approvalCard, subagentSpawnApproval],
   })
@@ -120,7 +120,7 @@ test('a third kind can join the same renderer without touching the other two', (
   // The N:1 property, stated as the thing it actually buys.
   const t = defineBindingTable({
     contractDigest: 'sha256:test',
-    inlinePayloadLimitBytes: 262144,
+    resolverConfig: { inlinePayloadLimitBytes: 262144 },
     trust: constantTrust('core-trusted'),
     rows: [
       approvalCard,

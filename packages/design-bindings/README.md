@@ -66,7 +66,7 @@ const rows: BindingRequest<MyKind>[] = [
 // What YOU compose. The only source of a resolvable binding.
 const table = defineBindingTable({
   contractDigest: CATALOG_DIGEST,
-  inlinePayloadLimitBytes: 262_144,
+  resolverConfig: { inlinePayloadLimitBytes: 262_144 },  // host policy, stated once
   trust: constantTrust('core-trusted'),   // or a real policy — see below
   defaults: kitChatBindings,              // inert rows a kit offered
   rows,                                   // yours; beats a default for the same kind
@@ -74,7 +74,7 @@ const table = defineBindingTable({
 
 // What you ask at render time. Never throws.
 const r = resolve(table, envelope.kind)
-if (r.ok) draw(r.binding)
+if (r.ok) draw(r.binding, r.inlinePayloadLimitBytes)
 else drawFallback(r.code, r.reason, r.fallbackRendererId)
 ```
 
@@ -110,6 +110,39 @@ A generator emits `BindingRequest<K>[]` as data. It needs to satisfy four things
 
 There is no registry here — no module-level state, no `register()`. A table is a
 value you build and pass to `resolve`.
+
+### `resolverConfig` is for what every row would repeat
+
+The payload ceiling lives here rather than on a row. Tangent carries it per row and
+all 19 rows carry the identical `262144` — a value present on every row carries no
+per-row information, so it is host policy denormalised into a table. Put it against
+its neighbours: trust is genuinely per-row because a binding *requests* it, and
+isolation is deliberately off the row because the host *derives* it. A ceiling
+behaves like isolation.
+
+**It did not go away, it moved — and "the security field was removed" is the wrong
+reading.** The ceiling applies to every resolution from day one, so nobody faces a
+migration the first time they need it; it is simply supplied once instead of repeated.
+`resolve` returns the effective value on a hit, and `table.resolverConfig` is reachable
+for a miss, where a fallback renderer drawing untrusted content needs the same bound
+and has no row to read.
+
+A host that genuinely varies the ceiling by kind returns an override from its
+`HostPolicy`:
+
+```ts
+trust: (request) =>
+  request.kind === 'chat.attachment'
+    ? { admit: 'core-trusted', inlinePayloadLimitBytes: 8_192 }
+    : { admit: 'core-trusted' },
+```
+
+That is the **only** place an override can be set. A ceiling is a fact only a host can
+know, so `BindingRequest` has no such field and a kit cannot bound its own payload —
+the same rule that stops it declaring its own trust.
+
+**Before adding a field to `Binding`, ask whether every row would carry the same
+value.** If so it belongs in `resolverConfig`.
 
 ## Trust, in one paragraph
 

@@ -35,8 +35,21 @@ import { isolationFor, trustClassPermits, type TrustClass } from './trust.ts'
  * already exists.
  */
 export type HostDecision =
-  /** Grant this trust class. Isolation is derived from it; the row does not choose. */
-  | { readonly admit: TrustClass }
+  /**
+   * Grant this trust class. Isolation is derived from it; the row does not choose.
+   *
+   * `inlinePayloadLimitBytes` is the per-row override, and this is the ONLY place one
+   * can be set. It is optional and absent by default: the ceiling normally comes from
+   * `ResolverConfig`, stated once, because a value identical on every row is host
+   * policy denormalised rather than a per-row fact. Set it only for a kind that
+   * genuinely differs.
+   *
+   * That it lives on the host's DECISION rather than on the declared row is the point.
+   * A payload ceiling is a fact only a host can know, so putting the override here
+   * keeps it out of `BindingRequest` — a kit cannot express one, for the same reason
+   * it cannot declare its own trust.
+   */
+  | { readonly admit: TrustClass; readonly inlinePayloadLimitBytes?: number }
   /**
    * Refuse the trust claim. NEVER a downgrade — see `trust.ts` rule 3. The reason is
    * shown to an operator, so write it as a sentence.
@@ -68,6 +81,31 @@ export function constantTrust<K extends string = string>(trustClass: TrustClass)
   return () => ({ admit: trustClass })
 }
 
+/**
+ * Host policy that applies to every resolution rather than to one row.
+ *
+ * THIS IS WHERE A VALUE GOES WHEN IT IS THE SAME FOR EVERY ROW. The test that put
+ * `inlinePayloadLimitBytes` here is worth keeping for whatever lands next: all 19 of
+ * Tangent's rows carry the identical ceiling, so it carries no per-row information
+ * and belongs to the host, not to the table. Trust is per-row because a binding
+ * requests it; isolation is off the row because the host derives it; a ceiling
+ * behaves like isolation.
+ *
+ * Before adding a field to `Binding`, ask whether every row would carry the same
+ * value. If so it belongs here.
+ */
+export interface ResolverConfig {
+  /**
+   * The browser-side ceiling on inline payload bytes — the bound on untrusted
+   * display content.
+   *
+   * Applies to every resolution. A host that genuinely varies it by kind returns an
+   * override from its `HostPolicy`; `resolve` reports the effective value, so a
+   * caller never has to know which of the two applied.
+   */
+  readonly inlinePayloadLimitBytes: number
+}
+
 /** What a host must supply to compose a table. */
 export interface BindingTableSpec<K extends string = string> {
   /**
@@ -78,14 +116,8 @@ export interface BindingTableSpec<K extends string = string> {
    * older one.
    */
   readonly contractDigest: string
-  /**
-   * The host-wide ceiling on inline payload bytes, stamped onto every composed row.
-   *
-   * Host policy, stated once. See the field's comment on `Binding` for why it is
-   * here rather than on the declared row, and for how to move it if the answer comes
-   * back differently.
-   */
-  readonly inlinePayloadLimitBytes: number
+  /** Host policy that applies to every resolution. See `ResolverConfig`. */
+  readonly resolverConfig: ResolverConfig
   /** This host's authority, exercised over every row. */
   readonly trust: HostPolicy<K>
   /**
@@ -119,6 +151,13 @@ export interface BindingTableSpec<K extends string = string> {
  */
 export interface BindingTable<K extends string = string> extends HostComposed {
   readonly contractDigest: string
+  /**
+   * The host policy every resolution is answered against.
+   *
+   * Carried on the table so it is reachable for a MISS too — a fallback renderer
+   * drawing untrusted content needs the same ceiling, and it has no row to read.
+   */
+  readonly resolverConfig: ResolverConfig
   /** Every composed row, including the ones that will not draw, in input order. */
   readonly rows: readonly Binding<K>[]
   /** Lookup index. Present so `resolve` is O(1) and hosts do not each build one. */
@@ -199,7 +238,9 @@ export function defineBindingTable<K extends string = string>(
       continue
     }
 
-    rows.push(compose(request, spec, 'available', decision.admit, ''))
+    rows.push(
+      compose(request, spec, 'available', decision.admit, '', decision.inlinePayloadLimitBytes),
+    )
   }
 
   const byKind = new Map<K, Binding<K>>()
@@ -210,6 +251,7 @@ export function defineBindingTable<K extends string = string>(
   // one place in the package entitled to perform it. See `internal/brand.ts`.
   return {
     contractDigest: spec.contractDigest,
+    resolverConfig: spec.resolverConfig,
     rows,
     byKind,
   } as unknown as BindingTable<K>
@@ -222,6 +264,13 @@ function compose<K extends string>(
   state: BindingState,
   trustClass: TrustClass,
   stateReason: string,
+  /**
+   * The per-row ceiling override, or undefined for the overwhelmingly common case of
+   * "the host's configured ceiling applies". Only ever set from a host's own
+   * `HostPolicy`; a refused row never carries one, because a row that will not draw
+   * has no payload to bound.
+   */
+  inlinePayloadLimitBytes?: number,
 ): Binding<K> {
   return {
     kind: request.kind,
@@ -232,7 +281,10 @@ function compose<K extends string>(
     payload: request.payload,
     trustClass,
     isolation: isolationFor(trustClass),
-    inlinePayloadLimitBytes: spec.inlinePayloadLimitBytes,
+    // Spread so the key is ABSENT rather than present-and-undefined when there is no
+    // override. `'inlinePayloadLimitBytes' in binding` then means what it says, and a
+    // serialised table does not carry a column of nulls for a field nobody set.
+    ...(inlinePayloadLimitBytes === undefined ? {} : { inlinePayloadLimitBytes }),
     fallback: request.fallback,
     state,
     stateReason,

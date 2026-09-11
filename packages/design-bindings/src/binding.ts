@@ -157,7 +157,10 @@ export type BindingState =
  *   - `isolation`    — the host DERIVES it from the grant (`isolationFor`).
  *   - `state`        — whether a build serves a kind is a fact about that build.
  *   - `contractDigest` — the host stamps the catalog it generated against.
- *   - `inlinePayloadLimitBytes` — host policy. See `Binding` below.
+ *   - `inlinePayloadLimitBytes` — host policy, and the class of fact this split
+ *                      exists to keep out of a kit's hands. It lives in the host's
+ *                      `ResolverConfig`; the optional per-row override on `Binding`
+ *                      is settable only by a host's own policy.
  *
  * An optional field would let a kit fill one in and be silently ignored, which is
  * worse than either honest outcome. Absent means a kit that tries gets a compile
@@ -214,23 +217,34 @@ export interface Binding<K extends string = string> extends HostComposed {
   /** DERIVED from the grant. Never declared. */
   readonly isolation: Isolation
   /**
-   * The browser-side ceiling on inline payload bytes for this row.
+   * A payload ceiling for THIS row only, present when the host's policy set one.
    *
-   * DERIVED, not declared — which is the interesting part. Tangent carries this on
-   * every row and all 19 carry the identical 262144, and a field with one value on
-   * 100% of rows is host policy denormalised into a table rather than a per-row
-   * fact. So the host states it ONCE in its table spec and composition stamps the
-   * resolved answer here, where a reader of a row still gets an answer without
-   * having to hold the spec.
+   * THE CEILING IS NORMALLY RESOLVER CONFIG, NOT A ROW FIELD. Decided by Chrispian,
+   * 2026-09-11. Tangent carries it on every row and all 19 carry the identical
+   * 262144 — a value present on 100% of rows carries no per-row information, so it
+   * is host policy denormalised into a table. Put against the two fields it sits
+   * beside: trust is genuinely per-row because a binding REQUESTS it, and isolation
+   * is deliberately kept off the row because the host DERIVES it. A payload ceiling
+   * behaves like isolation, not like trust. So the host states it once in
+   * `ResolverConfig` and no row carries the constant.
    *
-   * Deliberately shaped so it can move: if this should live only in the host's
-   * config, delete this field and the line in `defineBindingTable` that sets it; if
-   * a per-row override is ever needed, add an optional one to the spec's rows and
-   * widen that same line. Neither is a v2 migration of every table in the portfolio,
-   * which is the thing keeping it was meant to avoid. (Open with Chrispian as of
-   * 2026-09-11; on the row is the reversible direction.)
+   * THE FIELD IS NOT GONE, AND READING ITS ABSENCE AS "THE SECURITY FIELD WAS
+   * REMOVED" IS THE WRONG READING — somebody will, so it is written here. The
+   * ceiling exists from day one and applies to every resolution; nobody faces a
+   * migration the first time they need it, which was the whole reason settled
+   * answer #2 kept trust and isolation in the shape. What changed is that it is
+   * supplied ONCE by the host instead of repeated identically per row.
+   *
+   * This optional field is the override, for a host that genuinely varies the
+   * ceiling by kind. It is absent by default and only a host's own `HostPolicy` can
+   * set it — `BindingRequest` has no such field, so a kit cannot express one.
+   *
+   * DO NOT READ THIS FIELD DIRECTLY to find the ceiling that applies. It is the
+   * override, not the answer; `resolve` returns the effective value on `Drawable`,
+   * which is the same reason `FallbackBinding` puts its id on the variant where
+   * reading it is correct.
    */
-  readonly inlinePayloadLimitBytes: number
+  readonly inlinePayloadLimitBytes?: number
   readonly fallback: FallbackBinding
   readonly state: BindingState
   /**

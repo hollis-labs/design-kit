@@ -50,6 +50,16 @@ export type MissCode =
 export interface Drawable<K extends string = string> {
   readonly ok: true
   readonly binding: Binding<K>
+  /**
+   * The payload ceiling that applies to THIS resolution, already resolved.
+   *
+   * The host's configured ceiling, or this row's override if its policy set one.
+   * Returned as a plain number so a caller never writes `binding.inlinePayloadLimitBytes
+   * ?? config.inlinePayloadLimitBytes` and never gets `undefined` by forgetting to —
+   * the same reason `FallbackBinding` puts its id on the variant where reading it is
+   * correct. Resolving config against an override is the resolver's job, so it does it.
+   */
+  readonly inlinePayloadLimitBytes: number
 }
 
 /** A kind this host will not draw, and everything needed to say so usefully. */
@@ -99,7 +109,14 @@ export function resolve<K extends string = string>(
     }
   }
 
-  if (binding.state === 'available') return { ok: true, binding }
+  if (binding.state === 'available') {
+    return {
+      ok: true,
+      binding,
+      inlinePayloadLimitBytes:
+        binding.inlinePayloadLimitBytes ?? table.resolverConfig.inlinePayloadLimitBytes,
+    }
+  }
 
   return {
     ok: false,

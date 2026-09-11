@@ -32,7 +32,7 @@ const card: BindingRequest = {
 function tableWith(rows: readonly BindingRequest[], trust: HostPolicy = constantTrust('core-trusted')) {
   return defineBindingTable({
     contractDigest: 'sha256:test',
-    inlinePayloadLimitBytes: 262144,
+    resolverConfig: { inlinePayloadLimitBytes: 262144 },
     trust,
     rows,
   })

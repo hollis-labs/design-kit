@@ -44,7 +44,13 @@ export type {
 } from './trust.ts'
 export { TRUST_PROFILES, trustProfileFor, isolationFor, trustClassPermits } from './trust.ts'
 
-export type { HostDecision, HostPolicy, BindingTableSpec, BindingTable } from './table.ts'
+export type {
+  HostDecision,
+  HostPolicy,
+  ResolverConfig,
+  BindingTableSpec,
+  BindingTable,
+} from './table.ts'
 export { defineBindingTable, constantTrust } from './table.ts'
 
 export type { MissCode, Drawable, Miss, Resolution, ParsedEntry } from './resolve.ts'

@@ -28,7 +28,10 @@ const kitDefault: BindingRequest = {
   fallback: { kind: 'none' },
 }
 
-const base = { contractDigest: 'sha256:test', inlinePayloadLimitBytes: 262144 } as const
+const base = {
+  contractDigest: 'sha256:test',
+  resolverConfig: { inlinePayloadLimitBytes: 262144 },
+} as const
 
 test('a kit default composes when the host does not declare the kind itself', () => {
   const t = defineBindingTable({
@@ -166,12 +169,56 @@ test('the contract digest is stamped on the table and every row it composed', ()
   deepStrictEqual(t.rows.map((row) => row.contractDigest), ['sha256:catalog-v7'])
 })
 
-test('the host-wide payload ceiling reaches every row', () => {
+test('the payload ceiling is resolver config, and no row carries the constant', () => {
+  // Decided by Chrispian 2026-09-11. All 19 of Tangent's rows carry the identical
+  // 262144, so it carries no per-row information — host policy denormalised into a
+  // table. Trust is per-row because a binding requests it; isolation is off the row
+  // because the host derives it; a ceiling behaves like isolation.
   const t = defineBindingTable({
     ...base,
-    inlinePayloadLimitBytes: 1024,
+    resolverConfig: { inlinePayloadLimitBytes: 1024 },
     trust: constantTrust('core-trusted'),
     rows: [kitDefault],
   })
-  strictEqual(t.rows[0]!.inlinePayloadLimitBytes, 1024)
+
+  // The row does not carry it — ABSENT, not undefined-valued.
+  strictEqual('inlinePayloadLimitBytes' in t.rows[0]!, false)
+
+  // The ceiling still applies to every resolution. It did not go away; it moved.
+  const r = resolve(t, 'chat.message')
+  strictEqual(r.ok, true)
+  if (r.ok) strictEqual(r.inlinePayloadLimitBytes, 1024)
+})
+
+test('a host policy may override the ceiling for one kind', () => {
+  const t = defineBindingTable({
+    ...base,
+    resolverConfig: { inlinePayloadLimitBytes: 262144 },
+    trust: (request) =>
+      request.kind === 'chat.attachment'
+        ? { admit: 'core-trusted', inlinePayloadLimitBytes: 8 }
+        : { admit: 'core-trusted' },
+    rows: [kitDefault, { ...kitDefault, kind: 'chat.attachment' }],
+  })
+
+  const plain = resolve(t, 'chat.message')
+  const capped = resolve(t, 'chat.attachment')
+  if (plain.ok) strictEqual(plain.inlinePayloadLimitBytes, 262144)
+  if (capped.ok) strictEqual(capped.inlinePayloadLimitBytes, 8)
+
+  // The override sits on the row it overrides, and only on that one.
+  strictEqual('inlinePayloadLimitBytes' in t.rows[0]!, false)
+  strictEqual(t.rows[1]!.inlinePayloadLimitBytes, 8)
+})
+
+test('the config is reachable for a miss, which has no row to read', () => {
+  // A fallback renderer drawing untrusted content needs the same ceiling.
+  const t = defineBindingTable({
+    ...base,
+    resolverConfig: { inlinePayloadLimitBytes: 4096 },
+    trust: constantTrust('core-trusted'),
+    rows: [],
+  })
+  strictEqual(resolve(t, 'nothing.here').ok, false)
+  strictEqual(t.resolverConfig.inlinePayloadLimitBytes, 4096)
 })

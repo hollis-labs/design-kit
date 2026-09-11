@@ -65,8 +65,89 @@ tester.run('no-undefined-token', noUndefinedToken, {
     // Omitting them reported badge.tsx's `primary-foreground` (5 real uses) as invented.
     { code: 'const c = "bg-primary text-primary-foreground"', options: tokenOpts(contract) },
     { code: 'const c = "bg-muted text-muted-foreground border-input"', options: tokenOpts(contract) },
+
+    // ── var(--…): what must NOT be flagged ───────────────────────────────────
+    // A correctly-prefixed reference to a real token.
+    { code: 'const s = { color: "var(--color-fg)" }', options: tokenOpts(contract) },
+    { code: 'const s = { background: "var(--color-bg-elevated)" }', options: tokenOpts(contract) },
+    // A property that is not a token at all. --radius, --anchor-width and a
+    // library's own API are all legitimate, and guessing at them is how a rule
+    // starts crying wolf.
+    { code: 'const s = { borderRadius: "var(--radius)" }', options: tokenOpts(contract) },
+    { code: 'const s = { width: "var(--anchor-width)" }', options: tokenOpts(contract) },
+    { code: 'const s = { "--normal-bg": "var(--color-bg-elevated)" }', options: tokenOpts(contract) },
+    // A family the vocabulary does not declare — same conservatism as the class
+    // path, so an app's own namespace is not this rule's business.
+    { code: 'const s = { color: "var(--color-brandish-thing)" }', options: tokenOpts(contract) },
+    // THE BLIND SPOT, PINNED AS A PASS SO IT IS VISIBLE RATHER THAN FORGOTTEN.
+    // A name built by concatenation has no complete reference to test: the chunk
+    // ends at `--color-` with no terminator. Skipped, never guessed at.
+    { code: 'const s = { color: `var(--color-${name})` }', options: tokenOpts(contract) },
+    // `ignore` is the escape valve, and it takes either spelling.
+    { code: 'const s = { color: "var(--popover)" }', options: [{ ...tokenOpts(contract)[0], ignore: ['--popover'] }] },
   ],
   invalid: [
+    // ── var(--…): THE NINE DEAD REFERENCES, AS A REGRESSION CORPUS ───────────
+    //
+    // Every one of these shipped, in two packages, past this gate reporting the
+    // packages clean — because no rule read anything but class names. If one of
+    // them stops failing, the rule is narrower than the evidence that justified it.
+    //
+    // All nine are the same shape: a real token named through the bare property
+    // shadcn's template uses, which this codebase never declared.
+    {
+      // time-series-chart.tsx — axis ticks, spread onto SVG <text>
+      code: 'const t = { fill: "var(--muted-foreground)", fontSize: 9 }',
+      options: tokenOpts(contract),
+      errors: [{ messageId: 'bareTokenProperty' }],
+    },
+    {
+      // time-series-chart.tsx — the tooltip, never themed in any palette
+      code: 'const s = { background: "var(--popover)", border: "1px solid var(--border)", color: "var(--popover-foreground)" }',
+      options: tokenOpts(contract),
+      errors: [
+        { messageId: 'bareTokenProperty' },
+        { messageId: 'bareTokenProperty' },
+        { messageId: 'bareTokenProperty' },
+      ],
+    },
+    {
+      // time-series-chart.tsx — the hover cursor
+      code: 'const c = { stroke: "var(--border)", strokeDasharray: "2 2" }',
+      options: tokenOpts(contract),
+      errors: [{ messageId: 'bareTokenProperty' }],
+    },
+    {
+      // donut-chart.tsx — the track
+      code: 'const c = "var(--muted)"',
+      options: tokenOpts(contract),
+      errors: [{ messageId: 'bareTokenProperty' }],
+    },
+    {
+      // sonner.tsx — the toaster, found during the design-components extraction
+      code: 'const s = { "--normal-bg": "var(--popover)", "--normal-text": "var(--popover-foreground)", "--normal-border": "var(--border)" }',
+      options: tokenOpts(contract),
+      errors: [
+        { messageId: 'bareTokenProperty' },
+        { messageId: 'bareTokenProperty' },
+        { messageId: 'bareTokenProperty' },
+      ],
+    },
+    {
+      // An invented token behind a CORRECT prefix — the other half of the check.
+      // `status-running` is this epic's own production example, in a style object.
+      code: 'const s = { color: "var(--color-status-running)" }',
+      options: tokenOpts(kit),
+      errors: [{ messageId: 'undefinedCustomProperty' }],
+    },
+    {
+      // A retired name reached through a var() is a migration, not a break, and
+      // must say so — the same discrimination the class path makes.
+      code: 'const s = { borderColor: "var(--color-border-strong)" }',
+      options: tokenOpts(contract, { deprecated: { 'border-strong': 'border' } }),
+      errors: [{ messageId: 'retired' }],
+    },
+
     // The genuinely invented four, at their real spellings.
     {
       code: 'const c = "border border-border-subtle bg-bg-surface"',

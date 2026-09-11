@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { CheckGlyph, ChevronDownGlyph } from './icons'
+import { Check, ChevronDown } from 'lucide-react'
 import {
   Command,
   CommandEmpty,
@@ -65,7 +65,7 @@ export function Combobox({
         <span className={selected ? 'text-fg' : 'text-fg-faint'}>
           {selected?.label ?? placeholder}
         </span>
-        <ChevronDownGlyph className="h-3 w-3 text-fg-faint" />
+        <ChevronDown className="h-3 w-3 text-fg-faint" />
       </PopoverTrigger>
       <PopoverContent className="w-56 p-0" align="start">
         <Command>
@@ -97,7 +97,7 @@ export function Combobox({
                     {item.icon ? <span className="text-fg-muted">{item.icon}</span> : null}
                     <span className="flex-1">{item.label}</span>
                     {item.value === value ? (
-                      <CheckGlyph className="h-3.5 w-3.5 text-selection" />
+                      <Check className="h-3.5 w-3.5 text-selection" />
                     ) : null}
                   </CommandItem>
                 ))}

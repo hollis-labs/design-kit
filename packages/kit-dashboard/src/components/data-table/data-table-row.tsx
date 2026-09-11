@@ -61,7 +61,7 @@ export function DataTableRow<T>({
             type="checkbox"
             checked={selected ?? false}
             onChange={(e) => onSelect?.(rowId, e.target.checked)}
-            className="mt-[3px] h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border-strong bg-panel-2 checked:border-text-soft checked:bg-text-soft"
+            className="mt-[3px] h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border bg-panel-2 checked:border-text-soft checked:bg-text-soft"
             aria-label={ariaLabel ? `Select ${ariaLabel}` : 'Select row'}
             data-row-interactive="true"
           />

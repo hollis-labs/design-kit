@@ -87,7 +87,7 @@ const baseColumns: ColumnDef<DemoTask>[] = [
     align: 'right',
     sortValue: (t) => t.updated_at,
     cell: (t) => (
-      <span className="text-label uppercase tracking-[.12em] text-text-soft">
+      <span className="text-label uppercase tracking-label text-text-soft">
         {formatRelativeTime(t.updated_at)}
       </span>
     ),

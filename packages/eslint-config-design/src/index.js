@@ -77,6 +77,7 @@ export async function designConfig(options = {}) {
     chartFiles = [],
     severity = 'error',
     ignoreTokens = [],
+    strictFamilies = false,
   } = options
 
   const tokens = [...vocabulary.colors]
@@ -115,6 +116,31 @@ export async function designConfig(options = {}) {
           families: [...vocabulary.families],
           ignore: ignoreTokens,
           deprecated: vocabulary.deprecated ?? {},
+          // OFF BY DEFAULT, AND MEASURED BEFORE YOU TURN IT ON.
+          //
+          // The argument for enabling it is good: with it off, a token whose
+          // FAMILY the vocabulary does not declare is ignored rather than flagged,
+          // which is the gap that let `bg-status-running` reach production. A
+          // package authored against the contract has no legacy namespace to
+          // protect, so it looked like a free win, and review round 3 approved it
+          // for exactly that reason.
+          //
+          // IT IS NOT FREE. Run against the five contract-authored packages it
+          // produces 295 findings, and they are almost entirely TAILWIND'S OWN
+          // UTILITIES: `outline-none`, `text-sm`, `border-0`, `bg-transparent`,
+          // `ring-0`, `shadow-none`. Top families by count are `sm`, `transparent`,
+          // `none`, `xs`, `0`.
+          //
+          // The reason is structural rather than a tuning problem. The family gate
+          // is the ONLY mechanism this rule has for telling a token reference from
+          // a Tailwind utility that happens to share a colour prefix — the doc
+          // comment above says so. `strictFamilies` removes it, so every
+          // `text-<anything>` becomes a candidate. Making it usable needs the rule
+          // to know Tailwind's own vocabulary, which it deliberately does not.
+          //
+          // Left reachable so the option is not lost, and documented so the next
+          // person to consider it meets the number rather than the argument.
+          strictFamilies,
         }],
         'design/no-idiom-shadowing-contract': [severity, {
           idioms: vocabulary.idioms,

@@ -129,7 +129,7 @@ export const STATUS_TONES: Record<StatusKey, StatusTone> = {
 export const DEFAULT_STATUS_TONE: StatusTone = {
   bg: 'bg-panel-2',
   text: 'text-text-soft',
-  border: 'border-border',
+  border: 'border-border-subtle',
   dot: 'bg-text-subtle',
 }
 

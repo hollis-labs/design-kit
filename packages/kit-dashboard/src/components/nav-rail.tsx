@@ -67,16 +67,16 @@ export function NavRail({ items, logo, logoLabel = 'Home', footerExtra }: NavRai
   const footer = items.filter((i) => i.footer)
 
   return (
-    <nav className="flex w-14 flex-col items-center gap-2 border-r border-border bg-panel py-4">
+    <nav className="flex w-14 flex-col items-center gap-2 border-r border-border-subtle bg-panel py-4">
       {logo ? (
         <>
           <div
-            className="mb-2 flex h-9 w-9 items-center justify-center rounded-md border border-border bg-panel-hover text-text-soft"
+            className="mb-2 flex h-9 w-9 items-center justify-center rounded-md border border-border-subtle bg-panel-hover text-text-soft"
             title={logoLabel}
           >
             {logo}
           </div>
-          <div className="mb-1 h-px w-8 bg-border" />
+          <div className="mb-1 h-px w-8 bg-border-subtle" />
         </>
       ) : null}
 

@@ -51,7 +51,7 @@ export function SignalBars({
           </span>
         </span>
       </div>
-      <div className={cn('border-y border-border-strong px-2 py-2', heightClassName)}>
+      <div className={cn('border-y border-border px-2 py-2', heightClassName)}>
         <div className="relative flex h-full items-end gap-px overflow-hidden" aria-hidden>
           {Array.from({ length: data.length * subColumns }, (_, column) => {
             const index = Math.floor(column / subColumns)

@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { cn } from '../lib/utils'
 import { ACCENT_BORDER_L_CLASSES, type Accent } from '../lib/tone'
-import { ChevronRightGlyph } from './icons'
+import { ChevronRight } from 'lucide-react'
 
 interface CollapsibleSectionProps {
   label: string
@@ -65,7 +65,7 @@ export function CollapsibleSection({
           <span className="text-caption uppercase tracking-label text-fg-faint">{label}</span>
           <span className="flex items-center gap-2 text-caption text-fg-faint">
             {summary && !open ? <span className="max-w-md truncate">{summary}</span> : null}
-            <ChevronRightGlyph
+            <ChevronRight
               className={cn('h-3 w-3 transition-transform', open && 'rotate-90')}
             />
           </span>

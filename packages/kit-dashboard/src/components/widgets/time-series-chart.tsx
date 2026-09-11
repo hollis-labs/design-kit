@@ -148,7 +148,7 @@ export function TimeSeriesChart<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-label text-muted-foreground">
           {title ? `${title} — last ${days}d` : `last ${days}d`}
         </span>
         {legendVisible ? (
@@ -162,7 +162,7 @@ export function TimeSeriesChart<T>({
 
       {total === 0 ? (
         <div
-          className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 font-mono text-caption text-muted-foreground"
+          className="flex items-center justify-center rounded-sm border border-border-subtle/60 bg-muted/20 font-mono text-caption text-muted-foreground"
           style={{ height }}
         >
           {emptyLabel}

@@ -6,10 +6,10 @@ import { Sparkbars } from './sparkbars'
 
 function SectionTitle({ icon, title, meta }: { icon: ReactNode; title: string; meta?: ReactNode }) {
   return (
-    <div className="flex min-h-9 items-center justify-between gap-3 border-b border-border-strong bg-panel px-3">
+    <div className="flex min-h-9 items-center justify-between gap-3 border-b border-border bg-panel px-3">
       <div className="flex min-w-0 items-center gap-2">
         <span className="text-text-subtle">{icon}</span>
-        <h2 className="truncate text-label font-semibold uppercase tracking-[.18em] text-text-muted">
+        <h2 className="truncate text-label font-semibold uppercase tracking-label text-text-muted">
           {title}
         </h2>
       </div>
@@ -46,7 +46,7 @@ export interface KpiProps {
 /** Single KPI cell — label, large mono value, optional sub-label. Use inside KpiGrid. */
 export function Kpi({ label, value, sub, accent }: KpiProps) {
   return (
-    <div className="min-w-0 border-r border-border px-3 py-2 last:border-r-0">
+    <div className="min-w-0 border-r border-border-subtle px-3 py-2 last:border-r-0">
       <div className="text-caption uppercase tracking-label text-text-subtle">{label}</div>
       <div
         className="mt-1 truncate font-mono text-xl leading-none text-text"
@@ -66,7 +66,7 @@ export interface KpiGridProps {
 
 /** Grid wrapper that lays out Kpi cells with a bottom border. */
 export function KpiGrid({ children, cols = 'grid-cols-2 md:grid-cols-4' }: KpiGridProps) {
-  return <div className={cn('grid border-b border-border-strong', cols)}>{children}</div>
+  return <div className={cn('grid border-b border-border', cols)}>{children}</div>
 }
 
 export interface MiniTrendProps {
@@ -83,7 +83,7 @@ export function MiniTrend({ label, value, data }: MiniTrendProps) {
         <span className="text-caption uppercase tracking-label text-text-subtle">{label}</span>
         <span className="font-mono text-xs tabular-nums text-text">{value}</span>
       </div>
-      <div className="border-y border-border-strong bg-bg px-1 py-1">
+      <div className="border-y border-border bg-bg px-1 py-1">
         <Sparkbars className="h-8" data={data} />
       </div>
     </div>
@@ -99,7 +99,7 @@ export interface IntelligenceRowProps {
 /** Key/value row with a StatusBadge indicator. Stack inside a Panel for a status digest. */
 export function IntelligenceRow({ label, value, status = 'done' }: IntelligenceRowProps) {
   return (
-    <div className="flex items-center justify-between gap-3 border-b border-border px-3 py-2 last:border-b-0">
+    <div className="flex items-center justify-between gap-3 border-b border-border-subtle px-3 py-2 last:border-b-0">
       <span className="min-w-0 truncate text-xs text-text-soft">{label}</span>
       <div className="flex shrink-0 items-center gap-2">
         <span className="font-mono text-xs tabular-nums text-text">{value}</span>

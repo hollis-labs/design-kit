@@ -39,7 +39,7 @@ export function RecentList<T>({
   return (
     <div className={cn('flex flex-col gap-2', className)} aria-label={title}>
       <div className="flex items-center justify-between">
-        <span className="font-mono text-micro uppercase tracking-[0.2em] text-muted-foreground">
+        <span className="font-mono text-micro uppercase tracking-label text-muted-foreground">
           {title}
         </span>
         <span className="font-mono text-caption text-muted-foreground/80 tabular-nums">
@@ -48,11 +48,11 @@ export function RecentList<T>({
       </div>
 
       {shown.length === 0 ? (
-        <div className="flex items-center justify-center rounded-sm border border-border/60 bg-muted/20 px-3 py-6 font-mono text-caption text-muted-foreground">
+        <div className="flex items-center justify-center rounded-sm border border-border-subtle/60 bg-muted/20 px-3 py-6 font-mono text-caption text-muted-foreground">
           {emptyLabel}
         </div>
       ) : (
-        <ul className="flex flex-col divide-y divide-border/40">
+        <ul className="flex flex-col divide-y divide-border-subtle/40">
           {shown.map((item) => {
             const row = renderItem(item)
             return (

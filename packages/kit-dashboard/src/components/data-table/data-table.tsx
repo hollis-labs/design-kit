@@ -133,14 +133,14 @@ export function DataTable<T>({
     <div className="w-full overflow-x-auto">
       <table className="w-full min-w-full">
         <thead className="text-caption uppercase tracking-eyebrow text-text-subtle">
-          <tr className="border-b border-border-strong">
+          <tr className="border-b border-border">
             {selectable && (
               <th className="w-8 py-1.5 pl-[14px] pr-0">
                 <input
                   type="checkbox"
                   checked={allSelected}
                   onChange={handleSelectAll}
-                  className="h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border-strong bg-panel-2 checked:border-text-soft checked:bg-text-soft"
+                  className="h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border bg-panel-2 checked:border-text-soft checked:bg-text-soft"
                   aria-label="Select all rows"
                 />
               </th>
@@ -174,7 +174,7 @@ export function DataTable<T>({
             })}
           </tr>
         </thead>
-        <tbody className="divide-y divide-border-soft text-control leading-4">
+        <tbody className="divide-y divide-divider text-control leading-4">
           {visible.map((item) => {
             const id = getRowId(item)
             return (

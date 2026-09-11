@@ -27,7 +27,7 @@ interface TabStripProps<K extends string> {
  */
 export function TabStrip<K extends string>({ tabs, value, onChange, actions }: TabStripProps<K>) {
   return (
-    <div className="flex items-center justify-between border-b border-border-strong bg-bg px-4">
+    <div className="flex items-center justify-between border-b border-border bg-bg px-4">
       <div className="flex items-center gap-4">
         {tabs.map((tab) => {
           const active = tab.key === value
@@ -38,7 +38,7 @@ export function TabStrip<K extends string>({ tabs, value, onChange, actions }: T
               onClick={() => onChange(tab.key)}
               aria-current={active ? 'page' : undefined}
               className={cn(
-                'inline-flex h-9 items-center gap-1.5 border-b-2 px-1 text-label font-semibold uppercase tracking-[.14em] transition-colors',
+                'inline-flex h-9 items-center gap-1.5 border-b-2 px-1 text-label font-semibold uppercase tracking-label transition-colors',
                 active
                   ? 'border-text-soft text-text'
                   : 'border-transparent text-text-subtle hover:text-text-muted',

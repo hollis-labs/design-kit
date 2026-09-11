@@ -1,4 +1,4 @@
-import { CheckGlyph, CopyGlyph } from './icons'
+import { Check, Copy } from 'lucide-react'
 import { useCopy } from '../hooks/use-copy'
 import { rowInteractiveProps } from '../lib/row-activation'
 
@@ -31,15 +31,15 @@ export function CopyableId({ id, label, stopRowActivation = true }: CopyableIdPr
       type="button"
       onClick={handleCopy}
       className="inline-flex items-center gap-1 font-mono text-caption text-fg-faint transition-colors hover:text-fg-secondary"
-      title={`CopyGlyph ${id}`}
-      aria-label={copied ? `Copied ${id}` : `CopyGlyph ${id}`}
+      title={`Copy ${id}`}
+      aria-label={copied ? `Copied ${id}` : `Copy ${id}`}
       {...rowInteractiveProps(stopRowActivation)}
     >
       {label ?? id}
       {copied ? (
-        <CheckGlyph className="h-2.5 w-2.5 text-success" />
+        <Check className="h-2.5 w-2.5 text-success" />
       ) : (
-        <CopyGlyph className="h-2.5 w-2.5" />
+        <Copy className="h-2.5 w-2.5" />
       )}
     </button>
   )

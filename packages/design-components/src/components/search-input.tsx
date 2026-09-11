@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { SearchGlyph } from './icons'
+import { Search } from 'lucide-react'
 
 interface SearchInputProps {
   value: string
@@ -79,7 +79,7 @@ export function SearchInput({
 
   return (
     <div className="flex min-w-[240px] flex-1 items-center gap-2 rounded border border-border bg-bg-elevated/50 px-2.5 py-1 focus-within:border-border">
-      <SearchGlyph className="h-3.5 w-3.5 text-fg-faint" />
+      <Search className="h-3.5 w-3.5 text-fg-faint" />
       <input
         ref={inputRef}
         type="search"

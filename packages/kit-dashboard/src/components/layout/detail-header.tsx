@@ -36,12 +36,12 @@ export function DetailHeader({
   actions,
 }: DetailHeaderProps) {
   const backClassName =
-    'flex items-center gap-1 text-label uppercase tracking-[.14em] text-text-subtle transition-colors hover:text-foreground'
+    'flex items-center gap-1 text-label uppercase tracking-label text-text-subtle transition-colors hover:text-foreground'
 
   return (
     <div>
       {/* Breadcrumb row — PageHeader-weight chrome. */}
-      <div className="flex items-center gap-2 border-b border-border-strong bg-bg px-4 py-2.5">
+      <div className="flex items-center gap-2 border-b border-border bg-bg px-4 py-2.5">
         {backHref !== undefined ? (
           <a href={backHref} className={backClassName}>
             <ArrowLeft className="h-3.5 w-3.5" />
@@ -62,7 +62,7 @@ export function DetailHeader({
       </div>
 
       {/* Page-level header row. */}
-      <div className="flex items-start justify-between gap-4 border-b border-border-strong bg-bg px-4 py-3">
+      <div className="flex items-start justify-between gap-4 border-b border-border bg-bg px-4 py-3">
         <div className="flex min-w-0 flex-col gap-1.5">
           <h1 className="text-lg font-semibold leading-tight text-foreground">{title}</h1>
           {status || children ? (

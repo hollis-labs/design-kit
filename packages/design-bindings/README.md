@@ -203,6 +203,35 @@ the envelope, the host knows it, and the host is rendering.
 
 The same closedness is what keeps a kit's rows inert — see below.
 
+## The pattern worth stealing
+
+Used twice here, independently, which is what makes it a pattern rather than a trick:
+
+> **Put a value on the shape where reading it is correct, so the wrong read cannot be
+> written.**
+
+The failure it removes is the one that typechecks. A field sitting next to the flag
+that qualifies it can always be read without the flag, and the compiler has no opinion,
+so the bug is invisible at the site that causes it and surfaces somewhere else entirely.
+
+**`FallbackBinding`.** The obvious shape is `{ rendererId, preservesMeaning: boolean }`.
+Reading `rendererId` without checking the boolean compiles — and the consequence is a
+card that looks rendered and has silently dropped the decision the user was asked to
+make, which is worse than refusing because it returns a success they act on. So the id
+exists *only* on the `safe` variant. You cannot read it without having matched.
+
+**The payload ceiling.** The obvious shape is an optional field on the row plus a
+default in config, read as `binding.x ?? config.x`. Every caller has to remember the
+`??`, and forgetting it yields `undefined` rather than an error. So `resolve` returns
+the **effective** value on `Drawable` — config, or this row's override, already
+resolved. Resolving config against an override is the resolver's job, so the resolver
+does it, once.
+
+Both are the same move as the closed row type and the `BindingRequest`/`Binding` split:
+prefer a shape that cannot express the mistake over a rule, a comment or a convention
+that objects to it after the fact. **Unrepresentable beats detected** — it needs no CI
+step, no reviewer, and nobody to remember.
+
 ## For kit authors
 
 A kit **may** ship default binding rows for the kinds it implements. That is what

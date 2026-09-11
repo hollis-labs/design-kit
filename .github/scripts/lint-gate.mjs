@@ -70,13 +70,10 @@ const BLOCKING = [
 
 /**
  * Empty, and that is the finish line rather than an oversight — every package in
- * this repo is now enforced at zero on lint.
- *
- * NOTE, because the sibling gate looks inconsistent and is not:
- * design-rules-gate.mjs still has kit-dashboard under REPORT_ONLY. That is correct.
- * The two gates measure different things and kit-dashboard has met one bar and not
- * the other — it is clean on lint and still carries design-rule violations until
- * CW-20260910-0125's token and scale pass lands. Do not "fix" the divergence.
+ * this repo is now enforced at zero on lint, and the same is true of
+ * design-rules-gate.mjs. The two gates measure different things and both bars are
+ * now met everywhere; the note that explained their divergence has gone with the
+ * divergence.
  */
 const REPORT_ONLY = []
 

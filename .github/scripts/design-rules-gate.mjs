@@ -50,23 +50,21 @@ const BLOCKING = [
   'packages/design-app-runtime',
   'packages/design-bindings',
   'packages/kit-chat',
+  // Promoted from REPORT_ONLY by CW-20260910-0125, its documented exit condition.
+  // It arrived as a pre-contract fork carrying 256 violations and reached 0 —
+  // the base-classified files left with the extraction, the rest were migrated
+  // onto the contract vocabulary, and the last two were contract decisions rather
+  // than debt.
+  'packages/kit-dashboard',
 ]
+
 /**
- * Pre-contract fork — reported, never blocking. Migration: CW-20260910-0125.
- *
- * Was "CW-0125 / CW-0126" while it was unclear which of them would rewire this
- * package. CW-0126 has since landed design-app-runtime WITHOUT touching
- * kit-dashboard — one writer per package — so 0125 owns all of this debt, including
- * rewiring kit-dashboard onto design-app-runtime. Pointing at a closed task is how a
- * stale owner survives in a message everyone reads.
- *
- * NOT PROMOTED YET, AND THE SIBLING GATE HAS BEEN — deliberately, so nobody
- * "fixes" the difference. CW-20260910-0125's rewire took kit-dashboard to 0 lint
- * errors, so lint-gate.mjs moved it into BLOCKING. It still carries design-rule
- * violations until the same task's token and scale pass lands. Two gates, two
- * bars, one of them met.
+ * Empty, and that is the finish line rather than an oversight — every package in
+ * this repo is now enforced at zero on the one rule. So is every package in
+ * lint-gate.mjs. There is no longer a divergence between the two gates to
+ * explain, and the note that explained one has gone with it.
  */
-const REPORT_ONLY = ['packages/kit-dashboard']
+const REPORT_ONLY = []
 
 let designConfig, ESLint
 try {
@@ -82,6 +80,13 @@ try {
 // the gate at a vocabulary other than the published package. It is how the
 // enforcement path below is exercised before CW-0124 lands, without writing to
 // that package.
+/**
+ * `strictFamilies` IS NOT ENABLED, AND THE MEASUREMENT IS WHY — see the option's
+ * own note in eslint-config-design. Review round 3 approved turning it on for the
+ * contract-authored packages; running it produced 295 findings that are almost
+ * entirely Tailwind's own utilities, so the approval was given for an outcome the
+ * option does not currently produce. Raised rather than shipped.
+ */
 let config
 try {
   const override = process.env.DESIGN_VOCABULARY_SOURCE
@@ -121,6 +126,11 @@ const withParser = config.map((c) => (c.files && c.plugins
   : c))
 
 async function countIn(dirs) {
+  // AN EMPTY LIST MEANS LINT NOTHING, AND ESLint DOES NOT AGREE: passing it no
+  // patterns makes it fall back to a default target, which reported 785 findings
+  // from across the repo the moment REPORT_ONLY went empty. An empty input must
+  // never be able to look like a result.
+  if (dirs.length === 0) return { byRule: new Map(), sites: [], total: 0, unregistered: 0 }
   const eslint = new ESLint({ cwd: repoRoot, overrideConfigFile: true, overrideConfig: withParser, ignore: false, errorOnUnmatchedPattern: false })
   const results = await eslint.lintFiles(dirs.map((d) => `${repoRoot}/${d}/**/*.{ts,tsx}`))
   const byRule = new Map()
@@ -146,18 +156,21 @@ const blocking = await countIn(BLOCKING)
 const reported = await countIn(REPORT_ONLY)
 
 console.log('design-rules-gate — the one rule: a component may name a token, never a value.\n')
-console.log(`REPORTED, not blocking — ${REPORT_ONLY.join(', ')}`)
-console.log('  A pre-contract fork of sysop-ui. Migration is CW-20260910-0125.')
-console.log(`  ${reported.total} violation(s), across src/ and demo/:`)
-for (const [rule, n] of [...reported.byRule.entries()].sort((a, b) => b[1] - a[1])) {
-  console.log(`    ${String(n).padStart(5)}  ${rule}`)
-}
-if (reported.unregistered > 0) {
-  console.log(`  (plus ${reported.unregistered} "definition for rule not found" notices from`)
-  console.log('   disable directives for plugins this config does not register — not findings)')
-}
-if (reported.total > 0 && ci) {
-  notice(`kit-dashboard carries ${reported.total} design-rule violations, owned by CW-20260910-0125. Not blocking, and not hidden.`)
+if (REPORT_ONLY.length === 0) {
+  console.log('REPORTED, not blocking — none. Every package is enforced at zero.')
+} else {
+  console.log(`REPORTED, not blocking — ${REPORT_ONLY.join(', ')}`)
+  console.log(`  ${reported.total} violation(s), across src/ and demo/:`)
+  for (const [rule, n] of [...reported.byRule.entries()].sort((a, b) => b[1] - a[1])) {
+    console.log(`    ${String(n).padStart(5)}  ${rule}`)
+  }
+  if (reported.unregistered > 0) {
+    console.log(`  (plus ${reported.unregistered} "definition for rule not found" notices from`)
+    console.log('   disable directives for plugins this config does not register — not findings)')
+  }
+  if (reported.total > 0 && ci) {
+    notice(`${REPORT_ONLY.join(', ')} carries ${reported.total} design-rule violations. Not blocking, and not hidden.`)
+  }
 }
 
 console.log(`\nBLOCKING — ${BLOCKING.join(', ')}`)

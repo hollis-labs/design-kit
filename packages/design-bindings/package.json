@@ -2,7 +2,7 @@
   "name": "@hollis-labs/design-bindings",
   "version": "0.0.0",
   "private": true,
-  "description": "The binding contract — which component draws a wire kind, how the payload reaches it, and at what trust. Names a component identity, never an appearance value.",
+  "description": "The binding contract \u2014 which component draws a wire kind, how the payload reaches it, and at what trust. Names a component identity, never an appearance value.",
   "keywords": [
     "envelopes",
     "binding",
@@ -34,7 +34,14 @@
   ],
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
     "test": "node --test --watch \"test/**/*.test.ts\"",
     "test:run": "node --test \"test/**/*.test.ts\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@types/node": "^24.12.2",
+    "eslint": "^9.39.4",
+    "typescript-eslint": "^8.58.0"
   }
 }

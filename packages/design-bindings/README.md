@@ -32,6 +32,15 @@ customisation.
 Zero runtime dependencies. No React: this answers *which entry, with which payload
 path, at which trust*, and the host renders.
 
+**Zero is a stronger property than it sounds, and it is not asceticism.** A package
+with dependencies has to get bundling right, and getting it wrong is quiet: a
+dependency that keeps MODULE STATE — a toast queue, a store, a context registry —
+vendored into a bundle rather than externalised gives a consumer a second copy, and
+the consumer's calls go to a different instance than the rendered one. Nothing
+appears, nothing errors, and nothing in the stack points at the bundler. This package
+has nothing to vendor and no build step at all: `main` and `types` point straight at
+source, so there is no bundle for a copy to hide in.
+
 ## The shape
 
 ```ts
@@ -125,6 +134,13 @@ like before a host has decided to draw it.
 | `unavailable` | classified; this build will not serve it | ask for a different workflow |
 | `quarantined` | a trust claim was refused | review the claim — it was not downgraded |
 | `ambiguous` | two rows in one tier declared it | declare one host row to settle it |
+
+There is deliberately **no `trust_unimplemented` code**, and its absence is a decision
+rather than an oversight. Tangent needs one because it reads trust classes as strings
+from a generated table, so "this build does not implement that class" is a real
+runtime state. Here `TrustClass` is a closed union and `TRUST_PROFILES` is a mapped
+type over it, so a class without a profile is a compile error. The case was
+eliminated by the shape, not dropped — do not add the code back.
 
 `fallbackRendererId` is **only ever a fallback that preserves meaning**. A declared
 fallback that does not is recorded on the row and never offered, because degrading a

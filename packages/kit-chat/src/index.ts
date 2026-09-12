@@ -15,6 +15,11 @@
 export { ChatInput } from './components/chat-input'
 export type { ChatInputProps } from './components/chat-input'
 
+export { ChatStream } from './components/chat-stream'
+export type { ChatStreamProps } from './components/chat-stream'
+
+export { useStallDetector } from './lib/use-stall-detector'
+
 export {
   applyReference,
   detectSuggestion,

@@ -8,14 +8,14 @@ import type { ReactNode } from 'react'
  * label and no content, and nothing objects until it renders as an empty row. Here
  * `kind` selects the shape, so the invalid combination does not typecheck.
  *
- * AND WHY A CARD WILL BE A SIBLING VARIANT RATHER THAN A FIELD ON A MESSAGE:
- * CW-20260910-0129 adds the interactive card set on top of this package. A card that
- * lives *inside* a message forces every consumer of `ChatMessageItem` to know about
+ * AND A CARD IS A SIBLING VARIANT RATHER THAN A FIELD ON A MESSAGE — added by
+ * CW-20260910-0129, exactly as this comment predicted it would be. A card that lives
+ * *inside* a message forces every consumer of `ChatMessageItem` to know about
  * envelopes, and forces a card to inherit a message's role and author when it has
- * neither. Adding `| ChatCardItem` to this union is additive; unpicking a nested
- * field later is not.
+ * neither. Adding `| ChatCardItem` was additive; unpicking a nested field later
+ * would not have been.
  */
-export type ChatItem = ChatMessageItem | ChatMarkerItem
+export type ChatItem = ChatMessageItem | ChatMarkerItem | ChatCardItem
 
 /** Who a message is from. Not a token — this is chat vocabulary, so it lives here. */
 export type ChatRole = 'user' | 'assistant' | 'system' | 'tool'
@@ -65,3 +65,33 @@ export type ChatStreamStatus =
   | { readonly status: 'streaming'; readonly role: ChatRole; readonly content: ReactNode }
   | { readonly status: 'stalled'; readonly role: ChatRole; readonly content: ReactNode }
   | { readonly status: 'error'; readonly message: ReactNode }
+
+/**
+ * A card in the transcript.
+ *
+ * THE CARD ITSELF IS A `ReactNode`, AND THAT IS THE SEAM. This package does not
+ * resolve bindings, does not own a binding table, and does not import a renderer: a
+ * binding table is host-local by construction, so the host resolves the kind, draws
+ * the card and puts the result here. `ChatStream` places it in the transcript and
+ * owns nothing about what is inside.
+ *
+ * `wireKind` RIDES ALONG EVEN THOUGH NOTHING HERE READS IT, because a card is the one
+ * item type whose identity is not visible in its own content. It is what a host needs
+ * for `key`-ing a `CardBoundary`, what jump-to-message and debugging need, and what
+ * every miss card has to name. Carrying it is cheap; recovering it from a rendered
+ * `ReactNode` is impossible.
+ *
+ * THERE IS NO `status` FIELD HERE. A card's resolved state belongs to the card —
+ * `ConfirmationCard` takes `priorStatus` directly — and duplicating it on the stream
+ * item would create two places that can disagree about whether a decision was made.
+ */
+export interface ChatCardItem extends ChatItemBase {
+  readonly kind: 'card'
+  /** The wire kind this card was drawn for. See above for why it is here. */
+  readonly wireKind: string
+  /** Already drawn by the host. */
+  readonly content: ReactNode
+  /** Optional label above the card — "from the planner", a timestamp. */
+  readonly author?: ReactNode
+  readonly timestamp?: ReactNode
+}

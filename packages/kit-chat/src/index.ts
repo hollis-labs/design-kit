@@ -18,6 +18,61 @@ export type { ChatInputProps } from './components/chat-input'
 export { ChatStream } from './components/chat-stream'
 export type { ChatStreamProps } from './components/chat-stream'
 
+export {
+  CardBoundary,
+  CardFallbackDeclined,
+  CardMiss,
+  ConfirmationCard,
+  DiffCard,
+  Envelope,
+  EnvelopeBody,
+  EnvelopeFooter,
+  EnvelopeHeader,
+  EnvelopeSection,
+  InfoCard,
+  ListCard,
+  MetricCard,
+  ProgressCard,
+  TableCard,
+  TimelineCard,
+} from './cards'
+export type {
+  CardBoundaryProps,
+  CardFallbackDeclinedProps,
+  CardMissProps,
+  ConfirmationAction,
+  ConfirmationCardProps,
+  DiffCardProps,
+  DiffSide,
+  EnvelopeBodyProps,
+  EnvelopeFooterProps,
+  EnvelopeHeaderProps,
+  EnvelopeProps,
+  EnvelopeSectionProps,
+  InfoCardProps,
+  ListCardItem,
+  ListCardProps,
+  MetricCardProps,
+  MetricTrend,
+  ProgressCardProps,
+  ProgressStep,
+  TableCardProps,
+  TableColumn,
+  TimelineCardProps,
+  TimelineEvent,
+  TimelineStatus,
+} from './cards'
+
+/* The response seam. See lib/response.ts for why emit is closed and read is open. */
+export { acceptsInput, classifyPriorResponse } from './lib/response'
+export type {
+  CardAnswer,
+  CardDecision,
+  CardOutcome,
+  CardResponder,
+  PriorResponseState,
+} from './lib/response'
+
 export { useStallDetector } from './lib/use-stall-detector'
 
 export {
@@ -35,6 +90,7 @@ export type {
 } from './lib/suggestion'
 
 export type {
+  ChatCardItem,
   ChatItem,
   ChatMarkerItem,
   ChatMessageItem,

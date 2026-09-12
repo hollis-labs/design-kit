@@ -94,7 +94,7 @@ export function SettingsNotice({
       ? 'border-status-blocked/30 bg-status-blocked/10 text-status-blocked'
       : tone === 'info'
         ? 'border-status-indexed/30 bg-status-indexed/10 text-status-indexed'
-        : 'border-status-running/30 bg-status-running/10 text-status-running'
+        : 'border-warning/30 bg-warning/10 text-warning'
 
   return (
     <div className={cn('rounded border px-3 py-2', toneClassName, className)}>
@@ -114,7 +114,7 @@ export function SettingsStatusPill({
       className={cn(
         'inline-flex items-center rounded-full border px-2 py-0.5 text-label font-medium',
         pending
-          ? 'border-status-running/30 bg-status-running/10 text-status-running'
+          ? 'border-status-doing/30 bg-status-doing/10 text-status-doing'
           : 'border-status-done/30 bg-status-done/10 text-status-done',
       )}
     >

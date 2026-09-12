@@ -1,7 +1,6 @@
 {
   "name": "@hollis-labs/kit-chat",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Chat kit \u2014 ChatInput and ChatStream. Props down, messages up: no stores, no transport, no opinion about where messages come from.",
   "keywords": [
     "react",

@@ -10,7 +10,7 @@
   --font-sans: var(--hl-font-sans);
   --font-mono: var(--hl-font-mono);
 
-  /* The colour contract — 43 names. §3. */
+  /* The colour contract — 48 names. §3. */
   /* A component names these. It never names the --hl-* layer below them. */
   --color-bg: var(--hl-bg);
   --color-bg-elevated: var(--hl-bg-elevated);
@@ -55,6 +55,11 @@
   --color-chart-3: var(--hl-chart-3);
   --color-chart-4: var(--hl-chart-4);
   --color-chart-5: var(--hl-chart-5);
+  --color-syntax-key: var(--hl-syntax-key);
+  --color-syntax-string: var(--hl-syntax-string);
+  --color-syntax-number: var(--hl-syntax-number);
+  --color-syntax-boolean: var(--hl-syntax-boolean);
+  --color-syntax-null: var(--hl-syntax-null);
 
   /* shadcn compatibility aliases — GENERATED, never authored. §3.7. */
   /* Vendored shadcn components name these; a component we write does not. */
@@ -147,6 +152,11 @@
   --color-chart-3: var(--hl-chart-3);
   --color-chart-4: var(--hl-chart-4);
   --color-chart-5: var(--hl-chart-5);
+  --color-syntax-key: var(--hl-syntax-key);
+  --color-syntax-string: var(--hl-syntax-string);
+  --color-syntax-number: var(--hl-syntax-number);
+  --color-syntax-boolean: var(--hl-syntax-boolean);
+  --color-syntax-null: var(--hl-syntax-null);
   --color-background: var(--hl-bg);
   --color-foreground: var(--hl-fg);
   --color-card: var(--hl-bg-elevated);

@@ -59,6 +59,11 @@ export const SYSOP_P4_WHITE: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': 'rgb(244 244 245)',  // derived — R4
+      'syntax-string': 'rgb(210 210 213)',  // derived — R4
+      'syntax-number': 'rgb(176 176 182)',  // derived — R4
+      'syntax-boolean': 'rgb(144 144 151)',  // derived — R4
+      'syntax-null': 'rgb(113 113 122)',  // derived — R4
     },
   },
 }
@@ -118,6 +123,11 @@ export const SYSOP_GREEN_PHOSPHOR: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': 'rgb(0 255 102)',  // derived — R4
+      'syntax-string': 'rgb(38 225 102)',  // derived — R4
+      'syntax-number': 'rgb(51 196 100)',  // derived — R4
+      'syntax-boolean': 'rgb(56 168 97)',  // derived — R4
+      'syntax-null': 'rgb(58 140 92)',  // derived — R4
     },
   },
 }
@@ -177,6 +187,11 @@ export const SYSOP_AMBER_PHOSPHOR: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': 'rgb(255 176 0)',  // derived — R4
+      'syntax-string': 'rgb(229 160 21)',  // derived — R4
+      'syntax-number': 'rgb(203 143 29)',  // derived — R4
+      'syntax-boolean': 'rgb(178 128 34)',  // derived — R4
+      'syntax-null': 'rgb(153 112 36)',  // derived — R4
     },
   },
 }
@@ -236,6 +251,11 @@ export const SYSOP_HI_CONTRAST: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': 'rgb(255 255 255)',  // derived — R4
+      'syntax-string': 'rgb(243 243 243)',  // derived — R4
+      'syntax-number': 'rgb(231 231 231)',  // derived — R4
+      'syntax-boolean': 'rgb(220 220 220)',  // derived — R4
+      'syntax-null': 'rgb(208 208 208)',  // derived — R4
     },
   },
 }

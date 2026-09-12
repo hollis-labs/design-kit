@@ -82,8 +82,9 @@ Components name **only** layer 2, and only through Tailwind utilities.
 
 ## 3. The color contract
 
-**43 names.** Every one earns its place by being used in at least one of the two implementations
-today, except `chart-1..5` (§3.6), which is flagged.
+**48 names.** Every one earns its place by being used in at least one of the two implementations
+today, except `chart-1..5` (§3.6), which is flagged, and `syntax-*` (§3.10), which was added in
+review round 4 and is derived rather than designed.
 
 ### 3.1 Surfaces
 
@@ -277,6 +278,15 @@ also needs a JS accessor, not only a CSS variable (§10).
 > colors to fill them. Until that pass lands, treat the values as unset — a built-in theme that
 > cannot yet supply them should say so rather than guess. This is the one family where a plausible
 > default would be worse than an obvious hole.
+>
+> **Reaffirmed, review round 4 (2026-09-11).** A later round reversed this without either party
+> noticing it was a reversal — two different rounds had both been called "round 2", and the option
+> "give `chart-1..5` real values" was put and accepted as if the question were open. It was not.
+> The placeholders stand. Nothing was built, so nothing had to be unbuilt.
+
+**Do not use this family for code highlighting.** That was the first thing it was reached for, and
+§3.10 is the family that does it. The reason is measured, not aesthetic: charts paint fills at
+WCAG's 3:1 and syntax paints small mono text at 4.5:1, and no single five-stop ramp clears both.
 
 ### 3.7 shadcn compatibility aliases — generated, never authored
 
@@ -340,6 +350,51 @@ them under a kit prefix (§9.3).
 | `--font-mono` | Code, identifiers, captions in the mono idiom. |
 
 Both implementations declare exactly these two. No third family is in evidence.
+
+### 3.10 Syntax — code highlighting
+
+*Numbered after Fonts rather than beside Charts because it was added in review round 4, and
+renumbering §3.7–§3.9 would have invalidated references in shipped CSS and in three packages'
+source. The number is a label, not an ordering.*
+
+| Token | Meaning | Derived as |
+|---|---|---|
+| `syntax-key` | Object keys and field names. | `fg` |
+| `syntax-string` | Quoted string values. | 75% `fg` → `fg-faint` |
+| `syntax-number` | Numeric literals. | 50% `fg` → `fg-faint` |
+| `syntax-boolean` | Boolean literals. | 25% `fg` → `fg-faint` |
+| `syntax-null` | Null and absent values. | `fg-faint` |
+
+Five stops at 100/75/50/25/0 between the palette's own `fg` and `fg-faint`, mixed in oklab. This is
+rule **R4** in `design-tokens`' `themes/index.ts`, and it is applied once per theme rather than at
+any call site — deriving a colour from two others is theme-layer work, the same reason the derived
+status labels moved out of `lib/status.ts`.
+
+**Why this is not `chart-1..5`, which is the question this family exists to answer.** Both are
+categorical: five names, no semantics, picked by position. They differ in the surface they land on,
+and the difference is measured rather than felt:
+
+| | paints | WCAG bar | wants |
+|---|---|---|---|
+| `chart-1..5` | fills — large areas | 3:1 | the widest separation the palette can give |
+| `syntax-*` | text — small mono glyphs | 4.5:1 | every step legible against `bg` |
+
+A ramp from `fg` all the way to `bg` — the derivation charts want — puts its bottom two stops at
+**1.9 / 1.8 / 1.6 / 1.4 : 1** across the four sysop palettes. `syntax-boolean` and `syntax-null`
+fail AA in all four, and `syntax-null` is invisible on high-contrast. **No single five-stop ramp
+clears both bars**, which is the sentence that should stop someone merging these families later.
+
+**Why deriving these was allowed where deriving a chart palette was not.** The endpoints are
+literally `fg` and `fg-faint`, so only three middle stops are new values, and every one is a
+lightness step between two colours the palette's authors already chose. Five distinguishable series
+hues would be a palette. This one invents nothing.
+
+**What it costs, recorded so a future reader does not mistake a repair for a defect.** On
+high-contrast, adjacent stops land **ΔL\* 3.4** apart, because that palette spans only `#ffffff` to
+`#d0d0d0` above its faint step. That is thin. It replaces a map that rendered `number` and `boolean`
+at the **same colour** there — ΔL\* 0.0 — and three roles at the same colour on amber. Five distinct,
+legible roles in all four palettes is the bar this clears; it is not the bar of a designed palette,
+and a design pass here would still be worth having.
 
 ---
 
@@ -903,7 +958,7 @@ cost real complexity, say so rather than building an abstraction nobody asked fo
 
 ## Appendix — the contract at a glance
 
-**43 color tokens**
+**48 color tokens**
 
 ```
 surfaces    bg  bg-elevated  surface  surface-hover  surface-active
@@ -917,6 +972,7 @@ warning     warning  warning-muted  warning-fg
 success     success  success-muted  success-fg
 info        info  info-muted  info-fg
 chart       chart-1 … chart-5
+syntax      syntax-key  syntax-string  syntax-number  syntax-boolean  syntax-null
 ```
 
 **+16 generated shadcn aliases** · **+2 font tokens**

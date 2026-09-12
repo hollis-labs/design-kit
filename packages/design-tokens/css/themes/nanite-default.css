@@ -53,6 +53,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #e8eaed;
+  --hl-syntax-string: #bec1c5;
+  --hl-syntax-number: #95999f;
+  --hl-syntax-boolean: #6e747b;
+  --hl-syntax-null: #4a5058;
 }
 [data-theme="nanite-default"][data-mode="light"],
 [data-theme="nanite-default"].light {
@@ -99,4 +104,9 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #18191b;
+  --hl-syntax-string: #34373a;
+  --hl-syntax-number: #54585d;
+  --hl-syntax-boolean: #757b81;
+  --hl-syntax-null: #98a0a8;
 }

@@ -5,7 +5,7 @@
  * Nanite proved this across 6 themes x dark and light x 40 keys with zero drift,
  * while the names that lived only in CSS are exactly the ones that drifted out.
  * These tests are that experiment, re-run against this package's 10 themes and
- * 43 keys, so the property survives the move rather than being claimed.
+ * 48 keys, so the property survives the move rather than being claimed.
  */
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
@@ -115,15 +115,28 @@ test('every derived value is declared, and declared accurately', () => {
     }
     total += row.tokens.length
   }
-  assert.equal(total, 88, 'the design pass worklist is 88 values')
+  // 88 at the contract's landing (R1-R3), plus R4's 80: the five syntax names in
+  // each of 16 theme-modes. Updated deliberately when §3.10 landed.
+  assert.equal(total, 168, 'the design pass worklist is 168 values')
 })
 
 test('sysop palettes lack exactly the sixteen the manifest says they lack', () => {
   // The shape of what a dark-only ops palette never needed: interaction states
   // for primary/brand/danger, every -muted tint, and every feedback -fg.
+  //
+  // Asserted as COMPOSITION rather than a count, because the count stopped
+  // saying what the test is named for. R4's five syntax names are in these rows
+  // too and are not something the sysop palettes "lack" — no palette had them.
+  // Separating the two keeps a future syntax change from silently passing as a
+  // gap, and a future gap from hiding inside the ramp.
+  const SYNTAX = ['syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null']
   const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-'))
   assert.equal(rows.length, 4)
-  for (const r of rows) assert.equal(r.tokens.length, 16, r.theme)
+  for (const r of rows) {
+    const gaps = r.tokens.filter((t) => !SYNTAX.includes(t))
+    assert.equal(gaps.length, 16, `${r.theme}: gap list`)
+    assert.deepEqual(r.tokens.filter((t) => SYNTAX.includes(t)), SYNTAX, `${r.theme}: syntax ramp`)
+  }
 })
 
 test('a theme serialises to CSS that names only the value layer', () => {

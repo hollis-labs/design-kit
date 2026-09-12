@@ -62,7 +62,7 @@ test('`@theme inline` is used for colours — a themed SUBTREE depends on it', (
   assert.ok(inlineBlock.includes('--color-bg: var(--hl-bg);'))
 })
 
-test('every theme block in themes.css declares all 43 tokens', () => {
+test('every theme block in themes.css declares all 48 tokens', () => {
   const css = readFileSync(join(pkgRoot, 'css', 'themes.css'), 'utf8')
   for (const theme of BUILTIN_THEMES) {
     for (const mode of modesOf(theme)) {

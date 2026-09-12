@@ -110,7 +110,7 @@ export interface TokenMeta {
 
 export type TokenCategory =
   | 'surfaces' | 'text' | 'borders' | 'primary' | 'brand'
-  | 'selection' | 'feedback' | 'chart'
+  | 'selection' | 'feedback' | 'chart' | 'syntax'
 
 /**
  * Component-prop types, DERIVED from the contract rather than restated.

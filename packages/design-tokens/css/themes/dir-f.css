@@ -53,6 +53,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f0f0f0;
+  --hl-syntax-string: #c3c3c3;
+  --hl-syntax-number: #999999;
+  --hl-syntax-boolean: #707070;
+  --hl-syntax-null: #4a4a4a;
 }
 [data-theme="dir-f"][data-mode="light"],
 [data-theme="dir-f"].light {
@@ -99,4 +104,9 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #0a0a0a;
+  --hl-syntax-string: #272727;
+  --hl-syntax-number: #474747;
+  --hl-syntax-boolean: #6b6b6b;
+  --hl-syntax-null: #909090;
 }

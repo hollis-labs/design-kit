@@ -3,7 +3,7 @@ import type { ColorToken } from './tokens.js'
 import type { TokenCategory, TokenMeta } from './theme.js'
 
 /**
- * Editor metadata for all 43 tokens.
+ * Editor metadata for all 48 tokens.
  *
  * Typed as `Record<ColorToken, …>` rather than an array, so a token added to the
  * contract without a label is a compile error at this file rather than a blank
@@ -73,6 +73,13 @@ const META: Record<ColorToken, Omit<TokenMeta, 'key'>> = {
   'chart-3': { label: 'Chart series 3', category: 'chart', description: 'PLACEHOLDER — not a designed value.' },
   'chart-4': { label: 'Chart series 4', category: 'chart', description: 'PLACEHOLDER — not a designed value.' },
   'chart-5': { label: 'Chart series 5', category: 'chart', description: 'PLACEHOLDER — not a designed value.' },
+
+  /* Syntax — §3.10. Derived per palette, not designed. Rule R4. */
+  'syntax-key': { label: 'Syntax — key', category: 'syntax', description: 'Object keys and field names. The brightest step: `fg` itself.' },
+  'syntax-string': { label: 'Syntax — string', category: 'syntax', description: 'Quoted string values.' },
+  'syntax-number': { label: 'Syntax — number', category: 'syntax', description: 'Numeric literals.' },
+  'syntax-boolean': { label: 'Syntax — boolean', category: 'syntax', description: 'Boolean literals.' },
+  'syntax-null': { label: 'Syntax — null', category: 'syntax', description: 'Null and absent values. The faintest step: `fg-faint` itself.' },
 }
 
 /** In contract order — the order a reviewer sees in a diff. */
@@ -87,6 +94,7 @@ export const CATEGORIES: ReadonlyArray<{ id: TokenCategory; label: string; descr
   { id: 'selection', label: 'Selection & focus', description: 'Neutral hover, and the focus ring' },
   { id: 'feedback', label: 'Feedback', description: 'Danger, warning, success, info' },
   { id: 'chart', label: 'Charts', description: 'Categorical series — placeholder values' },
+  { id: 'syntax', label: 'Syntax', description: 'Code highlighting — a lightness ramp, derived per palette' },
 ]
 
 /** Metadata for one token. Total, because META is total. */

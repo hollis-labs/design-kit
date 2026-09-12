@@ -77,14 +77,24 @@ const SYSOP_DERIVED = [
 ] as const satisfies readonly ColorToken[]
 
 /**
+ * R4's output, and it is the same five in EVERY theme and every mode — which is
+ * what makes it different in kind from the lists above. Those record what a
+ * particular palette happened to lack; this one is uniform because no palette
+ * ever had a syntax family at all.
+ */
+const SYNTAX_DERIVED = [
+  'syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null',
+] as const satisfies readonly ColorToken[]
+
+/**
  * EVERY VALUE IN THIS PACKAGE THAT NOBODY CHOSE — the design pass's worklist.
  *
  * A contract token that neither source implementation had a value for. Filling
  * these mechanically is how the package ships complete themes without inventing
- * a palette; listing them here is how that stays honest. 88 values, and none of
- * them has been through design review.
+ * a palette; listing them here is how that stays honest. 168 values — 88 at the
+ * contract's landing plus 80 from R4 — and none has been through design review.
  *
- * THREE RULES PRODUCED ALL OF THEM, applied once, offline, with the results
+ * FOUR RULES PRODUCED ALL OF THEM, applied once, offline, with the results
  * written into the theme files as literal colours so every value stays
  * inspectable and a theme editor still works:
  *
@@ -109,28 +119,49 @@ const SYSOP_DERIVED = [
  *       contrast-maximal, not style-matched, and a design pass should expect to
  *       move some of them.
  *
- * `chart-1..5` are NOT in this list. They are not derived from anything; they
- * are `PLACEHOLDER_CHART_COLOR` in every theme, and `Theme.chartPalette` says so.
+ *   R4  `syntax-*` = five stops at 100/75/50/25/0 between the palette's own `fg`
+ *       and `fg-faint`, mixed in oklab. §3.10.
+ *       UNLIKE R1-R3, THIS RULE FILLS A FAMILY NO PALETTE EVER HAD, so it is
+ *       derivation by design rather than a gap being patched — which is exactly
+ *       why it was allowed where a chart palette was not. A ramp between two
+ *       steps the palette already chose invents no colour; five distinguishable
+ *       series hues would. The endpoints are literally `fg` and `fg-faint`, so
+ *       only the three middle stops are new values at all.
+ *       THE FLOOR IS `fg-faint`, NOT `bg`, AND THAT WAS MEASURED. The obvious
+ *       derivation — `fg` toward `bg` — gives better separation and puts its
+ *       bottom two stops at 1.9 / 1.8 / 1.6 / 1.4 : 1 across the sysop palettes,
+ *       failing AA in all four. Flooring on the palette's own faintest legible
+ *       step holds each palette's existing floor exactly: 4.12 / 4.79 / 4.43 /
+ *       13.62 : 1. It costs separation on high-contrast, where adjacent stops
+ *       land ΔL* 3.4 apart — thin, and measured against a baseline of ΔL* 0.0,
+ *       because the map this replaces rendered two roles at the same colour
+ *       there and three at the same colour on amber.
+ *
+ * `chart-1..5` are NOT in this list, and R4 is not a precedent for filling them.
+ * They are not derived from anything; they are `PLACEHOLDER_CHART_COLOR` in every
+ * theme, and `Theme.chartPalette` says so. Review round 2 (2026-09-10) decided
+ * names only, §13 of the contract is the authority, and review round 4 confirmed
+ * it after a later round had reversed it by accident.
  */
 export const DERIVED_TOKEN_VALUES: ReadonlyArray<{
   theme: string
   mode: ThemeMode
   tokens: readonly ColorToken[]
 }> = [
-  { theme: 'nanite-default', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'nanite-default', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-a', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-a', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-b', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-b', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-d', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-d', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-e', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-e', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-f', mode: 'dark', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'dir-f', mode: 'light', tokens: ['info-fg', 'warning-fg'] },
-  { theme: 'sysop-p4-white', mode: 'dark', tokens: SYSOP_DERIVED },
-  { theme: 'sysop-green-phosphor', mode: 'dark', tokens: SYSOP_DERIVED },
-  { theme: 'sysop-amber-phosphor', mode: 'dark', tokens: SYSOP_DERIVED },
-  { theme: 'sysop-hi-contrast', mode: 'dark', tokens: SYSOP_DERIVED },
+  { theme: 'nanite-default', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'nanite-default', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-a', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-a', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-b', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-b', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-d', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-d', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-e', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-e', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-f', mode: 'dark', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'dir-f', mode: 'light', tokens: ['info-fg', 'warning-fg', ...SYNTAX_DERIVED] },
+  { theme: 'sysop-p4-white', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
+  { theme: 'sysop-green-phosphor', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
+  { theme: 'sysop-amber-phosphor', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
+  { theme: 'sysop-hi-contrast', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
 ]

@@ -55,4 +55,9 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: rgb(255 176 0);
+  --hl-syntax-string: rgb(229 160 21);
+  --hl-syntax-number: rgb(203 143 29);
+  --hl-syntax-boolean: rgb(178 128 34);
+  --hl-syntax-null: rgb(153 112 36);
 }

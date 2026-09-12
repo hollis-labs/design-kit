@@ -78,11 +78,24 @@ function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
         * rendering markdown in a browser rather than by reading the class list: the
         * first version constrained both roles and the tables came out unreadable.
         *
-        * The constraint is `max-w-lg`, a named Tailwind step, and not the `max-w-[85%]`
-        * it replaced. The design gate does not check `max-w` — its families are colour
-        * and the type, radius and tracking scales — so that arbitrary value passed
-        * lint. The rule is still that a component names a token and never a value, and
-        * a gate not catching something is not the same as it being allowed.
+        * The constraint is `max-w-lg`, a named step, and not the `max-w-[85%]` it
+        * replaced — a named step reads better and does not encode a magic percentage.
+        *
+        * CORRECTION, 2026-09-12, found by `design-kit-a3`. An earlier version of this
+        * comment said the design gate "does not check `max-w`" and framed that as
+        * something the rule fails to catch. That is wrong, and it is worth correcting
+        * rather than deleting because the wrong version is the intuitive one.
+        * `max-w` is listed in `NEVER_SCALE_PREFIXES` **deliberately**, alongside every
+        * other layout-geometry prefix, and the lint package says why: "layout geometry
+        * and icon-sized boxes are one-off facts, not a repeated design decision —
+        * `h-[18px]` on an icon wrapper is legitimate in a way `text-[13px]` is not."
+        * Contract §7 carries the measurement behind it: 6,751 named spacing utilities
+        * against 39 arbitrary ones, 99.4% adherence, so Tailwind's scale IS the spacing
+        * contract and is inherited rather than redefined.
+        *
+        * So the gate accepting `max-w-[85%]` is the rule correctly declining to judge
+        * layout, by design and on evidence — not a hole in it. The change below stands
+        * on readability; it was never a gate repair.
         */}
       <div
         className={cn(

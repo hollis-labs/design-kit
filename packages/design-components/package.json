@@ -1,7 +1,11 @@
 {
   "name": "@hollis-labs/design-components",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "Idiom-free base components. Styled compositions that name tokens, never values.",
   "keywords": [
     "react",
@@ -27,14 +31,16 @@
   ],
   "files": [
     "dist",
-    "src/styles"
+    "src/styles",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {
       "types": "./dist/src/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./keyframes.css": "./src/styles/keyframes.css"
+    "./keyframes.css": "./src/styles/keyframes.css",
+    "./source.css": "./src/styles/source.css"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -54,7 +60,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@hollis-labs/design-tokens": "*",
+    "@hollis-labs/design-tokens": "^0.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",

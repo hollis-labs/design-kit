@@ -1,7 +1,11 @@
 {
   "name": "@hollis-labs/design-tokens",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "The token contract — names and types — plus default values.",
   "license": "MIT",
   "repository": {
@@ -36,7 +40,8 @@
   "files": [
     "dist",
     "css",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",

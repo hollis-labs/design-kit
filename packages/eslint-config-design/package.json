@@ -1,7 +1,11 @@
 {
   "name": "@hollis-labs/eslint-config-design",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "The gate — ESLint flat config enforcing that a component names a token, never a value.",
   "license": "MIT",
   "repository": {
@@ -16,7 +20,8 @@
     "./rules/*": "./src/rules/*.js"
   },
   "files": [
-    "src"
+    "src",
+    "CHANGELOG.md"
   ],
   "keywords": [
     "eslint",
@@ -31,6 +36,7 @@
     "scale-report": "node scripts/scale-usage-report.mjs"
   },
   "peerDependencies": {
+    "@hollis-labs/design-tokens": "^0.1.0",
     "eslint": "^9.0.0"
   },
   "devDependencies": {

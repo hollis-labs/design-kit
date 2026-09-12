@@ -1,7 +1,51 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
+
+/* `@import "shadcn/tailwind.css"` WAS HERE AND IT MADE THIS FILE UNUSABLE WHEN
+ * PUBLISHED. `shadcn` is a devDependency — correctly, it is a 5.9 MB CLI with 33
+ * dependencies and no runtime role — so a consumer who wrote the one line this
+ * package's README tells them to write got
+ *
+ *     Can't resolve 'shadcn/tailwind.css'
+ *
+ * and no stylesheet at all. Removed by CW-20260910-0131 at publish, after measuring
+ * what the import actually contributed: of its 629 lines, this repo used the nine
+ * `data-*` custom variants and `no-scrollbar`, and nothing else — `scroll-fade*`,
+ * `shimmer*` and the accordion keyframes are zero uses across both packages.
+ *
+ * Neither of the two we used needs it:
+ *
+ *   - `no-scrollbar` is defined in this file, below, and by `design-components` for
+ *     its own consumers.
+ *   - The nine `data-*` variants are Tailwind v4 BUILT-INS. Tailwind's bare `data-x:`
+ *     variant compiles to `[data-x]`, and Base UI's convention is attribute
+ *     PRESENCE — its own declaration files read "Present when the dialog is open"
+ *     for `data-open`, and it never sets a data attribute to the string `false`
+ *     (checked across the installed package). shadcn's richer definition adds
+ *     Radix's `[data-state="open"]` form and a `:not([data-open="false"])` guard,
+ *     and a Base UI tree needs neither.
+ *
+ * REMOVING IT ALSO CLOSED A GAP BETWEEN WHAT WE TEST AND WHAT WE SHIP. With the
+ * import, this repo's own builds resolved those variants through shadcn's
+ * zero-specificity `:where()` definitions while every consumer resolved them
+ * through Tailwind's `[data-open]`. Two different selectors, one of them only ever
+ * exercised here. Now both are the same one.
+ *
+ * If a future component needs `scroll-fade` or `shimmer`, take the definition — not
+ * the import. */
 @import "@hollis-labs/design-tokens/tokens.css";
+
+/* THE TWO LINES BELOW ARE WHY THE COMPONENTS HAVE COLOUR. Tailwind v4 emits a
+ * utility only for a class string it has SEEN, and it does not scan `node_modules`.
+ * Both this package's class strings and those of `@hollis-labs/design-components` —
+ * which the kit renders on nearly every page — ship inside `dist`. Without these,
+ * the components render MOSTLY UNSTYLED and nothing errors.
+ *
+ * Each file declares `@source` against its own layout, because `@source` resolves
+ * relative to the CSS file that declares it. So a consumer importing this one
+ * stylesheet gets both packages scanned and writes no globs of their own. */
+@import "@hollis-labs/design-components/source.css";
+@import "./source.css";
 
 /*
  * Sysop UI — canonical theme.
@@ -17,7 +61,7 @@
  * - `@theme inline` maps those selector-scoped vars into Tailwind/shadcn tokens.
  *
  * Consume from an app:
- *   @import "@hollis-labs/sysop-ui/theme.css";
+ *   @import "@hollis-labs/kit-dashboard/theme.css";
  */
 
 :root {

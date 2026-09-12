@@ -1,7 +1,11 @@
 {
   "name": "@hollis-labs/design-bindings",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "The binding contract \u2014 which component draws a wire kind, how the payload reaches it, and at what trust. Names a component identity, never an appearance value.",
   "keywords": [
     "envelopes",
@@ -30,7 +34,8 @@
     }
   },
   "files": [
-    "src"
+    "src",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",

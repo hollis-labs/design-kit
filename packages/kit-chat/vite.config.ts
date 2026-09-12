@@ -46,7 +46,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
-        'markdown/index': path.resolve(__dirname, 'src/markdown/index.ts'),
+        'markdown/index': path.resolve(__dirname, 'src/markdown/index.tsx'),
       },
       formats: ['es'],
     },

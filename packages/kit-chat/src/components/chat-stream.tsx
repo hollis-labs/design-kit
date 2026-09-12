@@ -71,10 +71,23 @@ function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
           {item.timestamp ? <span className="text-caption text-fg-faint">{item.timestamp}</span> : null}
         </div>
       ) : null}
+      {/*
+        * ONLY A USER MESSAGE GETS A BUBBLE. An assistant turn runs full width, because
+        * its content is usually rich — a code block, a table, a list — and a bubble
+        * sized to a conversational line squeezes all of it into a column. Caught by
+        * rendering markdown in a browser rather than by reading the class list: the
+        * first version constrained both roles and the tables came out unreadable.
+        *
+        * The constraint is `max-w-lg`, a named Tailwind step, and not the `max-w-[85%]`
+        * it replaced. The design gate does not check `max-w` — its families are colour
+        * and the type, radius and tracking scales — so that arbitrary value passed
+        * lint. The rule is still that a component names a token and never a value, and
+        * a gate not catching something is not the same as it being allowed.
+        */}
       <div
         className={cn(
-          'max-w-[85%] rounded-panel px-3 py-2 text-control',
-          item.role === 'user' ? 'bg-surface text-fg' : 'bg-bg-elevated text-fg',
+          'rounded-panel px-3 py-2 text-control text-fg',
+          item.role === 'user' ? 'max-w-lg bg-surface' : 'w-full bg-bg-elevated',
         )}
       >
         {item.content}
@@ -169,7 +182,12 @@ export function ChatStream({
                 data-stalled={status.status === 'stalled' ? '' : undefined}
               >
                 <div className={cn('flex flex-col gap-1', ROLE_ALIGN[status.role])}>
-                  <div className="max-w-[85%] rounded-panel bg-bg-elevated px-3 py-2 text-control text-fg">
+                  <div
+                    className={cn(
+                      'rounded-panel bg-bg-elevated px-3 py-2 text-control text-fg',
+                      status.role === 'user' ? 'max-w-lg' : 'w-full',
+                    )}
+                  >
                     {status.content}
                   </div>
                   {status.status === 'stalled' ? (

@@ -2,7 +2,7 @@
   "name": "@hollis-labs/kit-chat",
   "version": "0.0.0",
   "private": true,
-  "description": "Chat kit — ChatInput and ChatStream. Props down, messages up: no stores, no transport, no opinion about where messages come from.",
+  "description": "Chat kit \u2014 ChatInput and ChatStream. Props down, messages up: no stores, no transport, no opinion about where messages come from.",
   "keywords": [
     "react",
     "chat",
@@ -39,6 +39,7 @@
       "types": "./dist/src/markdown/index.d.ts",
       "import": "./dist/markdown/index.js"
     },
+    "./markdown.css": "./src/styles/markdown.css",
     "./source.css": "./src/styles/source.css"
   },
   "main": "./dist/index.js",

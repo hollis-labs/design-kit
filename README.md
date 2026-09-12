@@ -24,12 +24,15 @@ available just relocates the drift somewhere harder to see.
 | `packages/design-tokens` | the contract (names + types) + default values |
 | `packages/design-components` | idiom-free base |
 | `packages/design-app-runtime` | api client, hooks, router, storage, toast, status |
+| `packages/design-bindings` | the binding contract — "this schema renders as these components" |
 | `packages/kit-dashboard` | the dashboard idiom — forked whole from `@hollis-labs/sysop-ui` 0.9.0 |
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
 | `packages/eslint-config-design` | the gate |
 
 Six of the seven are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md).
-`kit-chat` is reserved and empty, stays `private`, and does not publish.
+`kit-chat` is built but **not yet published**: it was an empty stub when the workspace
+published and was deliberately excluded rather than holding five finished packages for
+it. It ships separately — CW-20260912-0042.
 
 ## Using it — the one line people miss
 

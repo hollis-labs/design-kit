@@ -13,11 +13,9 @@ Implements the token contract (CW-20260910-0111, approved review round 2). Built
 by CW-20260910-0124 as a **synthesis of two working implementations** —
 `libs/sysop-ui` and `apps/nanite` — not an extraction of either.
 
-Section references below (§3, §10, …) are to that contract. It is due to land at
-`docs/token-contract.md` in this repo — see `docs/README.md`; until it does, the
-source is `~/dev/agent-os/workspaces/drafts/cw-20260910-0111-token-contract.md`.
-Landing it is a root-level change and belongs to the epic lead, not to this
-package.
+Section references below (§3, §10, …) are to that contract, which lives at
+[`docs/token-contract.md`](https://github.com/hollis-labs/design-kit/blob/main/docs/token-contract.md)
+in this repo.
 
 ---
 
@@ -80,7 +78,7 @@ import {
 | Font tokens | 2 | `--font-sans`, `--font-mono` |
 | Type steps added | 4 | `micro` 9 · `caption` 10 · `label` 11 · `control` 13 |
 | Radius steps added | 1 new + 1 alias | `panel` 10px · `control` = Tailwind's `md` |
-| Tracking steps added | 1 | `tracking-label` 0.16em |
+| Tracking steps added | 2 | `tracking-label` 0.18em · `tracking-eyebrow` 0.28em |
 | Spacing tokens | **0** | Tailwind's scale *is* the contract — 99.4% adherence already |
 | Built-in themes | **10** | 6 from Nanite (dark + light), 4 from sysop-ui (dark) |
 
@@ -230,7 +228,7 @@ muted register reads as a starting point rather than as someone's choice.
 default. A test asserts the default's four feedback colours are distinct and that
 it carries light, so this decision cannot be undone by accident.
 
-### The 88 values nobody chose — `DERIVED_TOKEN_VALUES`
+### The 168 values nobody chose — `DERIVED_TOKEN_VALUES`
 
 A contract token that neither source had a value for. Filling them mechanically is
 how this package ships complete themes without inventing a palette; **exporting
@@ -240,9 +238,9 @@ the list is how that stays honest.** None of these has been through design revie
 import { DERIVED_TOKEN_VALUES } from '@hollis-labs/design-tokens'
 ```
 
-Three rules produced all 88, applied once, offline, with the results written into
-the theme files as literal colours so every value stays inspectable and a theme
-editor still works:
+Four rules produced all 168 — 88 from R1–R3, 80 from R4 — applied once, offline, with
+the results written into the theme files as literal colours so every value stays
+inspectable and a theme editor still works:
 
 | | Rule | Why it is a derivation and not an invention |
 |---|---|---|
@@ -290,9 +288,17 @@ are exactly the names §10 identifies as having drifted out of the typed half.
 
 Dropped, because they are dead in their own codebase: all 8 `sidebar-*`,
 `panel-hover-soft`, `panel-overlay`, `panel-overlay-strong`, `shadow`,
-`shadow-strong`. The kit's 12 `dash-status-*` are **dashboard idiom** (§9.2) and
-belong to `kit-dashboard`, which still has them in its own `theme.css` — nothing
-was lost, and CW-0125 moves them under the `dash` prefix.
+`shadow-strong`. The kit's 12 workflow status colours are **dashboard idiom** (§9.2)
+and belong to `kit-dashboard`, which still has them in its own `theme.css` — nothing
+was lost.
+
+**Corrected at publish, 2026-09-11 (CW-20260910-0131):** an earlier version of this
+paragraph said CW-0125 moves them under the `dash` prefix. It did not. `kit-dashboard`
+names them `status-*` today, from its own theme values, and they resolve — all 28
+colour names its `lib/status.ts` reaches for are declared, verified in a consumer's
+compiled stylesheet. So the `dash` prefix is **reserved and unused**, and `status-*`
+remains what the kit actually ships. Moving the kit onto contract values at all is
+CW-20260911-0071, deliberately not in the first release.
 
 **Nanite → contract** is nearly the identity: it already uses the contract names.
 `mode-*` becomes `chat-mode-*` idiom, `status-ok/warn/danger` dissolves into
@@ -387,7 +393,7 @@ they named; these are re-derivations, not inherited numbers.
 
 7. **The scale values agree exactly with the lint package's fallback.** §4/§5/§6
    state them in tables, so there was no derivation freedom: `micro` 9, `caption`
-   10, `label` 11, `control` 13, `panel` 10, `control` 6, `tracking-label` 0.16.
+   10, `label` 11, `control` 13, `panel` 10, `control` 6, `tracking-label` 0.18.
    A test pins the agreement so the day `CONTRACT_STEP_VALUES` is deleted is a
    deliberate day. **Procedural note:** I read `vocabulary.js` before deriving
    these, to learn the export names the hard requirement asked for — so this is a
@@ -473,11 +479,16 @@ Source imports carry `.js` extensions on purpose: TypeScript resolves them to th
 `.ts` file and emits them unchanged, so `dist/` runs in Node with no rewrite step
 and no bundler.
 
-## Still `private: true` at `0.0.0`
+## Published
 
-Publishing is a deliberate, separate step and it is **CW-20260910-0131's**, not
-this task's. The package is otherwise publish-ready: `files`, `exports`,
-`sideEffects` and keywords are all set, and it has been verified by `npm pack` and
-installed into a scratch project with no other design-kit package present — no
-React, no transitive dependencies at all, both palette sets demonstrable there
-through a real Tailwind v4 build.
+`0.1.0`, the first release, alongside the five other packages in this repo — see the
+repo's [`CHANGELOG.md`](https://github.com/hollis-labs/design-kit/blob/main/CHANGELOG.md).
+
+Verified before release by `npm pack` and installed into a scratch project with no
+other design-kit package present — no React, no transitive dependencies at all, both
+palette sets demonstrable there through a real Tailwind v4 build. At publish it was
+verified again from the tarball in a browser: `Metric`'s value computed to
+`rgb(244, 244, 245)` against the contract's `#f4f4f5` for `fg`, its label to
+`rgb(82, 82, 91)` against `#52525b` for `fg-faint`, and the four added type steps
+measured 9 / 10 / 11 / 13 px with `rounded-panel` at 10px and `rounded-control` at
+6px — the declared values, on a screen, through a consumer's own Tailwind build.

@@ -5,9 +5,14 @@ components, shadcn/ui primitives, the `[data-theme]` palette, and data hooks,
 extracted from the most-evolved app frontends (Torque's GUI and Fragments
 Engine's Sysop).
 
-Forked whole from `@hollis-labs/sysop-ui` 0.9.0 and unchanged since, so this is
-still that kit — only the package name moved. A KIT is layers 3 + 1 of the
-design-kit layering: which components exist and how pages lay out.
+Forked from `@hollis-labs/sysop-ui` 0.9.0 and **since rebased onto the extracted
+packages**: the idiom-free primitives, the transport hooks and the token contract now
+come from `@hollis-labs/design-components`, `@hollis-labs/design-app-runtime` and
+`@hollis-labs/design-tokens`. What is left here is the dashboard idiom. A KIT is
+layers 3 + 1 of the design-kit layering: which components exist and how pages lay out.
+
+`sysop-ui` itself is untouched and still published at `0.9.0` for its existing
+consumers. This is a fork, not a rename.
 
 - React 19 · Vite 5 · Tailwind v4 · shadcn/ui (`base-nova` style)
 - The `[data-theme]` + Tailwind `@theme` token system is **canonical** — the
@@ -23,11 +28,26 @@ design-kit layering: which components exist and how pages lay out.
 | Layout | `ListPageLayout`, `DetailPageLayout`, `DetailHeader`, `TabStrip`, `OperationsTablePage` preset, `CollapsibleSection` |
 | Data table | `DataTable<T>` + `ColumnDef<T>` (sortable, windowed, selectable), `RowActionMenu` |
 | Filters | `FilterBar` shell + `FilterSearchInput`, `FilterCycleToggle`, `FilterChipGroup`, `FilterEntityCombobox` |
-| Primitives | `CopyableId`, `CopyButton`, `StatusBadge`, `Pill`, `LiveDot`, `Callout`, `Combobox`, `MetaList`, `Metric`, `ProgressBar` (`indeterminate`), `JsonViewer`, `FormDialog`, `ConfirmDialog`, + shadcn `ui/` (table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner) |
+| Idiom primitives | `StatusBadge`, `PriorityBadge`, `Metric` |
 | Widgets | `TimeSeriesChart` (stacked bar/area, day-bucketed), `DonutChart`, `BarMeter`, `ActivityHeatmap` (calendar heatmap), `HourlyPulse` (last-24h strip), `RecentList` |
-| Hooks / API | `usePoll`, `useCopy`, `useElapsed` (seconds-elapsed ticker), `useArrowNav` (window ←/→ nav), `useSSE` (`EventSource` subscription), `createApiContext`, `createApiClient`, `normalizeKeys`, … |
-| Utils / toasts | `formatDuration` (seconds → `1h 03m`), `formatRelativeTime`, `formatShortDate`, `formatCount`, `notifySuccess` / `notifyError` (`sonner` toast helpers — mount a `<Toaster />`) |
-| Storage / cursor | `createScopedStorage` (namespaced, fault-tolerant `localStorage`), `createListCursor` + `listCursorNeighbors` (list-cursor pagination — prev/next neighbors) |
+| Status vocabulary | `statusClass`, `statusLabel` and the Torque workflow states |
+
+**Moved out, and where they went.** These used to be exported from here and are not
+any more — take them from the package that owns them:
+
+| You used to import | Now |
+|---|---|
+| `Button`, `Card`, `Dialog`, `Popover`, `Command`, … and the rest of shadcn `ui/` | `@hollis-labs/design-components` |
+| `CopyableId`, `CopyButton`, `Pill`, `LiveDot`, `Callout`, `Combobox`, `MetaList`, `ProgressBar`, `JsonViewer`, `FormDialog`, `ConfirmDialog`, `EmptyState`, `SearchInput` | `@hollis-labs/design-components` |
+| `useCopy`, `useArrowNav` | `@hollis-labs/design-components` |
+| `usePoll`, `useSSE`, `useElapsed`, `createApiClient`, `createApiContext`, `normalizeKeys` | `@hollis-labs/design-app-runtime` |
+| `createScopedStorage`, `createListCursor`, `listCursorNeighbors` | `@hollis-labs/design-app-runtime` |
+| `formatDuration`, `formatRelativeTime`, `formatShortDate`, `formatCount` | `@hollis-labs/design-app-runtime` |
+| `notifySuccess`, `notifyError` | `@hollis-labs/design-components` |
+
+This package re-exports **none** of them, deliberately: taking the dashboard should
+be a choice, not a side effect of wanting a Button. Depend on the package you
+actually want.
 
 App-specific domain code (fragment/route/task models, app dialogs) is **not**
 in the kit — it stays in each app. The kit is the generic shell.
@@ -49,8 +69,7 @@ Optional domains live behind explicit subpaths:
 
 | Entry | Use for |
 | --- | --- |
-| `@hollis-labs/kit-dashboard/ui` | Theme helpers, shell chrome, formatters, visual primitives, shadcn `ui/*` |
-| `@hollis-labs/kit-dashboard/api` | API client/context helpers, normalizers, polling/SSE hooks, storage/list cursor helpers |
+| `@hollis-labs/kit-dashboard/ui` | Theme helpers, shell chrome, idiom primitives |
 | `@hollis-labs/kit-dashboard/layout` | Page skeletons such as `ListPageLayout`, `DetailPageLayout`, `TabStrip` |
 | `@hollis-labs/kit-dashboard/data` | `DataTable`, `RowActionMenu`, filter-bar pieces |
 | `@hollis-labs/kit-dashboard/widgets` | Lightweight SVG/markup widgets that do not use `recharts` |
@@ -59,7 +78,7 @@ Optional domains live behind explicit subpaths:
 Recommended rule:
 
 - treat the root entrypoint as `ui`
-- import app transport/client plumbing from `api`
+- import app transport/client plumbing from `@hollis-labs/design-app-runtime`
 - import page layouts from `layout`
 - import table/filter features from `data`
 - import `charts` only inside pages that actually render charts
@@ -67,9 +86,18 @@ Recommended rule:
 
 ## Consuming the kit
 
-**Not published under this name yet.** `@hollis-labs/kit-dashboard` is a
-workspace package inside `hollis-labs/design-kit`; publishing it is a separate,
-deliberate step (Torque CW-20260910-0131). Until then:
+**Published at `0.1.0`.** `@hollis-labs/kit-dashboard` is a workspace package inside
+`hollis-labs/design-kit`, released alongside the other five — see the repo's
+[`CHANGELOG.md`](https://github.com/hollis-labs/design-kit/blob/main/CHANGELOG.md).
+
+The version went **down** from `0.9.0`, on purpose: that number came from `sysop-ui`,
+nothing has ever been published under this name, and carrying it would have claimed a
+continuity that does not exist.
+
+```bash
+npm install @hollis-labs/kit-dashboard
+npm install @base-ui/react react react-dom      # peers
+```
 
 ### In this monorepo
 
@@ -79,10 +107,9 @@ package's `prepare` script.
 
 ### In an app outside the monorepo
 
-Apps consuming the kit today still use the published, frozen
-`@hollis-labs/sysop-ui` 0.9.0, which is byte-identical to this package's `src/`.
-Nothing has migrated onto `kit-dashboard`, and adoption is each project's own
-work. To try it against an app before it is published, link the working copy:
+Apps consuming the kit today still use the frozen `@hollis-labs/sysop-ui` 0.9.0.
+Nothing has migrated onto `kit-dashboard` yet, and adoption is each project's own
+work, on its own schedule. To try a working copy against an app without publishing:
 
 ```bash
 # from the consuming app
@@ -103,9 +130,24 @@ import { applyTheme, getInitialTheme } from '@hollis-labs/kit-dashboard/ui'
 applyTheme(getInitialTheme())
 ```
 
-The kit's components rely on the theme's semantic Tailwind tokens
-(`bg-panel`, `text-text-subtle`, `border-border-strong`, `text-status-*`, …),
-so the consuming app's Tailwind build must process `theme.css`.
+**That one import is also what makes the components have colour, and it is easy to
+miss why.** Tailwind v4 emits a utility only for a class string it has *seen*, and it
+does not scan `node_modules` — and this package's class strings, along with those of
+`@hollis-labs/design-components`, ship inside `dist`. `theme.css` therefore imports
+both packages' `source.css`, each of which points Tailwind at its own built output.
+Without it the components render *mostly unstyled* and nothing errors.
+
+If you supply your own theme values and never import ours, import the registration
+directly instead:
+
+```css
+@import "@hollis-labs/kit-dashboard/source.css";
+@import "@hollis-labs/design-components/source.css";
+```
+
+The kit's components name semantic Tailwind tokens (`bg-panel-2`, `text-text-subtle`,
+`border-border-subtle`, `text-status-*`, …) that `theme.css` declares, so the
+consuming app's Tailwind build must process it.
 
 `theme.css` also locks the document shell — `html`, `body`, and `#root` are
 pinned to the viewport with overflow disabled, so the fixed NavRail + PageHeader
@@ -120,7 +162,7 @@ Default Sysop app shape:
 - lazy routes: each page loaded through `React.lazy(() => import('./pages/...'))`
 - page-local feature code: charts, dialogs, tables, and heavy inspectors stay with the page that uses them
 - shared shell imports: `ui` and `layout`
-- transport/client imports: `api`
+- transport/client imports: `@hollis-labs/design-app-runtime`
 - optional heavy domains: `charts` only where needed
 
 Minimal shell example:
@@ -203,7 +245,7 @@ For the API layer, build a concrete client on `createApiClient` and a typed
 context with `createApiContext`:
 
 ```ts
-import { createApiClient, createApiContext } from '@hollis-labs/kit-dashboard/api'
+import { createApiClient, createApiContext } from '@hollis-labs/design-app-runtime'
 
 const http = createApiClient({ baseUrl: '' })
 export const apiClient = {

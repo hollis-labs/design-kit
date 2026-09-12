@@ -1,7 +1,11 @@
 {
   "name": "@hollis-labs/design-app-runtime",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "App runtime — api client, hooks, router, storage. No opinion about appearance.",
   "keywords": [
     "react",
@@ -27,7 +31,8 @@
   ],
   "files": [
     "dist",
-    "src/styles"
+    "src/styles",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {

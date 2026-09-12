@@ -28,7 +28,31 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
 | `packages/eslint-config-design` | the gate |
 
-Only `kit-dashboard` has contents today. The other five are reserved and empty.
+Six of the seven are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md).
+`kit-chat` is reserved and empty, stays `private`, and does not publish.
+
+## Using it — the one line people miss
+
+```css
+@import "tailwindcss";
+@import "@hollis-labs/design-tokens/design-tokens.css";
+@import "@hollis-labs/design-components/source.css";   /* ← without this, no colour */
+```
+
+**Tailwind v4 emits a utility only for a class string it has seen, and it does not
+scan `node_modules`.** Our class strings ship inside `dist`. Leave out that third
+line and the components render, render *mostly unstyled*, and **nothing errors** —
+the defect is in what the build did not produce rather than in anything the code
+says, so there is nothing to grep for.
+
+Every package that ships class strings ships a `source.css` that registers it, so a
+consumer writes an import rather than a glob. Taking `kit-dashboard` instead? Its
+`theme.css` imports both and is the only line you need.
+
+Measured in a scratch consumer built from the published tarballs: 11 of 19 probed
+utilities existed **only** because of that import, and the compiled stylesheet went
+from 28,924 to 94,518 bytes. See [`CHANGELOG.md`](./CHANGELOG.md) and
+`packages/design-components/README.md`.
 
 ## Relationship to sysop-ui
 
@@ -83,12 +107,12 @@ It is **blocking from day one and green on arrival**, which is not a contradicti
   rather than hidden, so the debt stays visible without stopping work nobody has been
   asked to do yet. Two gates, one policy.
 
-- **The design rules are not enforced yet**, and CI says so out loud. They need the
-  token vocabulary from `@hollis-labs/design-tokens` (CW-20260910-0124), and the
-  config refuses to run without it rather than falling back to a stale list. The
-  step distinguishes "not published yet" from "ran and failed" by inspecting the
-  error and using different exit codes — it turns itself on with no edit once the
-  vocabulary lands.
+- **The design rules are enforced, at zero, across every package.** They needed the
+  token vocabulary from `@hollis-labs/design-tokens`, which has landed, and the
+  config refuses to run without it rather than falling back to a stale list. Both
+  `REPORT_ONLY` lists are now empty and the gate prints *"REPORTED, not blocking —
+  none. Every package is enforced at zero."* `kit-dashboard`'s two inherited
+  `react-refresh` errors were fixed by CW-20260910-0125 rather than exempted.
 
 No step uses `command -v tool && tool || echo skipping`. That idiom prints the skip
 message when the tool runs and finds something, so a real failure is
@@ -100,6 +124,11 @@ Deliberately not automatic, and deliberately not part of this epic. Nanite and
 Tangent would fail on day one, and turning that into a red build across the
 portfolio before anyone asked converts a leverage move into a blocker. Adoption is
 each project's own task, on its own schedule.
+
+The steps below are **projected, not measured** — no consumer repo has run them yet,
+because none has adopted. The one number in them that *is* measured is the
+arbitrary-radius autofix, counted across the portfolio during the sweep. Treat the
+rest as the shape of the work rather than as a report.
 
 The short version:
 

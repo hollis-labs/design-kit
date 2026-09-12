@@ -66,6 +66,20 @@ and if it cannot be resolved this config **throws rather than falling back**. A 
 config that silently substitutes a stale vocabulary fails a build for the wrong
 reason; one that refuses to load tells you what to fix.
 
+**`@hollis-labs/design-tokens` is therefore a `peerDependency`, and npm 7+ installs
+it for you** — so `npm i -D @hollis-labs/eslint-config-design` is the whole install
+and the first lint run works. Declaring it was CW-20260910-0131's call at publish:
+*not shipping a copy of the token list* and *not admitting the package is required*
+are two different decisions, and only the first one had been made. Not shipping the
+list is right; leaving it out of the manifest was not.
+
+If you pass your own vocabulary you never touch the default path, and
+`design-tokens` — no React, no dependencies — just sits there unused:
+
+```js
+designConfig({ vocabulary: myVocabulary })
+```
+
 > **Resolved.** `@hollis-labs/design-tokens` (d995bd6) exports `TEXT_SCALE`,
 > `RADIUS_SCALE` and `TRACKING_SCALE` as name→value maps, plus
 > `INHERITED_TEXT_STEPS` / `INHERITED_RADIUS_STEPS` / `INHERITED_TRACKING_STEPS`.

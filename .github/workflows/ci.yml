@@ -66,11 +66,22 @@ jobs:
       - name: typecheck
         run: npm run typecheck
 
-      - name: test
-        run: npm run test:run
-
+      # BUILD BEFORE TEST, AND THE ORDER IS LOAD-BEARING RATHER THAN TIDY.
+      # `design-components` uses `prepack` rather than `prepare` — deliberately, so a
+      # broken build cannot fail `npm ci` for the whole workspace. The consequence is
+      # that `npm ci` does NOT build it, so its `dist/` does not exist on a fresh tree.
+      # Typecheck survives that because each package's tsconfig `paths` map siblings to
+      # source; vitest does not, because it resolves through node_modules and lands on
+      # `main`/`exports`, which point at `dist`. So a test importing a sibling fails with
+      # "Failed to resolve entry for package" until something has built it.
+      #
+      # kit-chat hit exactly that (CW-20260910-0128), green locally on a tree that had
+      # been built and red on CI. Third time this build-order dependency has surfaced.
       - name: build
         run: npm run build
+
+      - name: test
+        run: npm run test:run
 
       # Blocking for packages authored clean; reporting-only for kit-dashboard, the
       # pre-contract fork. Counts nothing, so fixing something never fails the build.

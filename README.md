@@ -65,13 +65,32 @@ onto design-kit later, in its own session.
 ## Commands
 
 ```bash
-npm install        # installs all workspaces; builds kit-dashboard via its prepare script
-npm run build      # every workspace with a build script
+npm install        # installs all workspaces and links the siblings — see the note below
+npm run build      # every workspace with a build script. RUN THIS FIRST on a fresh clone.
 npm run typecheck
 npm run lint
 npm run test:run
 npm run demo       # kit-dashboard's component gallery
 ```
+
+### On a fresh clone, run the root build before any package one
+
+`npm install` links the workspace siblings but does **not** build them. Most packages
+here use a `prepack` script rather than `prepare`, deliberately — `prepare` runs during
+install and npm does not order workspace installs by dependency, which is what turned
+CI red once already. The consequence is that `packages/design-components/dist` does not
+exist until something builds it, so a package that depends on it fails to resolve:
+
+```
+Failed to resolve entry for package "@hollis-labs/design-components"
+```
+
+That is not a broken package. `npm run build` at the root fixes it, and the published
+packages are unaffected — a consumer installs built tarballs. The root build works
+because npm walks the workspaces in directory order and every `design-*` package sorts
+before every `kit-*` one, which is an alphabetical accident rather than a declared
+dependency order. It has now surfaced in three places; it is written down here so the
+fourth person does not rediscover it.
 
 ## CI — the gate
 

@@ -48,6 +48,19 @@ export interface ChatInputProps<TItem extends SuggestionItem = SuggestionItem> {
    */
   readonly history?: readonly string[]
 
+  /**
+   * Which way the suggestion menu opens. Defaults to `'top'`, which is right for a
+   * composer at the bottom of a transcript — the idiom this package is for.
+   *
+   * THE COMPONENT DOES NOT MEASURE AVAILABLE SPACE, DELIBERATELY. Auto-flipping means
+   * either a positioning dependency — the thing this package spent three decisions
+   * avoiding — or hand-rolled measurement with resize and scroll listeners, which is
+   * a lot of machinery to buy back a case the idiom does not have. A host that places
+   * the composer mid-page knows something the component cannot, so it says so here.
+   * If auto-flip ever becomes a real requirement, this prop is the seam it grows from.
+   */
+  readonly menuSide?: 'top' | 'bottom'
+
   readonly toolbarStart?: ReactNode
   readonly toolbarEnd?: ReactNode
   readonly className?: string
@@ -87,6 +100,7 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
   busy = false,
   triggers,
   history,
+  menuSide = 'top',
   toolbarStart,
   toolbarEnd,
   className,
@@ -229,7 +243,10 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
     <div className={cn('relative flex flex-col gap-2', className)} data-slot="chat-input">
       {open && active ? (
         <div
-          className="absolute bottom-full left-0 z-50 mb-2 w-full overflow-hidden rounded-panel border border-border bg-bg-elevated shadow-lg"
+          className={cn(
+            'absolute left-0 z-50 w-full overflow-hidden rounded-panel border border-border bg-bg-elevated shadow-lg',
+            menuSide === 'top' ? 'bottom-full mb-2' : 'top-full mt-2',
+          )}
           data-slot="chat-input-suggestions"
         >
           <Command shouldFilter={false} value={highlighted} onValueChange={setHighlighted}>

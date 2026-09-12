@@ -66,6 +66,7 @@
     }
   },
   "dependencies": {
+    "@hollis-labs/design-bindings": "^0.1.0",
     "@hollis-labs/design-components": "^0.1.0",
     "@hollis-labs/design-tokens": "^0.1.0",
     "@shadcn/react": "^0.3.1",

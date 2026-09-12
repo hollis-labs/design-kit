@@ -136,7 +136,7 @@ moved the reader **0 px** while the scroll height grew.
 ### The item model
 
 ```ts
-type ChatItem = ChatMessageItem | ChatMarkerItem
+type ChatItem = ChatMessageItem | ChatMarkerItem | ChatCardItem
 ```
 
 A discriminated union on `kind`, not a message with optional fields — so a "message"
@@ -147,6 +147,10 @@ variant that nobody handled is a compile error rather than a blank row.
 By default a **user** turn gets a bubble and an **assistant** turn runs full width,
 because assistant content is usually rich and a bubble sized to a conversational line
 squeezes a table into a column.
+
+A **card** is a sibling variant rather than a field on a message. A card nested
+inside a message would force every consumer of `ChatMessageItem` to know about
+envelopes, and force a card to inherit a `role` and an author it does not have.
 
 ### Streaming state, and why stall is yours to assert
 
@@ -227,6 +231,106 @@ partial markdown; `marked` alone, which is 488 kB but leaves the streaming-safet
 to us.
 
 ---
+
+
+## The card set
+
+Interactive cards for a transcript: the `Envelope` chassis, five presentational
+shapes, three that take an answer, and the cards that draw a binding miss.
+
+```tsx
+import { ConfirmationCard, CardBoundary, CardMiss } from '@hollis-labs/kit-chat'
+
+const r = resolve(table, envelope.kind)   // your table, from @hollis-labs/design-bindings
+
+items.push({
+  kind: 'card',
+  id: envelope.id,
+  wireKind: envelope.kind,
+  content: r.ok ? (
+    <CardBoundary key={envelope.id} wireKind={envelope.kind} onError={report}>
+      <ConfirmationCard
+        title="Apply 3 changes?"
+        actions={[{ id: 'apply', label: 'Apply', primary: true }]}
+        priorStatus={envelope.prior_response?.status}
+        onRespond={(outcome) => submit(envelope.id, outcome)}
+      />
+    </CardBoundary>
+  ) : (
+    <CardMiss code={r.code} wireKind={envelope.kind} reason={r.reason} />
+  ),
+})
+```
+
+### A card is a shape, not a wire kind
+
+There is no `ApprovalCard` here and there will not be one. A renderer keyed to a wire
+kind is the design layer asserting wire identity, which the portfolio's ownership
+table gives to `go-envelopes`. Your host binds *its* kinds to *these* shapes, and the
+binding table is host-local by construction.
+
+**So this kit ships no default `BindingRequest` rows.** A request names a `kind`, and
+a kit that implements no kinds has none to offer. What it ships instead is the design
+half of a miss: `CardMiss` draws all four codes distinguishably, and
+`CardFallbackDeclined` draws the case where a fallback refuses because it could not
+preserve meaning.
+
+| component | what it is |
+|---|---|
+| `Envelope`, `EnvelopeHeader`, `EnvelopeBody`, `EnvelopeFooter`, `EnvelopeSection` | the chassis |
+| `InfoCard`, `MetricCard`, `ProgressCard`, `TimelineCard`, `DiffCard` | presentational |
+| `ConfirmationCard`, `TableCard`, `ListCard` | take an answer |
+| `CardMiss`, `CardFallbackDeclined` | a kind that resolved to nothing |
+| `CardBoundary` | a card that threw *while rendering* |
+
+`accent` and `tone` are typed off `@hollis-labs/design-tokens`, so a tone leaving the
+contract breaks these props rather than leaving them pointing at a token that renders
+nothing.
+
+### Responding: emit closed, read open
+
+A card never builds the wire response. It reports an **outcome**; your host adds the
+version and envelope id and transports it.
+
+```ts
+type CardOutcome =
+  | { status: 'submitted'; data?; answers?; decisions? }
+  | { status: 'canceled' }
+```
+
+**`partial` is absent from that union on purpose, and it is not an oversight.** A
+partial submission does not work as implemented: every submission sets `responded_at`
+before the handler dispatches, so a partial claims the envelope and the submission
+that would *complete* the interaction gets a 409. Partial is a state you can enter and
+never leave. A comment warning about that is read after the bug is written; a union
+that cannot express it is a compile error before.
+
+Reading is the opposite. `priorStatus` is a plain `string`, and
+`classifyPriorResponse` is total over it:
+
+```ts
+classifyPriorResponse('partial')   // { kind: 'open' }      — does not claim
+classifyPriorResponse('cancelled') // { kind: 'canceled' }  — legacy spelling
+classifyPriorResponse('handling')  // { kind: 'pending' }   — not in the declared enum
+classifyPriorResponse('quiesced')  // { kind: 'unrecognized', status: 'quiesced' }
+```
+
+The declared enum is four canonical values plus a legacy `cancelled`, and two more —
+`handling` and `failed` — reach the column in practice. A closed union here would be a
+lie that throws on data already in production databases. An unrecognised status leaves
+the card **locked and names the value**, because re-enabling controls against an
+unknown terminal state invites a second submission that 409s.
+
+Resolved state is a **prop**, not internal state, so a decision survives a reload. A
+confirmed card that reads unconfirmed after a refresh is how you get a double submit.
+
+### Why there is no `ResponseV1` type here
+
+There is no TypeScript expression of the response protocol anywhere in the portfolio:
+`go-envelopes` emits envelope data types and import metadata and nothing
+response-shaped, and `ResponseStatus.IsTerminal()` is Go-only. Defining one here would
+make a **fourth** definition of the same thing, which is the exact failure the
+protocol reconciliation was done to stop.
 
 ## Working on this package
 

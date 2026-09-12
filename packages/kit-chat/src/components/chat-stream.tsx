@@ -1,7 +1,13 @@
 import type { ReactNode } from 'react'
 import { MessageScroller } from '@shadcn/react/message-scroller'
 import { cn } from '@hollis-labs/design-components'
-import type { ChatItem, ChatMessageItem, ChatMarkerItem, ChatStreamStatus } from '../lib/types'
+import type {
+  ChatCardItem,
+  ChatItem,
+  ChatMarkerItem,
+  ChatMessageItem,
+  ChatStreamStatus,
+} from '../lib/types'
 
 export interface ChatStreamProps {
   /** Ordered oldest-first. The host owns this list; this component never mutates it. */
@@ -122,6 +128,31 @@ function DefaultMarker({ item }: { readonly item: ChatMarkerItem }) {
   )
 }
 
+/**
+ * A CARD IS NOT GIVEN A BUBBLE, AND THAT IS THE POINT OF IT BEING A SIBLING VARIANT.
+ * A message bubble is chrome that says "someone said this"; a card is a surface that
+ * already carries its own frame, and nesting one inside the other double-frames it.
+ * So this row contributes alignment and an optional byline and nothing else — the
+ * host's card draws itself.
+ */
+function DefaultCard({ item }: { readonly item: ChatCardItem }) {
+  return (
+    <div className="flex w-full flex-col gap-1 items-start" data-wire-kind={item.wireKind}>
+      {item.author || item.timestamp ? (
+        <div className="flex items-baseline gap-2">
+          {item.author ? (
+            <span className="text-label tracking-label text-fg-secondary uppercase">
+              {item.author}
+            </span>
+          ) : null}
+          {item.timestamp ? <span className="text-caption text-fg-faint">{item.timestamp}</span> : null}
+        </div>
+      ) : null}
+      <div className="w-full">{item.content}</div>
+    </div>
+  )
+}
+
 function defaultRender(item: ChatItem): ReactNode {
   // Exhaustive by construction: adding a variant to ChatItem without handling it
   // here is a compile error at the `never` below, not a blank row at runtime.
@@ -130,6 +161,8 @@ function defaultRender(item: ChatItem): ReactNode {
       return <DefaultMessage item={item} />
     case 'marker':
       return <DefaultMarker item={item} />
+    case 'card':
+      return <DefaultCard item={item} />
     default: {
       const exhaustive: never = item
       return exhaustive

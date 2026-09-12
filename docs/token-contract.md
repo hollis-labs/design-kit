@@ -96,7 +96,7 @@ review round 4 and is derived rather than designed.
 | `surface-hover` | `surface` under the pointer. | `fg` |
 | `surface-active` | `surface` pressed, selected, or open. | `fg` |
 
-Evidence: `bg-surface` 461 uses, `bg-bg-elevated` 201, `bg-bg` 275 in Nanite. The kit's
+Evidence: `surface` 417 uses, `bg-elevated` 208, `bg` 77 in Nanite.[^substr] The kit's
 `panel` / `panel-2` / `panel-hover` ladder maps onto this one-to-one (§9.2) — it is not a separate
 idiom, it is the kit's word for the same three steps.
 
@@ -112,7 +112,7 @@ differ.
 | `fg-muted` | Meta text — timestamps, counts, hints. | any surface |
 | `fg-faint` | Disabled text and placeholders. | any surface |
 
-`fg` beats the kit's `text` decisively on use — **1,829 vs 123** — and `text-text` is an unfortunate
+`fg` beats the kit's `text` decisively on use — **471 vs 24**[^substr] — and `text-text` is an unfortunate
 utility name. `bg`/`fg` also pair naturally.
 
 > **Value note for design review:** the two ramps do not align step-for-step. The kit's `text-muted`
@@ -143,7 +143,7 @@ The reasoning, because CW-0127 should not reopen it:
    `border-soft` (11 uses) appears almost entirely as `border-b` / `divide-y` on table rows — a
    separator.
 4. **Nanite already has the three roles as three real colors**, not alpha variants:
-   `border` `#25282c` (518 uses), `border-subtle` `#1d1f22` (414), `divider` `rgba(255,255,255,.06)` (47).
+   `border` `#25282c` (140 uses), `border-subtle` `#1d1f22` (409), `divider` `rgba(255,255,255,.06)` (43).[^substr]
    That is the same distinction, drawn better.
 
 **THIS TABLE IS A COMPONENT-USAGE MIGRATION, NOT A VALUE MAPPING.** *(Distinction added 2026-09-10 by
@@ -268,7 +268,7 @@ two are the strong ones:
 
 **This is the one family in the contract that neither implementation has**, so it was flagged rather
 than asserted. The justification is measured: `chart-1..5` is shadcn standard, and Nanite's
-component-level hex is down to 24 occurrences of which the chart configs
+component-level hex is down to 37 occurrences of which the chart configs
 (`DurationChart.tsx`, `ProviderDistributionChart.tsx`, `chartSetup.ts`) are a named share — they hold
 literal colors *because no token exists*. A charting library needs real color strings, so this family
 also needs a JS accessor, not only a CSS variable (§10).
@@ -742,7 +742,7 @@ and cannot drift.
 ### The surface
 
 ```ts
-// design-tokens/src/contract.ts — the single source
+// design-tokens/src/tokens.ts — the single source
 
 export const COLOR_TOKENS = [
   'bg', 'bg-elevated', 'surface', 'surface-hover', 'surface-active',
@@ -829,7 +829,8 @@ around, per the epic's standing rule.
 **Confirmed exactly:** `text-[10px]`×73, `text-[11px]`×55, `text-[13px]`×38, `text-[12px]`×31,
 `rounded-[4px]`×39, `rounded-[6px]`×36 in Nanite's chat directory; **68 distinct arbitrary values**
 there; 6 built-in themes with complete dark and light sets; hex concentration in the theme layer
-(627 in `lib/theme`, 24 at component level).
+(627 in `lib/theme`, **37** at component level — the brief's 24 was low; corrected 2026-09-12,
+`ui/src` excluding `lib/theme`, 37 hex across 7 files).
 
 **Differs:**
 
@@ -993,3 +994,45 @@ spacing   Tailwind's, unmodified — no tokens
 `[bracketed]` = Tailwind's own step, inherited unmodified.
 
 **Idiom prefixes** — `dash` (kit-dashboard) · `chat` (kit-chat) · burned: `status` · retired: `sidebar`
+
+---
+
+[^substr]: **Corrected 2026-09-12 (CW-20260910-0127).** The figures in §3.1, §3.2 and §3.3 were
+originally **inclusive-substring** counts — `grep -o 'text-fg'` also matches `text-fg-muted`,
+`-secondary` and `-faint`. They are now **token-exact**: the utility is split on its colour slot and
+the token read out of it, so `text-fg-muted` counts toward `fg-muted` and not toward `fg`, and
+`bg-bg-surface` counts toward neither.
+
+**No ordering in this document changes, and §3.2 gets stronger** — its `1,829 vs 123` was substring
+on *both* sides (`text-text*` returns 124 in frozen sysop-ui), so token-exact the ratio moves from
+about 15:1 to **20:1**.
+
+The correction is not a uniform deflation, which is why it needed re-measuring rather than scaling:
+
+| Token | Substring | Token-exact | |
+|---|---|---|---|
+| `surface` | 461 | **417** | inflated — caught `surface-hover`, `surface-active` |
+| `bg` | 275 | **77** | inflated — `bg-bg-elevated`, `bg-bg-subtle` |
+| `fg` | 1,829 | **471** | inflated — three longer `fg-*` names |
+| `border` | 518 | **140** | inflated — `border-subtle` |
+| `bg-elevated` | 201 | **209** | **deflated** — `bg-bg-elevated` misses the other colour slots |
+
+`bg-elevated` is the one to remember: a substring grep *under*-counts whenever you anchor it to one
+utility slot. Neither direction is safe.
+
+**And the token-exact instrument has its own blind spot, which found this figure twice.** It splits a
+utility on its colour slot and drops anything whose slot it does not recognise — so a slot missing
+from the list vanishes *silently*, with no error and no zero row. `bg-elevated` is 209, not 208,
+because `ring-offset-bg-elevated` fell out of a slot list that had `ring` but not `ring-offset`. The
+full breakdown, since it is the whole lesson in six lines:
+
+```
+201  bg-bg-elevated          4  text-bg-elevated         1  ring-bg-elevated
+  1  ring-offset-bg-elevated  1  border-bg-elevated       1  border-b-bg-elevated
+```
+
+So: **the substring instrument fails loudly and the token-exact one fails quietly.** Prefer the
+second, print the per-slot breakdown, and treat a slot list as something to verify rather than
+assume. This is the same instrument error as the withdrawn §11.6
+density figure and the `lucide-react` file count (16 importers, 18 mentions) — third occurrence,
+so: **state the instrument beside the number, always.**

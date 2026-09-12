@@ -275,6 +275,12 @@
  * they stay unset in this block even after the chart palette is designed. Do not
  * read a decision about chart colours as having filled them.
  *
+ * STILL NINETEEN after §3.10 added the five `syntax-*` names, because those are
+ * SET below rather than left unset — they derive from `fg` and `fg-faint`, which
+ * this kit has. `syntax-*` and `chart-*` look like the same kind of family and
+ * are treated oppositely here on purpose; the reason is in the contract and in
+ * `SYNTAX_TOKENS`.
+ *
  * They arrive with CW-20260911-0071, which swaps this block for the contract's own
  * themes.
  * ------------------------------------------------------------------------- */
@@ -342,6 +348,36 @@
   --hl-danger: var(--theme-color-danger);
   --hl-danger-muted: var(--theme-color-danger-soft);
   --hl-warning: var(--theme-color-warning);
+
+  /* Syntax — contract §3.10, rule R4. Five stops at 100/75/50/25/0 between this
+   * palette's own `fg` and `fg-faint`, mixed in oklab.
+   *
+   * MIXED HERE RATHER THAN BAKED, WHICH IS THE OPPOSITE OF WHAT design-tokens
+   * DOES, and the asymmetry is structural rather than a style choice. That
+   * package holds its palettes in TypeScript, so it computes R4 once per theme
+   * offline and ships literal colours a theme editor can display. This kit's
+   * palettes are CSS — four of them, selected by `[data-theme]` on the same
+   * element `:root` matches — so one declaration has to serve all four, and only
+   * an expression can. Same rule, same stops, same output; different layer.
+   *
+   * The endpoints are exact by construction: `syntax-key` IS `fg` and
+   * `syntax-null` IS `fg-faint`, so only the three middle stops are new colours
+   * and no palette acquires a hue nobody chose.
+   *
+   * THE FLOOR IS `fg-faint`, NOT `bg`. Running the ramp to the background gives
+   * wider separation and drops the bottom two stops to 1.9 / 1.8 / 1.6 / 1.4 : 1
+   * across these four palettes — below AA in every one. Ending at the palette's
+   * own faintest legible step holds its existing floor exactly.
+   *
+   * Same `@supports` fallback as the status labels gets added by the build: an
+   * engine without `color-mix` renders these as `fg`, which is legible and wrong
+   * rather than invisible. Do not delete it as duplication.
+   */
+  --hl-syntax-key: var(--hl-fg);
+  --hl-syntax-string: color-mix(in oklab, var(--hl-fg) 75%, var(--hl-fg-faint));
+  --hl-syntax-number: color-mix(in oklab, var(--hl-fg) 50%, var(--hl-fg-faint));
+  --hl-syntax-boolean: color-mix(in oklab, var(--hl-fg) 25%, var(--hl-fg-faint));
+  --hl-syntax-null: var(--hl-fg-faint);
 
   /* Fonts */
   --hl-font-sans: var(--font-sans);

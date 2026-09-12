@@ -16,9 +16,10 @@ const {
   FONT_TOKENS, VALUE_PREFIX, TOKEN_META, CATEGORIES, TONES, ACCENTS,
 } = tokens
 
-test('43 colour tokens, no duplicates', () => {
-  assert.equal(COLOR_TOKENS.length, 43)
-  assert.equal(new Set(COLOR_TOKENS).size, 43)
+test('48 colour tokens, no duplicates', () => {
+  // 43 at the contract's landing, plus the five-name syntax family (§3.10).
+  assert.equal(COLOR_TOKENS.length, 48)
+  assert.equal(new Set(COLOR_TOKENS).size, 48)
 })
 
 test('the value-layer prefix is --hl-, not --c-', () => {

@@ -75,7 +75,7 @@ import {
 
 | | Count | |
 |---|---|---|
-| Colour tokens | **43** | §3 |
+| Colour tokens | **48** | §3 — 43 at landing, +5 for `syntax-*` (§3.10, review round 4) |
 | shadcn aliases | **24 names, 16 generated** | §3.7 — see *Findings* |
 | Font tokens | 2 | `--font-sans`, `--font-mono` |
 | Type steps added | 4 | `micro` 9 · `caption` 10 · `label` 11 · `control` 13 |
@@ -96,6 +96,7 @@ warning     warning  warning-muted  warning-fg
 success     success  success-muted  success-fg
 info        info  info-muted  info-fg
 chart       chart-1 … chart-5          ← PLACEHOLDER VALUES. See below.
+syntax      syntax-key  syntax-string  syntax-number  syntax-boolean  syntax-null
 ```
 
 ---
@@ -248,6 +249,7 @@ editor still works:
 | **R1** | `X-muted` = `X` at 12% alpha | The contract's own definition — "`-muted` always means a low-alpha tint used as a background" (§3.8 rule 3). Names no new colour. |
 | **R2** | `X-hover` = `X` 12% toward white · `X-active` = `X` 12% toward black · `surface-active` = `surface-hover` 15% toward `fg` | A magnitude, not a hue. sysop-ui's palettes have no interaction states for `primary`/`brand`/`danger` at all; the alternative was repeating the base colour and shipping a button that does not respond. |
 | **R3** | `X-fg` = white or the theme's own `bg`, whichever contrasts more (WCAG) | **Measured, and reported rather than asserted:** this rule reproduces **39 of the 48** `-fg` values Nanite's authors chose by hand. The nine misses are all cases where they preferred white on a saturated red or orange at *lower* measured contrast. So these are contrast-maximal, not style-matched, and a design pass should expect to move some. |
+| **R4** | `syntax-*` = five stops at 100/75/50/25/0 between the palette's own `fg` and `fg-faint`, in oklab | **The endpoints are `fg` and `fg-faint` themselves**, so only three middle stops are new and every one is a lightness step between two colours the palette already chose. Unlike R1–R3 this fills a family no palette ever had, which is why it needed §3.10 to exist first. The floor is `fg-faint` and not `bg`, and that was measured: running to the background drops the bottom two stops to 1.9 / 1.8 / 1.6 / 1.4 : 1 across the sysop palettes — below AA in all four. |
 
 Which tokens they cover:
 
@@ -257,6 +259,9 @@ Which tokens they cover:
   feedback `-fg`, `surface-active`, and the interaction states for `primary`,
   `brand` and `danger`. 64 values. That list is a fair description of what a
   dense dark-only ops palette never needed.
+- **R4 applies to all ten**, in every mode they declare — 80 values. It is the
+  one rule that is uniform across the set, because it is not patching a gap in
+  any particular palette: no palette ever had a syntax family.
 
 Three more gaps were filled from values that **already exist** in `index.css`
 outside Nanite's `TokenKey` union, so they are carried rather than derived:

@@ -64,6 +64,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #e8eaed;
+  --hl-syntax-string: #bec1c5;
+  --hl-syntax-number: #95999f;
+  --hl-syntax-boolean: #6e747b;
+  --hl-syntax-null: #4a5058;
 }
 [data-theme="nanite-default"][data-mode="light"],
 [data-theme="nanite-default"].light {
@@ -110,6 +115,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #18191b;
+  --hl-syntax-string: #34373a;
+  --hl-syntax-number: #54585d;
+  --hl-syntax-boolean: #757b81;
+  --hl-syntax-null: #98a0a8;
 }
 
 /* Graphite & Ink — Direction A — near-monochrome, deep ink blue primary. Vignelli / grid systems.
@@ -160,6 +170,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f4f4f5;
+  --hl-syntax-string: #c9c9cc;
+  --hl-syntax-number: #9f9fa5;
+  --hl-syntax-boolean: #77777f;
+  --hl-syntax-null: #52525b;
 }
 :root:not([data-theme])[data-mode="light"],
 :root:not([data-theme]).light {
@@ -206,6 +221,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #18181b;
+  --hl-syntax-string: #37373a;
+  --hl-syntax-number: #59595d;
+  --hl-syntax-boolean: #7d7d81;
+  --hl-syntax-null: #a4a4a8;
 }
 [data-theme="dir-a"] {
   --hl-bg: #0e0e10;
@@ -251,6 +271,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f4f4f5;
+  --hl-syntax-string: #c9c9cc;
+  --hl-syntax-number: #9f9fa5;
+  --hl-syntax-boolean: #77777f;
+  --hl-syntax-null: #52525b;
 }
 [data-theme="dir-a"][data-mode="light"],
 [data-theme="dir-a"].light {
@@ -297,6 +322,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #18181b;
+  --hl-syntax-string: #37373a;
+  --hl-syntax-number: #59595d;
+  --hl-syntax-boolean: #7d7d81;
+  --hl-syntax-null: #a4a4a8;
 }
 
 /* Warm Stone & Steel — Direction B — limestone bg, steel primary, bronze-olive success. Kinfolk / Aesop.
@@ -347,6 +377,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f0eae0;
+  --hl-syntax-string: #c8c1b8;
+  --hl-syntax-number: #a29b91;
+  --hl-syntax-boolean: #7d756c;
+  --hl-syntax-null: #5a5249;
 }
 [data-theme="dir-b"][data-mode="light"],
 [data-theme="dir-b"].light {
@@ -393,6 +428,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #1f1a14;
+  --hl-syntax-string: #3e3830;
+  --hl-syntax-number: #5f584f;
+  --hl-syntax-boolean: #837b71;
+  --hl-syntax-null: #a8a094;
 }
 
 /* Synthwave — Direction D — deep violet surfaces, electric cyan primary, hot magenta brand.
@@ -443,6 +483,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f0e8ff;
+  --hl-syntax-string: #c5bedf;
+  --hl-syntax-number: #9d95bf;
+  --hl-syntax-boolean: #766e9f;
+  --hl-syntax-null: #524880;
 }
 [data-theme="dir-d"][data-mode="light"],
 [data-theme="dir-d"].light {
@@ -489,6 +534,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #1a0e2e;
+  --hl-syntax-string: #382d4d;
+  --hl-syntax-number: #594f6e;
+  --hl-syntax-boolean: #7c7290;
+  --hl-syntax-null: #a298b4;
 }
 
 /* Hacker / Terminal — Direction E — deep blue-black, neon cyan primary, magenta brand. Wire / CRT aesthetic.
@@ -539,6 +589,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #c8e0f0;
+  --hl-syntax-string: #9fb8cd;
+  --hl-syntax-number: #7791aa;
+  --hl-syntax-boolean: #516b88;
+  --hl-syntax-null: #2e4868;
 }
 [data-theme="dir-e"][data-mode="light"],
 [data-theme="dir-e"].light {
@@ -585,6 +640,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #0a1a24;
+  --hl-syntax-string: #273742;
+  --hl-syntax-number: #465762;
+  --hl-syntax-boolean: #677884;
+  --hl-syntax-null: #8a9ca8;
 }
 
 /* Flat / Mono — Direction F — pure greyscale surfaces, burnt orange brand accent. Monogram / calendar.
@@ -635,6 +695,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #f0f0f0;
+  --hl-syntax-string: #c3c3c3;
+  --hl-syntax-number: #999999;
+  --hl-syntax-boolean: #707070;
+  --hl-syntax-null: #4a4a4a;
 }
 [data-theme="dir-f"][data-mode="light"],
 [data-theme="dir-f"].light {
@@ -681,6 +746,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #0a0a0a;
+  --hl-syntax-string: #272727;
+  --hl-syntax-number: #474747;
+  --hl-syntax-boolean: #6b6b6b;
+  --hl-syntax-null: #909090;
 }
 
 /* Sysop — P4 White — The sysop-ui default. Neutral zinc on near-black; the dense-ops look.
@@ -733,6 +803,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: rgb(244 244 245);
+  --hl-syntax-string: rgb(210 210 213);
+  --hl-syntax-number: rgb(176 176 182);
+  --hl-syntax-boolean: rgb(144 144 151);
+  --hl-syntax-null: rgb(113 113 122);
 }
 
 /* Sysop — Green Phosphor — P1 phosphor CRT. Green on black, amber for alarm.
@@ -785,6 +860,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: rgb(0 255 102);
+  --hl-syntax-string: rgb(38 225 102);
+  --hl-syntax-number: rgb(51 196 100);
+  --hl-syntax-boolean: rgb(56 168 97);
+  --hl-syntax-null: rgb(58 140 92);
 }
 
 /* Sysop — Amber Phosphor — P3 phosphor CRT. Amber on black, orange-red for alarm.
@@ -837,6 +917,11 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: rgb(255 176 0);
+  --hl-syntax-string: rgb(229 160 21);
+  --hl-syntax-number: rgb(203 143 29);
+  --hl-syntax-boolean: rgb(178 128 34);
+  --hl-syntax-null: rgb(153 112 36);
 }
 
 /* Sysop — High Contrast — Maximum contrast. Pure black, pure white edges, saturated status hues.
@@ -889,4 +974,9 @@
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
+  --hl-syntax-key: rgb(255 255 255);
+  --hl-syntax-string: rgb(243 243 243);
+  --hl-syntax-number: rgb(231 231 231);
+  --hl-syntax-boolean: rgb(220 220 220);
+  --hl-syntax-null: rgb(208 208 208);
 }

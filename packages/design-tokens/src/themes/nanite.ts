@@ -56,6 +56,11 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#e8eaed',  // derived — R4
+      'syntax-string': '#bec1c5',  // derived — R4
+      'syntax-number': '#95999f',  // derived — R4
+      'syntax-boolean': '#6e747b',  // derived — R4
+      'syntax-null': '#4a5058',  // derived — R4
     },
     light: {
       'bg': '#f4f5f6',
@@ -101,6 +106,11 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#18191b',  // derived — R4
+      'syntax-string': '#34373a',  // derived — R4
+      'syntax-number': '#54585d',  // derived — R4
+      'syntax-boolean': '#757b81',  // derived — R4
+      'syntax-null': '#98a0a8',  // derived — R4
     },
   },
 }
@@ -158,6 +168,11 @@ export const DIRECTION_A: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#f4f4f5',  // derived — R4
+      'syntax-string': '#c9c9cc',  // derived — R4
+      'syntax-number': '#9f9fa5',  // derived — R4
+      'syntax-boolean': '#77777f',  // derived — R4
+      'syntax-null': '#52525b',  // derived — R4
     },
     light: {
       'bg': '#f7f7f6',
@@ -203,6 +218,11 @@ export const DIRECTION_A: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#18181b',  // derived — R4
+      'syntax-string': '#37373a',  // derived — R4
+      'syntax-number': '#59595d',  // derived — R4
+      'syntax-boolean': '#7d7d81',  // derived — R4
+      'syntax-null': '#a4a4a8',  // derived — R4
     },
   },
 }
@@ -260,6 +280,11 @@ export const DIRECTION_B: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#f0eae0',  // derived — R4
+      'syntax-string': '#c8c1b8',  // derived — R4
+      'syntax-number': '#a29b91',  // derived — R4
+      'syntax-boolean': '#7d756c',  // derived — R4
+      'syntax-null': '#5a5249',  // derived — R4
     },
     light: {
       'bg': '#f5f1ea',
@@ -305,6 +330,11 @@ export const DIRECTION_B: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#1f1a14',  // derived — R4
+      'syntax-string': '#3e3830',  // derived — R4
+      'syntax-number': '#5f584f',  // derived — R4
+      'syntax-boolean': '#837b71',  // derived — R4
+      'syntax-null': '#a8a094',  // derived — R4
     },
   },
 }
@@ -362,6 +392,11 @@ export const DIRECTION_D: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#f0e8ff',  // derived — R4
+      'syntax-string': '#c5bedf',  // derived — R4
+      'syntax-number': '#9d95bf',  // derived — R4
+      'syntax-boolean': '#766e9f',  // derived — R4
+      'syntax-null': '#524880',  // derived — R4
     },
     light: {
       'bg': '#f5f0fa',
@@ -407,6 +442,11 @@ export const DIRECTION_D: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#1a0e2e',  // derived — R4
+      'syntax-string': '#382d4d',  // derived — R4
+      'syntax-number': '#594f6e',  // derived — R4
+      'syntax-boolean': '#7c7290',  // derived — R4
+      'syntax-null': '#a298b4',  // derived — R4
     },
   },
 }
@@ -464,6 +504,11 @@ export const DIRECTION_E: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#c8e0f0',  // derived — R4
+      'syntax-string': '#9fb8cd',  // derived — R4
+      'syntax-number': '#7791aa',  // derived — R4
+      'syntax-boolean': '#516b88',  // derived — R4
+      'syntax-null': '#2e4868',  // derived — R4
     },
     light: {
       'bg': '#f4f1e8',
@@ -509,6 +554,11 @@ export const DIRECTION_E: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#0a1a24',  // derived — R4
+      'syntax-string': '#273742',  // derived — R4
+      'syntax-number': '#465762',  // derived — R4
+      'syntax-boolean': '#677884',  // derived — R4
+      'syntax-null': '#8a9ca8',  // derived — R4
     },
   },
 }
@@ -566,6 +616,11 @@ export const DIRECTION_F: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#f0f0f0',  // derived — R4
+      'syntax-string': '#c3c3c3',  // derived — R4
+      'syntax-number': '#999999',  // derived — R4
+      'syntax-boolean': '#707070',  // derived — R4
+      'syntax-null': '#4a4a4a',  // derived — R4
     },
     light: {
       'bg': '#ededed',
@@ -611,6 +666,11 @@ export const DIRECTION_F: Theme = {
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
+      'syntax-key': '#0a0a0a',  // derived — R4
+      'syntax-string': '#272727',  // derived — R4
+      'syntax-number': '#474747',  // derived — R4
+      'syntax-boolean': '#6b6b6b',  // derived — R4
+      'syntax-null': '#909090',  // derived — R4
     },
   },
 }

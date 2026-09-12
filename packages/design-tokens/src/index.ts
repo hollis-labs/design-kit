@@ -12,14 +12,14 @@
 
 /* The contract — names, types, and the two-level layer model. */
 export {
-  COLOR_TOKENS, CHART_TOKENS, PLACEHOLDER_CHART_COLOR,
+  COLOR_TOKENS, CHART_TOKENS, PLACEHOLDER_CHART_COLOR, SYNTAX_TOKENS,
   FONT_TOKENS, FONT_STACKS, VALUE_PREFIX,
   SHADCN_ALIASES, GENERATED_SHADCN_ALIASES,
   DEPRECATED_TOKENS, DROPPED_TOKENS,
   IDIOM_PREFIXES, UNAVAILABLE_IDIOM_PREFIXES,
 } from './tokens.js'
 export type {
-  ColorToken, ChartToken, ContractColorToken, FontToken,
+  ColorToken, ChartToken, SyntaxToken, ContractColorToken, FontToken,
   ShadcnAlias, DeprecatedToken, DroppedToken, IdiomPrefix,
 } from './tokens.js'
 

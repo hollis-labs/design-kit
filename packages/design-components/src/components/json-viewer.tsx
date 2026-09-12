@@ -8,69 +8,73 @@ interface JsonViewerProps {
   className?: string
 }
 
-// Matches: a quoted string (optionally a key — trailed by `:`), a literal
-// (true/false/null), or a number.
+// Matches: a quoted string — as a key when a `:` follows, asserted rather than
+// consumed — a literal (true/false/null), or a number.
 //
-// KNOWN, AND LATENT RATHER THAN BROKEN — read this before styling a syntax role.
-// The `\s*` sits INSIDE the match, so when a string is followed by whitespace the
-// match carries that whitespace and the emitted `<span>` wraps it. In practice
-// that is the last element before a closing bracket, and only strings: literals
-// and numbers have no trailing `\s*`, and a string followed by `,` or `:` stops
-// at the quote. `{"tags":["one","two"]}` pretty-printed yields one such match —
-// `"two"\n  ` — whose span swallows the newline and the bracket's indent.
+// THE LOOKAHEAD IS THE POINT, AND IT REPLACED A `\s*:?` THAT CONSUMED. With the
+// `\s*` inside the match, a string followed by whitespace carried that whitespace
+// and the emitted `<span>` wrapped it — in practice the last element before a
+// closing bracket, whose span swallowed the newline AND the bracket's indent.
+// `{"tags":["one","two"]}` pretty-printed produced exactly one such match,
+// `"two"\n  `. It rendered identically while every role was colour-only, which is
+// how it survived; it would have started painting across line breaks the moment a
+// role took a background, border or underline, which is what a syntax palette
+// invites. Asserting `(?=\s*:)` ends every match at the closing quote.
 //
-// `classFor` already tolerates it (hence the `trimEnd()`), and while these roles
-// are colour-only it renders identically, which is why it has survived. It stops
-// being invisible the moment a role takes a `background`, `border`, `underline`
-// or `padding` — the span then paints across the line break — and that is exactly
-// what a syntax-palette design pass would add.
+// ONE APPEARANCE CHANGE CAME WITH IT, approved as part of this pass rather than
+// slipped in: the `:` is no longer inside the key's match, so it renders in the
+// surrounding text colour instead of the key colour. Every object key, every
+// palette. That is the whole of the visible difference.
 //
-// The fix is a lookahead rather than a consumed suffix: match the quoted run and
-// assert `(?=\s*:)` to recognise a key, which ends every match at the closing
-// quote (verified: 0 matches carry trailing whitespace, all 5 keys still
-// classify). It is NOT a pure refactor — the `:` stops being part of the key's
-// span and renders in the surrounding text colour — so it is left alone
-// deliberately, to land with the design pass rather than ahead of it.
-const TOKEN = /("(?:[^"\\]|\\.)*"\s*:?|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g
+// `key` is a named group because both string alternatives match the same text —
+// the lookahead consumes nothing, so the matched substring alone cannot say which
+// one fired.
+const TOKEN = /((?<key>"(?:[^"\\]|\\.)*")(?=\s*:)|"(?:[^"\\]|\\.)*"|\b(?:true|false|null)\b|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g
 
 /**
- * THE SYNTAX PALETTE, AND THE CONTRACT GAP IT SITS ON.
+ * THE SYNTAX PALETTE — now its own contract family, §3.10.
  *
- * CW-0116 called this file's token bug "the worst kind": four `--color-status-*`
- * tokens used as SYNTAX colours, so a change to the operations status palette
- * silently restyled JSON. Base cannot name `status-*` regardless — the contract
- * burned that prefix — so the mapping had to change.
+ * The history, because the shape of this file only makes sense with it. CW-0116
+ * called the original token bug "the worst kind": four `--color-status-*` tokens
+ * used as SYNTAX colours, so retuning the operations status palette silently
+ * restyled JSON. The contract burned the `status-` prefix, so that had to move —
+ * and it moved to the feedback family, which was the same defect one family over.
+ * `danger` means danger; a string is not a success. The categories here are
+ * syntactic and the names they borrowed were semantic.
  *
- * WHAT IT MOVED TO IS NOT A FIX, IT IS THE SAME DEFECT ONE FAMILY OVER. These
- * name the feedback family, which carries meaning — `danger` means danger — and a
- * theme retuning `danger` will restyle JSON exactly as the status palette did.
- * The categories here are syntactic, not semantic: a string is not a success.
+ * IT ALSO DID NOT RENDER. Measured across the four sysop palettes: the feedback
+ * map produced five distinct colours in ONE of them. Amber rendered `string`,
+ * `number` and `boolean` as the same `#ffd060`; green and high-contrast collapsed
+ * two each. Syntax highlighting that does not highlight — which is why this is a
+ * repair and not a tidy-up.
  *
- * WHAT IS ACTUALLY MISSING is a categorical family, and the contract has the
- * right shape for it already — `chart-1..5` are names with no semantics,
- * explicitly a palette awaiting a design pass. They are the natural home for
- * this. They cannot be used yet: every built-in theme sets all five to
- * PLACEHOLDER_CHART_COLOR, deliberately loud so an unreviewed chart looks wrong
- * rather than plausible, which would make JSON five shades of magenta.
+ * `chart-1..5` was the obvious home and is the wrong one. Both families are
+ * categorical, but charts paint fills at WCAG's 3:1 and syntax paints small mono
+ * text at 4.5:1, and no single five-stop ramp clears both bars — the derivation
+ * with the separation charts want puts two of these roles below AA in all four
+ * palettes. `SYNTAX_TOKENS` carries that argument in full. The chart family stays
+ * an undesigned placeholder by Chrispian's own decision.
  *
- * So this preserves the function and keeps the gap visible in one place rather
- * than five. Routed as a contract item; when a syntax or categorical family
- * lands, this map is the only thing that changes.
+ * So these five names are the family, and the values are rule R4 in the theme
+ * layer — a lightness ramp between each palette's own `fg` and `fg-faint`. This
+ * component names tokens and computes nothing, which is the one rule.
  */
 const SYNTAX = {
-  key: 'text-info',
-  string: 'text-success',
-  boolean: 'text-warning',
-  null: 'text-fg-faint',
-  number: 'text-primary',
+  key: 'text-syntax-key',
+  string: 'text-syntax-string',
+  boolean: 'text-syntax-boolean',
+  null: 'text-syntax-null',
+  number: 'text-syntax-number',
 } as const
 
-function classFor(match: string): string {
-  if (match.startsWith('"')) {
-    return match.trimEnd().endsWith(':') ? SYNTAX.key : SYNTAX.string
+function classFor(match: RegExpExecArray | RegExpMatchArray): string {
+  const text = match[0]
+  if (text.startsWith('"')) {
+    // The lookahead consumes nothing, so the group — not the text — says which.
+    return match.groups?.key !== undefined ? SYNTAX.key : SYNTAX.string
   }
-  if (match === 'true' || match === 'false') return SYNTAX.boolean
-  if (match === 'null') return SYNTAX.null
+  if (text === 'true' || text === 'false') return SYNTAX.boolean
+  if (text === 'null') return SYNTAX.null
   return SYNTAX.number
 }
 
@@ -94,7 +98,7 @@ export function JsonViewer({ value, className }: JsonViewerProps) {
       const index = match.index ?? 0
       if (index > last) out.push(text.slice(last, index))
       out.push(
-        <span key={key++} className={classFor(match[0])}>
+        <span key={key++} className={classFor(match)}>
           {match[0]}
         </span>,
       )

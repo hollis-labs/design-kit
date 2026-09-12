@@ -1,5 +1,5 @@
 /**
- * THE COLOR CONTRACT — 43 names.
+ * THE COLOR CONTRACT — 48 names.
  *
  * The one rule: a component may name a token, never a value. This file is the
  * list of names it may name. It holds no colors; `themes/` holds those, and the
@@ -37,6 +37,9 @@ export const COLOR_TOKENS = [
   // Charts — §3.6. NAMES ONLY. Every built-in theme ships an obvious placeholder;
   // the palette is a design pass that has not happened. See CHART_TOKENS.
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
+  // Syntax — §3.10. Five roles for highlighting code, DERIVED per palette rather
+  // than designed. Separate from charts on purpose; see SYNTAX_TOKENS.
+  'syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null',
 ] as const
 
 export type ColorToken = (typeof COLOR_TOKENS)[number]
@@ -55,6 +58,37 @@ export type ColorToken = (typeof COLOR_TOKENS)[number]
  */
 export const CHART_TOKENS = ['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'] as const
 export type ChartToken = (typeof CHART_TOKENS)[number]
+
+/**
+ * THE SYNTAX FAMILY — §3.10. Five roles for highlighting code.
+ *
+ * WHY THIS IS NOT `chart-1..5`, which is the first thing anyone will ask. Both
+ * are categorical: five names, no semantics, a component picks by position. The
+ * difference is the surface they land on, and it is not a preference.
+ *
+ *   charts paint FILLS  — large areas, WCAG's 3:1 bar, and they want the widest
+ *                         separation the palette can give
+ *   syntax paints TEXT  — small mono glyphs, WCAG's 4.5:1 bar, and every step
+ *                         must stay legible against `bg`
+ *
+ * MEASURED, NOT ASSERTED. A five-stop ramp from `fg` to `bg` — the obvious
+ * derivation, and the right one for fills — puts its bottom two steps at
+ * 1.9 / 1.8 / 1.6 / 1.4 : 1 across the four sysop palettes. `syntax-boolean` and
+ * `syntax-null` would fail AA in all four and `syntax-null` is invisible on
+ * high-contrast. No single five-stop ramp clears both bars, so one family cannot
+ * serve both roles. That is why these are five more names rather than five reused
+ * ones, and it is the sentence that should stop someone merging them later.
+ *
+ * The values ARE derived (rule R4 in `themes/index.ts`) rather than designed:
+ * 100/75/50/25/0 between each palette's own `fg` and `fg-faint`. That is a
+ * deliberate difference from `chart-1..5`, which stays unfilled — a lightness
+ * ramp between two steps the palette already chose invents no colour, whereas
+ * five distinguishable series hues would.
+ */
+export const SYNTAX_TOKENS = [
+  'syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null',
+] as const
+export type SyntaxToken = (typeof SYNTAX_TOKENS)[number]
 
 /**
  * Not a design choice. A marker. Grep for it; it is meant to be found.

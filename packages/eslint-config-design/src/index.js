@@ -114,6 +114,7 @@ export async function designConfig(options = {}) {
         'design/no-undefined-token': [severity, {
           tokens,
           families: [...vocabulary.families],
+          extraFamilies: [...vocabulary.idioms],
           ignore: ignoreTokens,
           deprecated: vocabulary.deprecated ?? {},
           // OFF BY DEFAULT, AND MEASURED BEFORE YOU TURN IT ON.

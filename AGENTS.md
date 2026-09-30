@@ -20,18 +20,16 @@ layer permitted to name a color is the theme layer.
 ## Layout
 
 This repo is npm workspaces, `packages/*`. Every root-level file and every
-package directory was landed up front, deliberately, so concurrent sessions
+package directory was landed up front, deliberately, so contributors
 working on disjoint packages never touch a shared file. **Add files inside your
 own package.**
 
 **Do not edit a root-level file.** The whole parallel plan rests on the skeleton
 being complete and stable: `package.json`, `tsconfig.json`, `.gitignore`,
-`.npmrc`, `.github/workflows/ci.yml` and this file are shared, and two sessions
-editing one is exactly the collision the up-front skeleton exists to prevent. If
-you need a root file changed, route the request to the session sequencing the
-work — `sysop-ui-33` for the duration of EP-20260910-0001, the epic lead
-afterwards — and let it make the change. Say so rather than changing it under
-someone else.
+`.npmrc`, `.github/workflows/ci.yml` and this file are shared, and two changes
+touching one is exactly the collision the up-front skeleton exists to prevent. If
+you need a root file changed, say so in the pull request or an issue and let a
+maintainer make the change, rather than changing it alongside unrelated work.
 
 `tsconfig.json` at the root is the base config packages extend. Package-specific
 `include`, `types`, `baseUrl` and `paths` stay in the package's own tsconfig —

@@ -15,6 +15,8 @@
 - Keep card envelopes within narrow transcript columns and wide tables locally
   scrollable. Record [ops-chat dogfood](docs/polish-dogfood.md); pagination and
   live-app adoption remain separate work.
+- Hide Jump to latest when the scroller marks it inactive. Previously its inert
+  button still painted over short transcripts even when already at the end.
 
 - Preserve named typography tokens beside foreground colors when merging class
   names. Registry-consumer Chromium verification found 0.1.0 message bubbles

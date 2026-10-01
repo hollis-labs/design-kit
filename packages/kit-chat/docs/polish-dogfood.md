@@ -65,6 +65,21 @@ Browser receipts are retained beside this document in
 `receipts/ops-browser.json` and `receipts/narrow-browser.json`. These are
 observations of this candidate, not tests asserting mutable file content.
 
+### Short-stream jump control
+
+The orchestrator flagged Jump to latest overlapping the last assistant bubble
+in PR 13's theme screenshots. Reading the headless scroller's shipped source
+confirmed that its button stays mounted with `data-active="false"` and `inert`
+when there is nothing to jump to. ChatStream supplied positioning but no inactive
+visibility rule, so this was a kit defect, not a demo-container issue.
+
+ChatStream now hides that inactive state. A production consumer fixture with
+two messages in a 256px container (including “All packages share the same
+palette.”) verified zero overflow and computed `display: none` for the jump
+control. A 40-message fixture verified the control hidden at the end, visible
+after a user scroll up, and hidden again after clicking it reached the end.
+The receipt is `receipts/jump-browser.json`.
+
 ## Repeating the check
 
 1. Set `TMPDIR` and `GOTMPDIR` to a disk-backed scratch directory, build the

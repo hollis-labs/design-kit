@@ -292,10 +292,11 @@ export function ChatStream({
           </MessageScroller.Content>
         </MessageScroller.Viewport>
 
+        {/* The headless button stays mounted and inert when inactive; hide it too. */}
         <MessageScroller.Button
           direction="end"
           data-slot="chat-stream-jump"
-          className="absolute inset-x-0 bottom-3 mx-auto w-fit rounded-control border border-border bg-bg-elevated px-3 py-1.5 text-caption text-fg-secondary shadow-md"
+          className="absolute inset-x-0 bottom-3 mx-auto w-fit rounded-control border border-border bg-bg-elevated px-3 py-1.5 text-caption text-fg-secondary shadow-md data-[active=false]:hidden"
         >
           {jumpLabel}
         </MessageScroller.Button>

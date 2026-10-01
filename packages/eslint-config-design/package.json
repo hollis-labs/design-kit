@@ -38,7 +38,9 @@
     "test:run": "node --test \"test/**/*.test.js\"",
     "scale-report": "node scripts/scale-usage-report.mjs",
     "ratchet": "node scripts/ratchet.mjs",
-    "ratchet:update": "node scripts/ratchet.mjs --update"
+    "ratchet:update": "node scripts/ratchet.mjs --update",
+    "biome-check": "node scripts/biome-check.mjs",
+    "biome-check:update": "node scripts/biome-check.mjs --update"
   },
   "peerDependencies": {
     "@hollis-labs/design-tokens": "^0.1.0",

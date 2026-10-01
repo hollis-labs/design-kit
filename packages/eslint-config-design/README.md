@@ -185,10 +185,29 @@ retire the ratchet step — you are done.
 
 Full workflow, option reference and programmatic API: [`docs/ratchet.md`](docs/ratchet.md).
 
-**Biome consumers (CW-20260913-0031):** Biome does not support custom plugins,
-so the design rules cannot run under Biome today. CW-20260913-0031 is the
-separate decision task for that path. A Biome consumer can run the ratchet
-script alongside Biome.
+## Biome consumers
+
+A Biome project can enforce the design rules without an `eslint.config.js`.
+The decision (CW-20260913-0031): Biome's GritQL custom rules cannot inject a
+dynamic vocabulary from `@hollis-labs/design-tokens` at runtime, so a native
+Biome implementation of `no-undefined-token` would require hardcoding the token
+list — exactly the failure mode this package exists to prevent. The answer is
+ESLint alongside Biome, scoped to only the design rules:
+
+```bash
+# Install (no eslint.config.js needed)
+npm install --save-dev eslint @hollis-labs/eslint-config-design @hollis-labs/design-tokens
+
+# Record first baseline
+node node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs \
+  --update --note "initial baseline" src
+
+# CI check
+node node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs src
+```
+
+Full decision rationale, adoption guide, and the future GritQL revision point:
+[`docs/biome-consumers.md`](docs/biome-consumers.md).
 
 ## Validated against real source, not fixtures
 

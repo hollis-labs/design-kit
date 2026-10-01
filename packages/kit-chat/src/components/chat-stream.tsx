@@ -215,7 +215,7 @@ export function ChatStream({
   viewportClassName,
   'aria-label': ariaLabel = 'Conversation',
 }: ChatStreamProps) {
-  const showEmpty = !loading && items.length === 0 && status.status === 'idle'
+  const showEmpty = !loading && !history?.error && items.length === 0 && status.status === 'idle'
 
   return (
     <MessageScroller.Provider autoScroll={autoScroll} defaultScrollPosition="end">
@@ -225,28 +225,31 @@ export function ChatStream({
           preserveScrollOnPrepend={preserveScrollOnPrepend}
           className={cn('min-h-0 min-w-0 flex-1 overflow-y-auto px-4 py-6', viewportClassName)}
         >
+          {loading ? (
+            <div className="flex items-center justify-center gap-2 py-6 text-control text-fg-muted" role="status">
+              <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" aria-hidden />
+              Loading conversation…
+            </div>
+          ) : null}
+          {history && (history.hasOlder || history.loading || history.error) ? (
+            <div data-slot="chat-stream-history" className="mx-auto mb-5 flex w-full max-w-3xl flex-col items-center gap-2 py-2">
+              {history.error ? <div className="text-control text-danger" role="alert">{history.error}</div> : null}
+              {history.loading ? (
+                <span className="flex items-center gap-2 text-caption text-fg-muted" role="status">
+                  <LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" aria-hidden />
+                  Loading older messages…
+                </span>
+              ) : (
+                <Button type="button" variant="ghost" size="sm" onClick={history.onLoadOlder}>
+                  {history.error ? 'Retry loading history' : 'Load older messages'}
+                </Button>
+              )}
+            </div>
+          ) : null}
+          {/* Keep controls outside the log: the upstream prepend detector compares
+              the first Content child, which must be a message rather than a stable
+              history control. Otherwise a prepend is mistaken for an append. */}
           <MessageScroller.Content className="mx-auto flex min-w-0 w-full max-w-3xl flex-col gap-5">
-            {loading ? (
-              <div className="flex items-center justify-center gap-2 py-6 text-control text-fg-muted" role="status">
-                <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" aria-hidden />
-                Loading conversation…
-              </div>
-            ) : null}
-            {history && (history.hasOlder || history.loading || history.error) ? (
-              <div data-slot="chat-stream-history" className="flex flex-col items-center gap-2 py-2">
-                {history.error ? <div className="text-control text-danger" role="alert">{history.error}</div> : null}
-                {history.loading ? (
-                  <span className="flex items-center gap-2 text-caption text-fg-muted" role="status">
-                    <LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" aria-hidden />
-                    Loading older messages…
-                  </span>
-                ) : (
-                  <Button type="button" variant="ghost" size="sm" onClick={history.onLoadOlder}>
-                    {history.error ? 'Retry loading history' : 'Load older messages'}
-                  </Button>
-                )}
-              </div>
-            ) : null}
             {showEmpty ? <div data-slot="chat-stream-empty">{empty}</div> : null}
 
             {items.map((item) => (

@@ -87,6 +87,18 @@ describe('ChatStream', () => {
     expect(screen.getByRole('status').textContent).toBe('Loading older messages…')
   })
 
+  it('keeps history controls outside the message log so prepend detection sees message IDs', () => {
+    const { container } = render(<ChatStream items={items} history={{ hasOlder: true, loading: false, onLoadOlder: vi.fn() }} />)
+    expect(screen.getByRole('log').contains(container.querySelector('[data-slot="chat-stream-history"]'))).toBe(false)
+    expect(screen.getByRole('log').firstElementChild?.getAttribute('data-message-id')).toBe('m1')
+  })
+
+  it('does not claim a conversation is empty when its initial history load failed', () => {
+    render(<ChatStream items={[]} empty={<span>Nothing yet</span>} history={{ hasOlder: false, loading: false, error: 'Offline', onLoadOlder: vi.fn() }} />)
+    expect(screen.queryByText('Nothing yet')).toBeNull()
+    expect(screen.getByRole('alert').textContent).toBe('Offline')
+  })
+
   it('lets the host replace item rendering entirely — the seam CW-0129 composes against', () => {
     render(<ChatStream items={items} renderItem={(item) => <div>custom:{item.id}</div>} />)
     expect(screen.getByText('custom:m1')).toBeDefined()

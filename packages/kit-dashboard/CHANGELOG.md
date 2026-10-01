@@ -1,5 +1,11 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20261001-0529)
+
+- Own idiom names and deprecations in the shipped `idiom-tokens.json` manifest;
+  derive `DASHBOARD_DEPRECATED_TOKENS` from it. Register the checked bindings in
+  the design gate and switch PriorityBadge to canonical `dash-priority-*` utilities.
+
 ## Unreleased (CW-20260912-0097)
 
 - CW-20260912-0046: preserve priority fills as `dash-priority-p1-bg` /

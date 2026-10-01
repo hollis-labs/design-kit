@@ -19,6 +19,9 @@ export { ChatStream } from './components/chat-stream'
 export type { ChatStreamProps } from './components/chat-stream'
 
 export {
+  ArtifactCard,
+  DocumentCard,
+  PromptCard,
   CardBoundary,
   CardFallbackDeclined,
   CardMiss,
@@ -37,6 +40,9 @@ export {
   TimelineCard,
 } from './cards'
 export type {
+  ArtifactCardProps,
+  DocumentCardProps,
+  PromptCardProps,
   CardBoundaryProps,
   CardFallbackDeclinedProps,
   CardMissProps,

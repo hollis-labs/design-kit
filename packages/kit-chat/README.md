@@ -284,6 +284,12 @@ to us.
 
 Interactive cards for a transcript: the `Envelope` chassis, five presentational
 shapes, three that take an answer, and the cards that draw a binding miss.
+`ArtifactCard` adds compact native download/dismiss presentation, `DocumentCard`
+provides a bounded pane for rendered content and host navigation/actions, and
+`PromptCard` collects a controlled text answer through the existing responder.
+Boolean choices use `ConfirmationCard`. See the
+[Nanite/Flux reconciliation](docs/nanite-card-reconciliation.md) for usage and
+the mapping to existing cards; no wire kinds or app transports are added.
 Envelopes fill the transcript column, wrap long body text, and let wide tables
 scroll within the card. See the [polish dogfood record](docs/polish-dogfood.md)
 for the Flux gap list and browser checks in an isolated ops-chat consumer.

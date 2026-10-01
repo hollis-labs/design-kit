@@ -16,6 +16,12 @@
  */
 
 export { Envelope, EnvelopeBody, EnvelopeFooter, EnvelopeHeader, EnvelopeSection } from './envelope'
+export { ArtifactCard } from './artifact-card'
+export type { ArtifactCardProps } from './artifact-card'
+export { DocumentCard } from './document-card'
+export type { DocumentCardProps } from './document-card'
+export { PromptCard } from './prompt-card'
+export type { PromptCardProps } from './prompt-card'
 export type {
   EnvelopeBodyProps,
   EnvelopeFooterProps,

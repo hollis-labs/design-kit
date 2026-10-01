@@ -1,5 +1,12 @@
 import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { extendTailwindMerge } from 'tailwind-merge'
+import { TEXT_TOKENS } from '@hollis-labs/design-tokens'
+
+// Unknown text-* names otherwise fall into the color group: text-info would
+// erase text-caption and leave a Pill at its inherited font size.
+const merge = extendTailwindMerge({
+  extend: { classGroups: { 'font-size': [{ text: [...TEXT_TOKENS] }] } },
+})
 
 /**
  * `cn()` comes from sysop-ui's `lib/utils.ts`, which the CW-0116 triage split by
@@ -10,5 +17,5 @@ import { twMerge } from 'tailwind-merge'
  * `@hollis-labs/design-app-runtime`'s `lib/format.ts`.
  */
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return merge(clsx(inputs))
 }

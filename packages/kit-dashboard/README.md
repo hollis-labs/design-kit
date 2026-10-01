@@ -188,9 +188,13 @@ stays in the theme layer.
 | `priority-p1-bg` | `dash-priority-p1-bg` | Deprecated compatibility alias, still resolves to the same fill |
 | `priority-p2-bg` | `dash-priority-p2-bg` | Deprecated compatibility alias, still resolves to the same fill |
 
-`PriorityBadge` continues using the compatibility names until the design gate
-can consume kit-owned idiom vocabularies (CW-20261001-0529). Canonical utilities
-are `bg-dash-priority-p1-bg` / `bg-dash-priority-p2-bg`.
+`PriorityBadge` uses `bg-dash-priority-p1-bg` / `bg-dash-priority-p2-bg`.
+The kit-owned `src/styles/idiom-tokens.json` manifest is exported as
+`@hollis-labs/kit-dashboard/idiom-tokens.json`; it owns the vocabulary and
+deprecation map, and the design gate checks its bindings against `theme.css`.
+The gate enrolls these names only within this kit. Consumer apps explicitly
+register the manifest with `designConfig({ idiomManifests })` or ratchet/Biome
+`--idiom-manifest` (see eslint-config-design's README).
 `DASHBOARD_DEPRECATED_TOKENS`, exported from the root and `/ui`, records these
 migrations. The base contract's `DEPRECATED_TOKENS` intentionally maps base names
 to base replacements; dashboard-specific retirements belong to this kit.

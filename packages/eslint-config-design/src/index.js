@@ -20,8 +20,9 @@ import noUndefinedToken from './rules/no-undefined-token.js'
 import noIdiomShadowingContract from './rules/no-idiom-shadowing-contract.js'
 import requireDisableReason from './rules/require-disable-reason.js'
 import { resolveVocabulary, vocabularyFrom } from './vocabulary.js'
+import { loadIdiomManifest } from './idiom-manifest.js'
 
-export { vocabularyFrom, resolveVocabulary }
+export { vocabularyFrom, resolveVocabulary, loadIdiomManifest }
 
 export const plugin = {
   meta: { name: '@hollis-labs/eslint-config-design' },
@@ -68,6 +69,8 @@ const SOURCE_FILES = ['**/*.{ts,tsx,js,jsx,mts,cts}']
  *        accessor the contract specifies (§3.6, §10) over widening this.
  * @param {'error'|'warn'} [options.severity]
  * @param {string[]} [options.ignoreTokens]
+ * @param {string[]} [options.idiomManifests] absolute paths to kit-owned JSON
+ *        manifests; only enrolled names are legal, within options.files.
  */
 export async function designConfig(options = {}) {
   const {
@@ -78,9 +81,14 @@ export async function designConfig(options = {}) {
     severity = 'error',
     ignoreTokens = [],
     strictFamilies = false,
+    idiomManifests = [],
   } = options
 
-  const tokens = [...vocabulary.colors]
+  const contract = [...vocabulary.colors]
+  const manifests = await Promise.all(idiomManifests.map((path) => loadIdiomManifest(path, vocabulary)))
+  const tokens = [...new Set([...contract, ...manifests.flatMap((m) => m.tokens)])]
+  const idioms = [...new Set([...vocabulary.idioms, ...manifests.map((m) => m.prefix)])]
+  const deprecated = Object.assign({}, vocabulary.deprecated, ...manifests.map((m) => m.deprecated))
   // Invert name -> value into value -> name, which is what the scale rule needs
   // to recognise "this arbitrary value already has a name".
   const invert = (scale) => Object.fromEntries(
@@ -114,9 +122,9 @@ export async function designConfig(options = {}) {
         'design/no-undefined-token': [severity, {
           tokens,
           families: [...vocabulary.families],
-          extraFamilies: [...vocabulary.idioms],
+          extraFamilies: [...idioms, ...manifests.flatMap((m) => Object.keys(m.deprecated).map((name) => name.split('-')[0]))],
           ignore: ignoreTokens,
-          deprecated: vocabulary.deprecated ?? {},
+          deprecated,
           // OFF BY DEFAULT, AND MEASURED BEFORE YOU TURN IT ON.
           //
           // The argument for enabling it is good: with it off, a token whose
@@ -144,8 +152,8 @@ export async function designConfig(options = {}) {
           strictFamilies,
         }],
         'design/no-idiom-shadowing-contract': [severity, {
-          idioms: vocabulary.idioms,
-          contract: tokens,
+          idioms,
+          contract,
         }],
         'design/require-disable-reason': severity,
       },

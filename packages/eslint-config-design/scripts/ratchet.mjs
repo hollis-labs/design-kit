@@ -19,6 +19,7 @@
  *   --note <text>         Human note stored in the baseline when --update is given.
  *   --config <file>       ESLint config file to use. Defaults to the repo's own eslint.config.js.
  *   --no-config           Run with only the design rules and a minimal TS parser config.
+ *   --idiom-manifest <file> Enroll kit-owned JSON metadata (repeatable; --no-config).
  *   --severity warn|error Rule severity when --no-config is used. Default: error.
  *   --rules <r,r,...>     Comma-separated ruleIds to count. Default: all design/* rules.
  *   --colors              Force ANSI color output. Default: auto-detect.
@@ -79,7 +80,7 @@ import {
   compare,
   formatReport,
 } from '../src/ratchet.js'
-import { plugin, DEFAULT_THEME_FILES } from '../src/index.js'
+import { plugin, DEFAULT_THEME_FILES, designConfig } from '../src/index.js'
 import { resolveVocabulary } from '../src/vocabulary.js'
 
 // ─── Argument parsing ─────────────────────────────────────────────────────────
@@ -119,6 +120,14 @@ const configFile = option('--config', null)
 const note = option('--note', undefined)
 const severityOpt = option('--severity', 'error')
 const rulesOpt = option('--rules', null)
+const idiomManifests = []
+while (argv.includes('--idiom-manifest')) {
+  idiomManifests.push(resolve(root, option('--idiom-manifest')))
+}
+if (idiomManifests.length && !noConfig) {
+  console.error('error: --idiom-manifest requires --no-config; otherwise enroll in designConfig')
+  process.exit(2)
+}
 
 const extraArgs = argv.filter((a) => !a.startsWith('--'))
 const target = extraArgs[0]
@@ -178,6 +187,7 @@ if (noConfig) {
     rulesCfg['design/no-undefined-token'] = [severityOpt, {
       tokens: [...vocabulary.colors],
       families: [...vocabulary.families],
+      extraFamilies: [...vocabulary.idioms],
       deprecated: vocabulary.deprecated ?? {},
     }]
   }
@@ -191,7 +201,7 @@ if (noConfig) {
     rulesCfg['design/require-disable-reason'] = severityOpt
   }
 
-  const overrideConfig = [
+  let overrideConfig = [
     {
       ignores: ['**/dist/**', '**/build/**', '**/*.d.ts', '**/coverage/**'],
     },
@@ -209,6 +219,27 @@ if (noConfig) {
       },
     },
   ]
+
+  if (vocabulary) {
+    // Use the same registration path as ESLint consumers and the repository gate.
+    // Explicit opt-in avoids crawling node_modules or changing a consumer's scope.
+    try {
+      overrideConfig = (await designConfig({ vocabulary, idiomManifests, severity: severityOpt }))
+        .map((config) => ({
+          ...config,
+          ...(config.plugins ? { languageOptions: langOpts } : {}),
+          ...(config.rules ? { rules: Object.fromEntries(
+            Object.entries(config.rules).filter(([rule]) => rules.includes(rule)),
+          ) } : {}),
+        }))
+    } catch (err) {
+      console.error(`error: ${err.message}`)
+      process.exit(2)
+    }
+  } else if (idiomManifests.length) {
+    console.error('error: idiom registration requires the base token vocabulary')
+    process.exit(2)
+  }
 
   eslint = new ESLint({
     cwd: root,

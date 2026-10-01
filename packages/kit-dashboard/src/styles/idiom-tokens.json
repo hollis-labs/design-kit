@@ -1,0 +1,12 @@
+{
+  "prefix": "dash",
+  "stylesheet": "./theme.css",
+  "tokens": {
+    "dash-priority-p1-bg": "var(--theme-color-priority-p1-bg)",
+    "dash-priority-p2-bg": "var(--theme-color-priority-p2-bg)"
+  },
+  "deprecated": {
+    "priority-p1-bg": "dash-priority-p1-bg",
+    "priority-p2-bg": "dash-priority-p2-bg"
+  }
+}

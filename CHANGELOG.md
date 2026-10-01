@@ -1,9 +1,60 @@
 # Changelog
 
-All six packages in this repo are released together and share a version number, so
-"same number, same release" is a true statement about them. This file is the release
-record for the set; each package also carries its own `CHANGELOG.md` for anything
-specific to it.
+The packages in this repo are released together and share a version number, so "same
+number, same release" holds for every package that moves. A package that has not changed
+keeps its number and the entry says so. This file is the release record for the set; each
+package also carries its own `CHANGELOG.md` for anything specific to it.
+
+---
+
+## 0.2.0 — 2026-10-01 — six packages
+
+`design-tokens`, `design-components`, `design-app-runtime`, `eslint-config-design`,
+`kit-chat` and `kit-dashboard` move to `0.2.0` together (`design-components` realigns from
+`0.1.1`). `design-bindings` is not in this release: since `0.1.0` it gained only an
+optional `tailwindcss` peer declaration and documentation, so it stays at `0.1.0` and
+ships with its next change.
+
+**Upgrade the set together.** The internal ranges are now `^0.2.0`, and a caret range on a
+`0.x` package does not reach the next minor, so a `0.1` package will not resolve against
+a `0.2` sibling. `kit-dashboard` and `kit-chat` need `design-components` and
+`design-tokens` `^0.2.0`.
+
+**Behaviour changes to read before upgrading**
+
+- **Tailwind v4 is a required peer** of `design-components`, `kit-dashboard` and
+  `kit-chat`, and an optional peer of `design-tokens`, `design-app-runtime` and
+  `eslint-config-design`. npm 7+ installs a missing required peer; an incompatible
+  installed major (Tailwind 3) fails peer resolution instead of installing silently
+  unstyled. The automatic install does not configure your CSS build.
+- **All ten built-in themes now carry light and dark.** The four sysop palettes gain light
+  sets, and text and feedback contrast was corrected across the built-ins, so some values
+  shift slightly from `0.1.0`. `setMode` now also toggles the `.dark` class.
+- **`kit-dashboard`'s four legacy palettes adopt the canonical contract values.** Their
+  ids, the `sysop.theme` key and the P4 White default are unchanged; borders, faint text,
+  overlays and workflow hues visibly change. The built-in themes keep their appearance.
+- **`design-components`**: the outline and destructive `Button` variants no longer carry
+  dark-only background and border overrides; they follow the active mode's tokens.
+- **`kit-chat`**: `ChatInput` draws its own frame with a visible **Send** action. A host
+  that supplies its own submit control passes `showSubmitButton={false}`.
+
+**What is new**
+
+- **Appearance**: `createThemeStore` and `useTheme` (design-app-runtime), `ModeToggle`,
+  `ThemePicker` and `OverlaySidebar` (design-components), theme-only storage helpers and
+  the colour-derivation rules as functions (design-tokens).
+- **Operations tables**: density, error and footer slots, a generated match summary, and
+  bounded previous/next navigation hooks (kit-dashboard).
+- **Chat**: the interactive card set, `ArtifactCard`, `DocumentCard` and `PromptCard`,
+  windowed history with `useChatHistory`, and composer and transcript polish (kit-chat).
+- **Lint**: baseline/ratchet mode, a Biome path, and kit-owned idiom vocabularies
+  (eslint-config-design).
+
+Each package's `CHANGELOG.md` has the full entry and the task ids behind it.
+
+**`@hollis-labs/sysop-ui` is deprecated on npm** as of this release, pointing at
+`kit-dashboard`. Existing installs keep working; removal follows later and is not part of
+this release.
 
 ---
 

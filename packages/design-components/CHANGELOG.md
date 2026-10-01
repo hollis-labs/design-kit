@@ -1,13 +1,32 @@
 # @hollis-labs/design-components
 
-## Unreleased
+## 0.2.0 — 2026-10-01
 
-- Add `OverlaySidebar`, composing Sheet with a named modal, pinned header/footer
-  and scrolling host content. See [source reconciliation](docs/overlay-sidebar.md).
-- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
-  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
-  resolution. Document the explicit app dependency and CSS build integration,
-  which an automatic peer install does not configure.
+Co-released with design-tokens, design-app-runtime, eslint-config-design, kit-chat and
+kit-dashboard. Requires `@hollis-labs/design-tokens` `^0.2.0`.
+
+**Appearance controls (CW-20261001-0498).** New controlled `ModeToggle` and `ThemePicker`.
+The host owns the preference and its persistence; pair them with `createThemeStore` /
+`useTheme` from design-app-runtime, or any store of your own. `ThemePicker` is a native
+select, so keyboard and screen-reader behaviour needs no provider.
+
+**`OverlaySidebar` (CW-20261001-0501).** A controlled modal sidebar composed from `Sheet`,
+with pinned host header and footer around a scrolling body. Focus containment, Escape and
+backdrop dismissal come from Base UI; the host owns open state, navigation and content. It
+holds no layout store and no viewport breakpoint. See
+[source reconciliation](docs/overlay-sidebar.md).
+
+**Visible change in dark mode.** The outline and destructive `Button` variants no longer
+carry dark-only background and border overrides (`dark:bg-input/30`,
+`dark:border-input`, `dark:hover:bg-input/50`, `dark:bg-destructive/20`,
+`dark:hover:bg-destructive/30`); they follow the active mode's tokens instead. The
+destructive focus ring keeps its dark override.
+
+**Install requirement (CW-20260912-0097).** `tailwindcss: ^4.0.0` is now a **required** peer
+for styled components. npm 7+ installs it when it is missing, and an incompatible
+installed major (for example Tailwind 3) now fails peer resolution instead of installing
+silently unstyled. The automatic install does not configure your CSS build: keep the
+explicit app dependency and the stylesheet imports described in the README.
 
 ## 0.1.1 — 2026-10-01
 

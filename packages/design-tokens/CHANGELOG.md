@@ -1,30 +1,45 @@
 # @hollis-labs/design-tokens
 
-## Unreleased
+## 0.2.0 — 2026-10-01
 
-CW-20260911-0071 (step a): export theme-only storage helpers and configurable
-`hollis.theme` key beside `setTheme`. Guard inaccessible storage getters as well
-as methods. Dashboard compatibility delegates with its existing key and IDs;
-0498's theme+mode appearance store remains separate.
+Co-released with design-components, design-app-runtime, eslint-config-design, kit-chat
+and kit-dashboard. **`@hollis-labs/kit-dashboard` 0.2.0 requires this version**: it
+imports the theme-storage exports below, which 0.1.0 does not have.
 
+**Light variants for the four sysop palettes (CW-20261001-0498).** `sysop-p4-white`,
+`sysop-green-phosphor`, `sysop-amber-phosphor` and `sysop-hi-contrast` were dark-only
+alternates in 0.1.0. Each now ships a light set, so all ten built-in themes carry both
+modes. These are new design values. Text and
+feedback contrast was also corrected across the built-ins so every theme passes in both
+modes (before/after screenshots and measured ratios are in the repository at
+`docs/screenshots/README.md`), which means some dark and light values shift slightly from
+0.1.0. `tokens.css` adds a Tailwind `dark` custom variant that follows the app's explicit
+mode (`data-mode="dark"` or `.dark`), and `setMode` now also toggles the `.dark` class
+and sets `color-scheme`.
 
-CW-20260913-0035: Concrete success is green and warning amber; Flat/Mono warning
-is amber, distinct from its existing danger. Preserve the settled feedback names,
-all danger values and other palettes. Update matching 10% tints and generated CSS.
-New-tone text contrast is at least 4.56:1 including composited fills on all five
-surfaces in both modes. This does not migrate the Nanite app.
+**Health feedback tones (CW-20260913-0035).** In Concrete & Signal, success is a pale
+green (it was grey) and warning a cream/amber (it was the same pink as danger);
+Flat/Mono's warning is a distinct amber. Names, danger values and every other palette
+are unchanged; the matching 10% tints and the generated CSS are updated. Text contrast of
+the new tones is at least 4.56:1 on all five surfaces in both modes.
 
+**Colour derivation rules as functions (CW-20260913-0027).** Typed R1–R4 are exported:
+`deriveMuted`, `mixSrgb`, `deriveHover`, `deriveActive`, `deriveSurfaceActive`,
+`relativeLuminance`, `contrastRatio`, `deriveForeground` and `deriveSyntax` (plus the
+`ColorRepresentation` type). The built-in themes consume them. The README states each
+rule's colour space: R2 mixes gamma-encoded sRGB, R3 uses WCAG relative luminance, R4
+interpolates in Oklab. Three authored danger-hover overrides are excluded from the
+derivation manifest.
 
-Export typed R1–R4 color derivation functions, including alpha tints, encoded-sRGB
-interaction mixing, WCAG foreground candidate selection, and Oklab syntax ramps
-(CW-20260913-0027). Built-ins consume the functions. All shipped color strings and
-generated CSS remain unchanged; three authored danger-hover overrides are now
-excluded from the derivation manifest. README specifies each rule's color space.
+**Theme-only persistence helpers (CW-20260911-0071).** `readStoredTheme`,
+`persistTheme`, `THEME_STORAGE_KEY` (default key `hollis.theme`) and the
+`ThemeStorageOptions` type, with a configurable key, default and accepted ids. They guard
+inaccessible storage, including a throwing `localStorage` getter. The theme+mode
+preference store is separate: `createThemeStore` in design-app-runtime.
 
-- Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS
-  pipeline. npm does not auto-install it or warn when it is missing; incompatible
-  installed majors fail peer resolution. Document the explicit build-tool install.
-  JavaScript-only consumers can continue without Tailwind.
+**Packaging (CW-20260912-0097).** `tailwindcss: ^4.0.0` is declared as an optional peer.
+npm does not auto-install it or warn when it is missing; an incompatible installed major
+fails peer resolution. JavaScript-only consumers can continue without Tailwind.
 
 ## 0.1.0 — 2026-09-11
 

@@ -1,6 +1,6 @@
 {
   "name": "@hollis-labs/eslint-config-design",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "publishConfig": {
     "access": "public",
@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0",
-    "@hollis-labs/design-tokens": "^0.1.0",
+    "@hollis-labs/design-tokens": "^0.2.0",
     "eslint": "^9.0.0",
     "typescript-eslint": "^8.0.0"
   },

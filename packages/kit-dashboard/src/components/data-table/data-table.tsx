@@ -9,7 +9,13 @@ import {
 import { alignClass, compareBy, type ColumnDef, type SortState } from '@hollis-labs/design-components'
 import { DataTableRow } from './data-table-row'
 
+export type TableDensity = 'compact' | 'comfortable'
+
 interface DataTableProps<T> {
+  /** Compact operations rows by default; comfortable for longer content. */
+  density?: TableDensity
+  /** Currently rendered ids after sorting/windowing; use for detail navigation. */
+  onVisibleOrderChange?: (ids: string[]) => void
   items: T[]
   columns: ColumnDef<T>[]
   /** Stable, unique id per row. */
@@ -42,6 +48,8 @@ const DEFAULT_PAGE_SIZE = 50
  */
 export function DataTable<T>({
   items,
+  density = 'compact',
+  onVisibleOrderChange,
   columns,
   getRowId,
   initialSort,
@@ -94,6 +102,10 @@ export function DataTable<T>({
   const hasMore = visibleCount < sorted.length
 
   useEffect(() => {
+    onVisibleOrderChange?.(visible.map(getRowId))
+  }, [visible, getRowId, onVisibleOrderChange])
+
+  useEffect(() => {
     if (!hasMore) return
     const el = sentinelRef.current
     if (!el) return
@@ -131,11 +143,11 @@ export function DataTable<T>({
 
   return (
     <div className="w-full overflow-x-auto">
-      <table className="w-full min-w-full">
+      <table className="w-full min-w-full" data-density={density}>
         <thead className="text-caption uppercase tracking-eyebrow text-text-subtle">
           <tr className="border-b border-border">
             {selectable && (
-              <th className="w-8 py-1.5 pl-[14px] pr-0">
+              <th className="w-8 py-1.5 pl-3.5 pr-0">
                 <input
                   type="checkbox"
                   checked={allSelected}
@@ -151,6 +163,7 @@ export function DataTable<T>({
               return (
                 <th
                   key={column.key}
+                  aria-sort={sortable ? (isSorted ? (sort?.dir === 'asc' ? 'ascending' : 'descending') : 'none') : undefined}
                   className={`py-1.5 font-medium ${alignClass(column.align)} ${
                     column.width === 'fill' ? 'px-3' : 'w-px whitespace-nowrap px-1.5'
                   }`}
@@ -180,6 +193,7 @@ export function DataTable<T>({
             return (
               <DataTableRow
                 key={id}
+                density={density}
                 item={item}
                 rowId={id}
                 columns={columns}

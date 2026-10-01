@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Activity, LayoutGrid, LayoutList, Server, Settings } from 'lucide-react'
 import { NavRail, ThemeSwitcher, type NavRailItem } from '../src'
 import { Toaster, TooltipProvider } from '@hollis-labs/design-components'
@@ -27,6 +27,10 @@ export function App() {
   // Task detail is an overlay on Operations, not a URL route — keeping
   // drill-down state local is the right pattern for panel/drawer UIs.
   const [taskId, setTaskId] = useState<string | null>(null)
+  const [orderedIds, setOrderedIds] = useState<string[]>([])
+  const onVisibleOrderChange = useCallback((ids: string[]) => setOrderedIds((previous) =>
+    previous.length === ids.length && previous.every((id, index) => id === ids[index]) ? previous : ids,
+  ), [])
 
   const nav: NavRailItem[] = [
     {
@@ -72,10 +76,10 @@ export function App() {
         <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
           {route === 'overview' ? <OverviewView /> : null}
           {route === 'operations' && !taskId ? (
-            <OperationsView onOpenTask={(id) => setTaskId(id)} />
+            <OperationsView onVisibleOrderChange={onVisibleOrderChange} onOpenTask={(id) => setTaskId(id)} />
           ) : null}
           {route === 'operations' && taskId ? (
-            <TaskDetailView taskId={taskId} onBack={() => setTaskId(null)} />
+            <TaskDetailView orderedIds={orderedIds} onNavigate={setTaskId} taskId={taskId} onBack={() => setTaskId(null)} />
           ) : null}
           {route === 'gallery' ? <GalleryView /> : null}
           {route === 'settings' ? <SettingsView /> : null}

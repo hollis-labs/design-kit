@@ -367,5 +367,38 @@
     "updated_at": "2026-05-13T17:00:00Z",
     "stats": { "run_count": 2, "prompt_tokens": 47700, "completion_tokens": 8200, "cost": 0.58 },
     "metadata": { "superseded_by": "TASK-20260513-0003" }
+  },
+  {
+    "id": "DEMO-ERROR-002",
+    "title": "Retry failed operation after resolving credentials",
+    "description": "Synthetic error-navigation fixture. Resolve the missing credential before retrying.",
+    "status": "blocked",
+    "priority": 1,
+    "kind": "agent",
+    "manual": true,
+    "executor": "claude-opus",
+    "agent_profile": "engineer",
+    "working_dir": "apps/engine",
+    "tags": [
+      {
+        "slug": "bug",
+        "name": "bug",
+        "color": "red"
+      }
+    ],
+    "depends_on": [],
+    "blocked_reason": "Credential unavailable",
+    "project_id": "PROJ-torque-engine",
+    "created_at": "2026-05-14T10:30:00Z",
+    "updated_at": "2026-05-16T16:40:00Z",
+    "stats": {
+      "run_count": 3,
+      "prompt_tokens": 88400,
+      "completion_tokens": 14200,
+      "cost": 1.07
+    },
+    "metadata": {
+      "branch": "fix/sse-replay"
+    }
   }
 ]

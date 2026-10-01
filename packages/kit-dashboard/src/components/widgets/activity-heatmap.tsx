@@ -12,10 +12,10 @@ export interface ActivityHeatmapProps<T> {
 
 const HEAT_STYLES: Array<{ className?: string; style?: React.CSSProperties }> = [
   { className: 'bg-muted/40' },
-  { style: { backgroundColor: 'var(--color-status-doing)', opacity: 0.35 } },
-  { style: { backgroundColor: 'var(--color-status-doing)', opacity: 0.65 } },
-  { style: { backgroundColor: 'var(--color-status-done)', opacity: 0.75 } },
-  { style: { backgroundColor: 'var(--color-status-done)', opacity: 1 } },
+  { style: { backgroundColor: 'var(--color-dash-status-doing)', opacity: 0.35 } },
+  { style: { backgroundColor: 'var(--color-dash-status-doing)', opacity: 0.65 } },
+  { style: { backgroundColor: 'var(--color-dash-status-done)', opacity: 0.75 } },
+  { style: { backgroundColor: 'var(--color-dash-status-done)', opacity: 1 } },
 ]
 
 function heatLevel(count: number, max: number): number {

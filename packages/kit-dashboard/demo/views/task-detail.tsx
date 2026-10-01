@@ -111,7 +111,7 @@ export function TaskDetailView({ taskId, onBack, orderedIds, onNavigate }: TaskD
 
       {task.blocked_reason ? (
         <DetailSection title="Blocked reason">
-          <p className="text-control leading-6 text-status-blocked">{task.blocked_reason}</p>
+          <p className="text-control leading-6 text-dash-status-blocked">{task.blocked_reason}</p>
         </DetailSection>
       ) : null}
 

@@ -1,6 +1,6 @@
 import { Streamdown } from 'streamdown'
 import type { ComponentProps, ReactNode } from 'react'
-import { cn } from '@hollis-labs/design-components'
+import { cn } from '../lib/cn'
 
 /**
  * `@hollis-labs/kit-chat/markdown` — streaming-safe markdown for a chat transcript.

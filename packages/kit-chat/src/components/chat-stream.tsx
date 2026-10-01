@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { MessageScroller } from '@shadcn/react/message-scroller'
-import { cn } from '@hollis-labs/design-components'
+import { cn } from '../lib/cn'
 import type {
   ChatCardItem,
   ChatItem,

@@ -392,6 +392,8 @@
   --hl-danger: var(--theme-color-danger);
   --hl-danger-muted: var(--theme-color-danger-soft);
   --hl-warning: var(--theme-color-warning);
+  --hl-success: var(--theme-color-status-done);
+  --hl-info: var(--theme-color-status-doing);
 
   /* Syntax — contract §3.10, rule R4. Five stops at 100/75/50/25/0 between this
    * palette's own `fg` and `fg-faint`, mixed in oklab.

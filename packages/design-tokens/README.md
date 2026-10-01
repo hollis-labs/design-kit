@@ -521,6 +521,36 @@ import { emitThemeCss, emitContractCss } from '@hollis-labs/design-tokens'
 emitThemeCss(myTheme)     // [data-theme="…"] { --hl-*: … }
 ```
 
+### Theme-only persistence
+
+`readStoredTheme`, `persistTheme` and `THEME_STORAGE_KEY` accompany `setTheme`
+for a consumer that stores only a string theme id:
+
+```ts
+import { readStoredTheme, persistTheme, setTheme } from '@hollis-labs/design-tokens'
+
+setTheme(readStoredTheme()) // before rendering; defaults to the built-in default
+// On a user selection:
+setTheme('dir-b')
+persistTheme('dir-b')
+```
+
+The default key is `hollis.theme`. `readStoredTheme(storage?, options?)` accepts
+`{ storageKey, defaultTheme, themes }`; omit `themes` to accept the built-ins.
+`persistTheme(id, storage?, { storageKey }?)` writes just the string id. Inject
+getItem/setItem storage for a custom environment, or pass null to disable it.
+Unavailable/blocked storage, including a throwing localStorage getter, falls back
+without preventing live switching. These helpers do not change the active mode.
+
+For theme **and mode**, use CW-20261001-0498's `createThemeStore` from
+`design-app-runtime`, with its per-app JSON appearance key and system preference
+support. These theme-only helpers neither parse nor migrate that JSON preference.
+The dashboard compatibility wrapper still uses `sysop.theme` and its legacy IDs.
+An app deliberately migrating that wrapper should read its old id once, map it
+to the canonical id, and persist it with the new appearance store. Retire the
+legacy key only after that app migration; the library does not copy or delete
+preferences automatically (CW-20260911-0071).
+
 At runtime, for a user-authored theme or a live editor:
 
 ```ts

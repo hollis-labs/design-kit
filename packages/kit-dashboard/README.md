@@ -175,6 +175,20 @@ pinned to the viewport with overflow disabled, so the fixed NavRail + PageHeader
 chrome never scrolls. Apps mount into `#root` and let page regions scroll
 internally; no per-app `index.css` reset is needed.
 
+## Legacy theme preference compatibility
+
+`readStoredTheme` / `persistTheme` delegate to design-tokens' theme-only helpers.
+The kit still uses `sysop.theme`, defaults to `p4-white`, and accepts the same four
+legacy IDs; its switcher and exported signatures are unchanged. Blocked storage
+also falls back if accessing localStorage itself throws.
+
+New theme+mode apps use `createThemeStore` from design-app-runtime with their own
+JSON appearance key (see [appearance setup](../../docs/appearance.md)). When an
+app migrates, read the legacy theme once, map it to the canonical ID and persist
+it through the new store. Only then retire that app's legacy key. This library
+step neither migrates nor deletes stored preferences; CSS/ID migration follows
+in separate CW-20260911-0071 PRs.
+
 ## Priority and workflow tokens
 
 Priority fills are **dashboard idiom**, not general feedback tints. P1 and P2 keep

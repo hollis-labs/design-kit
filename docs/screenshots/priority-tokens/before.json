@@ -1,0 +1,818 @@
+[
+  {
+    "theme": "nanite-default",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.299078 0.0128092 0.000390266)",
+        "fg": "rgb(226, 173, 180)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.299078 0.0128092 0.000390266)",
+        "fg": "rgb(226, 173, 180)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(22, 24, 26)",
+        "fg": "rgb(142, 146, 152)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(22, 24, 26)",
+        "fg": "rgb(142, 146, 152)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "nanite-default",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.848209 0.0301017 0.0111131)",
+        "fg": "rgb(140, 24, 36)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.848209 0.0301017 0.0111131)",
+        "fg": "rgb(140, 24, 36)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(92, 97, 102)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(92, 97, 102)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-a",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.302814 0.0129889 0.00156282)",
+        "fg": "rgb(223, 173, 171)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.302115 0.00669765 0.00750494)",
+        "fg": "rgb(213, 179, 151)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(145, 145, 151)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(145, 145, 151)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-a",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.85758 0.0260009 0.0141112)",
+        "fg": "rgb(141, 43, 39)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.856154 0.00651458 0.0124976)",
+        "fg": "rgb(105, 72, 45)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(100, 100, 103)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(100, 100, 103)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-b",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.312689 0.0142178 0.0121132)",
+        "fg": "rgb(221, 170, 162)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.311452 0.00911339 0.0159589)",
+        "fg": "rgb(211, 174, 148)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 24, 19)",
+        "fg": "rgb(150, 143, 133)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 24, 19)",
+        "fg": "rgb(150, 143, 133)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-b",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.839955 0.0263346 0.0205943)",
+        "fg": "rgb(132, 39, 35)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.839663 0.0137003 0.0212749)",
+        "fg": "rgb(112, 60, 33)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(251, 248, 242)",
+        "fg": "rgb(101, 94, 85)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(251, 248, 242)",
+        "fg": "rgb(101, 94, 85)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-d",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.301969 0.0371087 -0.0348927)",
+        "fg": "rgb(246, 157, 211)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.302666 0.0237615 0.00361732)",
+        "fg": "rgb(255, 170, 68)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 18, 48)",
+        "fg": "rgb(150, 141, 183)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 18, 48)",
+        "fg": "rgb(150, 141, 183)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-d",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.838502 0.0402591 -0.0173168)",
+        "fg": "rgb(125, 17, 90)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.837071 0.0272509 0.00451768)",
+        "fg": "rgb(118, 42, 27)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(95, 84, 114)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(95, 84, 114)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-e",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.283293 0.0143603 -0.0198378)",
+        "fg": "rgb(224, 161, 184)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.289036 0.00761234 0.0174719)",
+        "fg": "rgb(255, 170, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(8, 17, 32)",
+        "fg": "rgb(120, 145, 169)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(8, 17, 32)",
+        "fg": "rgb(120, 145, 169)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-e",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.835904 0.0281073 0.0117794)",
+        "fg": "rgb(125, 32, 64)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.83497 0.00393652 0.0250439)",
+        "fg": "rgb(94, 65, 19)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(251, 249, 242)",
+        "fg": "rgb(77, 94, 105)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(251, 249, 242)",
+        "fg": "rgb(77, 94, 105)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-f",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.290178 0.0122372 0.0142949)",
+        "fg": "rgb(226, 165, 132)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.290178 0.0122372 0.0142949)",
+        "fg": "rgb(226, 165, 132)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(22, 22, 22)",
+        "fg": "rgb(142, 142, 142)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(22, 22, 22)",
+        "fg": "rgb(142, 142, 142)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "dir-f",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.823623 0.0125013 0.0132911)",
+        "fg": "rgb(104, 53, 26)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.823623 0.0125013 0.0132911)",
+        "fg": "rgb(104, 53, 26)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(248, 248, 248)",
+        "fg": "rgb(89, 89, 89)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(248, 248, 248)",
+        "fg": "rgb(89, 89, 89)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-p4-white",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.269363 0.0360638 0.00502781)",
+        "fg": "rgb(251, 117, 136)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.278887 0.0132873 0.0307707)",
+        "fg": "rgb(245, 158, 11)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(131, 131, 139)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(131, 131, 139)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-p4-white",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.8705 0.0374057 0.011207)",
+        "fg": "rgb(165, 16, 52)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.873138 0.0107481 0.0200782)",
+        "fg": "rgb(133, 77, 14)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(82, 82, 91)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(82, 82, 91)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-green-phosphor",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.295647 0.00872953 0.0307637)",
+        "fg": "rgb(255, 184, 77)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.307881 0.00106805 0.0299816)",
+        "fg": "rgb(255, 212, 102)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 26, 20)",
+        "fg": "rgb(53, 149, 93)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 26, 20)",
+        "fg": "rgb(53, 149, 93)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-green-phosphor",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.868592 0.0144119 0.0237361)",
+        "fg": "rgb(150, 62, 11)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.864981 -0.00176587 0.0241345)",
+        "fg": "rgb(117, 80, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(49, 99, 63)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(49, 99, 63)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-amber-phosphor",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.271535 0.0303828 0.0250917)",
+        "fg": "rgb(255, 118, 69)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.306035 0.00196689 0.0305304)",
+        "fg": "rgb(255, 208, 96)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 22, 14)",
+        "fg": "rgb(170, 123, 30)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 22, 14)",
+        "fg": "rgb(170, 123, 30)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-amber-phosphor",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.87542 0.028932 0.0321214)",
+        "fg": "rgb(163, 44, 18)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.872807 0.0043138 0.0335984)",
+        "fg": "rgb(119, 81, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(116, 80, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(116, 80, 0)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-hi-contrast",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.154037 0.037569 0.0187217)",
+        "fg": "rgb(255, 100, 91)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.212956 -0.0156904 0.0436871)",
+        "fg": "rgb(255, 255, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 18, 18)",
+        "fg": "rgb(208, 208, 208)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 18, 18)",
+        "fg": "rgb(208, 208, 208)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "sysop-hi-contrast",
+    "mode": "light",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.877497 0.0349518 0.0195574)",
+        "fg": "rgb(160, 0, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.865533 -0.00626677 0.0175633)",
+        "fg": "rgb(72, 72, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(51, 51, 51)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(255, 255, 255)",
+        "fg": "rgb(51, 51, 51)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "p4-white",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.266135 0.0347826 0.0105351)",
+        "fg": "rgb(248, 113, 113)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.293906 0.00445833 0.0327148)",
+        "fg": "rgb(251, 191, 36)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(113, 113, 122)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(24, 24, 27)",
+        "fg": "rgb(113, 113, 122)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "p1-green-phosphor",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.295647 0.00872953 0.0307637)",
+        "fg": "rgb(255, 184, 77)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.306537 -0.0429296 0.0233492)",
+        "fg": "rgb(51, 255, 136)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 26, 20)",
+        "fg": "rgb(58, 140, 92)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 26, 20)",
+        "fg": "rgb(58, 140, 92)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "p3-amber-phosphor",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.269363 0.0335351 0.0225836)",
+        "fg": "rgb(255, 110, 78)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.306035 0.00196689 0.0305304)",
+        "fg": "rgb(255, 208, 96)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 22, 14)",
+        "fg": "rgb(153, 112, 36)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(28, 22, 14)",
+        "fg": "rgb(153, 112, 36)",
+        "size": "10px"
+      }
+    ]
+  },
+  {
+    "theme": "hi-contrast",
+    "mode": "dark",
+    "values": [
+      {
+        "label": "P1",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p1-bg text-status-blocked ",
+        "bg": "oklab(0.143929 0.0448175 0.024496)",
+        "fg": "rgb(255, 59, 48)",
+        "size": "10px"
+      },
+      {
+        "label": "P2",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-priority-p2-bg text-status-queued ",
+        "bg": "oklab(0.212956 -0.0156904 0.0436871)",
+        "fg": "rgb(255, 255, 0)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 18, 18)",
+        "fg": "rgb(208, 208, 208)",
+        "size": "10px"
+      },
+      {
+        "label": "P3",
+        "classes": "rounded px-1.5 py-0.5 text-caption font-bold uppercase tracking-label bg-panel-2 text-text-subtle ",
+        "bg": "rgb(18, 18, 18)",
+        "fg": "rgb(208, 208, 208)",
+        "size": "10px"
+      }
+    ]
+  }
+]

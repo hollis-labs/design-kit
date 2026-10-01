@@ -17,10 +17,13 @@
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./rules/*": "./src/rules/*.js"
+    "./rules/*": "./src/rules/*.js",
+    "./ratchet": "./src/ratchet.js"
   },
   "files": [
     "src",
+    "scripts",
+    "docs",
     "CHANGELOG.md"
   ],
   "keywords": [
@@ -33,7 +36,9 @@
   "scripts": {
     "test": "node --test \"test/**/*.test.js\"",
     "test:run": "node --test \"test/**/*.test.js\"",
-    "scale-report": "node scripts/scale-usage-report.mjs"
+    "scale-report": "node scripts/scale-usage-report.mjs",
+    "ratchet": "node scripts/ratchet.mjs",
+    "ratchet:update": "node scripts/ratchet.mjs --update"
   },
   "peerDependencies": {
     "@hollis-labs/design-tokens": "^0.1.0",

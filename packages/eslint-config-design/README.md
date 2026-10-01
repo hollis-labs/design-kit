@@ -155,6 +155,41 @@ A genuine one-off should be legible, not invisible:
 bare disable is indistinguishable from someone silencing a rule they disagreed
 with, and it survives review the same way the four invented token names did.
 
+## Adopting into an existing codebase — the ratchet
+
+Enforcement will surface a large violation backlog in any codebase that has not
+been tracking the contract. Turning the gate to `'error'` on day one blocks every
+PR until the whole backlog is clear — that is a big-bang fix nobody asked for.
+
+The ratchet solves this: record today's violation counts as a baseline, commit
+that file, and CI passes as long as nobody **adds** new violations. Fix them
+when you can; the baseline follows the code down, never up.
+
+```bash
+# 1. Add the config at severity: 'warn'
+# eslint.config.js:
+#   export default [...(await designConfig({ severity: 'warn' }))]
+
+# 2. Record the first baseline
+node node_modules/@hollis-labs/eslint-config-design/scripts/ratchet.mjs \
+  --update --note "initial baseline" src
+
+# 3. Commit .eslint-design-baseline.json alongside the config change
+
+# 4. CI (passes unless violations increase):
+node node_modules/@hollis-labs/eslint-config-design/scripts/ratchet.mjs src
+```
+
+When the baseline reaches zero for all rules, switch to `severity: 'error'` and
+retire the ratchet step — you are done.
+
+Full workflow, option reference and programmatic API: [`docs/ratchet.md`](docs/ratchet.md).
+
+**Biome consumers (CW-20260913-0031):** Biome does not support custom plugins,
+so the design rules cannot run under Biome today. CW-20260913-0031 is the
+separate decision task for that path. A Biome consumer can run the ratchet
+script alongside Biome.
+
 ## Validated against real source, not fixtures
 
 `node scripts/validate-against-portfolio.mjs` — measured 2026-09-11:

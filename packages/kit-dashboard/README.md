@@ -226,9 +226,8 @@ the kit's existing design-rule registration.
 
 Workflow colors describe lifecycle state, rather than general feedback severity.
 The label family comes from moving component mixing into the theme layer. These
-workflow names are separate from Nanite's retired health-triad names. The palette
-migration is the next CW-20260911-0071 split; this naming change does not alter
-colors. See the [24-state workflow proof](../../docs/screenshots/theme-migration/workflow/README.md).
+workflow names are separate from Nanite's retired health-triad names. The palette migration consumes canonical base values; the naming split preserved
+colors before that migration. See the [24-state workflow proof](../../docs/screenshots/theme-migration/workflow/README.md).
 
 Decision: CW-20260912-0046. Before/after screenshots and computed styles are in
 [priority proof](../../docs/screenshots/priority-tokens/README.md).
@@ -440,3 +439,32 @@ A separate, disposable Tachyon worktree rendered the built `/layout` and `/data`
 entrypoints with the kit's theme CSS and mocked API responses. Its screenshot is
 `tachyon-operations-consumer.png`. The preview was temporary consumer wiring;
 it is not a Tachyon migration or a check against a live backend.
+
+## Canonical palettes and legacy IDs
+
+The theme layer imports the design-tokens contract and built-in palettes; it no
+longer authors a second base palette or reverse-maps dashboard values onto
+`--hl-*`. Base utilities come directly from that contract. Six shadcn mappings
+retain the dashboard's established control treatment: input uses border,
+secondary/muted/accent use bg-elevated, muted foreground uses fg-faint, and accent
+foreground uses fg. These mappings consume contract-backed compatibility roles,
+so modern themes keep their appearance while legacy palettes adopt canonical values.
+The remaining layer supplies dashboard workflow tones, label/priority mixes,
+sidebar roles, and old utility compatibility aliases.
+
+`src/styles/legacy-themes.json` maps `p4-white`, `p1-green-phosphor`,
+`p3-amber-phosphor`, and `hi-contrast` to their `sysop-*` counterparts.
+`npm run generate:themes -w @hollis-labs/kit-dashboard` reuses the exported
+`emitThemeCss` generator with those legacy IDs; the committed `legacy-themes.css`
+contains generated output, never hand-authored values. Regenerate it after a
+design-tokens palette change and review the diff. The kit's no-attribute default
+remains P4 White; both ID spellings support light/dark selectors and nested themes.
+`sysop.theme`, `THEME_OPTIONS`, `applyTheme`, and their legacy ID values are kept.
+New apps should choose canonical IDs through `createThemeStore` and ThemePicker.
+
+Adopting canonical values visibly changes legacy borders, overlays, faint text,
+and workflow colors. This is a migration to the reviewed contract, not a new
+palette design. The [pre-migration value comparison](../../docs/screenshots/theme-migration/palette/legacy-contract-comparison.md)
+and [before/after proofs](../../docs/screenshots/theme-migration/palette/README.md)
+show the changes for visual review. `SettingsNotice` now uses base danger/info
+feedback colors; `SettingsStatusPill` retains doing/done lifecycle tones.

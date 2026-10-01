@@ -34,6 +34,7 @@
  * If a future component needs `scroll-fade` or `shimmer`, take the definition — not
  * the import. */
 @import "@hollis-labs/design-tokens/design-tokens.css";
+@import "./legacy-themes.css";
 
 /* THE TWO LINES BELOW ARE WHY THE COMPONENTS HAVE COLOUR. Tailwind v4 emits a
  * utility only for a class string it has SEEN, and it does not scan `node_modules`.
@@ -47,328 +48,9 @@
 @import "@hollis-labs/design-components/source.css";
 @import "./source.css";
 
-/*
- * Sysop UI — canonical theme.
- *
- * This is the single styling lineage every Hollis Labs app converges to. The
- * hand-rolled "HUD" CSS in older apps is retired in favour of this file.
- *
- * Theme variable convention:
- * - Palette selectors (`:root`, `[data-theme="..."]`) own the concrete values.
- * - Shared semantic tokens keep the same shape across palettes:
- *   --theme-color-bg, --theme-color-panel, --theme-color-text, --theme-color-accent,
- *   --theme-color-danger, --theme-color-status-*
- * - `@theme inline` maps those selector-scoped vars into Tailwind/shadcn tokens.
- *
- * Consume from an app:
- *   @import "@hollis-labs/kit-dashboard/theme.css";
- */
-
-:root {
-  /* Fallback to the default p4-white palette to avoid first-paint flashes. */
-  --theme-color-bg: rgb(9 9 11);
-  --theme-color-panel: rgb(9 9 11);
-  --theme-color-panel-2: rgb(24 24 27);
-  --theme-color-panel-overlay: rgb(20 20 22);
-  --theme-color-panel-overlay-strong: rgb(21 21 24);
-  --theme-color-panel-hover: rgb(24 24 27);
-  --theme-color-panel-hover-soft: rgb(15 15 17);
-  --theme-color-border: rgb(39 39 42);
-  --theme-color-border-soft: rgb(39 39 42 / 70%);
-  --theme-color-border-strong: rgb(39 39 42 / 80%);
-  --theme-color-text: rgb(244 244 245);
-  --theme-color-text-muted: rgb(212 212 216);
-  --theme-color-text-soft: rgb(161 161 170);
-  --theme-color-text-subtle: rgb(113 113 122);
-  --theme-color-accent: rgb(228 228 231);
-  --theme-color-accent-foreground: rgb(9 9 11);
-  --theme-color-danger: rgb(251 113 133);
-  --theme-color-danger-soft: rgb(253 164 175 / 80%);
-  --theme-color-warning: rgb(245 158 11);
-  --theme-color-ring: rgb(63 63 70 / 60%);
-  --theme-color-ring-soft: rgb(63 63 70 / 50%);
-  --theme-color-overlay: rgb(0 0 0 / 70%);
-  --theme-color-shadow: rgb(0 0 0 / 10%);
-  --theme-color-shadow-strong: rgb(0 0 0 / 20%);
-  --theme-color-status-backlog: rgb(148 163 184);
-  --theme-color-status-todo: rgb(161 161 170);
-  --theme-color-status-queued: rgb(251 191 36);
-  --theme-color-status-doing: rgb(96 165 250);
-  --theme-color-status-review: rgb(167 139 250);
-  --theme-color-status-done: rgb(52 211 153);
-  --theme-color-status-blocked: rgb(248 113 113);
-  --theme-color-status-paused: rgb(250 204 21);
-  --theme-color-status-archived: rgb(82 82 91);
-  --theme-color-status-inbox: rgb(251 191 36);
-  --theme-color-status-routed: rgb(96 165 250);
-  --theme-color-status-indexed: rgb(52 211 153);
-}
-
-[data-theme="p4-white"] {
-  --theme-color-bg: rgb(9 9 11);
-  --theme-color-panel: rgb(9 9 11);
-  --theme-color-panel-2: rgb(24 24 27);
-  --theme-color-panel-overlay: rgb(20 20 22);
-  --theme-color-panel-overlay-strong: rgb(21 21 24);
-  --theme-color-panel-hover: rgb(24 24 27);
-  --theme-color-panel-hover-soft: rgb(15 15 17);
-  --theme-color-border: rgb(39 39 42);
-  --theme-color-border-soft: rgb(39 39 42 / 70%);
-  --theme-color-border-strong: rgb(39 39 42 / 80%);
-  --theme-color-text: rgb(244 244 245);
-  --theme-color-text-muted: rgb(212 212 216);
-  --theme-color-text-soft: rgb(161 161 170);
-  --theme-color-text-subtle: rgb(113 113 122);
-  --theme-color-accent: rgb(228 228 231);
-  --theme-color-accent-foreground: rgb(9 9 11);
-  --theme-color-danger: rgb(251 113 133);
-  --theme-color-danger-soft: rgb(253 164 175 / 80%);
-  --theme-color-warning: rgb(245 158 11);
-  --theme-color-ring: rgb(63 63 70 / 60%);
-  --theme-color-ring-soft: rgb(63 63 70 / 50%);
-  --theme-color-overlay: rgb(0 0 0 / 70%);
-  --theme-color-shadow: rgb(0 0 0 / 10%);
-  --theme-color-shadow-strong: rgb(0 0 0 / 20%);
-  --theme-color-status-backlog: rgb(148 163 184);
-  --theme-color-status-todo: rgb(161 161 170);
-  --theme-color-status-queued: rgb(251 191 36);
-  --theme-color-status-doing: rgb(96 165 250);
-  --theme-color-status-review: rgb(167 139 250);
-  --theme-color-status-done: rgb(52 211 153);
-  --theme-color-status-blocked: rgb(248 113 113);
-  --theme-color-status-paused: rgb(250 204 21);
-  --theme-color-status-archived: rgb(82 82 91);
-  --theme-color-status-inbox: rgb(251 191 36);
-  --theme-color-status-routed: rgb(96 165 250);
-  --theme-color-status-indexed: rgb(52 211 153);
-}
-
-[data-theme="p1-green-phosphor"] {
-  --theme-color-bg: rgb(10 10 10);
-  --theme-color-panel: rgb(15 20 16);
-  --theme-color-panel-2: rgb(18 26 20);
-  --theme-color-panel-overlay: rgb(17 24 18);
-  --theme-color-panel-overlay-strong: rgb(20 30 22);
-  --theme-color-panel-hover: rgb(22 34 25);
-  --theme-color-panel-hover-soft: rgb(19 28 21);
-  --theme-color-border: rgb(38 74 47);
-  --theme-color-border-soft: rgb(64 108 75 / 60%);
-  --theme-color-border-strong: rgb(82 153 101 / 70%);
-  --theme-color-text: rgb(0 255 102);
-  --theme-color-text-muted: rgb(102 255 170);
-  --theme-color-text-soft: rgb(93 214 138);
-  --theme-color-text-subtle: rgb(58 140 92);
-  --theme-color-accent: rgb(102 255 170);
-  --theme-color-accent-foreground: rgb(10 10 10);
-  --theme-color-danger: rgb(255 184 77);
-  --theme-color-danger-soft: rgb(255 184 77 / 82%);
-  --theme-color-warning: rgb(255 212 102);
-  --theme-color-ring: rgb(102 255 170 / 58%);
-  --theme-color-ring-soft: rgb(102 255 170 / 42%);
-  --theme-color-overlay: rgb(0 0 0 / 78%);
-  --theme-color-shadow: rgb(0 0 0 / 28%);
-  --theme-color-shadow-strong: rgb(0 0 0 / 48%);
-  --theme-color-status-backlog: rgb(84 120 98);
-  --theme-color-status-todo: rgb(102 153 119);
-  --theme-color-status-queued: rgb(51 255 136);
-  --theme-color-status-doing: rgb(0 204 85);
-  --theme-color-status-review: rgb(102 255 170);
-  --theme-color-status-done: rgb(102 255 170);
-  --theme-color-status-blocked: rgb(255 184 77);
-  --theme-color-status-paused: rgb(255 212 102);
-  --theme-color-status-archived: rgb(49 78 60);
-  --theme-color-status-inbox: rgb(51 255 136);
-  --theme-color-status-routed: rgb(0 204 85);
-  --theme-color-status-indexed: rgb(0 136 51);
-}
-
-[data-theme="p3-amber-phosphor"] {
-  --theme-color-bg: rgb(10 10 10);
-  --theme-color-panel: rgb(20 16 10);
-  --theme-color-panel-2: rgb(28 22 14);
-  --theme-color-panel-overlay: rgb(24 19 12);
-  --theme-color-panel-overlay-strong: rgb(31 24 15);
-  --theme-color-panel-hover: rgb(36 28 17);
-  --theme-color-panel-hover-soft: rgb(24 19 12);
-  --theme-color-border: rgb(86 65 26);
-  --theme-color-border-soft: rgb(110 84 36 / 62%);
-  --theme-color-border-strong: rgb(160 122 52 / 74%);
-  --theme-color-text: rgb(255 176 0);
-  --theme-color-text-muted: rgb(255 208 96);
-  --theme-color-text-soft: rgb(232 172 72);
-  --theme-color-text-subtle: rgb(153 112 36);
-  --theme-color-accent: rgb(255 208 96);
-  --theme-color-accent-foreground: rgb(10 10 10);
-  --theme-color-danger: rgb(255 110 78);
-  --theme-color-danger-soft: rgb(255 110 78 / 84%);
-  --theme-color-warning: rgb(255 208 96);
-  --theme-color-ring: rgb(255 208 96 / 56%);
-  --theme-color-ring-soft: rgb(255 208 96 / 40%);
-  --theme-color-overlay: rgb(0 0 0 / 78%);
-  --theme-color-shadow: rgb(0 0 0 / 28%);
-  --theme-color-shadow-strong: rgb(0 0 0 / 48%);
-  --theme-color-status-backlog: rgb(133 110 74);
-  --theme-color-status-todo: rgb(173 132 58);
-  --theme-color-status-queued: rgb(255 208 96);
-  --theme-color-status-doing: rgb(255 176 0);
-  --theme-color-status-review: rgb(255 228 163);
-  --theme-color-status-done: rgb(255 208 96);
-  --theme-color-status-blocked: rgb(255 110 78);
-  --theme-color-status-paused: rgb(255 236 163);
-  --theme-color-status-archived: rgb(92 74 47);
-  --theme-color-status-inbox: rgb(255 208 96);
-  --theme-color-status-routed: rgb(255 176 0);
-  --theme-color-status-indexed: rgb(96 165 250);
-}
-
-[data-theme="hi-contrast"] {
-  --theme-color-bg: rgb(0 0 0);
-  --theme-color-panel: rgb(10 10 10);
-  --theme-color-panel-2: rgb(18 18 18);
-  --theme-color-panel-overlay: rgb(6 6 6);
-  --theme-color-panel-overlay-strong: rgb(20 20 20);
-  --theme-color-panel-hover: rgb(24 24 24);
-  --theme-color-panel-hover-soft: rgb(16 16 16);
-  --theme-color-border: rgb(255 255 255);
-  --theme-color-border-soft: rgb(255 255 255 / 72%);
-  --theme-color-border-strong: rgb(255 255 255 / 88%);
-  --theme-color-text: rgb(255 255 255);
-  --theme-color-text-muted: rgb(255 255 255);
-  --theme-color-text-soft: rgb(235 235 235);
-  --theme-color-text-subtle: rgb(208 208 208);
-  --theme-color-accent: rgb(255 255 0);
-  --theme-color-accent-foreground: rgb(0 0 0);
-  --theme-color-danger: rgb(255 59 48);
-  --theme-color-danger-soft: rgb(255 59 48 / 90%);
-  --theme-color-warning: rgb(255 255 0);
-  --theme-color-ring: rgb(255 255 0 / 84%);
-  --theme-color-ring-soft: rgb(255 255 255 / 68%);
-  --theme-color-overlay: rgb(0 0 0 / 88%);
-  --theme-color-shadow: rgb(0 0 0 / 36%);
-  --theme-color-shadow-strong: rgb(0 0 0 / 60%);
-  --theme-color-status-backlog: rgb(255 255 255);
-  --theme-color-status-todo: rgb(208 208 208);
-  --theme-color-status-queued: rgb(255 255 0);
-  --theme-color-status-doing: rgb(0 255 255);
-  --theme-color-status-review: rgb(255 0 255);
-  --theme-color-status-done: rgb(0 255 0);
-  --theme-color-status-blocked: rgb(255 59 48);
-  --theme-color-status-paused: rgb(255 255 0);
-  --theme-color-status-archived: rgb(160 160 160);
-  --theme-color-status-inbox: rgb(255 255 0);
-  --theme-color-status-routed: rgb(0 255 255);
-  --theme-color-status-indexed: rgb(0 255 0);
-}
-
-/* Legacy palette ids keep their existing values through this reverse mapping.
- * Shared built-ins supply --hl-* themselves; applying both directions would
- * create a custom-property cycle and silently erase the dark palette.
- * The complete shared values are imported above for mode switching. The full
- * legacy theme-layer migration remains CW-20260911-0071.
- * Selection intentionally uses panel-2, not the near-white action accent;
- * fg-muted follows the retired text-soft step rather than the coarser shadcn
- * muted-foreground alias. Palette ids stay on document.documentElement. */
-:root:not([data-theme="nanite-default"]):not([data-theme^="dir-"]):not([data-theme^="sysop-"]) {
-  /* Surfaces */
-  --hl-bg: var(--theme-color-bg);
-  --hl-bg-elevated: var(--theme-color-panel-2);
-  --hl-surface: var(--theme-color-panel-2);
-  --hl-surface-hover: var(--theme-color-panel-hover);
-
-  /* Text */
-  --hl-fg: var(--theme-color-text);
-  --hl-fg-secondary: var(--theme-color-text-muted);
-  --hl-fg-muted: var(--theme-color-text-soft);
-  --hl-fg-faint: var(--theme-color-text-subtle);
-
-  /* Borders — the 3-to-3 mapping, decided by Chrispian in review round 3.
-   *
-   *   kit border-strong  ->  contract border          the prominent one
-   *   kit border         ->  contract border-subtle   the quieter one
-   *   kit border-soft    ->  contract divider
-   *
-   * The contract's own `DEPRECATED_TOKENS` collapses the first two into `border`,
-   * on the stated grounds that "border-strong was 80% alpha of border — weaker
-   * than what it claimed to strengthen." THAT IS TRUE IN HALF THE PALETTES:
-   *
-   *   p4-white     border rgb(39 39 42)     strong rgb(39 39 42 / 80%)    one hue
-   *   hi-contrast  border rgb(255 255 255)  strong rgb(255 255 255 / 88%) one hue
-   *   p1-green     border rgb(38 74 47)     strong rgb(82 153 101 / 70%)  DIFFERENT
-   *   p3-amber     border rgb(86 65 26)     strong rgb(160 122 52 / 74%)  DIFFERENT
-   *
-   * A mid green at 70% is not a weaker dark green. The kit has three border tokens
-   * and the contract has three border ROLES, so they map one-to-one and no colour
-   * is lost — which is why this is a pure rename with zero visual change, verified
-   * across all four palettes, rather than the collapse the retirement implied.
-   *
-   * `--color-border` BELOW IS REMAPPED TOO, deliberately: the kit's own @theme
-   * block shadows the contract's for the 20 colliding names, so changing `--hl-*`
-   * alone would have moved nothing. And `@layer base`'s `* { border-color }` names
-   * `border-subtle` now — it always wanted the quieter border, and under this
-   * mapping that is what the quieter border is called.
-   */
-  --hl-border: var(--theme-color-border-strong);
-  --hl-border-subtle: var(--theme-color-border);
-  --hl-divider: var(--theme-color-border-soft);
-
-  /* Interactive and identity */
-  --hl-primary: var(--theme-color-accent);
-  --hl-primary-fg: var(--theme-color-accent-foreground);
-  --hl-selection: var(--theme-color-panel-2);
-  --hl-selection-fg: var(--theme-color-text);
-  --hl-ring: var(--theme-color-ring);
-
-  /* Identity. The contract keeps `primary` and `brand` separate so an app can be
-   * loudly branded without a loud UI, and says explicitly that a theme MAY set
-   * them equal. This kit has one action colour, so it does — that is applying a
-   * documented default, not choosing a colour. */
-  --hl-brand: var(--hl-primary);
-  --hl-brand-hover: var(--hl-primary);
-  --hl-brand-active: var(--hl-primary);
-  --hl-brand-muted: var(--hl-primary);
-  --hl-brand-fg: var(--hl-primary-fg);
-
-  /* Feedback */
-  --hl-danger: var(--theme-color-danger);
-  --hl-danger-muted: var(--theme-color-danger-soft);
-  --hl-warning: var(--theme-color-warning);
-  --hl-success: var(--theme-color-status-done);
-  --hl-info: var(--theme-color-status-doing);
-
-  /* Syntax — contract §3.10, rule R4. Five stops at 100/75/50/25/0 between this
-   * palette's own `fg` and `fg-faint`, mixed in oklab.
-   *
-   * MIXED HERE RATHER THAN BAKED, WHICH IS THE OPPOSITE OF WHAT design-tokens
-   * DOES, and the asymmetry is structural rather than a style choice. That
-   * package holds its palettes in TypeScript, so it computes R4 once per theme
-   * offline and ships literal colours a theme editor can display. This kit's
-   * palettes are CSS — four of them, selected by `[data-theme]` on the same
-   * element `:root` matches — so one declaration has to serve all four, and only
-   * an expression can. Same rule, same stops, same output; different layer.
-   *
-   * The endpoints are exact by construction: `syntax-key` IS `fg` and
-   * `syntax-null` IS `fg-faint`, so only the three middle stops are new colours
-   * and no palette acquires a hue nobody chose.
-   *
-   * THE FLOOR IS `fg-faint`, NOT `bg`. Running the ramp to the background gives
-   * wider separation and drops the bottom two stops to 1.9 / 1.8 / 1.6 / 1.4 : 1
-   * across these four palettes — below AA in every one. Ending at the palette's
-   * own faintest legible step holds its existing floor exactly.
-   *
-   * Same `@supports` fallback as the status labels gets added by the build: an
-   * engine without `color-mix` renders these as `fg`, which is legible and wrong
-   * rather than invisible. Do not delete it as duplication.
-   */
-  --hl-syntax-key: var(--hl-fg);
-  --hl-syntax-string: color-mix(in oklab, var(--hl-fg) 75%, var(--hl-fg-faint));
-  --hl-syntax-number: color-mix(in oklab, var(--hl-fg) 50%, var(--hl-fg-faint));
-  --hl-syntax-boolean: color-mix(in oklab, var(--hl-fg) 25%, var(--hl-fg-faint));
-  --hl-syntax-null: var(--hl-fg-faint);
-
-  /* Fonts */
-  --hl-font-sans: var(--font-sans);
-  --hl-font-mono: var(--font-mono);
-}
+/* Palette values come only from design-tokens, including generated legacy-ID
+ * aliases. The dashboard layer derives workflow tones and keeps compatibility
+ * utility names; it does not redefine the base --hl-* contract. */
 
 /* ─────────────── DERIVED STATUS LABEL COLOURS — a THEME-layer job ───────────
  *
@@ -400,12 +82,11 @@
  * behaved, and nobody asked for it; it will look like duplication in the built CSS
  * and it is not.
  *
- * ONE DECLARATION EACH, AT :root, IS CORRECT — the `[data-theme]` blocks above
- * match the same element `:root` does, and a custom property resolves where it is
- * USED, so each of these picks up whichever palette is live. Verified against
- * compiled output in all four rather than reasoned about.
+ * Declare derivations on :root and each [data-theme] boundary: inherited custom
+ * properties otherwise retain their ancestor's resolved inputs. Palette aliases
+ * and workflow labels therefore follow a nested theme as well as the root.
  * ------------------------------------------------------------------------- */
-:root {
+:root, [data-theme] {
   --theme-color-status-backlog-label:
     color-mix(in oklab, var(--theme-color-status-backlog) 60%, var(--theme-color-text));
   --theme-color-status-todo-label:
@@ -436,17 +117,16 @@
  * `priority-badge` mixed the status colour 22% into the page background inline,
  * so the chip reads as a dark solid block. Computing a colour from two others is
  * theme-layer work; the component names the result. Ratio unchanged. */
-:root {
+:root, [data-theme] {
   --theme-color-priority-p1-bg:
     color-mix(in oklab, var(--theme-color-status-blocked) 22%, var(--theme-color-bg));
   --theme-color-priority-p2-bg:
     color-mix(in oklab, var(--theme-color-status-queued) 22%, var(--theme-color-bg));
 }
 
-/* Shared built-in themes opt into the base vocabulary. Legacy palette selectors
- * above stay intact; their full migration is CW-20260911-0071. Values resolve on
- * the themed element so descendant themes work too. */
-[data-theme="nanite-default"], [data-theme^="dir-"], [data-theme^="sysop-"] {
+/* Every palette, including the legacy aliases, consumes the same contract.
+ * These compatibility roles introduce no palette literals. */
+:root, [data-theme] {
   --theme-color-bg: var(--hl-bg);
   --theme-color-panel: var(--hl-bg);
   --theme-color-panel-2: var(--hl-bg-elevated);
@@ -492,7 +172,6 @@
   --font-heading: var(--font-sans);
 
   /* Semantic tokens */
-  --color-bg: var(--theme-color-bg);
   --color-panel: var(--theme-color-panel);
   --color-panel-2: var(--theme-color-panel-2);
   --color-panel-overlay: var(--theme-color-panel-overlay);
@@ -506,30 +185,18 @@
   --color-text-soft: var(--theme-color-text-soft);
   --color-text-subtle: var(--theme-color-text-subtle);
   --color-danger-soft: var(--theme-color-danger-soft);
-  --color-warning: var(--theme-color-warning);
   --color-overlay: var(--theme-color-overlay);
   --color-shadow: var(--theme-color-shadow);
   --color-shadow-strong: var(--theme-color-shadow-strong);
 
-  /* shadcn variable mappings */
-  --color-background: var(--theme-color-bg);
-  --color-foreground: var(--theme-color-text);
-  --color-card: var(--theme-color-panel-2);
-  --color-card-foreground: var(--theme-color-text);
-  --color-popover: var(--theme-color-panel-2);
-  --color-popover-foreground: var(--theme-color-text);
-  --color-primary: var(--theme-color-accent);
-  --color-primary-foreground: var(--theme-color-accent-foreground);
+  /* Keep the dashboard's established shadcn treatment across modern themes.
+   * Inputs remain contract-backed; legacy palettes adopt canonical values. */
+  --color-input: var(--theme-color-border);
   --color-secondary: var(--theme-color-panel-2);
-  --color-secondary-foreground: var(--theme-color-text);
   --color-muted: var(--theme-color-panel-2);
   --color-muted-foreground: var(--theme-color-text-subtle);
   --color-accent: var(--theme-color-panel-2);
   --color-accent-foreground: var(--theme-color-text);
-  --color-destructive: var(--theme-color-danger);
-  --color-border: var(--theme-color-border-strong);
-  --color-input: var(--theme-color-border);
-  --color-ring: var(--theme-color-ring);
 
   /* sidebar tokens */
   --color-sidebar: var(--theme-color-panel);

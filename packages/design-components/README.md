@@ -10,6 +10,22 @@ compositions of Base UI primitives that name tokens from
 
 ---
 
+## Tailwind compatibility
+
+Styled components require **Tailwind CSS v4**, declared as a required
+`tailwindcss: ^4.0.0` peer. npm 7+ installs a missing required peer automatically;
+npm 11's default resolver rejects an installed incompatible major. An automatic
+peer install does not add Tailwind to your app's manifest or configure its CSS
+build. Declare it explicitly and configure the matching Vite/PostCSS/CLI
+integration:
+
+```sh
+npm install -D tailwindcss@^4.0.0
+```
+
+A successful install alone does not verify styling. Follow this package's usage
+instructions for the CSS imports and source registration as well.
+
 ## Install — and the line that is not optional
 
 ```bash

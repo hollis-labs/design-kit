@@ -11,11 +11,29 @@ this is the one piece either could adopt **without taking any appearance at all*
 API client and an SSE hook have no view on how anything looks. So the surface is built
 for that consumer:
 
-- `react` is the **only** peer dependency.
-- There are **no other dependencies of any kind** — verified by installing the packed
+- `react` is the **only required** peer dependency; Tailwind is an optional
+  peer for the consuming app's CSS pipeline.
+- There are **no runtime dependencies** — verified by installing the packed
   tarball into an empty project: zero transitive deps.
 - Nothing here imports a component, and the package ships no CSS except one opt-in
   file that names no color.
+
+## Tailwind compatibility
+
+The design-kit CSS pipeline requires **Tailwind CSS v4**. This package declares
+`tailwindcss: ^4.0.0` as an optional peer because its nonvisual JavaScript APIs
+also work without the CSS compiler. npm does not auto-install an optional peer
+and produces **no warning when it is absent**; npm 11's default resolver rejects
+an installed incompatible major.
+
+When using the CSS pipeline, declare Tailwind in the app's build dependencies
+and configure the matching Vite/PostCSS/CLI integration:
+
+```sh
+npm install -D tailwindcss@^4.0.0
+```
+
+A successful install alone does not verify CSS setup.
 
 ## What's in it
 

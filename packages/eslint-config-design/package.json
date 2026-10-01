@@ -43,11 +43,15 @@
     "biome-check:update": "node scripts/biome-check.mjs --update"
   },
   "peerDependencies": {
+    "tailwindcss": "^4.0.0",
     "@hollis-labs/design-tokens": "^0.1.0",
     "eslint": "^9.0.0",
     "typescript-eslint": "^8.0.0"
   },
   "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    },
     "typescript-eslint": {
       "optional": true
     }

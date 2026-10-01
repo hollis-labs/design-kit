@@ -8,6 +8,8 @@ interface PriorityBadgeProps {
 // the chip reads as a dark solid block, matching Torque's `*-950/40` look. The mix
 // itself lives in styles/theme.css, where computing a colour belongs; this names
 // the result. P3 is the neutral panel tone.
+// Compatibility utility names stay until the idiom-registration seam lands
+// (CW-20261001-0529); canonical dash-priority aliases already exist in CSS.
 const PRIORITY: Record<number, { className: string; label: string }> = {
   1: {
     className:

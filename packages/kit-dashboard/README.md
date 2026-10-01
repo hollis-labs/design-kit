@@ -170,6 +170,38 @@ pinned to the viewport with overflow disabled, so the fixed NavRail + PageHeader
 chrome never scrolls. Apps mount into `#root` and let page regions scroll
 internally; no per-app `index.css` reset is needed.
 
+## Priority and workflow tokens
+
+Priority fills are **dashboard idiom**, not general feedback tints. P1 and P2 keep
+the existing 22% Oklab mix of blocked/queued into the page background. A general
+`danger-muted` or `warning-muted` replacement would change that treatment and can
+be undefined in the legacy palettes. Components name the result; `color-mix()`
+stays in the theme layer.
+
+| Previous utility token | Canonical token | Disposition |
+| --- | --- | --- |
+| `priority-p1-bg` | `dash-priority-p1-bg` | Deprecated compatibility alias, still resolves to the same fill |
+| `priority-p2-bg` | `dash-priority-p2-bg` | Deprecated compatibility alias, still resolves to the same fill |
+
+`PriorityBadge` continues using the compatibility names until the design gate
+can consume kit-owned idiom vocabularies (CW-20261001-0529). Canonical utilities
+are `bg-dash-priority-p1-bg` / `bg-dash-priority-p2-bg`.
+`DASHBOARD_DEPRECATED_TOKENS`, exported from the root and `/ui`, records these
+migrations. The base contract's `DEPRECATED_TOKENS` intentionally maps base names
+to base replacements; dashboard-specific retirements belong to this kit.
+
+**Workflow status names stay unchanged in this change.** `status-*` carries the
+lifecycle color and `status-*-label` carries its derived readable label step.
+Both families cover backlog, todo, queued, doing, review, done, blocked, paused,
+archived, inbox, routed and indexed. The label family came from moving component
+mixing into the theme layer, not from the frozen sysop palette. Their eventual
+`dash-status-*` / `dash-status-*-label` migration remains CW-20260911-0071; this
+priority decision does not perform it. These workflow labels are separate from
+Nanite's retired health-triad names.
+
+Decision: CW-20260912-0046. Before/after screenshots and computed styles are in
+[priority proof](../../docs/screenshots/priority-tokens/README.md).
+
 ## App structure
 
 Default Sysop app shape:

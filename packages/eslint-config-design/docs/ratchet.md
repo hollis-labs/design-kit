@@ -140,6 +140,8 @@ error: --no-config requires typescript-eslint to parse .ts/.tsx files,
        or pass --config to use your own eslint.config.js instead.
 ```
 
+If the app’s TypeScript is newer than the parser supports, use the [isolated lint tool recipe](biome-consumers.md#when-your-typescript-is-newer-than-typescript-eslint-supports); a peer bypass cannot fix a parser’s runtime refusal.
+
 ### Non-blocking caveats worth knowing
 
 **The ratchet is per-rule, not per-file.** Fixing one `no-color-literal` in

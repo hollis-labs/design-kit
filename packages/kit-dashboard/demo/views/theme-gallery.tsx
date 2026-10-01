@@ -39,6 +39,10 @@ export function ThemeGalleryView() {
             <p className="font-semibold">Panel and borders</p>
             <p className="mt-2 text-sm text-text-soft">Dashboard text follows the active base theme.</p>
           </div>
+          <div className="show-scrollbar h-32 overflow-auto rounded-md border border-border bg-bg-elevated p-3" role="region" tabIndex={0} aria-label="Visible scrollbar example">
+            <p className="mb-3 text-label text-fg">Opt-in visible scrollbar</p>
+            <div className="space-y-3">{statuses.map((status) => <div key={status}><StatusBadge status={status} /></div>)}</div>
+          </div>
         </section>
         <section className="space-y-4" aria-label="Chat components">
           <h2 className="text-lg font-semibold">kit-chat</h2>

@@ -19,3 +19,7 @@ export {
   type FilterEntityComboboxItem,
 } from './components/filter-bar'
 export { DataTable, DataTableRow } from './components/data-table'
+
+export type { TableDensity } from './components/data-table/data-table'
+export { useArrowNav, type ArrowNavOptions } from './hooks/use-arrow-nav'
+export { useListNavigation, type ListNavigationOptions } from './hooks/use-list-navigation'

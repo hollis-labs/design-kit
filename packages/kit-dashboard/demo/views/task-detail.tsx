@@ -1,6 +1,7 @@
+import { useListNavigation } from '../../src/data'
 import { PriorityBadge } from '../../src'
 import { formatRelativeTime } from '@hollis-labs/design-app-runtime'
-import { CopyableId, DetailSection, EmptyState, JsonViewer, MetaList, Pill } from '@hollis-labs/design-components'
+import { Button, CopyableId, DetailSection, EmptyState, JsonViewer, MetaList, Pill } from '@hollis-labs/design-components'
 import { DetailHeader } from '../../src/layout'
 import { DetailPageLayout } from '@hollis-labs/design-components'
 import { getTask } from '../fixtures/tasks'
@@ -11,12 +12,15 @@ import { getTask } from '../fixtures/tasks'
  */
 
 interface TaskDetailViewProps {
+  orderedIds: string[]
+  onNavigate: (id: string) => void
   taskId: string
   onBack: () => void
 }
 
-export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
+export function TaskDetailView({ taskId, onBack, orderedIds, onNavigate }: TaskDetailViewProps) {
   const task = getTask(taskId)
+  const navigation = useListNavigation({ ids: orderedIds, currentId: taskId, onNavigate })
 
   if (!task) {
     return (
@@ -42,6 +46,11 @@ export function TaskDetailView({ taskId, onBack }: TaskDetailViewProps) {
           id={task.id}
           status={task.status}
         >
+          <div className="flex items-center gap-2" aria-label="Task navigation">
+            <Button size="sm" variant="outline" disabled={!navigation.previousId} onClick={navigation.onPrev} aria-label="Previous task">←</Button>
+            <span className="text-label text-fg-muted">{navigation.index + 1} / {navigation.total}</span>
+            <Button size="sm" variant="outline" disabled={!navigation.nextId} onClick={navigation.onNext} aria-label="Next task">→</Button>
+          </div>
           <PriorityBadge priority={task.priority} />
           {task.manual ? (
             <Pill tone="info">manual</Pill>

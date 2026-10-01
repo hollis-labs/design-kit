@@ -16,7 +16,7 @@
  *   lib/toast                 needs <Toaster/> mounted      -> design-components
  *   cn()                      every component needs it      -> design-components
  *   lib/status                130 lines of Tailwind classes -> kit-dashboard
- *   lib/theme                 theme application             -> design-tokens / kit
+ *   palette values            theme colors                  -> design-tokens / kit
  */
 
 // ---- wire types -----------------------------------------------------------
@@ -80,3 +80,8 @@ export {
   formatCount,
   formatDuration,
 } from './lib/format'
+
+// Headless appearance preferences; palette values remain in design-tokens.
+export { createThemeStore } from './lib/theme-store'
+export type { ColorMode, ModePreference, ThemeState, ThemeStore, ThemeStoreOptions } from './lib/theme-store'
+export { useTheme } from './hooks/use-theme'

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Activity, LayoutGrid, LayoutList, Server, Settings } from 'lucide-react'
-import { NavRail, ThemeSwitcher, type NavRailItem } from '../src'
+import { NavRail, type NavRailItem } from '../src'
 import { Toaster, TooltipProvider } from '@hollis-labs/design-components'
 import { createRouter } from '@hollis-labs/design-app-runtime'
 import { GalleryView } from './views/gallery'
 import { OperationsView } from './views/operations'
 import { OverviewView } from './views/overview'
 import { SettingsView } from './views/settings'
+import { ThemeControls } from './theme-controls'
+import { ThemeGalleryView } from './views/theme-gallery'
 import { TaskDetailView } from './views/task-detail'
 
 // ---------------------------------------------------------------------------
@@ -17,7 +19,7 @@ import { TaskDetailView } from './views/task-detail'
 // On back/forward: popstate listener updates the route automatically.
 // ---------------------------------------------------------------------------
 const useRoute = createRouter({
-  routes: ['overview', 'operations', 'gallery', 'settings'] as const,
+  routes: ['overview', 'operations', 'gallery', 'themes', 'settings'] as const,
   default: 'overview',
   // basePath: '/operations',  // ← set this for Go-embedded apps with a sub-path
 })
@@ -29,6 +31,7 @@ export function App() {
   const [taskId, setTaskId] = useState<string | null>(null)
 
   const nav: NavRailItem[] = [
+    { key: 'themes', label: 'Light / dark proof', icon: <LayoutGrid className="h-4 w-4" />, active: route === 'themes', onSelect: () => navigate('themes') },
     {
       key: 'overview',
       label: 'Overview (dashboard)',
@@ -67,9 +70,10 @@ export function App() {
           items={nav}
           logo={<Server className="h-4 w-4" />}
           logoLabel="sysop-ui demo"
-          footerExtra={<ThemeSwitcher />}
         />
         <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+          <ThemeControls />
+          {route === 'themes' ? <ThemeGalleryView /> : null}
           {route === 'overview' ? <OverviewView /> : null}
           {route === 'operations' && !taskId ? (
             <OperationsView onOpenTask={(id) => setTaskId(id)} />

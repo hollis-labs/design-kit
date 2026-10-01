@@ -33,7 +33,7 @@
  *
  * If a future component needs `scroll-fade` or `shimmer`, take the definition — not
  * the import. */
-@import "@hollis-labs/design-tokens/tokens.css";
+@import "@hollis-labs/design-tokens/design-tokens.css";
 
 /* THE TWO LINES BELOW ARE WHY THE COMPONENTS HAVE COLOUR. Tailwind v4 emits a
  * utility only for a class string it has SEEN, and it does not scan `node_modules`.
@@ -58,7 +58,49 @@
  * - Shared semantic tokens keep the same shape across palettes:
  *   --theme-color-bg, --theme-color-panel, --theme-color-text, --theme-color-accent,
  *   --theme-color-danger, --theme-color-status-*
- * - `@theme inline` maps those selector-scoped vars into Tailwind/shadcn tokens.
+ * - `/* Shared built-in themes opt into the base vocabulary. Legacy palette selectors
+ * above stay intact; their full migration is CW-20260911-0071. Values resolve on
+ * the themed element so descendant themes work too. */
+[data-theme="nanite-default"], [data-theme^="dir-"], [data-theme^="sysop-"] {
+  --theme-color-bg: var(--hl-bg);
+  --theme-color-panel: var(--hl-bg);
+  --theme-color-panel-2: var(--hl-bg-elevated);
+  --theme-color-panel-overlay: var(--hl-surface);
+  --theme-color-panel-overlay-strong: var(--hl-surface-active);
+  --theme-color-panel-hover: var(--hl-surface-hover);
+  --theme-color-panel-hover-soft: var(--hl-surface);
+  --theme-color-border: var(--hl-border);
+  --theme-color-border-soft: var(--hl-border-subtle);
+  --theme-color-border-strong: var(--hl-border);
+  --theme-color-text: var(--hl-fg);
+  --theme-color-text-muted: var(--hl-fg-secondary);
+  --theme-color-text-soft: var(--hl-fg-muted);
+  --theme-color-text-subtle: var(--hl-fg-faint);
+  --theme-color-accent: var(--hl-primary);
+  --theme-color-accent-foreground: var(--hl-primary-fg);
+  --theme-color-danger: var(--hl-danger);
+  --theme-color-danger-soft: var(--hl-danger);
+  --theme-color-warning: var(--hl-warning);
+  --theme-color-ring: var(--hl-ring);
+  --theme-color-ring-soft: var(--hl-ring);
+  --theme-color-status-backlog: var(--hl-fg-muted);
+  --theme-color-status-todo: var(--hl-fg-secondary);
+  --theme-color-status-queued: var(--hl-warning);
+  --theme-color-status-doing: var(--hl-info);
+  --theme-color-status-review: var(--hl-brand);
+  --theme-color-status-done: var(--hl-success);
+  --theme-color-status-blocked: var(--hl-danger);
+  --theme-color-status-paused: var(--hl-warning);
+  --theme-color-status-archived: var(--hl-fg-muted);
+  --theme-color-status-inbox: var(--hl-warning);
+  --theme-color-status-routed: var(--hl-info);
+  --theme-color-status-indexed: var(--hl-success);
+  --theme-color-overlay: rgb(0 0 0 / 70%);
+  --theme-color-shadow: rgb(0 0 0 / 10%);
+  --theme-color-shadow-strong: rgb(0 0 0 / 20%);
+}
+
+@theme inline` maps those selector-scoped vars into Tailwind/shadcn tokens.
  *
  * Consume from an app:
  *   @import "@hollis-labs/kit-dashboard/theme.css";

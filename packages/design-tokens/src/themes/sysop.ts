@@ -1,8 +1,9 @@
 // GENERATED CONTENT, HAND-REVIEWED. Source: libs/sysop-ui@aef2dff styles/theme.css,
-// as carried into packages/kit-dashboard. Four dark-only palettes, mapped onto the
+// as carried into packages/kit-dashboard. Four dark palettes, mapped onto the
 // contract vocabulary. See README.md § "Where the values came from" — every value
 // marked `derived` had no source in the palette and is flagged for design review.
 import type { Theme } from '../theme.js'
+import { SYSOP_LIGHT } from './sysop-light.js'
 
 /** The sysop-ui default. Neutral zinc on near-black; the dense-ops look. */
 export const SYSOP_P4_WHITE: Theme = {
@@ -12,9 +13,9 @@ export const SYSOP_P4_WHITE: Theme = {
   builtin: true,
   origin: 'sysop-ui',
   chartPalette: 'placeholder',
-  /** Dark-only. sysop-ui's palettes are alternates, not modes — there is no
-      light set to carry, and inventing one is a design pass, not a port. */
+  /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
+    light: SYSOP_LIGHT.white,
     dark: {
       'bg': 'rgb(9 9 11)',
       'bg-elevated': 'rgb(24 24 27)',
@@ -76,9 +77,9 @@ export const SYSOP_GREEN_PHOSPHOR: Theme = {
   builtin: true,
   origin: 'sysop-ui',
   chartPalette: 'placeholder',
-  /** Dark-only. sysop-ui's palettes are alternates, not modes — there is no
-      light set to carry, and inventing one is a design pass, not a port. */
+  /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
+    light: SYSOP_LIGHT.green,
     dark: {
       'bg': 'rgb(10 10 10)',
       'bg-elevated': 'rgb(18 26 20)',
@@ -140,9 +141,9 @@ export const SYSOP_AMBER_PHOSPHOR: Theme = {
   builtin: true,
   origin: 'sysop-ui',
   chartPalette: 'placeholder',
-  /** Dark-only. sysop-ui's palettes are alternates, not modes — there is no
-      light set to carry, and inventing one is a design pass, not a port. */
+  /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
+    light: SYSOP_LIGHT.amber,
     dark: {
       'bg': 'rgb(10 10 10)',
       'bg-elevated': 'rgb(28 22 14)',
@@ -204,9 +205,9 @@ export const SYSOP_HI_CONTRAST: Theme = {
   builtin: true,
   origin: 'sysop-ui',
   chartPalette: 'placeholder',
-  /** Dark-only. sysop-ui's palettes are alternates, not modes — there is no
-      light set to carry, and inventing one is a design pass, not a port. */
+  /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
+    light: SYSOP_LIGHT.contrast,
     dark: {
       'bg': 'rgb(0 0 0)',
       'bg-elevated': 'rgb(18 18 18)',

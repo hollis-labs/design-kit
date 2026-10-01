@@ -97,3 +97,8 @@ export type { ColumnDef, SortDir, SortState } from './lib/column'
 export { useCopy } from './hooks/use-copy'
 export type { UseCopyResult } from './hooks/use-copy'
 export { useArrowNav } from './hooks/use-arrow-nav'
+
+export { ModeToggle } from './components/mode-toggle'
+export type { ModeToggleProps } from './components/mode-toggle'
+export { ThemePicker } from './components/theme-picker'
+export type { ThemePickerProps } from './components/theme-picker'

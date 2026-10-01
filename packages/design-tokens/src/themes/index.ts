@@ -15,7 +15,7 @@ export * from './sysop.js'
  *   · SIX from `apps/nanite`, each with a complete dark AND light set. Verified
  *     independently: 12 value sets, one key set, zero drift — the property that
  *     made the typed-contract argument, reproduced rather than taken on trust.
- *   · FOUR from `libs/sysop-ui`, dark-only alternates that swap by attribute.
+ *   · FOUR from `libs/sysop-ui`, with light companions added in CW-20261001-0498.
  *
  * The fifth sysop palette in the brief does not exist. `theme.css` has FOUR
  * `[data-theme]` selectors plus a `:root` fallback that duplicates `p4-white`
@@ -47,7 +47,7 @@ export const BUILTIN_THEMES: readonly Theme[] = [...NANITE_THEMES, ...SYSOP_PALE
  *     other muted candidate and its `success` is gold, which reads as a warning.
  *     `dir-d` and `dir-e` are distinct but loud — Synthwave and Hacker/Terminal
  *     are aesthetic statements, not neutral starting points.
- *   · LIGHT MODE. All four sysop palettes are dark-only, so any of them as the
+ *   · LIGHT MODE. At the original default decision the sysop palettes were dark-only, so any as the
  *     default would make the package's out-of-box experience dark-only while
  *     `Theme.tokens.light` is optional. All six Nanite themes carry both.
  *

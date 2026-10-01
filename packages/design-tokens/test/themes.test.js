@@ -24,7 +24,6 @@ test('both working implementations survived the move, whole', () => {
 
 test('every theme carries EVERY token in every mode it declares — zero drift', () => {
   const expected = [...COLOR_TOKENS].sort()
-  let valueSets = 0
   for (const theme of BUILTIN_THEMES) {
     for (const mode of modesOf(theme)) {
       const values = theme.tokens[mode]
@@ -34,16 +33,12 @@ test('every theme carries EVERY token in every mode it declares — zero drift',
         assert.equal(typeof v, 'string', `${theme.id}/${mode}/${k}`)
         assert.ok(v.trim().length > 0, `${theme.id}/${mode}/${k} is empty`)
       }
-      valueSets++
     }
   }
-  // 6 Nanite x 2 modes + 4 sysop x 1 mode.
-  assert.equal(valueSets, 16)
 })
 
-test("Nanite's six carry dark AND light; sysop's four are dark-only alternates", () => {
-  for (const t of NANITE_THEMES) assert.deepEqual(modesOf(t), ['dark', 'light'], t.id)
-  for (const t of SYSOP_PALETTES) assert.deepEqual(modesOf(t), ['dark'], t.id)
+test('every built-in ships dark and light', () => {
+  for (const t of BUILTIN_THEMES) assert.deepEqual(modesOf(t), ['dark', 'light'], t.id)
 })
 
 test('theme ids are unique and resolvable', () => {
@@ -151,7 +146,8 @@ test('a theme serialises to CSS that names only the value layer', () => {
 })
 
 test('a dark-only theme serialises no light block', () => {
-  const css = themeCss(getBuiltinTheme('sysop-green-phosphor'))
+  const builtin = getBuiltinTheme('sysop-green-phosphor')
+  const css = themeCss({ ...builtin, tokens: { dark: builtin.tokens.dark } })
   assert.ok(!css.includes('.light'), 'invented a light mode')
 })
 

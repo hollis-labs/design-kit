@@ -6,10 +6,8 @@
  */
 
 /* Sysop — P4 White — The sysop-ui default. Neutral zinc on near-black; the dense-ops look.
- * id: sysop-p4-white   origin: sysop-ui   modes: dark
+ * id: sysop-p4-white   origin: sysop-ui   modes: dark + light
  * chart-1..5 are PLACEHOLDERS, not designed values. See the README.
- * Dark-only: this palette is an alternate, not a mode. There is no light
- * set to carry and inventing one is a design pass, not a port.
  */
 [data-theme="sysop-p4-white"] {
   --hl-bg: rgb(9 9 11);
@@ -60,4 +58,55 @@
   --hl-syntax-number: rgb(176 176 182);
   --hl-syntax-boolean: rgb(144 144 151);
   --hl-syntax-null: rgb(113 113 122);
+}
+[data-theme="sysop-p4-white"][data-mode="light"],
+[data-theme="sysop-p4-white"].light {
+  --hl-bg: #fafafa;
+  --hl-bg-elevated: #ffffff;
+  --hl-surface: #f1f1f3;
+  --hl-surface-hover: #e4e4e7;
+  --hl-surface-active: #d4d4d8;
+  --hl-fg: #18181b;
+  --hl-fg-secondary: #3f3f46;
+  --hl-fg-muted: #52525b;
+  --hl-fg-faint: #52525b;
+  --hl-border: #a1a1aa;
+  --hl-border-subtle: #a1a1aa;
+  --hl-divider: #a1a1aa;
+  --hl-primary: #27272a;
+  --hl-primary-hover: color-mix(in srgb, #27272a 88%, black);
+  --hl-primary-active: color-mix(in srgb, #27272a 76%, black);
+  --hl-primary-muted: color-mix(in srgb, #27272a 8%, transparent);
+  --hl-primary-fg: #ffffff;
+  --hl-brand: #27272a;
+  --hl-brand-hover: color-mix(in srgb, #27272a 88%, black);
+  --hl-brand-active: color-mix(in srgb, #27272a 76%, black);
+  --hl-brand-muted: color-mix(in srgb, #27272a 8%, transparent);
+  --hl-brand-fg: #ffffff;
+  --hl-selection: #d4d4d8;
+  --hl-selection-fg: #18181b;
+  --hl-ring: #27272a;
+  --hl-danger: #be123c;
+  --hl-danger-hover: color-mix(in srgb, #be123c 88%, black);
+  --hl-danger-muted: color-mix(in srgb, #be123c 8%, transparent);
+  --hl-danger-fg: #ffffff;
+  --hl-warning: #854d0e;
+  --hl-warning-muted: color-mix(in srgb, #854d0e 8%, transparent);
+  --hl-warning-fg: #ffffff;
+  --hl-success: #166534;
+  --hl-success-muted: color-mix(in srgb, #166534 8%, transparent);
+  --hl-success-fg: #ffffff;
+  --hl-info: #1d4ed8;
+  --hl-info-muted: color-mix(in srgb, #1d4ed8 8%, transparent);
+  --hl-info-fg: #ffffff;
+  --hl-chart-1: #ff00ff;
+  --hl-chart-2: #ff00ff;
+  --hl-chart-3: #ff00ff;
+  --hl-chart-4: #ff00ff;
+  --hl-chart-5: #ff00ff;
+  --hl-syntax-key: #18181b;
+  --hl-syntax-string: color-mix(in oklab, #18181b 75%, #52525b);
+  --hl-syntax-number: color-mix(in oklab, #18181b 50%, #52525b);
+  --hl-syntax-boolean: color-mix(in oklab, #18181b 25%, #52525b);
+  --hl-syntax-null: #52525b;
 }

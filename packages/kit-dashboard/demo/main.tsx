@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './demo.css'
-import { applyTheme, getInitialTheme } from '../src'
+import { appearance } from './theme-controls'
 import { App } from './App'
 
-applyTheme(getInitialTheme())
+appearance.initialize()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

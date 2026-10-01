@@ -7,8 +7,8 @@ import {
   CommandItem,
   CommandList,
   Textarea,
-  cn,
 } from '@hollis-labs/design-components'
+import { cn } from '../lib/cn'
 import {
   applyReference,
   detectSuggestion,
@@ -287,7 +287,9 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
         aria-expanded={open}
         aria-controls={open ? 'chat-input-suggestions' : undefined}
         role="combobox"
-        className="text-control"
+        // The primitive uses md:text-sm. A typed length reference lets its
+        // merger replace that size even before it knows our named type scale.
+        className="text-control md:text-(length:--text-control)"
         onKeyDown={onKeyDown}
         onChange={(e) => handleChange(e.target.value, e.target.selectionStart ?? e.target.value.length)}
         onClick={(e) => {

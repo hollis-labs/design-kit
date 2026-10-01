@@ -1,5 +1,10 @@
 # @hollis-labs/design-components
 
+## Unreleased
+
+- Add `OverlaySidebar`, composing Sheet with a named modal, pinned header/footer
+  and scrolling host content. See [source reconciliation](docs/overlay-sidebar.md).
+
 ## 0.1.1 — 2026-10-01
 
 **Fix: `cn()` no longer drops the contract's font-size tokens.** The published `0.1.0`

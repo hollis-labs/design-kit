@@ -29,13 +29,13 @@ export function ThemeGalleryView() {
         </section>
         <section className="space-y-4" aria-label="Dashboard components">
           <h2 className="text-lg font-semibold">kit-dashboard</h2>
-          <div className="rounded-md border border-border-strong bg-panel-2 p-4 text-text">
+          <div className="rounded-md border border-border bg-panel-2 p-4 text-text">
             <h3 className="mb-2 font-semibold">Operations</h3>
             <p className="mb-4 text-sm text-text-subtle">Workflow labels on a dashboard panel</p>
             <div className="flex flex-wrap gap-2">{statuses.map((status) => <StatusBadge key={status} status={status} />)}</div>
             <div className="mt-4 flex gap-2"><PriorityBadge priority={1} /><PriorityBadge priority={2} /><PriorityBadge priority={3} /></div>
           </div>
-          <div className="rounded-md border border-border-soft bg-panel p-4 text-text-muted">
+          <div className="rounded-md border border-divider bg-panel p-4 text-text-muted">
             <p className="font-semibold">Panel and borders</p>
             <p className="mt-2 text-sm text-text-soft">Dashboard text follows the active base theme.</p>
           </div>

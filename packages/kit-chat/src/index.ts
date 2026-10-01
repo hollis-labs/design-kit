@@ -1,8 +1,9 @@
 /**
  * @hollis-labs/kit-chat — the chat idiom.
  *
- * PROPS DOWN, MESSAGES UP. No stores, no data fetching, no API client, no plugin
- * system. The host owns state; these components own presentation and interaction.
+ * PROPS DOWN, MESSAGES UP. No global stores, built-in transport, API client or
+ * plugin system. The host owns application state; components own presentation
+ * and interaction. Optional headless hooks own local interaction/pagination state.
  * That constraint is what makes them reusable, and it is the reason this package was
  * built rather than extracted from Nanite, whose 748-line composer is wired into six
  * zustand stores.
@@ -80,6 +81,14 @@ export type {
 } from './lib/response'
 
 export { useStallDetector } from './lib/use-stall-detector'
+
+export { useChatHistory } from './lib/use-chat-history'
+export type {
+  ChatHistoryCursor,
+  ChatHistoryPage,
+  ChatHistoryRequest,
+  UseChatHistoryOptions,
+} from './lib/use-chat-history'
 
 export {
   applyReference,

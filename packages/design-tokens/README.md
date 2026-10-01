@@ -228,20 +228,56 @@ losing either costs the epic its working examples.
 | `dir-a` (Graphite & Ink — **the default**), `dir-b`, `dir-d`, `dir-e`, `dir-f`, `nanite-default` (Concrete & Signal) | `apps/nanite` | dark **and** light |
 | `sysop-p4-white`, `sysop-green-phosphor`, `sysop-amber-phosphor`, `sysop-hi-contrast` | `libs/sysop-ui` + new light companions | dark + light |
 
-Nanite's typed half was re-verified rather than trusted: **12 value sets × 40
-keys, one key set, zero drift.** The claim holds exactly.
+The original Nanite import recorded **12 value sets × 40 keys, one key set,
+zero drift**. That describes the import, not the current palettes: subsequent
+contrast corrections (0498) and the health-feedback decision (0035) deliberately
+change authored values in this package.
+
+### Health feedback — CW-20260913-0035
+
+Keep the settled `success` / `warning` / `danger` names. Concrete's success keeps
+the authored health green hue, and its warning keeps the health amber hue;
+Flat/Mono warning also becomes amber, distinct from its orange danger. Existing
+danger colors and every other palette stay unchanged. Brand red remains brand.
+A quieter treatment uses the existing tint tokens, not a second health family.
+
+The old Concrete health seeds are dark green `#6b9e8a` / amber `#b09060`, and light
+green `#4a7a65` / amber `#8a6d3e`. The new values lighten/darken those seeds in
+encoded sRGB to retain readable feedback text over all five surfaces, including
+10% Pill/Callout fills. Flat/Mono uses the same amber seeds. This is an authored
+palette correction, not a new derivation rule or a Nanite app migration.
+
+| Theme/mode | Success | Warning | Minimum text contrast, plain / 10% fill |
+| --- | --- | --- | --- |
+| Concrete dark | `#cadcd5` | `#e2d6c4` | 5.68 / 4.62 |
+| Concrete light | `#304f42` | `#594628` | 5.29 / 4.58 |
+| Flat/Mono dark | unchanged | `#c6b08d` | 5.58 / 4.62 (warning) |
+| Flat/Mono light | unchanged | `#4a3a21` | 5.28 / 4.56 (warning) |
+
+Measured over `bg`, `bg-elevated`, `surface`, `surface-hover`, and `surface-active`;
+the fill measurements use Chromium's actual alpha compositing. Matching
+`success-muted` / `warning-muted` tints keep 10% alpha. Solid-fill foregrounds
+remain black in dark mode and white in light mode. The four affected
+`warning-fg` derivation-fixture entries remain unchanged; the fixture is preserved.
+
+[Before/after health rows, all surfaces and contrast measurements](../../docs/screenshots/health-feedback/README.md)
+are the visual review evidence. Labels and icons remain necessary; color alone
+is not the indicator. Nanite adoption remains its own migration task.
 
 ### Why `dir-a` is the default, and not Nanite's own
 
 Decided by Chrispian on the §12.6 question the contract left open. The obvious
-inheritance was `nanite-default`, and it fails the one thing a default for this
-package has to do — **demonstrate the contract it ships.** Direction C sets
+inheritance was `nanite-default`, and at that decision it failed the one thing a default for this
+package has to do — **demonstrate the contract it ships.** Direction C then set
 `warning` and `danger` to the same red (`#d4202e`), and its `success` (`#c0c4c8`)
-and `info` (`#98a0a8`) are both greys: three colours across four semantics. That
-is Direction C working exactly as designed — *"cool concrete, brand red as the
+and `info` (`#98a0a8`) were both greys: three colours across four semantics. That
+was Direction C working as originally designed — *"cool concrete, brand red as the
 only signal"* — which makes it a coherent theme and a poor default for a package
 whose contract just promoted `success`/`warning`/`info`/`danger` to first-class
 names.
+
+CW-20260913-0035 now gives Concrete distinct green/amber feedback; the default
+selection remains `dir-a`. See the palette decision below.
 
 Two criteria picked `dir-a`:
 

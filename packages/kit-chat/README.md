@@ -169,8 +169,27 @@ loading feedback, and a retry action without fetching anything:
 />
 ```
 
-The host owns cursors, deduplication and request state. This presentation seam
-does not implement the windowed-history adapter tracked by CW-20260930-0017.
+### Paginated history
+
+`useChatHistory({ loadPage, initialPage? })` connects bounded, oldest-first pages
+to this seam. The host supplies an async page loader; the hook handles cursors,
+overlap by stable item ID, single-flight requests, retry and cancellation. It loads
+the latest window once, then older windows only when requested. `append` upserts
+live items without losing messages that arrived during a history request.
+
+```tsx
+const transcript = useChatHistory({ loadPage })
+<ChatStream items={transcript.items} loading={transcript.loading} history={transcript.history} />
+```
+
+Key the containing component by conversation/window to reset it. An optional
+`initialPage` seeds a hydrated or search-selected window without a latest request.
+The host chooses page size, transport and rendering; the hook neither fetches nor
+evicts rows. [History adapter contract and browser proof](docs/message-history.md)
+includes integration, cursor rules and the prepend fix.
+
+`ChatStream` delegates cursors, deduplication and request state to the host or
+the headless hook above; its history prop remains presentation only.
 
 ### Scroll is the hard part and this package does not own it
 

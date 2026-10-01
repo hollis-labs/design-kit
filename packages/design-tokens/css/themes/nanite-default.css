@@ -5,7 +5,7 @@
  * suite runs so a hand-edit fails CI instead of drifting quietly.
  */
 
-/* Concrete & Signal — Direction C — cool concrete, brand red as the only signal. Swiss / Dieter Rams.
+/* Concrete & Signal — Direction C — cool concrete, brand red with distinct health feedback. Swiss / Dieter Rams.
  * id: nanite-default   origin: nanite   modes: dark + light
  * chart-1..5 are PLACEHOLDERS, not designed values. See the README.
  */
@@ -39,11 +39,11 @@
   --hl-danger-hover: #e3b4bb;
   --hl-danger-muted: color-mix(in srgb, #e2adb4 10%, transparent);
   --hl-danger-fg: #000000;
-  --hl-warning: #e2adb4;
-  --hl-warning-muted: color-mix(in srgb, #e2adb4 10%, transparent);
+  --hl-warning: #e2d6c4;
+  --hl-warning-muted: color-mix(in srgb, #e2d6c4 10%, transparent);
   --hl-warning-fg: #000000;
-  --hl-success: #c0c4c8;
-  --hl-success-muted: rgba(192, 196, 200, 0.10);
+  --hl-success: #cadcd5;
+  --hl-success-muted: color-mix(in srgb, #cadcd5 10%, transparent);
   --hl-success-fg: #000000;
   --hl-info: #b4bac0;
   --hl-info-muted: color-mix(in srgb, #b4bac0 10%, transparent);
@@ -90,11 +90,11 @@
   --hl-danger-hover: #7e1823;
   --hl-danger-muted: color-mix(in srgb, #8c1824 10%, transparent);
   --hl-danger-fg: #ffffff;
-  --hl-warning: #8c1824;
-  --hl-warning-muted: color-mix(in srgb, #8c1824 10%, transparent);
+  --hl-warning: #594628;
+  --hl-warning-muted: color-mix(in srgb, #594628 10%, transparent);
   --hl-warning-fg: #ffffff;
-  --hl-success: #464c53;
-  --hl-success-muted: color-mix(in srgb, #464c53 10%, transparent);
+  --hl-success: #304f42;
+  --hl-success-muted: color-mix(in srgb, #304f42 10%, transparent);
   --hl-success-fg: #ffffff;
   --hl-info: #464c53;
   --hl-info-muted: color-mix(in srgb, #464c53 10%, transparent);

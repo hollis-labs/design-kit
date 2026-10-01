@@ -1,0 +1,36 @@
+{
+  "fixture": "packages/kit-chat/demo/history.tsx",
+  "nativeScrollAnchoring": "disabled",
+  "results": [
+    {
+      "width": 1280,
+      "before": 181,
+      "after": 181,
+      "delta": 0,
+      "middleDelta": 0,
+      "latestWindow": 20,
+      "loadedAfterOverlap": 40,
+      "exhaustedItemsWithLive": 92,
+      "requestsCoalesced": true,
+      "retry": true,
+      "sessionCancellation": true,
+      "jump": "hidden at latest, visible above, hides after jump, follows subsequent append",
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "before": 221,
+      "after": 221,
+      "delta": 0,
+      "middleDelta": 0,
+      "latestWindow": 20,
+      "loadedAfterOverlap": 40,
+      "exhaustedItemsWithLive": 92,
+      "requestsCoalesced": true,
+      "retry": true,
+      "sessionCancellation": true,
+      "jump": "hidden at latest, visible above, hides after jump, follows subsequent append",
+      "pageErrors": []
+    }
+  ]
+}

@@ -936,6 +936,13 @@ while reading, and the review is yours.
 6. **Direction C collapses `primary` toward `fg`** (`#e8eaed`) and `success` to a near-grey
    (`#c0c4c8`). Deliberate for that direction, but it means the default theme cannot demonstrate the
    contract's semantic range — worth a second built-in that does.
+   **CW-20260913-0035, 2026-10-01:** retain the settled feedback names. Concrete now
+   uses its authored health green/amber hues, adjusted for readable text; Flat/Mono
+   also gets amber warning distinct from danger. Danger and other palettes stay
+   unchanged. Quiet treatment uses existing tints, not a second health family.
+   This resolves the value questions in items 4–6 without changing the selected
+   default (`dir-a`) or migrating Nanite. See design-tokens README and
+   [before/after feedback proof](screenshots/health-feedback/README.md).
 7. **`--color-overlay` exists in the kit (3 uses) and not in Nanite**, which writes `bg-black/50`.
    Left out of the contract as too thin (§8); promote it if you want scrims themeable.
 

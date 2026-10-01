@@ -9,6 +9,12 @@
 
 ## Unreleased
 
+- Add transport-free `useChatHistory` for bounded latest/older windows, stable-ID
+  dedupe, live upserts, single-flight loading, retry and stale-request cancellation.
+  Fix prepend anchoring by moving history controls outside the message log, and
+  verify reader position and Jump-to-latest in a packed desktop/mobile consumer.
+  See [adapter contract and browser proof](docs/message-history.md).
+
 - Reconcile Nanite/Flux card surfaces with the existing eight primitive cards;
   add compact `ArtifactCard`, bounded `DocumentCard`, and controlled text
   `PromptCard` on the existing Envelope. Host callbacks/slots keep download,

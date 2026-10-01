@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+CW-20260913-0035: Concrete success is green and warning amber; Flat/Mono warning
+is amber, distinct from its existing danger. Preserve the settled feedback names,
+all danger values and other palettes. Update matching 10% tints and generated CSS.
+New-tone text contrast is at least 4.56:1 including composited fills on all five
+surfaces in both modes. This does not migrate the Nanite app.
+
+
 Export typed R1–R4 color derivation functions, including alpha tints, encoded-sRGB
 interaction mixing, WCAG foreground candidate selection, and Oklab syntax ramps
 (CW-20260913-0027). Built-ins consume the functions. All shipped color strings and

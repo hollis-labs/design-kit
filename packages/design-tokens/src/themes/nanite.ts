@@ -1,3 +1,4 @@
+// CW-20260913-0035: Concrete health hues and Flat/Mono caution stay distinct.
 // CW-20261001-0498: text floors and feedback tints corrected for contrast.
 // Syntax follows the new fg-faint floor; filled accents use a legible foreground.
 // Declared derivations now call the exported rules (CW-20260913-0027).
@@ -7,11 +8,11 @@
 import type { Theme } from '../theme.js'
 import { deriveBuiltinValues } from '../derivation-plan.js'
 
-/** Direction C — cool concrete, brand red as the only signal. Swiss / Dieter Rams. */
+/** Direction C — cool concrete, brand red with distinct health feedback. Swiss / Dieter Rams. */
 export const CONCRETE_AND_SIGNAL: Theme = {
   id: 'nanite-default',
   name: 'Concrete & Signal',
-  description: 'Direction C — cool concrete, brand red as the only signal. Swiss / Dieter Rams.',
+  description: 'Direction C — cool concrete, brand red with distinct health feedback. Swiss / Dieter Rams.',
   builtin: true,
   origin: 'nanite',
   chartPalette: 'placeholder',
@@ -46,10 +47,10 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'danger-hover': '#e3b4bb',
       'danger-muted': 'color-mix(in srgb, #e2adb4 10%, transparent)',
       'danger-fg': '#000000',
-      'warning': '#e2adb4',
-      'warning-muted': 'color-mix(in srgb, #e2adb4 10%, transparent)',
-      'success': '#c0c4c8',
-      'success-muted': 'rgba(192, 196, 200, 0.10)',
+      'warning': '#e2d6c4',
+      'warning-muted': 'color-mix(in srgb, #e2d6c4 10%, transparent)',
+      'success': '#cadcd5',
+      'success-muted': 'color-mix(in srgb, #cadcd5 10%, transparent)',
       'success-fg': '#000000',
       'info': '#b4bac0',
       'info-muted': 'color-mix(in srgb, #b4bac0 10%, transparent)',
@@ -89,10 +90,10 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'danger-hover': '#7e1823',
       'danger-muted': 'color-mix(in srgb, #8c1824 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#8c1824',
-      'warning-muted': 'color-mix(in srgb, #8c1824 10%, transparent)',
-      'success': '#464c53',
-      'success-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
+      'warning': '#594628',
+      'warning-muted': 'color-mix(in srgb, #594628 10%, transparent)',
+      'success': '#304f42',
+      'success-muted': 'color-mix(in srgb, #304f42 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#464c53',
       'info-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
@@ -536,8 +537,8 @@ export const DIRECTION_F: Theme = {
       'danger-hover': '#e4ae91',
       'danger-muted': 'color-mix(in srgb, #e2a584 10%, transparent)',
       'danger-fg': '#000000',
-      'warning': '#e2a584',
-      'warning-muted': 'color-mix(in srgb, #e2a584 10%, transparent)',
+      'warning': '#c6b08d',
+      'warning-muted': 'color-mix(in srgb, #c6b08d 10%, transparent)',
       'success': '#c8c8c8',
       'success-muted': 'rgba(200, 200, 200, 0.07)',
       'success-fg': '#000000',
@@ -579,8 +580,8 @@ export const DIRECTION_F: Theme = {
       'danger-hover': '#5d3018',
       'danger-muted': 'color-mix(in srgb, #68351a 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#68351a',
-      'warning-muted': 'color-mix(in srgb, #68351a 10%, transparent)',
+      'warning': '#4a3a21',
+      'warning-muted': 'color-mix(in srgb, #4a3a21 10%, transparent)',
       'success': '#434343',
       'success-muted': 'color-mix(in srgb, #434343 10%, transparent)',
       'success-fg': '#ffffff',

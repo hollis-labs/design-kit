@@ -227,38 +227,66 @@ muted register reads as a starting point rather than as someone's choice.
 default. A test asserts the default's four feedback colours are distinct and that
 it carries light, so this decision cannot be undone by accident.
 
-### The 168 values nobody chose — `DERIVED_TOKEN_VALUES`
+### Derivation functions and provenance — `DERIVED_TOKEN_VALUES`
 
-A contract token that neither source had a value for. Filling them mechanically is
-how this package ships complete themes without inventing a palette; **exporting
-the list is how that stays honest.** None of these has been through design review.
+`DERIVED_TOKEN_VALUES` lists the tokens built from R1–R4 rather than authored
+palette values. Built-in construction calls the same exported functions a custom
+palette can use; their inputs remain in the theme source. The original manifest
+covered 168 values. Light Sysop companions and the contrast corrections in
+CW-20261001-0498 changed that worklist; it is not a frozen census.
+
+| Rule | Function | Color space and behavior |
+|---|---|---|
+| **R1** | `deriveMuted(color, alpha = 0.12, representation = 'rgb')` | Keep the sRGB channels and apply alpha. `'css'` emits `color-mix(in srgb, …, transparent)`; it accepts CSS expressions. |
+| **R2** | `deriveHover(color)` / `deriveActive(color)` | Mix 12% toward white / black in **gamma-encoded sRGB**, not linear-light sRGB. Round the interpolated channels once with `Math.round`. |
+| **R2** | `deriveSurfaceActive(surfaceHover, foreground)` / `mixSrgb(color, toward, amount)` | Surface-active mixes 15% toward fg; the lower-level helper accepts a fraction from 0 to 1. Same encoded sRGB interpolation and rounding. |
+| **R3** | `deriveForeground(fill, dark = '#000000', light = '#ffffff')` | Choose the candidate with higher WCAG contrast; ties prefer light. Luminance **linearizes sRGB**. Return the candidate's original spelling. `relativeLuminance` and `contrastRatio` are also exported. |
+| **R4** | `deriveSyntax(fg, fgFaint, representation = 'css')` | Five stops at 100/75/50/25/0 between fg and fg-faint in **Oklab**. Preserve endpoints. CSS output delegates conversion to the browser; RGB output converts, clamps to the sRGB gamut, and rounds to 8-bit channels. |
 
 ```ts
-import { DERIVED_TOKEN_VALUES } from '@hollis-labs/design-tokens'
+import {
+  deriveMuted, deriveHover, deriveActive, deriveForeground, deriveSyntax,
+} from '@hollis-labs/design-tokens'
+
+const primary = 'rgb(228 228 231)'
+const interaction = {
+  'primary-hover': deriveHover(primary),
+  'primary-active': deriveActive(primary),
+  'primary-muted': deriveMuted(primary),
+  'primary-fg': deriveForeground(primary),
+}
+const syntax = deriveSyntax('#e8eaed', '#8e9298')
 ```
 
-Four rules produced all 168 — 88 from R1–R3, 80 from R4 — applied once, offline, with
-the results written into the theme files as literal colours so every value stays
-inspectable and a theme editor still works:
+Numeric operations accept **opaque** `#RGB`, `#RRGGBB`, `rgb(r g b)`,
+`rgb(r,g,b)`, `white` and `black`. They reject unresolved variables, translucent
+colors and unsupported syntax with `TypeError`; fractions outside 0–1 or nonfinite
+fractions throw `RangeError`. CSS representations preserve expressions and leave
+color validation to the browser; tinting an already translucent CSS color multiplies
+its alpha. Alpha and stop percentages are fractions, not
+percent integers. R3 compares opaque fills/candidates; composite translucent fills
+against their real background before calculating contrast.
 
-| | Rule | Why it is a derivation and not an invention |
-|---|---|---|
-| **R1** | `X-muted` = `X` at 12% alpha | The contract's own definition — "`-muted` always means a low-alpha tint used as a background" (§3.8 rule 3). Names no new colour. |
-| **R2** | `X-hover` = `X` 12% toward white · `X-active` = `X` 12% toward black · `surface-active` = `surface-hover` 15% toward `fg` | A magnitude, not a hue. sysop-ui's palettes have no interaction states for `primary`/`brand`/`danger` at all; the alternative was repeating the base colour and shipping a button that does not respond. |
-| **R3** | `X-fg` = white or the theme's own `bg`, whichever contrasts more (WCAG) | **Measured, and reported rather than asserted:** this rule reproduces **39 of the 48** `-fg` values Nanite's authors chose by hand. The nine misses are all cases where they preferred white on a saturated red or orange at *lower* measured contrast. So these are contrast-maximal, not style-matched, and a design pass should expect to move some. |
-| **R4** | `syntax-*` = five stops at 100/75/50/25/0 between the palette's own `fg` and `fg-faint`, in oklab | **The endpoints are `fg` and `fg-faint` themselves**, so only three middle stops are new and every one is a lightness step between two colours the palette already chose. Unlike R1–R3 this fills a family no palette ever had, which is why it needed §3.10 to exist first. The floor is `fg-faint` and not `bg`, and that was measured: running to the background drops the bottom two stops to 1.9 / 1.8 / 1.6 / 1.4 : 1 across the sysop palettes — below AA in all four. |
+The original R3 compared white with the theme's own bg. Pass `bg` as its second
+argument to use that policy. The current built-ins choose black/white after the
+contrast pass; the historical 39/48 match against Nanite's hand-authored values
+was a measurement of the old policy, not a guarantee of design equivalence.
+R1 defaults to the original 12% tint. Three Sysop dark danger tints retain their
+10% CSS representation from the contrast pass.
 
-Which tokens they cover:
+Three dark **danger-hover values are authored exceptions**, excluded from the
+current derivation manifest: `sysop-p4-white` (`#fa8495`),
+`sysop-amber-phosphor` (`#ff7d3d`), and `sysop-hi-contrast` (`#ff776f`). They no
+longer equal R2 on their corrected base fills. They remain literal and unchanged;
+calling a derivation function does not overwrite a designer's authored choice.
 
-- **Nanite's six** need only `warning-fg` and `info-fg` — the two members the
-  rectangularity rule (§3.8 rule 1) adds. 24 values.
-- **sysop-ui's four** each need the same **sixteen**: every `-muted` tint, every
-  feedback `-fg`, `surface-active`, and the interaction states for `primary`,
-  `brand` and `danger`. 64 values. That list is a fair description of what a
-  dense dark-only ops palette never needed.
-- **R4 applies to all ten**, in every mode they declare — 80 values. It is the
-  one rule that is uniform across the set, because it is not patching a gap in
-  any particular palette: no palette ever had a syntax family.
+Nanite palettes derive warning/info foregrounds and syntax; dark Sysop palettes
+also derive their missing interaction/tint/feedback steps, apart from those
+exceptions. Light Sysop palettes derive syntax only. Chart placeholders are not
+derivations. [Oklab conversion reference](https://bottosson.github.io/posts/oklab/)
+provides the numeric conversion used by R4. The committed fixture records shipped
+derived outputs from main `2df729e`, and tests the exported rules against those
+literal expected values for every built-in mode, without asserting counts.
 
 Three more gaps were filled from values that **already exist** in `index.css`
 outside Nanite's `TokenKey` union, so they are carried rather than derived:

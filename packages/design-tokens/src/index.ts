@@ -67,3 +67,8 @@ export {
 
 /* The generator, exported so a consumer can emit CSS for its own themes. */
 export { emitContractCss, emitThemeCss, emitThemesCss, emitBundleCss, emitAll } from './generate/css.js'
+
+/* Theme-layer colour derivation rules (R1–R4). */
+export { deriveMuted, mixSrgb, deriveHover, deriveActive, deriveSurfaceActive,
+  relativeLuminance, contrastRatio, deriveForeground, deriveSyntax } from './derive.js'
+export type { ColorRepresentation } from './derive.js'

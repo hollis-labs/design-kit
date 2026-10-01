@@ -1,5 +1,13 @@
 # @hollis-labs/design-tokens
 
+## Unreleased
+
+Export typed R1–R4 color derivation functions, including alpha tints, encoded-sRGB
+interaction mixing, WCAG foreground candidate selection, and Oklab syntax ramps
+(CW-20260913-0027). Built-ins consume the functions. All shipped color strings and
+generated CSS remain unchanged; three authored danger-hover overrides are now
+excluded from the derivation manifest. README specifies each rule's color space.
+
 ## 0.1.0 — 2026-09-11
 
 First release, alongside the five other packages in this repo. The set shares a

@@ -111,22 +111,10 @@ test('every derived value is declared, and declared accurately', () => {
   }
 })
 
-test('sysop palettes lack exactly the sixteen the manifest says they lack', () => {
-  // The shape of what a dark-only ops palette never needed: interaction states
-  // for primary/brand/danger, every -muted tint, and every feedback -fg.
-  //
-  // Asserted as COMPOSITION rather than a count, because the count stopped
-  // saying what the test is named for. R4's five syntax names are in these rows
-  // too and are not something the sysop palettes "lack" — no palette had them.
-  // Separating the two keeps a future syntax change from silently passing as a
-  // gap, and a future gap from hiding inside the ramp.
-  const SYNTAX = ['syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null']
-  const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-') && r.mode === 'dark')
-  assert.equal(rows.length, 4)
-  for (const r of rows) {
-    const gaps = r.tokens.filter((t) => !SYNTAX.includes(t))
-    assert.equal(gaps.length, 16, `${r.theme}: gap list`)
-    assert.deepEqual(r.tokens.filter((t) => SYNTAX.includes(t)), SYNTAX, `${r.theme}: syntax ramp`)
+test('every sysop dark palette declares the syntax ramp as derived', () => {
+  const syntax = ['syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null']
+  for (const row of DERIVED_TOKEN_VALUES.filter(r => r.theme.startsWith('sysop-') && r.mode === 'dark')) {
+    assert.deepEqual(row.tokens.filter(token => syntax.includes(token)), syntax, `${row.theme}: syntax ramp`)
   }
 })
 

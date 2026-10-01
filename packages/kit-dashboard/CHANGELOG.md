@@ -1,5 +1,12 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20260912-0097)
+
+- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
+  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
+  resolution. Document the explicit app dependency and CSS build integration,
+  which an automatic peer install does not configure.
+
 ## 0.1.0 — 2026-09-11
 
 First release under this name, alongside the five other packages in this repo. The

@@ -1,5 +1,12 @@
 # @hollis-labs/kit-chat
 
+## Unreleased (CW-20260912-0097)
+
+- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
+  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
+  resolution. Document the explicit app dependency and CSS build integration,
+  which an automatic peer install does not configure.
+
 ## Unreleased
 
 - Add a framed composer with a visible Send action and optional host-owned Stop

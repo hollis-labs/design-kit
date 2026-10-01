@@ -1,5 +1,13 @@
 # @hollis-labs/eslint-config-design
 
+## Unreleased (CW-20261001-0529)
+
+- Register exact kit-owned idiom names via `designConfig({ idiomManifests })`.
+  Validate manifest bindings against the shipped stylesheet before registration;
+  keep base contract shadowing rules and kit deprecations separate.
+- Add repeatable `--idiom-manifest` to ratchet `--no-config` and Biome consumers.
+  Enrollment is explicit and scoped; no prefix-wide permission or installed-kit crawl.
+
 ## Unreleased (CW-20260912-0097)
 
 - Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS

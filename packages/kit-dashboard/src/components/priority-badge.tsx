@@ -11,12 +11,12 @@ interface PriorityBadgeProps {
 const PRIORITY: Record<number, { className: string; label: string }> = {
   1: {
     className:
-      'bg-priority-p1-bg text-status-blocked',
+      'bg-dash-priority-p1-bg text-status-blocked',
     label: 'P1',
   },
   2: {
     className:
-      'bg-priority-p2-bg text-status-queued',
+      'bg-dash-priority-p2-bg text-status-queued',
     label: 'P2',
   },
   3: { className: 'bg-panel-2 text-text-subtle', label: 'P3' },

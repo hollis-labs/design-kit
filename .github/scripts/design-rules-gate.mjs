@@ -25,7 +25,7 @@
  *   1  a contract-compliant package violates the one rule
  *   3  the gate itself could not run
  */
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, relative } from 'node:path'
 
@@ -87,16 +87,19 @@ try {
  * entirely Tailwind's own utilities, so the approval was given for an outcome the
  * option does not currently produce. Raised rather than shipped.
  */
-let config
+let config, vocabulary
 try {
   const override = process.env.DESIGN_VOCABULARY_SOURCE
   if (override) {
     const { vocabularyFrom } = await import('@hollis-labs/eslint-config-design')
     const mod = await import(override)
     notice(`Vocabulary overridden via DESIGN_VOCABULARY_SOURCE=${override}`)
-    config = await designConfig({ vocabulary: vocabularyFrom(mod, override) })
+    vocabulary = vocabularyFrom(mod, override)
+    config = await designConfig({ vocabulary })
   } else {
-    config = await designConfig()
+    const { resolveVocabulary } = await import('@hollis-labs/eslint-config-design')
+    vocabulary = await resolveVocabulary()
+    config = await designConfig({ vocabulary })
   }
 } catch (err) {
   // Distinguish "the contract is not published yet" from any other failure by
@@ -118,6 +121,27 @@ try {
   console.log('\ndesign-rules-gate: SKIPPED — vocabulary unpublished (expected).')
   console.log('This is NOT a passing enforcement run. It is an explicit, reported absence.')
   process.exit(0)
+}
+
+// Kits enroll their own manifest in package metadata. The loader checks its
+// bindings against the shipped stylesheet; each enrollment applies only to the
+// owning package. Cross-kit uses require explicit consumer enrollment.
+try {
+  for (const entry of readdirSync(resolve(repoRoot, 'packages'), { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue
+    const dir = `packages/${entry.name}`
+    const pkg = JSON.parse(readFileSync(resolve(repoRoot, dir, 'package.json'), 'utf8'))
+    const manifest = pkg.designKit?.idiomManifest
+    if (!manifest) continue
+    config.push(...await designConfig({
+      vocabulary,
+      files: [`${dir}/**/*.{ts,tsx,js,jsx,mts,cts}`],
+      idiomManifests: [resolve(repoRoot, dir, manifest)],
+    }))
+  }
+} catch (err) {
+  console.error(`design-rules-gate: kit enrollment failed: ${err.message}`)
+  process.exit(3)
 }
 
 const parser = await import('typescript-eslint').then((m) => m.parser)

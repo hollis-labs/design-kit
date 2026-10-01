@@ -1,6 +1,18 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20261001-0529)
+
+- Own idiom names and deprecations in the shipped `idiom-tokens.json` manifest;
+  derive `DASHBOARD_DEPRECATED_TOKENS` from it. Register the checked bindings in
+  the design gate and switch PriorityBadge to canonical `dash-priority-*` utilities.
+
 ## Unreleased (CW-20260912-0097)
+
+- CW-20260912-0046: preserve priority fills as `dash-priority-p1-bg` /
+  `dash-priority-p2-bg`; retain deprecated CSS aliases and badge compatibility
+  uses until the idiom vocabulary registration seam lands (CW-20261001-0529).
+  Export dashboard-owned token migration metadata. Workflow status/label names
+  remain unchanged. All measured badge colors and sizes are preserved.
 
 - Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
   npm 7+ auto-installs a missing peer; incompatible installed majors fail peer

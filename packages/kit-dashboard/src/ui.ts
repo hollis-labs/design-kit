@@ -55,3 +55,6 @@ export {
   getInitialTheme,
   type ThemeName,
 } from './lib/theme'
+
+/* Dashboard token migration metadata; these are not base contract tokens. */
+export { DASHBOARD_DEPRECATED_TOKENS } from './lib/tokens'

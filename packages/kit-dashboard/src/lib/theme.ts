@@ -1,3 +1,6 @@
+import { readStoredTheme as readTheme, persistTheme as persistThemeId } from '@hollis-labs/design-tokens'
+
+/** Compatibility key; new theme+mode consumers use createThemeStore. */
 export const THEME_STORAGE_KEY = 'sysop.theme'
 export const DEFAULT_THEME = 'p4-white'
 
@@ -11,6 +14,11 @@ export const THEME_OPTIONS = [
 export type ThemeName = (typeof THEME_OPTIONS)[number]['value']
 
 const THEMES = new Set<ThemeName>(THEME_OPTIONS.map((theme) => theme.value))
+const storageOptions = {
+  storageKey: THEME_STORAGE_KEY,
+  defaultTheme: DEFAULT_THEME,
+  themes: THEME_OPTIONS.map((theme) => theme.value),
+}
 
 export function isThemeName(value: unknown): value is ThemeName {
   return typeof value === 'string' && THEMES.has(value as ThemeName)
@@ -20,23 +28,15 @@ export function resolveTheme(value: unknown): ThemeName {
   return isThemeName(value) ? value : DEFAULT_THEME
 }
 
-export function readStoredTheme(storage: Pick<Storage, 'getItem'> | null = globalThis.localStorage ?? null): ThemeName {
-  try {
-    return resolveTheme(storage?.getItem(THEME_STORAGE_KEY))
-  } catch {
-    return DEFAULT_THEME
-  }
+export function readStoredTheme(storage?: Pick<Storage, 'getItem'> | null): ThemeName {
+  return resolveTheme(readTheme(storage, storageOptions))
 }
 
 export function persistTheme(
   theme: ThemeName,
-  storage: Pick<Storage, 'setItem'> | null = globalThis.localStorage ?? null,
+  storage?: Pick<Storage, 'setItem'> | null,
 ): void {
-  try {
-    storage?.setItem(THEME_STORAGE_KEY, theme)
-  } catch {
-    // Ignore storage failures so the live theme switch still works.
-  }
+  persistThemeId(theme, storage, storageOptions)
 }
 
 export function applyTheme(theme: ThemeName, root: Pick<HTMLElement, 'setAttribute'> = document.documentElement): void {

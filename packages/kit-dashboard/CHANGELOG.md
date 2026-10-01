@@ -1,5 +1,10 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20260911-0071, step a)
+
+- Delegate theme-only persistence to design-tokens while preserving sysop.theme,
+  legacy IDs and defaults. Catch blocked storage getters; no palette/CSS changes.
+
 ## Unreleased (CW-20260912-0031)
 
 - Add opt-in `show-scrollbar` with contract colors that follow light/dark mode.

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+CW-20260911-0071 (step a): export theme-only storage helpers and configurable
+`hollis.theme` key beside `setTheme`. Guard inaccessible storage getters as well
+as methods. Dashboard compatibility delegates with its existing key and IDs;
+0498's theme+mode appearance store remains separate.
+
+
 CW-20260913-0035: Concrete success is green and warning amber; Flat/Mono warning
 is amber, distinct from its existing danger. Preserve the settled feedback names,
 all danger values and other palettes. Update matching 10% tints and generated CSS.

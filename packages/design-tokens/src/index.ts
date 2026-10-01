@@ -64,6 +64,7 @@ export {
   applyTheme, clearThemeOverride, setTheme, setMode,
   currentTheme, currentMode, readToken, themeCss,
 } from './apply.js'
+export { THEME_STORAGE_KEY, readStoredTheme, persistTheme, type ThemeStorageOptions } from './storage.js'
 
 /* The generator, exported so a consumer can emit CSS for its own themes. */
 export { emitContractCss, emitThemeCss, emitThemesCss, emitBundleCss, emitAll } from './generate/css.js'

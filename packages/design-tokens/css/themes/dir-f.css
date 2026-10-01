@@ -39,8 +39,8 @@
   --hl-danger-hover: #e4ae91;
   --hl-danger-muted: color-mix(in srgb, #e2a584 10%, transparent);
   --hl-danger-fg: #000000;
-  --hl-warning: #e2a584;
-  --hl-warning-muted: color-mix(in srgb, #e2a584 10%, transparent);
+  --hl-warning: #c6b08d;
+  --hl-warning-muted: color-mix(in srgb, #c6b08d 10%, transparent);
   --hl-warning-fg: #000000;
   --hl-success: #c8c8c8;
   --hl-success-muted: rgba(200, 200, 200, 0.07);
@@ -90,8 +90,8 @@
   --hl-danger-hover: #5d3018;
   --hl-danger-muted: color-mix(in srgb, #68351a 10%, transparent);
   --hl-danger-fg: #ffffff;
-  --hl-warning: #68351a;
-  --hl-warning-muted: color-mix(in srgb, #68351a 10%, transparent);
+  --hl-warning: #4a3a21;
+  --hl-warning-muted: color-mix(in srgb, #4a3a21 10%, transparent);
   --hl-warning-fg: #ffffff;
   --hl-success: #434343;
   --hl-success-muted: color-mix(in srgb, #434343 10%, transparent);

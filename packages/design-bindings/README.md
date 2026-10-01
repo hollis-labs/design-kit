@@ -17,6 +17,23 @@ Every app used to write the fourth one by hand. That is the drift mechanism N
 consumers deep: Nanite writes one, Tangent writes another, and the two diverge
 without either being wrong.
 
+## Tailwind compatibility
+
+The design-kit CSS pipeline requires **Tailwind CSS v4**. This package declares
+`tailwindcss: ^4.0.0` as an optional peer because its nonvisual JavaScript APIs
+also work without the CSS compiler. npm does not auto-install an optional peer
+and produces **no warning when it is absent**; npm 11's default resolver rejects
+an installed incompatible major.
+
+When using the CSS pipeline, declare Tailwind in the app's build dependencies
+and configure the matching Vite/PostCSS/CLI integration:
+
+```sh
+npm install -D tailwindcss@^4.0.0
+```
+
+A successful install alone does not verify CSS setup.
+
 ## What this ships, and the one thing it does not
 
 - the row **shape** — `BindingRequest`, `Binding`

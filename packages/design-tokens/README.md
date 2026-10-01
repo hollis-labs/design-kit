@@ -7,7 +7,8 @@ and their types — plus default values for them.
 > It covers **scale** as much as colour. `text-[13px]` names a value exactly as
 > much as `#1a1b26` does — and scale is the larger half, by about seventy to one.
 
-No React. No components. No framework. No dependencies.
+No React. No components. No runtime dependencies; Tailwind v4 is an optional
+build-tool peer for CSS consumers.
 
 Implements the token contract (CW-20260910-0111, approved review round 2). Built
 by CW-20260910-0124 as a **synthesis of two working implementations** —
@@ -18,6 +19,23 @@ Section references below (§3, §10, …) are to that contract, which lives at
 in this repo.
 
 ---
+
+## Tailwind compatibility
+
+The design-kit CSS pipeline requires **Tailwind CSS v4**. This package declares
+`tailwindcss: ^4.0.0` as an optional peer because its nonvisual JavaScript APIs
+also work without the CSS compiler. npm does not auto-install an optional peer
+and produces **no warning when it is absent**; npm 11's default resolver rejects
+an installed incompatible major.
+
+When using the CSS pipeline, declare Tailwind in the app's build dependencies
+and configure the matching Vite/PostCSS/CLI integration:
+
+```sh
+npm install -D tailwindcss@^4.0.0
+```
+
+A successful install alone does not verify CSS setup.
 
 ## Install and use
 

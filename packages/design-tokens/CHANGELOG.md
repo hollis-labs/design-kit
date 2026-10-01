@@ -8,6 +8,11 @@ interaction mixing, WCAG foreground candidate selection, and Oklab syntax ramps
 generated CSS remain unchanged; three authored danger-hover overrides are now
 excluded from the derivation manifest. README specifies each rule's color space.
 
+- Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS
+  pipeline. npm does not auto-install it or warn when it is missing; incompatible
+  installed majors fail peer resolution. Document the explicit build-tool install.
+  JavaScript-only consumers can continue without Tailwind.
+
 ## 0.1.0 — 2026-09-11
 
 First release, alongside the five other packages in this repo. The set shares a

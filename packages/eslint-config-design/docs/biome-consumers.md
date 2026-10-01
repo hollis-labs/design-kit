@@ -128,6 +128,93 @@ node scripts/biome-check.mjs [options] <path>
 For the full exit-code documentation and caveats (per-rule totals, `--update`
 raising the baseline), see [`docs/ratchet.md`](ratchet.md).
 
+## When your TypeScript is newer than typescript-eslint supports
+
+If the parser cannot load against the app's TypeScript, npm can reject the peer
+combination, or `biome-check` exits 2 because the TS parser could not be imported.
+For example, typescript-eslint 8.71.0 refused TypeScript 7.0 with the runtime
+message `typescript-eslint does not support TS 7.0.` A peer-dependency bypass
+cannot fix that runtime refusal.
+
+Keep the lint tools in a separate private package with its own lockfile. This
+leaves the app's compiler and Node pin intact. The following combination is from
+[Tangent's merged recipe](https://github.com/hollis-labs/tangent/tree/0d4ebbf/ui/tools/design-lint)
+(CW-20261001-0534), re-run from a fresh registry install on **Node 22.12.0**:
+
+```text
+ui/
+  package.json                    # app compiler/dependencies stay unchanged
+  .eslint-design-baseline.json
+  src/
+  tools/design-lint/
+    package.json
+    package-lock.json             # commit the separate registry lockfile
+    .gitignore                    # node_modules/
+```
+
+`ui/tools/design-lint/package.json`:
+
+```json
+{
+  "name": "tangent-design-lint",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0 <23" },
+  "devDependencies": {
+    "@hollis-labs/design-tokens": "0.2.0",
+    "@hollis-labs/eslint-config-design": "0.2.0",
+    "eslint": "9.39.5",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.4"
+  }
+}
+```
+
+Generate and commit this package's lockfile with `npm install` in its directory;
+subsequent installs use `npm ci`. This parser line uses eslint-visitor-keys 4.x,
+compatible with Node 22.12; newer parser releases may require a newer Node through
+transitive dependencies. Choose versions for the app's supported runtime.
+
+In `ui/package.json`, add scripts pointing at the isolated package:
+
+```json
+{
+  "scripts": {
+    "check:design": "node tools/design-lint/node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs src",
+    "check:design:update": "node tools/design-lint/node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs --update src"
+  }
+}
+```
+
+Run from the repository root under the pinned runtime (Tangent uses mise):
+
+```sh
+mise --no-config exec node@22.12.0 -- npm ci --prefix ui/tools/design-lint
+mise --no-config exec node@22.12.0 -- npm --prefix ui run check:design
+```
+
+The wrapper pre-sets `--no-config`, resolves its parser from the isolated package,
+and checks `ui/src/` against `ui/.eslint-design-baseline.json` because the script
+runs from `ui/`. CI runs the same recipe after setting up the supported Node:
+
+```yaml
+- name: Install design rule tooling
+  working-directory: ui/tools/design-lint
+  run: npm ci
+- name: Design rule ratchet
+  working-directory: ui
+  run: npm run check:design
+```
+
+The fresh Node 22.12 run had **zero parse errors**, exited 0 and matched Tangent's
+committed per-rule baseline. This verifies that source tree and toolchain, not
+all TypeScript 7 syntax, other parser versions or other Node versions. An older
+parser can mis-parse newer syntax: the ratchet exits 2 on any reported parse
+error rather than counting the file as clean. Compare rule counts when changing
+parsers; do not hide source parse errors or raise the baseline to accept them.
+Review deliberate baseline updates and never run `--update` in CI.
+
 ## What this does not cover
 
 - **Fixing Biome + ESLint conflicts** — because this runs with `--no-config`

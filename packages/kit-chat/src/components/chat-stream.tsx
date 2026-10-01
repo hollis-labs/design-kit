@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { MessageScroller } from '@shadcn/react/message-scroller'
+import { LoaderCircle } from 'lucide-react'
+import { Button } from '@hollis-labs/design-components'
 import { cn } from '../lib/cn'
 import type {
   ChatCardItem,
@@ -28,6 +30,15 @@ export interface ChatStreamProps {
 
   /** Shown when `items` is empty and nothing is streaming. */
   readonly empty?: ReactNode
+  /** Initial history load; suppresses the empty-conversation state. */
+  readonly loading?: boolean
+  /** Presentation only. The host or a history adapter owns fetching and pagination. */
+  readonly history?: {
+    readonly hasOlder: boolean
+    readonly loading: boolean
+    readonly onLoadOlder: () => void
+    readonly error?: ReactNode
+  }
 
   /** Label for the jump-to-latest control. */
   readonly jumpLabel?: ReactNode
@@ -66,7 +77,7 @@ const ROLE_ALIGN = {
 
 function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
   return (
-    <div className={cn('flex flex-col gap-1', ROLE_ALIGN[item.role])}>
+    <div className={cn('flex min-w-0 flex-col gap-1', ROLE_ALIGN[item.role])}>
       {item.author || item.timestamp ? (
         <div className="flex items-baseline gap-2">
           {item.author ? (
@@ -105,7 +116,8 @@ function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
         */}
       <div
         className={cn(
-          'rounded-panel px-3 py-2 text-control text-fg',
+          'min-w-0 rounded-panel px-3 py-2 text-control leading-relaxed text-fg [overflow-wrap:anywhere]',
+          typeof item.content === 'string' ? 'whitespace-pre-wrap' : null,
           item.role === 'user' ? 'max-w-lg bg-surface' : 'w-full bg-bg-elevated',
         )}
       >
@@ -118,9 +130,9 @@ function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
 
 function DefaultMarker({ item }: { readonly item: ChatMarkerItem }) {
   return (
-    <div className="flex items-center gap-3" role="separator">
+    <div className="flex min-w-0 items-center gap-3" role="separator">
       <span className="h-px flex-1 bg-divider" />
-      <span className={cn('text-caption tracking-eyebrow uppercase', MARKER_TONE[item.variant])}>
+      <span className={cn('min-w-0 text-center text-caption tracking-eyebrow uppercase [overflow-wrap:anywhere]', MARKER_TONE[item.variant])}>
         {item.label}
       </span>
       <span className="h-px flex-1 bg-divider" />
@@ -137,7 +149,7 @@ function DefaultMarker({ item }: { readonly item: ChatMarkerItem }) {
  */
 function DefaultCard({ item }: { readonly item: ChatCardItem }) {
   return (
-    <div className="flex w-full flex-col gap-1 items-start" data-wire-kind={item.wireKind}>
+    <div className="flex min-w-0 w-full flex-col gap-1 items-start" data-wire-kind={item.wireKind}>
       {item.author || item.timestamp ? (
         <div className="flex items-baseline gap-2">
           {item.author ? (
@@ -148,7 +160,7 @@ function DefaultCard({ item }: { readonly item: ChatCardItem }) {
           {item.timestamp ? <span className="text-caption text-fg-faint">{item.timestamp}</span> : null}
         </div>
       ) : null}
-      <div className="w-full">{item.content}</div>
+      <div className="min-w-0 w-full">{item.content}</div>
     </div>
   )
 }
@@ -194,6 +206,8 @@ export function ChatStream({
   status = { status: 'idle' },
   renderItem = defaultRender,
   empty,
+  loading = false,
+  history,
   jumpLabel = 'Jump to latest',
   autoScroll = true,
   preserveScrollOnPrepend = true,
@@ -201,17 +215,38 @@ export function ChatStream({
   viewportClassName,
   'aria-label': ariaLabel = 'Conversation',
 }: ChatStreamProps) {
-  const showEmpty = items.length === 0 && status.status === 'idle'
+  const showEmpty = !loading && items.length === 0 && status.status === 'idle'
 
   return (
     <MessageScroller.Provider autoScroll={autoScroll} defaultScrollPosition="end">
-      <MessageScroller.Root className={cn('relative flex min-h-0 flex-1 flex-col', className)}>
+      <MessageScroller.Root className={cn('relative flex min-h-0 min-w-0 flex-1 flex-col', className)}>
         <MessageScroller.Viewport
           aria-label={ariaLabel}
           preserveScrollOnPrepend={preserveScrollOnPrepend}
-          className={cn('min-h-0 flex-1 overflow-y-auto px-4 py-6', viewportClassName)}
+          className={cn('min-h-0 min-w-0 flex-1 overflow-y-auto px-4 py-6', viewportClassName)}
         >
-          <MessageScroller.Content className="flex flex-col gap-4">
+          <MessageScroller.Content className="mx-auto flex min-w-0 w-full max-w-3xl flex-col gap-5">
+            {loading ? (
+              <div className="flex items-center justify-center gap-2 py-6 text-control text-fg-muted" role="status">
+                <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" aria-hidden />
+                Loading conversation…
+              </div>
+            ) : null}
+            {history && (history.hasOlder || history.loading || history.error) ? (
+              <div data-slot="chat-stream-history" className="flex flex-col items-center gap-2 py-2">
+                {history.error ? <div className="text-control text-danger" role="alert">{history.error}</div> : null}
+                {history.loading ? (
+                  <span className="flex items-center gap-2 text-caption text-fg-muted" role="status">
+                    <LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" aria-hidden />
+                    Loading older messages…
+                  </span>
+                ) : (
+                  <Button type="button" variant="ghost" size="sm" onClick={history.onLoadOlder}>
+                    {history.error ? 'Retry loading history' : 'Load older messages'}
+                  </Button>
+                )}
+              </div>
+            ) : null}
             {showEmpty ? <div data-slot="chat-stream-empty">{empty}</div> : null}
 
             {items.map((item) => (
@@ -227,20 +262,20 @@ export function ChatStream({
                 data-slot="chat-stream-streaming"
                 data-stalled={status.status === 'stalled' ? '' : undefined}
               >
-                <div className={cn('flex flex-col gap-1', ROLE_ALIGN[status.role])}>
+                <div className={cn('flex min-w-0 flex-col gap-2', ROLE_ALIGN[status.role])}>
                   <div
                     className={cn(
-                      'rounded-panel bg-bg-elevated px-3 py-2 text-control text-fg',
+                      'min-w-0 rounded-panel bg-bg-elevated px-3 py-2 text-control leading-relaxed text-fg [overflow-wrap:anywhere]',
+                      typeof status.content === 'string' ? 'whitespace-pre-wrap' : null,
                       status.role === 'user' ? 'max-w-lg' : 'w-full',
                     )}
                   >
                     {status.content}
                   </div>
-                  {status.status === 'stalled' ? (
-                    <span className="text-caption text-warning" role="status">
-                      Waiting for the response to continue…
-                    </span>
-                  ) : null}
+                  <span className={cn('flex items-center gap-2 text-caption', status.status === 'stalled' ? 'text-warning' : 'text-fg-muted')} role="status">
+                    {status.status === 'streaming' ? <LoaderCircle className="size-3 animate-spin motion-reduce:animate-none" aria-hidden /> : null}
+                    {status.status === 'stalled' ? 'Waiting for the response to continue…' : 'Responding…'}
+                  </span>
                 </div>
               </MessageScroller.Item>
             ) : null}
@@ -249,7 +284,7 @@ export function ChatStream({
               <div
                 data-slot="chat-stream-error"
                 role="alert"
-                className="rounded-panel border border-danger bg-danger-muted px-3 py-2 text-control text-danger-fg"
+                className="min-w-0 rounded-panel border border-danger bg-danger-muted px-3 py-2 text-control leading-relaxed text-danger-fg [overflow-wrap:anywhere]"
               >
                 {status.message}
               </div>
@@ -257,10 +292,11 @@ export function ChatStream({
           </MessageScroller.Content>
         </MessageScroller.Viewport>
 
+        {/* The headless button stays mounted and inert when inactive; hide it too. */}
         <MessageScroller.Button
           direction="end"
           data-slot="chat-stream-jump"
-          className="absolute inset-x-0 bottom-3 mx-auto w-fit rounded-control border border-border bg-bg-elevated px-3 py-1.5 text-caption text-fg-secondary shadow-md"
+          className="absolute inset-x-0 bottom-3 mx-auto w-fit rounded-control border border-border bg-bg-elevated px-3 py-1.5 text-caption text-fg-secondary shadow-md data-[active=false]:hidden"
         >
           {jumpLabel}
         </MessageScroller.Button>

@@ -1,0 +1,21 @@
+{
+  "short": {
+    "scrollTop": 0,
+    "scrollHeight": 256,
+    "height": 256,
+    "active": "false",
+    "display": "none"
+  },
+  "end": {
+    "scrollTop": 2050,
+    "height": 256,
+    "scrollHeight": 2313
+  },
+  "errors": [],
+  "checks": [
+    "short two-message 256px container hides jump",
+    "long transcript at end hides jump",
+    "user scroll up shows jump",
+    "click reaches end and hides jump"
+  ]
+}

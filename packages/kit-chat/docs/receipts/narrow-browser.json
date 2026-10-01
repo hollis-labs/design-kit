@@ -1,0 +1,25 @@
+{
+  "size": {
+    "width": 390,
+    "scrollWidth": 390,
+    "font": "13px",
+    "focused": "Continue"
+  },
+  "ids": {
+    "controls": "radix-_r_0_",
+    "active": "radix-_r_5_",
+    "list": "listbox",
+    "option": "alpha.ts"
+  },
+  "errors": [],
+  "checks": [
+    "card focus",
+    "host card response and locked state",
+    "suggestion ARIA targets",
+    "keyboard selection",
+    "pointer selection keeps focus",
+    "empty matches and escape",
+    "mobile submit",
+    "history callback and loading"
+  ]
+}

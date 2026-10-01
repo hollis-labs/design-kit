@@ -1,0 +1,21 @@
+{
+  "opsHead": "ff6affb094d515a4803bf826167943815cbfeb7b",
+  "computed": {
+    "font": "13px",
+    "frameRadius": "10px",
+    "bubbleWhitespace": "pre-wrap",
+    "bubbleWrap": "anywhere",
+    "width": 1280,
+    "scrollWidth": 1280
+  },
+  "posts": 2,
+  "errors": [],
+  "checks": [
+    "visible send",
+    "pending first token",
+    "busy keeps draft and suppresses submit",
+    "stall status",
+    "SSE completion",
+    "SSE error"
+  ]
+}

@@ -151,7 +151,12 @@ miss why.** Tailwind v4 emits a utility only for a class string it has *seen*, a
 does not scan `node_modules` — and this package's class strings, along with those of
 `@hollis-labs/design-components`, ship inside `dist`. `theme.css` therefore imports
 both packages' `source.css`, each of which points Tailwind at its own built output.
-Without it the components render *mostly unstyled* and nothing errors.
+Without it styling fails silently. An app already using similar utilities may
+look almost correct while package-only widgets break. See the
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+for the measured Tangent comparison, complete
+custom value declarations and focused computed-style verification. Restart the
+dev server after stylesheet import changes; verify a fresh production build.
 
 If you supply your own theme values and never import ours, import the registration
 directly instead:

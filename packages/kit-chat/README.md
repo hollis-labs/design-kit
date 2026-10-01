@@ -40,8 +40,13 @@ npm install @base-ui/react react react-dom lucide-react     # peers
 @import "@hollis-labs/kit-chat/source.css";          /* ← THIS ONE */
 ```
 
-**Leave out that last line and the components render, render mostly unstyled, and
-nothing errors.**
+**Leave out that last line and styling fails silently.** The base-component or
+host scan can emit some shared utilities, leaving a partially styled transcript
+that looks plausible. See the
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+for complete values, source wiring and focused computed-style verification.
+Restart the dev server
+after stylesheet import changes before checking a fresh production build.
 
 Tailwind v4 emits a utility only for a class string it has *seen*, and it does not scan
 `node_modules`. This package's class strings ship inside `dist`, so without something

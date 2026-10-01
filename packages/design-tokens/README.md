@@ -50,9 +50,17 @@ npm install @hollis-labs/design-tokens
 @import "@hollis-labs/design-tokens/design-tokens.css";
 ```
 
-That is the whole setup. You now have `bg-surface`, `text-fg-muted`,
+That completes **tokens-only** setup. You now have `bg-surface`, `text-fg-muted`,
 `border-border-subtle`, `rounded-panel`, `text-control`, `tracking-label`, the
 shadcn alias layer, and ten themes that swap by attribute.
+
+When adding styled components, also import
+`@hollis-labs/design-components/source.css` and the chosen kit's registration
+(`kit-chat/source.css`, or `kit-dashboard/theme.css` which includes it).
+Tailwind does not scan dependency directories automatically. The
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+covers the full CSS wiring and focused production-browser verification; a green
+build alone does not establish styling.
 
 ```html
 <html data-theme="dir-a" data-mode="light">
@@ -69,7 +77,14 @@ Bring your own values instead of the built-ins:
 @import "@hollis-labs/design-tokens/tokens.css";   /* the contract, no values */
 ```
 
-…then declare `--hl-*` yourself, or generate it (see *Emitting your own themes*).
+…then declare **all 50 base values: 48 colors plus `--hl-font-sans` and
+`--hl-font-mono`**, or generate them (see *Emitting your own themes*). The
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+lists every declaration. `Theme.tokens` and
+`emitThemeCss` cover colors only; include font declarations separately or use
+`emitThemesCss`, which also emits default font stacks. Missing values have no
+fallback and can silently produce transparent colors or browser-default fonts.
+Run the consumer's formatter after generating its own stylesheet.
 
 ### Without Tailwind
 

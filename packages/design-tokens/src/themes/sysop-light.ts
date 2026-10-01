@@ -2,9 +2,10 @@
 // New appearance choices: neutral paper, green/amber ink, and black on white.
 // Visual sign-off is tracked in docs/screenshots; charts remain placeholders.
 import type { TokenValues } from '../theme.js'
+import { deriveBuiltinValues } from '../derivation-plan.js'
 
 export const SYSOP_LIGHT = {
-  white: {
+  white: deriveBuiltinValues('sysop-p4-white', 'light', {
     'bg': '#fafafa',
     'bg-elevated': '#ffffff',
     'surface': '#f1f1f3',
@@ -48,13 +49,8 @@ export const SYSOP_LIGHT = {
     'chart-3': '#ff00ff',
     'chart-4': '#ff00ff',
     'chart-5': '#ff00ff',
-    'syntax-key': '#18181b',
-    'syntax-string': 'color-mix(in oklab, #18181b 75%, #52525b)',
-    'syntax-number': 'color-mix(in oklab, #18181b 50%, #52525b)',
-    'syntax-boolean': 'color-mix(in oklab, #18181b 25%, #52525b)',
-    'syntax-null': '#52525b',
-  },
-  green: {
+  }),
+  green: deriveBuiltinValues('sysop-green-phosphor', 'light', {
     'bg': '#f4faf5',
     'bg-elevated': '#ffffff',
     'surface': '#e5f1e8',
@@ -98,13 +94,8 @@ export const SYSOP_LIGHT = {
     'chart-3': '#ff00ff',
     'chart-4': '#ff00ff',
     'chart-5': '#ff00ff',
-    'syntax-key': '#123b22',
-    'syntax-string': 'color-mix(in oklab, #123b22 75%, #31633f)',
-    'syntax-number': 'color-mix(in oklab, #123b22 50%, #31633f)',
-    'syntax-boolean': 'color-mix(in oklab, #123b22 25%, #31633f)',
-    'syntax-null': '#31633f',
-  },
-  amber: {
+  }),
+  amber: deriveBuiltinValues('sysop-amber-phosphor', 'light', {
     'bg': '#fffbef',
     'bg-elevated': '#ffffff',
     'surface': '#f5edd7',
@@ -148,13 +139,8 @@ export const SYSOP_LIGHT = {
     'chart-3': '#ff00ff',
     'chart-4': '#ff00ff',
     'chart-5': '#ff00ff',
-    'syntax-key': '#493000',
-    'syntax-string': 'color-mix(in oklab, #493000 75%, #745000)',
-    'syntax-number': 'color-mix(in oklab, #493000 50%, #745000)',
-    'syntax-boolean': 'color-mix(in oklab, #493000 25%, #745000)',
-    'syntax-null': '#745000',
-  },
-  contrast: {
+  }),
+  contrast: deriveBuiltinValues('sysop-hi-contrast', 'light', {
     'bg': '#ffffff',
     'bg-elevated': '#ffffff',
     'surface': '#f4f4f4',
@@ -198,10 +184,5 @@ export const SYSOP_LIGHT = {
     'chart-3': '#ff00ff',
     'chart-4': '#ff00ff',
     'chart-5': '#ff00ff',
-    'syntax-key': '#000000',
-    'syntax-string': 'color-mix(in oklab, #000000 75%, #333333)',
-    'syntax-number': 'color-mix(in oklab, #000000 50%, #333333)',
-    'syntax-boolean': 'color-mix(in oklab, #000000 25%, #333333)',
-    'syntax-null': '#333333',
-  },
+  }),
 } satisfies Record<string, TokenValues>

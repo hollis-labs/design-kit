@@ -53,10 +53,6 @@
  *     "lint:ratchet": "node node_modules/@hollis-labs/eslint-config-design/scripts/ratchet.mjs src"
  *   }
  *
- * Or via npx:
- *
- *   npx @hollis-labs/eslint-config-design/scripts/ratchet.mjs src
- *
  * CI WORKFLOW
  *
  *   On every PR: run without --update (fails on regression).

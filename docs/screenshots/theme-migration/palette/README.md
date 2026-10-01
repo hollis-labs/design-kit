@@ -60,3 +60,9 @@ sampled vars and text styles; settings JSON records fixture colors.
 | sysop-hi-contrast-light | [Before](sysop-hi-contrast-light-before.png) | [After](sysop-hi-contrast-light-after.png) | [Settings before](settings/sysop-hi-contrast-light-before.png) | [Settings after](settings/sysop-hi-contrast-light-after.png) |
 | sysop-p4-white-dark | [Before](sysop-p4-white-dark-before.png) | [After](sysop-p4-white-dark-after.png) | [Settings before](settings/sysop-p4-white-dark-before.png) | [Settings after](settings/sysop-p4-white-dark-after.png) |
 | sysop-p4-white-light | [Before](sysop-p4-white-light-before.png) | [After](sysop-p4-white-light-after.png) | [Settings before](settings/sysop-p4-white-light-before.png) | [Settings after](settings/sysop-p4-white-light-after.png) |
+
+One-off compiled-CSS behavior check: [alias receipt](alias-behavior.json) confirms
+legacy/canonical equality for every base color in both modes, within nested
+[data-theme] boundaries, and matching workflow label derivation. No mismatches.
+No-attribute default background: dark #09090b, light #fafafa. This is proof
+attached to the PR, not a new source-agreement test or gate.

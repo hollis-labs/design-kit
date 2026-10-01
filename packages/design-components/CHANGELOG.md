@@ -1,5 +1,26 @@
 # @hollis-labs/design-components
 
+## 0.1.1 — 2026-10-01
+
+**Fix: `cn()` no longer drops the contract's font-size tokens.** The published `0.1.0`
+merged class names with plain `tailwind-merge`, which does not know `text-micro`,
+`text-caption`, `text-label` or `text-control` are font sizes and files them with the
+text *colours*. Merging one beside a colour class therefore silently removed one of the
+two. Two visible results: a `size="sm"` primary `Button` rendered `text-control` and lost
+`text-primary-foreground` (near-white on near-white, unreadable), and `Pill` lost its
+`text-caption` / `text-label` and inherited the body size.
+
+`cn()` now registers the font-size group from `@hollis-labs/design-tokens`'
+`TEXT_TOKENS`, so it follows the contract instead of a hand-typed list. A colour and a
+size now survive independently, in either order and under responsive variants, and an
+explicit `className` override of either still wins. No API change, nothing to migrate.
+Needs `@hollis-labs/design-tokens` `^0.1.0`, which is already a dependency, so no other
+package has to be released with it.
+
+Found by Tachyon's design-kit migration (CW-20261001-0521). Covered by a regression
+suite that renders every `Button` variant at every size and every `Pill` tone, plus
+`Input`, `Checkbox`, `PopoverTrigger` and `Callout`.
+
 ## 0.1.0 — 2026-09-11
 
 First release, alongside the five other packages in this repo. The set shares a

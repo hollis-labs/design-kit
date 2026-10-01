@@ -7,6 +7,24 @@ specific to it.
 
 ---
 
+## 0.1.1 — 2026-10-01 — `design-components` only
+
+A hotfix to one package, so for this release the shared version number is suspended:
+`design-components` is `0.1.1` and every other package stays at `0.1.0`. The numbers
+realign at the next full release.
+
+`cn()` in `@hollis-labs/design-components` dropped the contract's font-size tokens when
+merging beside a text colour, which made a small primary `Button` unreadable and left
+`Pill` at the wrong size. Fixed; no API change. The details and the tests are in
+[`packages/design-components/CHANGELOG.md`](./packages/design-components/CHANGELOG.md).
+
+Not in this release, on purpose: `kit-dashboard`, `eslint-config-design` and `kit-chat`
+have unreleased changes on `main` (Operations density and keyboard navigation, the lint
+ratchet and Biome path, kit-chat's typography fix). Some of them change rendering or add
+API, so they ship as a deliberate minor release rather than inside a patch.
+
+---
+
 ## 0.1.0 — 2026-09-11
 
 **First release. Six packages appear on npm at once, none of which existed under

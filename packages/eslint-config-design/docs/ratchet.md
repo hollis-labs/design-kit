@@ -92,8 +92,69 @@ Add one step (or a `package.json` script):
 
 Exit codes:
 - `0` — ratchet holds (no new violations), or `--update` succeeded.
-- `1` — ratchet failed (violations increased).
-- `2` — usage or configuration error.
+- `1` — ratchet failed (violations increased above baseline).
+- `2` — configuration or environment error (see below).
+
+### Exit 2 — what it means and how to fix it
+
+The ratchet exits 2 rather than silently passing whenever the lint run itself
+cannot be trusted. There are three cases:
+
+**No files were linted.** If the path does not exist, the `--root` is wrong, or
+ESLint's ignore rules exclude everything under the path, the result set is empty
+and all counts are zero. Comparing zeros against a real baseline would produce a
+false "improvement" — 650 violations apparently fixed by a typo. The script
+reports the exact path it tried and exits 2 so the misconfiguration is visible.
+
+```
+error: no files were linted for path "/repo/apps/tangent/ui/sr".
+       Check that the path exists relative to --root, that cwd is correct,
+       and that your ESLint config is not ignoring everything under it.
+```
+
+**Parse errors.** Any file ESLint cannot parse is silently skipped by the
+default `countByRule` logic (fatal messages have `ruleId === null`). This is
+intentional in the unit-test helper, but wrong in the CLI: a file that fails to
+parse contributes zero to its rule counts, so one bad import or a generated file
+without an ignore can hide real violations. The script lists up to 5 offending
+files and exits 2. Fix: correct the parse error, or add an `// eslint-ignore`
+comment / an `ignores` entry in `eslint.config.js` for generated files.
+
+```
+error: 3 file(s) could not be parsed:
+  src/generated/schema.ts: Parsing error: Unexpected token
+  … and 2 more
+       Fix the parse errors, or add ESLint ignores for generated files.
+```
+
+**TS parser unavailable (`--no-config` only).** Without a project `eslint.config.js`,
+the script sets up the TypeScript parser itself. If `typescript-eslint` is not
+installed, `.ts` and `.tsx` files would silently use the default JS parser, miss
+half the codebase, and again count zero violations. The script exits 2 with
+install instructions rather than falling back.
+
+```
+error: --no-config requires typescript-eslint to parse .ts/.tsx files,
+       but it could not be imported. Install it as a devDependency:
+         npm install --save-dev typescript-eslint
+       or pass --config to use your own eslint.config.js instead.
+```
+
+### Non-blocking caveats worth knowing
+
+**The ratchet is per-rule, not per-file.** Fixing one `no-color-literal` in
+`card.tsx` while adding one in `table.tsx` nets to zero per rule — the ratchet
+passes. This is intentional: a rule-total baseline is the coarsest useful
+granularity (per-file baselines are unmaintainable). Reviewers who want
+finer-grained enforcement should look at the per-rule counts in the report, not
+just the exit code.
+
+**`--update` can raise the baseline.** Committing an `--update` run that records
+*more* violations than the previous baseline passes CI — the new baseline is
+higher. The git diff on `.eslint-design-baseline.json` is the only record of
+this. During code review, a baseline file that shows count increases (positive
+delta in the diff) should be treated the same as a `// eslint-disable` comment:
+intentional and documented, or a mistake. Require a reason in the commit message.
 
 ## Fixing violations
 

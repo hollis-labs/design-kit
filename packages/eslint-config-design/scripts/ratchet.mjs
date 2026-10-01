@@ -152,12 +152,21 @@ if (noConfig) {
   )
 
   const tsParser = await import('typescript-eslint').then((m) => m.parser).catch(() => null)
+  if (!tsParser) {
+    console.error(
+      'error: --no-config requires typescript-eslint to parse .ts/.tsx files,\n' +
+      '       but it could not be imported. Install it as a devDependency:\n' +
+      '         npm install --save-dev typescript-eslint\n' +
+      '       or pass --config to use your own eslint.config.js instead.',
+    )
+    process.exit(2)
+  }
   const langOpts = {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    parser: tsParser,
     parserOptions: { ecmaFeatures: { jsx: true } },
   }
-  if (tsParser) langOpts.parser = tsParser
 
   const rulesCfg = {}
   if (rules.includes('design/no-color-literal')) rulesCfg['design/no-color-literal'] = severityOpt
@@ -229,6 +238,42 @@ try {
   results = await eslint.lintFiles([targetPath])
 } catch (err) {
   console.error('eslint error:', err.message)
+  process.exit(2)
+}
+
+// ─── Fail-closed guards ───────────────────────────────────────────────────────
+// Both guards apply before --update, so a misconfigured run cannot silently
+// record a baseline of zeros or a fake "improvement".
+
+// Guard 1: at least one file must have been linted. An empty result set means
+// the path doesn't exist, the cwd is wrong, or every file was ignored. All
+// three are configuration errors, not a clean run.
+const filesLinted = results.length
+if (filesLinted === 0) {
+  console.error(
+    `error: no files were linted for path "${targetPath}".\n` +
+    '       Check that the path exists relative to --root, that cwd is correct,\n' +
+    '       and that your ESLint config is not ignoring everything under it.',
+  )
+  process.exit(2)
+}
+
+// Guard 2: any file with a fatal/parse error must stop the ratchet. Silently
+// counting such files as zero violations is the fail-open bug — a wrong path
+// that matches nothing, or a file ESLint can't parse, produces all-zero counts
+// that compare favourably against any baseline.
+const parseErrorFiles = results.filter((r) => r.messages.some((m) => m.fatal || m.ruleId === null))
+if (parseErrorFiles.length > 0) {
+  const listed = parseErrorFiles.slice(0, 5).map((r) => {
+    const msg = r.messages.find((m) => m.fatal || m.ruleId === null)
+    return `  ${r.filePath.replace(root + '/', '')}: ${msg?.message ?? 'parse error'}`
+  })
+  const extra = parseErrorFiles.length > 5 ? `\n  … and ${parseErrorFiles.length - 5} more` : ''
+  console.error(
+    `error: ${parseErrorFiles.length} file(s) could not be parsed:\n` +
+    listed.join('\n') + extra + '\n' +
+    '       Fix the parse errors, or add ESLint ignores for generated files.',
+  )
   process.exit(2)
 }
 

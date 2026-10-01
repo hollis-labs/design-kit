@@ -29,10 +29,9 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
 | `packages/eslint-config-design` | the gate |
 
-Six of the seven are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md).
-`kit-chat` is built but **not yet published**: it was an empty stub when the workspace
-published and was deliberately excluded rather than holding five finished packages for
-it. It ships separately — CW-20260912-0042.
+All seven are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md). `kit-chat`
+was an empty stub when the first six published, so it was excluded rather than holding
+five finished packages for it, and shipped separately — CW-20260912-0042.
 
 ## Using it — the one line people miss
 

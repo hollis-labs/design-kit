@@ -43,18 +43,25 @@ npm install @base-ui/react react react-dom lucide-react     # peers
 @import "@hollis-labs/design-components/source.css";   /* ← THIS ONE */
 ```
 
-**Leave out that third line and the components render, render mostly unstyled, and
-nothing errors.**
+**Leave out that third line and styling silently fails.** A greenfield app may
+look mostly unstyled; an app already using the same token utilities can look
+almost correct while package-only widgets break. Tangent's LiveDot measured
+0 × 0 without registration and 8 × 8 with it, while both production builds
+succeeded. See the
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+for the measured comparison and a focused computed-style probe. Restart the
+dev server after import changes before verifying a fresh production build.
 
 Tailwind v4 emits a utility only for a class string it has *seen*, and it does not
 scan `node_modules`. This package's class strings ship inside `dist`, so without
-something pointing Tailwind at them, `text-fg-secondary`, `bg-surface`,
-`text-fg-faint` and `text-primary` are simply never generated in your stylesheet.
-There is no error to read, because the defect is in what your build did not produce
-rather than in anything the code says. You get a Button with no colour and a Card
-with no surface, and nothing to grep for.
+something pointing Tailwind at them, package-only utilities are never generated.
+Your own source may already cause shared utilities such as `bg-surface` to be
+emitted, masking the missing scan. There is no error to read, because the defect
+is in what your build did not produce rather than in anything the code says.
 
-`source.css` contains one `@source` directive pointing at this package's own `dist`.
+`source.css` contains an `@source` directive pointing at this package's own `dist`,
+plus the Base UI orientation variants and `no-scrollbar` utility its components
+use. A handwritten glob does not supply those definitions.
 It ships as an importable stylesheet rather than as a glob you write yourself
 because **`@source` paths resolve relative to the CSS file that declares them** —
 so the path is written once, here, against a layout this package controls, instead
@@ -68,8 +75,10 @@ Verified 2026-09-11 against `tailwindcss` 4.3.3: a package-shipped stylesheet's
 
 ### If you are using `@hollis-labs/kit-dashboard`
 
-You need none of this. `@hollis-labs/kit-dashboard/theme.css` imports both its own
-`source.css` and this one, and you cannot use that kit without its theme.
+The dashboard theme supplies these registrations for you.
+`@hollis-labs/kit-dashboard/theme.css` imports both its own
+`source.css` and this one. A custom-theme dashboard must import the registrations
+directly instead.
 
 ### How this was found, which is the reason to trust the line above
 

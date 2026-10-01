@@ -351,6 +351,13 @@ them under a kit prefix (§9.3).
 
 Both implementations declare exactly these two. No third family is in evidence.
 
+For a consumer importing `tokens.css` without built-in values, these map to
+`--hl-font-sans` and `--hl-font-mono`. The complete base value layer is therefore
+**50 declarations: 48 colors plus two font stacks**. Color completeness alone
+does not supply fonts; the indirections have no fallback. The
+[adopter-path guide](adopter-path.md) lists every value-layer name and describes
+source registration and production-browser verification.
+
 ### 3.10 Syntax — code highlighting
 
 *Numbered after Fonts rather than beside Charts because it was added in review round 4, and

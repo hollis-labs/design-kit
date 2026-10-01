@@ -32,7 +32,12 @@ and configure the matching Vite/PostCSS/CLI integration:
 npm install -D tailwindcss@^4.0.0
 ```
 
-A successful install alone does not verify CSS setup.
+A successful install alone does not verify CSS setup. These nonvisual APIs
+need no component scan by themselves. Once the app renders design-components
+or an idiom kit, import those packages' `source.css` registrations (or the
+dashboard `theme.css` that includes them). See the
+[adopter-path guide](https://github.com/hollis-labs/design-kit/blob/main/docs/adopter-path.md)
+for complete value declarations and production-browser verification.
 
 ## What this ships, and the one thing it does not
 

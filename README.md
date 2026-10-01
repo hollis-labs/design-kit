@@ -27,9 +27,10 @@ available just relocates the drift somewhere harder to see.
 | `packages/design-bindings` | the binding contract — "this schema renders as these components" |
 | `packages/kit-dashboard` | the dashboard idiom — forked whole from `@hollis-labs/sysop-ui` 0.9.0 |
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
+| `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished |
 | `packages/eslint-config-design` | the gate |
 
-All seven are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md). `kit-chat`
+The original seven packages are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md). `kit-chat`
 was an empty stub when the first six published, so it was excluded rather than holding
 five finished packages for it, and shipped separately — CW-20260912-0042.
 

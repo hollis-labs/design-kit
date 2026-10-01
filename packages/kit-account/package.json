@@ -1,7 +1,7 @@
 {
   "name": "@hollis-labs/kit-account",
   "version": "0.0.0",
-  "description": "Controlled local-first account surfaces; host-owned identity, profile and preferences.",
+  "description": "Controlled local-first profile, identity, API-token and connected-account surfaces; host-owned data and transport.",
   "keywords": [
     "react",
     "account",

@@ -1,5 +1,13 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20260911-0071, step c)
+
+- Remove the hand-authored base palette and reverse --hl mapping. Generate legacy
+  ID aliases from design-tokens; keep sysop.theme and existing helper IDs.
+- Stop shadowing base/shadcn utilities, retain dashboard compatibility roles and
+  workflow derivations. Canonical legacy colors require visual review.
+- Use feedback danger/info for SettingsNotice; keep status pills on workflow tones.
+
 ## Unreleased (CW-20260911-0071, step b)
 
 - Register dash-status lifecycle and label utilities in the kit-owned manifest;

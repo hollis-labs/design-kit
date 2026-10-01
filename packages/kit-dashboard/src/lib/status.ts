@@ -3,11 +3,11 @@
  *
  * Tuned to match Torque's `STATUS_COLORS`, which spreads each status across
  * four shades — a tinted fill, a `40%` border, a solid dot, and a *light*
- * label. The kit carries one `--color-status-*` token per status (so all four
- * palettes stay themeable), plus a `--color-status-*-label` derived from it.
+ * label. The kit carries one `--color-dash-status-*` token per status (so all four
+ * palettes stay themeable), plus a `--color-dash-status-*-label` derived from it.
  *
  * THE LABEL USED TO BE COMPUTED HERE, inline, as
- * `text-[color-mix(in_oklab,var(--color-status-done)_60%,var(--color-text))]`.
+ * `text-[color-mix(in_oklab,var(--color-dash-status-done)_60%,var(--color-text))]`.
  * That is a colour literal and an arbitrary value at once, so both design rules
  * reported all twelve — and it was theme-layer work sitting in a component:
  * deriving one colour from two others belongs to the only layer allowed to name
@@ -18,7 +18,7 @@
  * (green mixes toward green). Verified identical in all four palettes.
  *
  * Classes are written out as literals (not built from a template) so the
- * Tailwind scanner reliably emits every `*-status-*` utility.
+ * Tailwind scanner reliably emits every `*-dash-status-*` utility.
  */
 
 export interface StatusTone {
@@ -32,7 +32,7 @@ export interface StatusTone {
   dot: string
 }
 
-/** Canonical status keys with a dedicated `--color-status-*` token. */
+/** Canonical status keys with a dedicated `--color-dash-status-*` token. */
 export const STATUS_KEYS = [
   'backlog',
   'todo',
@@ -52,76 +52,76 @@ export type StatusKey = (typeof STATUS_KEYS)[number]
 
 export const STATUS_TONES: Record<StatusKey, StatusTone> = {
   backlog: {
-    bg: 'bg-status-backlog/10',
-    border: 'border-status-backlog/40',
-    dot: 'bg-status-backlog',
-    text: 'text-status-backlog-label',
+    bg: 'bg-dash-status-backlog/10',
+    border: 'border-dash-status-backlog/40',
+    dot: 'bg-dash-status-backlog',
+    text: 'text-dash-status-backlog-label',
   },
   todo: {
-    bg: 'bg-status-todo/10',
-    border: 'border-status-todo/40',
-    dot: 'bg-status-todo',
-    text: 'text-status-todo-label',
+    bg: 'bg-dash-status-todo/10',
+    border: 'border-dash-status-todo/40',
+    dot: 'bg-dash-status-todo',
+    text: 'text-dash-status-todo-label',
   },
   queued: {
-    bg: 'bg-status-queued/10',
-    border: 'border-status-queued/40',
-    dot: 'bg-status-queued',
-    text: 'text-status-queued-label',
+    bg: 'bg-dash-status-queued/10',
+    border: 'border-dash-status-queued/40',
+    dot: 'bg-dash-status-queued',
+    text: 'text-dash-status-queued-label',
   },
   doing: {
-    bg: 'bg-status-doing/10',
-    border: 'border-status-doing/40',
-    dot: 'bg-status-doing',
-    text: 'text-status-doing-label',
+    bg: 'bg-dash-status-doing/10',
+    border: 'border-dash-status-doing/40',
+    dot: 'bg-dash-status-doing',
+    text: 'text-dash-status-doing-label',
   },
   review: {
-    bg: 'bg-status-review/10',
-    border: 'border-status-review/40',
-    dot: 'bg-status-review',
-    text: 'text-status-review-label',
+    bg: 'bg-dash-status-review/10',
+    border: 'border-dash-status-review/40',
+    dot: 'bg-dash-status-review',
+    text: 'text-dash-status-review-label',
   },
   done: {
-    bg: 'bg-status-done/10',
-    border: 'border-status-done/40',
-    dot: 'bg-status-done',
-    text: 'text-status-done-label',
+    bg: 'bg-dash-status-done/10',
+    border: 'border-dash-status-done/40',
+    dot: 'bg-dash-status-done',
+    text: 'text-dash-status-done-label',
   },
   blocked: {
-    bg: 'bg-status-blocked/10',
-    border: 'border-status-blocked/40',
-    dot: 'bg-status-blocked',
-    text: 'text-status-blocked-label',
+    bg: 'bg-dash-status-blocked/10',
+    border: 'border-dash-status-blocked/40',
+    dot: 'bg-dash-status-blocked',
+    text: 'text-dash-status-blocked-label',
   },
   paused: {
-    bg: 'bg-status-paused/10',
-    border: 'border-status-paused/40',
-    dot: 'bg-status-paused',
-    text: 'text-status-paused-label',
+    bg: 'bg-dash-status-paused/10',
+    border: 'border-dash-status-paused/40',
+    dot: 'bg-dash-status-paused',
+    text: 'text-dash-status-paused-label',
   },
   archived: {
-    bg: 'bg-status-archived/10',
-    border: 'border-status-archived/40',
-    dot: 'bg-status-archived',
-    text: 'text-status-archived-label',
+    bg: 'bg-dash-status-archived/10',
+    border: 'border-dash-status-archived/40',
+    dot: 'bg-dash-status-archived',
+    text: 'text-dash-status-archived-label',
   },
   inbox: {
-    bg: 'bg-status-inbox/10',
-    border: 'border-status-inbox/40',
-    dot: 'bg-status-inbox',
-    text: 'text-status-inbox-label',
+    bg: 'bg-dash-status-inbox/10',
+    border: 'border-dash-status-inbox/40',
+    dot: 'bg-dash-status-inbox',
+    text: 'text-dash-status-inbox-label',
   },
   routed: {
-    bg: 'bg-status-routed/10',
-    border: 'border-status-routed/40',
-    dot: 'bg-status-routed',
-    text: 'text-status-routed-label',
+    bg: 'bg-dash-status-routed/10',
+    border: 'border-dash-status-routed/40',
+    dot: 'bg-dash-status-routed',
+    text: 'text-dash-status-routed-label',
   },
   indexed: {
-    bg: 'bg-status-indexed/10',
-    border: 'border-status-indexed/40',
-    dot: 'bg-status-indexed',
-    text: 'text-status-indexed-label',
+    bg: 'bg-dash-status-indexed/10',
+    border: 'border-dash-status-indexed/40',
+    dot: 'bg-dash-status-indexed',
+    text: 'text-dash-status-indexed-label',
   },
 }
 

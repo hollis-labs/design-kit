@@ -542,6 +542,32 @@
   --color-sidebar-ring: var(--theme-color-ring);
 
   /* Per-status tokens */
+  /* Dashboard workflow utilities; old names below remain compatibility aliases. */
+  --color-dash-status-backlog: var(--theme-color-status-backlog);
+  --color-dash-status-todo: var(--theme-color-status-todo);
+  --color-dash-status-queued: var(--theme-color-status-queued);
+  --color-dash-status-doing: var(--theme-color-status-doing);
+  --color-dash-status-review: var(--theme-color-status-review);
+  --color-dash-status-done: var(--theme-color-status-done);
+  --color-dash-status-blocked: var(--theme-color-status-blocked);
+  --color-dash-status-paused: var(--theme-color-status-paused);
+  --color-dash-status-archived: var(--theme-color-status-archived);
+  --color-dash-status-inbox: var(--theme-color-status-inbox);
+  --color-dash-status-routed: var(--theme-color-status-routed);
+  --color-dash-status-indexed: var(--theme-color-status-indexed);
+  --color-dash-status-backlog-label: var(--theme-color-status-backlog-label);
+  --color-dash-status-todo-label: var(--theme-color-status-todo-label);
+  --color-dash-status-queued-label: var(--theme-color-status-queued-label);
+  --color-dash-status-doing-label: var(--theme-color-status-doing-label);
+  --color-dash-status-review-label: var(--theme-color-status-review-label);
+  --color-dash-status-done-label: var(--theme-color-status-done-label);
+  --color-dash-status-blocked-label: var(--theme-color-status-blocked-label);
+  --color-dash-status-paused-label: var(--theme-color-status-paused-label);
+  --color-dash-status-archived-label: var(--theme-color-status-archived-label);
+  --color-dash-status-inbox-label: var(--theme-color-status-inbox-label);
+  --color-dash-status-routed-label: var(--theme-color-status-routed-label);
+  --color-dash-status-indexed-label: var(--theme-color-status-indexed-label);
+
   --color-status-backlog: var(--theme-color-status-backlog);
   --color-status-todo: var(--theme-color-status-todo);
   --color-status-queued: var(--theme-color-status-queued);

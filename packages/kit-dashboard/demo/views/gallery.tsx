@@ -43,8 +43,8 @@ const serviceColumns: ColumnDef<Service>[] = [
 
 const ROUTE_CYCLE: readonly [CycleOption<string>, ...CycleOption<string>[]] = [
   { value: 'both', label: 'Both' },
-  { value: 'running', label: 'Running', dotColor: 'bg-status-done' },
-  { value: 'stopped', label: 'Stopped', dotColor: 'bg-status-blocked' },
+  { value: 'running', label: 'Running', dotColor: 'bg-dash-status-done' },
+  { value: 'stopped', label: 'Stopped', dotColor: 'bg-dash-status-blocked' },
 ]
 
 const REGIONS: ComboboxItem[] = [
@@ -98,19 +98,19 @@ const EVENT_SERIES = [
   {
     key: 'success',
     label: 'Success',
-    color: 'var(--color-status-done)',
+    color: 'var(--color-dash-status-done)',
     value: (e: GalleryEvent) => (e.status === 'success' ? 1 : 0),
   },
   {
     key: 'error',
     label: 'Error',
-    color: 'var(--color-status-blocked)',
+    color: 'var(--color-dash-status-blocked)',
     value: (e: GalleryEvent) => (e.status === 'error' ? 1 : 0),
   },
   {
     key: 'running',
     label: 'Running',
-    color: 'var(--color-status-doing)',
+    color: 'var(--color-dash-status-doing)',
     value: (e: GalleryEvent) => (e.status === 'running' ? 1 : 0),
   },
 ]
@@ -118,9 +118,9 @@ const EVENT_SERIES = [
 function eventDonutSegments() {
   const count = (s: GalleryEvent['status']) => GALLERY_EVENTS.filter((e) => e.status === s).length
   return [
-    { key: 'success', label: 'Success', color: 'var(--color-status-done)', value: count('success') },
-    { key: 'error', label: 'Error', color: 'var(--color-status-blocked)', value: count('error') },
-    { key: 'running', label: 'Running', color: 'var(--color-status-doing)', value: count('running') },
+    { key: 'success', label: 'Success', color: 'var(--color-dash-status-done)', value: count('success') },
+    { key: 'error', label: 'Error', color: 'var(--color-dash-status-blocked)', value: count('error') },
+    { key: 'running', label: 'Running', color: 'var(--color-dash-status-doing)', value: count('running') },
   ]
 }
 
@@ -365,8 +365,8 @@ export function GalleryView() {
             <SummaryCards
               cards={[
                 { label: 'Total', value: SERVICES.length },
-                { label: 'Running', value: 2, accentColor: 'var(--color-status-done)' },
-                { label: 'Attention', value: 1, accentColor: 'var(--color-status-blocked)' },
+                { label: 'Running', value: 2, accentColor: 'var(--color-dash-status-done)' },
+                { label: 'Attention', value: 1, accentColor: 'var(--color-dash-status-blocked)' },
               ]}
             />
           </div>

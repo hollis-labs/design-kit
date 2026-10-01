@@ -61,6 +61,11 @@ npm run typecheck
 npm run lint
 npm run test:run
 npm run build
+node .github/scripts/design-rules-gate.mjs
 ```
 
-Each runs across every workspace that defines the script.
+The first four run across every workspace that defines the script. The last is the
+one rule enforced over every package, `demo/` files included, and it must report
+zero. CI runs it as its own step after the build, and it is **not** an npm script, so
+a green run of the first four does not cover it. Run it from the repo root with the
+packages built, before you push.

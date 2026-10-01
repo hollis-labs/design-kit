@@ -57,20 +57,9 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ratchet = resolve(__dirname, 'ratchet.mjs')
 
-// Forward all args, inserting --no-config before the positional.
-// We inject --no-config so the consumer never needs to know about it.
-const args = process.argv.slice(2)
-
-// Find the first non-flag argument (the path). Insert --no-config before it
-// if it isn't already present.
-if (!args.includes('--no-config')) {
-  const firstPositional = args.findIndex((a) => !a.startsWith('--') && !['--baseline', '--root', '--config', '--note', '--severity', '--rules'].includes(args[args.indexOf(a) - 1]))
-  if (firstPositional !== -1) {
-    args.splice(firstPositional, 0, '--no-config')
-  } else {
-    args.push('--no-config')
-  }
-}
+// Prepend --no-config so the consumer never needs to know about it.
+// ratchet.mjs parses flags anywhere in argv, so position does not matter.
+const args = ['--no-config', ...process.argv.slice(2)]
 
 const child = spawn(process.execPath, [ratchet, ...args], {
   stdio: 'inherit',

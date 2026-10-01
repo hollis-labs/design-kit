@@ -42,7 +42,8 @@ The two rules that matter most to Tangent — `no-undefined-token` and
 runtime** from `@hollis-labs/design-tokens`. A correct implementation must
 know which token names are valid today, not at the time the rule was written.
 
-Biome's GritQL integration (as of Biome 2.4) has no mechanism to inject a
+Biome's GritQL integration (as of Biome 2.5, tested against 2.5.12 — the version
+Tangent currently pins) has no mechanism to inject a
 dynamic vocabulary from an npm package at rule evaluation time. Any GritQL
 implementation would require hardcoding the token list inside the `.grit` file.
 That is the exact failure mode this package was built to prevent: a third list
@@ -67,11 +68,15 @@ thing Option 3 would add over the current code is a different entry point.
 ### 1. Install
 
 ```bash
-npm install --save-dev eslint @hollis-labs/eslint-config-design @hollis-labs/design-tokens
+npm install --save-dev eslint typescript-eslint \
+  @hollis-labs/eslint-config-design @hollis-labs/design-tokens
 ```
 
-`eslint` and `@hollis-labs/design-tokens` are the only additions. No
-`eslint.config.js` is required; the script builds a minimal config internally.
+`eslint`, `typescript-eslint`, and `@hollis-labs/design-tokens` are the only
+additions. `typescript-eslint` is declared as an optional peer so npm will
+install it automatically when you install this package, but it is listed here
+explicitly so the intention is visible. No `eslint.config.js` is required; the
+script builds a minimal config internally.
 
 ### 2. Add a script to `package.json`
 
@@ -80,16 +85,6 @@ npm install --save-dev eslint @hollis-labs/eslint-config-design @hollis-labs/des
   "scripts": {
     "check:design": "node node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs src",
     "check:design:update": "node node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs --update src"
-  }
-}
-```
-
-Or via `npx`:
-
-```json
-{
-  "scripts": {
-    "check:design": "biome-check src"
   }
 }
 ```

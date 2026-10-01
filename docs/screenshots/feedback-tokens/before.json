@@ -1,0 +1,47 @@
+[
+  {
+    "text": "neutral",
+    "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-border bg-bg-elevated text-fg-muted",
+    "size": "10px",
+    "success": "",
+    "info": "",
+    "color": "rgb(161, 161, 170)",
+    "bg": "rgb(24, 24, 27)"
+  },
+  {
+    "text": "success",
+    "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-success/40 bg-success/10 text-success",
+    "size": "10px",
+    "success": "",
+    "info": "",
+    "color": "rgb(244, 244, 245)",
+    "bg": "rgba(0, 0, 0, 0)"
+  },
+  {
+    "text": "warning",
+    "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-warning/40 bg-warning/10 text-warning",
+    "size": "10px",
+    "success": "",
+    "info": "",
+    "color": "rgb(245, 158, 11)",
+    "bg": "oklab(0.768595 0.0561344 0.154817 / 0.1)"
+  },
+  {
+    "text": "danger",
+    "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-danger/40 bg-danger/10 text-danger",
+    "size": "10px",
+    "success": "",
+    "info": "",
+    "color": "rgb(251, 113, 133)",
+    "bg": "oklab(0.71919 0.164391 0.0392594 / 0.1)"
+  },
+  {
+    "text": "info",
+    "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-info/40 bg-info/10 text-info",
+    "size": "10px",
+    "success": "",
+    "info": "",
+    "color": "rgb(244, 244, 245)",
+    "bg": "rgba(0, 0, 0, 0)"
+  }
+]

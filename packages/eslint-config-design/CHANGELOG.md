@@ -1,5 +1,21 @@
 # @hollis-labs/eslint-config-design
 
+## Unreleased (CW-20260913-0031)
+
+**Biome consumer support.** Decision: ESLint alongside Biome, scoped to the
+design rules only. Biome's GritQL cannot inject a dynamic vocabulary from
+`@hollis-labs/design-tokens` at runtime; a static pattern list would drift from
+the token contract. `scripts/biome-check.mjs` wraps the ratchet's `--no-config`
+mode so a Biome consumer adds one npm script and two devDependencies with no
+ESLint config file required.
+
+- `scripts/biome-check.mjs` — thin wrapper, pre-sets `--no-config`; forwards
+  all other args to `ratchet.mjs`.
+- `docs/biome-consumers.md` — decision record: four options, reasoning for
+  Option 1, full adoption guide, GritQL revision point for the future.
+- `package.json`: `biome-check` and `biome-check:update` convenience scripts.
+- `README.md`: "Biome consumers" section replaces the old placeholder.
+
 ## Unreleased (CW-20261001-0499)
 
 **Baseline/ratchet mode.** Existing codebases can now adopt the gate without a

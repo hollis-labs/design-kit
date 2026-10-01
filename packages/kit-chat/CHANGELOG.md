@@ -1,49 +1,52 @@
 # @hollis-labs/kit-chat
 
-## Unreleased (CW-20260912-0097)
+## 0.2.0 — 2026-10-01
 
-- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
-  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
-  resolution. Document the explicit app dependency and CSS build integration,
-  which an automatic peer install does not configure.
+Co-released with design-tokens, design-components, design-app-runtime, eslint-config-design
+and kit-dashboard. Requires `@hollis-labs/design-components` and `@hollis-labs/design-tokens`
+`^0.2.0`.
 
-## Unreleased
+**Behaviour changes to know before upgrading**
 
-- Add transport-free `useChatHistory` for bounded latest/older windows, stable-ID
-  dedupe, live upserts, single-flight loading, retry and stale-request cancellation.
-  Fix prepend anchoring by moving history controls outside the message log, and
-  verify reader position and Jump-to-latest in a packed desktop/mobile consumer.
-  See [adapter contract and browser proof](docs/message-history.md).
+- `ChatInput` now draws its own frame with a visible **Send** action and an optional
+  host-owned **Stop** callback (`onStop`). A host that already supplies its own submit
+  control should pass `showSubmitButton={false}`, or it will show two.
+- The suggestion menu now shows its "no matches" state instead of closing silently.
+- `tailwindcss: ^4.0.0` is now a **required** peer (CW-20260912-0097). npm 7+ installs it
+  when it is missing, and an incompatible installed major fails peer resolution. The
+  automatic install does not configure your CSS build; keep the explicit app dependency and
+  the stylesheet imports described in the README.
 
-- Reconcile Nanite/Flux card surfaces with the existing eight primitive cards;
-  add compact `ArtifactCard`, bounded `DocumentCard`, and controlled text
-  `PromptCard` on the existing Envelope. Host callbacks/slots keep download,
-  rendering, navigation, persistence and wire translation outside the kit.
-  See [inventory and usage](docs/nanite-card-reconciliation.md).
+**Typography fix (CW-20260913-0032).** Class names merge with the contract's named
+typography tokens preserved beside text colours. Chromium verification of a registry
+consumer found 0.1.0 message bubbles inheriting 16px because `text-control` was removed
+beside `text-fg`; the packed candidate computes the 13px control token. The composer also
+keeps its control size across the primitive's desktop breakpoint (previously 14px).
 
-- Add a framed composer with a visible Send action and optional host-owned Stop
-  callback. Keep the busy draft editable; hosts with their own actions can opt
-  out with `showSubmitButton={false}`.
-- Protect IME composition and Shift+Enter from submission or suggestion
-  selection; preserve textarea focus on pointer selection, connect suggestion
-  ARIA references to cmdk's actual IDs, show empty matches, and fix repeated
-  sent-message history recall.
-- Bound transcript width, preserve plain-string line breaks and wrap long
-  tokens. Add first-token/streaming feedback, reduced-motion loading icons,
-  initial loading and host-driven older-history loading/retry presentation.
-- Keep card envelopes within narrow transcript columns and wide tables locally
-  scrollable. Record [ops-chat dogfood](docs/polish-dogfood.md); pagination and
-  live-app adoption remain separate work.
-- Hide Jump to latest when the scroller marks it inactive. Previously its inert
-  button still painted over short transcripts even when already at the end.
+**Composer and transcript polish (CW-20261001-0502).** Protect IME composition and
+Shift+Enter from submission or suggestion selection; keep textarea focus on pointer
+selection; connect the suggestion ARIA references to cmdk's actual IDs; fix repeated
+sent-message history recall. Bound the transcript width, preserve plain-string line breaks
+and wrap long tokens. Add first-token and streaming feedback with reduced-motion loading
+icons, plus initial loading and host-driven older-history loading/retry presentation.
+Card envelopes stay within narrow transcript columns and wide tables scroll locally. The
+"Jump to latest" control is hidden when the scroller marks it inactive; before, its inert
+button still painted over short transcripts. See [ops-chat dogfood](docs/polish-dogfood.md).
 
-- Preserve named typography tokens beside foreground colors when merging class
-  names. Registry-consumer Chromium verification found 0.1.0 message bubbles
-  inheriting 16px because `text-control` was removed beside `text-fg`; the packed
-  candidate computes the 13px control token. Keep the composer's control size
-  across the primitive's desktop breakpoint as well (previously 14px).
-- Record the published-package source registration negative control and
-  ChatStream-only optional-peer check in [consumer verification](docs/consumer-verification.md).
+**Windowed history (CW-20260930-0017).** New transport-free `useChatHistory` for bounded
+latest/older windows, stable-ID dedupe, live upserts, single-flight loading, retry and
+stale-request cancellation. Fixes prepend anchoring by moving the history controls outside
+the message log; reader position and Jump-to-latest were verified in a packed
+desktop/mobile consumer. See [adapter contract and browser proof](docs/message-history.md).
+
+**New cards (CW-20261001-0501).** Reconciled Nanite/Flux card surfaces with the existing
+eight primitive cards and added compact `ArtifactCard`, bounded `DocumentCard` and a
+controlled text `PromptCard` on the existing Envelope. Host callbacks and slots keep
+download, rendering, navigation, persistence and wire translation outside the kit. See
+[inventory and usage](docs/nanite-card-reconciliation.md).
+
+**Verification records.** The published-package source-registration negative control and the
+ChatStream-only optional-peer check are in [consumer verification](docs/consumer-verification.md).
 
 ## 0.1.0 — 2026-09-12
 

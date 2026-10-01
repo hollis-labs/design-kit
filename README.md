@@ -30,9 +30,11 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished |
 | `packages/eslint-config-design` | the gate |
 
-The original seven packages are **published at `0.1.0`** — see [`CHANGELOG.md`](./CHANGELOG.md). `kit-chat`
-was an empty stub when the first six published, so it was excluded rather than holding
-five finished packages for it, and shipped separately — CW-20260912-0042.
+Six packages are **released at `0.2.0`** — `design-tokens`, `design-components`,
+`design-app-runtime`, `eslint-config-design`, `kit-chat` and `kit-dashboard` — and
+`design-bindings` stays at `0.1.0` until it next changes. See [`CHANGELOG.md`](./CHANGELOG.md).
+`kit-chat` was an empty stub when the first six published, so it was excluded rather than
+holding five finished packages for it, and shipped separately — CW-20260912-0042.
 
 ## Using it — the one line people miss
 
@@ -59,11 +61,12 @@ from 28,924 to 94,518 bytes. See [`CHANGELOG.md`](./CHANGELOG.md) and
 
 ## Relationship to sysop-ui
 
-`libs/sysop-ui` is **not** deprecated and has **not** moved. It stays published at
-`@hollis-labs/sysop-ui` 0.9.0 serving its consumers. `design-kit` is a **fork**,
-seeded by cloning it — so `packages/kit-dashboard` carries sysop-ui's real git
-history, and nothing done here can break a live consumer. Each project migrates
-onto design-kit later, in its own session.
+`@hollis-labs/sysop-ui` 0.9.0 is **deprecated on npm** and scheduled for removal; existing
+installs keep working until then, and the deprecation message points at
+`@hollis-labs/kit-dashboard`. `libs/sysop-ui` itself has **not** moved and stays frozen.
+`design-kit` is a **fork**, seeded by cloning it — so `packages/kit-dashboard` carries
+sysop-ui's real git history, and nothing done here can break a live consumer. Each project
+migrates onto design-kit later, in its own session.
 
 ## Commands
 

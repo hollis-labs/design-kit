@@ -1,55 +1,49 @@
 # @hollis-labs/eslint-config-design
 
-## Unreleased (CW-20261001-0529)
+## 0.2.0 — 2026-10-01
 
-- Register exact kit-owned idiom names via `designConfig({ idiomManifests })`.
-  Validate manifest bindings against the shipped stylesheet before registration;
-  keep base contract shadowing rules and kit deprecations separate.
-- Add repeatable `--idiom-manifest` to ratchet `--no-config` and Biome consumers.
-  Enrollment is explicit and scoped; no prefix-wide permission or installed-kit crawl.
+Co-released with design-tokens, design-components, design-app-runtime, kit-chat and
+kit-dashboard. The `@hollis-labs/design-tokens` peer is now `^0.2.0`.
 
-## Unreleased (CW-20260912-0097)
+**Baseline/ratchet mode (CW-20261001-0499).** Existing codebases can adopt the gate
+without a big-bang fix. Record the current violation counts as
+`.eslint-design-baseline.json`; CI then fails only when new violations are **added**, not
+on the existing backlog.
 
-- Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS
-  pipeline. npm does not auto-install it or warn when it is missing; incompatible
-  installed majors fail peer resolution. Document the explicit build-tool install.
-  JavaScript-only consumers can continue without Tailwind.
+- `src/ratchet.js` — the logic: `countByRule`, `buildBaseline`, `parseBaseline`,
+  `compare`, `formatReport`, `DESIGN_RULES`. Importable as
+  `@hollis-labs/eslint-config-design/ratchet`.
+- `scripts/ratchet.mjs` — the CLI: `--update`, `--no-config` (cross-repo), `--json`,
+  `--quiet`, `--colors` and `--baseline <file>`.
+- Exit codes: `0` no new violations (or `--update` succeeded), `1` the ratchet failed
+  because violations increased, `2` a configuration or environment error. The ratchet
+  **fails closed**: a path that lints no files, any parse error (the files are listed),
+  and, under `--no-config`, a TypeScript parser that cannot be loaded all exit `2` rather
+  than reporting a clean result.
+- The ratchet compares per-rule totals, so fixing one violation and adding another
+  elsewhere nets to zero, and an `--update` that raises the baseline passes CI:
+  reviewers should read baseline diffs. `docs/ratchet.md` is the adopter guide.
 
-## Unreleased (CW-20260913-0031)
+**Biome consumer support (CW-20260913-0031).** Decision: run ESLint alongside Biome,
+scoped to the design rules only. Biome's GritQL cannot inject the live vocabulary from
+`@hollis-labs/design-tokens`, and a static pattern list would drift from the contract.
+`scripts/biome-check.mjs` wraps the ratchet's `--no-config` mode, so a Biome project adds
+one npm script and a few devDependencies (`eslint`, `typescript-eslint`, this package and
+design-tokens) with no ESLint config file. `typescript-eslint ^8.0.0` is an **optional
+peer**, needed only for that path on TypeScript sources. `docs/biome-consumers.md` is the
+decision record and adoption guide.
 
-**Biome consumer support.** Decision: ESLint alongside Biome, scoped to the
-design rules only. Biome's GritQL cannot inject a dynamic vocabulary from
-`@hollis-labs/design-tokens` at runtime; a static pattern list would drift from
-the token contract. `scripts/biome-check.mjs` wraps the ratchet's `--no-config`
-mode so a Biome consumer adds one npm script and two devDependencies with no
-ESLint config file required.
+**Kit-owned idiom vocabularies (CW-20261001-0529).** Register a kit's exact idiom names
+with `designConfig({ idiomManifests })`. A manifest is checked against the kit's shipped
+stylesheet before registration (names, bindings and deprecations must agree both ways),
+and the registration applies only to the files you scope it to. Base-contract shadowing
+rules and kit deprecations stay separate. The ratchet's `--no-config` mode and Biome
+consumers opt in with a repeatable `--idiom-manifest <file>`. Enrollment is explicit: no
+prefix-wide permission and no crawl of installed kits.
 
-- `scripts/biome-check.mjs` — thin wrapper, pre-sets `--no-config`; forwards
-  all other args to `ratchet.mjs`.
-- `docs/biome-consumers.md` — decision record: four options, reasoning for
-  Option 1, full adoption guide, GritQL revision point for the future.
-- `package.json`: `biome-check` and `biome-check:update` convenience scripts.
-- `README.md`: "Biome consumers" section replaces the old placeholder.
-
-## Unreleased (CW-20261001-0499)
-
-**Baseline/ratchet mode.** Existing codebases can now adopt the gate without a
-big-bang fix. Record the current violation counts as `.eslint-design-baseline.json`,
-and CI fails only when new violations are **added** — not on the existing backlog.
-
-- `src/ratchet.js` — core logic: `countByRule`, `buildBaseline`, `parseBaseline`,
-  `compare`, `formatReport`, `DESIGN_RULES`. Importable as `@hollis-labs/eslint-config-design/ratchet`.
-- `scripts/ratchet.mjs` — standalone CLI. Supports `--update`, `--no-config`
-  (cross-repo), `--json`, `--quiet`, `--colors`, and `--baseline <file>`.
-- `docs/ratchet.md` — full adopter guide: quick start, CI workflow, fixing
-  violations, accepting debt, phasing out, and the Biome cross-reference
-  (CW-20260913-0031).
-- `package.json`: exports `./ratchet`; `scripts` ships with the package; `ratchet`
-  and `ratchet:update` convenience scripts added.
-
-Verified read-only against Tangent's source (`apps/tangent/ui/src`): 123 hex,
-1273 raw-palette, 166 arbitrary-scale, 0 undefined-token, recorded and re-checked
-in pass mode (exit 0). No Tangent files written or PRs opened.
+**Packaging (CW-20260912-0097).** `tailwindcss: ^4.0.0` is declared as an optional peer for
+the consumer-owned CSS pipeline. npm does not auto-install it or warn when it is missing;
+an incompatible installed major fails peer resolution.
 
 ## 0.1.0 — 2026-09-11
 

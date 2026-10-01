@@ -1,11 +1,34 @@
 # @hollis-labs/design-app-runtime
 
-## Unreleased (CW-20260912-0097)
+## 0.2.0 — 2026-10-01
 
-- Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS
-  pipeline. npm does not auto-install it or warn when it is missing; incompatible
-  installed majors fail peer resolution. Document the explicit build-tool install.
-  JavaScript-only consumers can continue without Tailwind.
+Co-released with design-tokens, design-components, eslint-config-design, kit-chat and
+kit-dashboard.
+
+**Headless appearance preferences (CW-20261001-0498).** New `createThemeStore` and
+`useTheme`, with the `ColorMode`, `ModePreference`, `ThemeState`, `ThemeStore` and
+`ThemeStoreOptions` types. The store keeps a theme id and a mode preference (`light`,
+`dark` or `system`) outside React and exposes it through `useSyncExternalStore`:
+
+- `createThemeStore({ defaultTheme, themes, storageKey })` validates persisted ids
+  against `themes`; the default storage key is `hollis.appearance`. Call
+  `initialize()` before `createRoot` so the first paint is already in the right mode.
+- It writes `data-theme`, `data-mode`, the `.light` / `.dark` class and `color-scheme`
+  on `<html>`, leaving unrelated root classes alone.
+- `system` follows `prefers-color-scheme`, and preferences sync across tabs.
+- Storage that is blocked or malformed falls back to the configured theme and system
+  mode; live switching keeps working. Server snapshots are SSR-safe.
+- `useTheme(store)` returns `{ theme, mode, resolvedMode, setTheme, setMode }`.
+
+It holds no palette values and no component dependency: the values stay in
+design-tokens and the controls in design-components (`ModeToggle`, `ThemePicker`). See
+`docs/appearance.md` in the repository for the adoption steps. The theme-only helpers in
+design-tokens (`readStoredTheme`, `persistTheme`) are a different, string-only store for
+consumers that keep a bare theme id.
+
+**Packaging (CW-20260912-0097).** `tailwindcss: ^4.0.0` is declared as an optional peer.
+npm does not auto-install it or warn when it is missing; an incompatible installed major
+fails peer resolution. JavaScript-only consumers can continue without Tailwind.
 
 ## 0.1.0 — 2026-09-11
 

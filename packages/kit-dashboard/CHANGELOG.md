@@ -1,49 +1,62 @@
 # @hollis-labs/kit-dashboard
 
-## Unreleased (CW-20260911-0071, step c)
+## 0.2.0 — 2026-10-01
 
-- Remove the hand-authored base palette and reverse --hl mapping. Generate legacy
-  ID aliases from design-tokens; keep sysop.theme and existing helper IDs.
-- Consume canonical base utilities; retain six shadcn compatibility mappings so
-  modern controls keep their appearance. Dashboard workflow derivations remain.
-  Canonical legacy colors approved under CW-20261001-0526 option A.
-- Use feedback danger/info for SettingsNotice; keep status pills on workflow tones.
+Co-released with design-tokens, design-components, design-app-runtime, eslint-config-design
+and kit-chat. Requires `@hollis-labs/design-tokens` and `@hollis-labs/design-components`
+`^0.2.0`: it imports the theme-storage exports that design-tokens 0.1.0 does not have.
 
-## Unreleased (CW-20260911-0071, step b)
+**Behaviour changes to know before upgrading**
 
-- Register dash-status lifecycle and label utilities in the kit-owned manifest;
-  migrate components and demo uses, preserving CSS bindings and rendered colors.
-  Keep the old names as deprecated compatibility aliases in the same manifest.
+- **The four legacy palettes adopt the canonical contract values (CW-20260911-0071).**
+  `p4-white`, `p1-green-phosphor`, `p3-amber-phosphor` and `hi-contrast` keep their ids,
+  the `sysop.theme` storage key and the P4 White default, but their colours now come from
+  design-tokens' `sysop-*` themes instead of a hand-authored palette, so borders, faint
+  text, overlays and workflow hues visibly change (for example P4 faint text moves from
+  `113 113 122` to `131 131 139`). Each also gains a light mode. The ten built-in themes
+  keep their established appearance: the six shadcn compatibility mappings they relied on
+  are retained, and a before/after capture of all twenty modern states is pixel-identical.
+  `SettingsNotice` `info` now uses the feedback info colour; it previously used the
+  indexed/success hue. Value-by-value comparison and screenshots are in
+  [`docs/screenshots/theme-migration/palette`](../../docs/screenshots/theme-migration/palette/README.md).
+- `tailwindcss: ^4.0.0` is now a **required** peer (CW-20260912-0097). npm 7+ installs it
+  when it is missing, and an incompatible installed major fails peer resolution. The
+  automatic install does not configure your CSS build; keep the explicit app dependency
+  and the stylesheet imports described in the README.
 
-## Unreleased (CW-20260911-0071, step a)
+**Operations density and detail navigation (CW-20261001-0500).** `OperationsTablePage`
+keeps its compact default; `density="comfortable"` (the `TableDensity` type) increases row
+padding. New optional props: `errorState` renders request failures apart from `emptyState`
+(loading still wins), `footer` pins result or selection controls below the scrolling body,
+`filterActions` holds trailing view/density/refresh controls, and `searchMatchCount`
+generates the match summary when no explicit `filterSummary` is given. `FilterBar` gains
+`searchMatchCount` and `actions`, wraps on narrow widths, and announces its summary with
+`role="status"`. `ListPageLayout` takes a `footer`. Sortable table headers now carry
+`aria-sort`. `onVisibleOrderChange` publishes the rendered ids after sorting and windowing,
+and the new `useListNavigation` and `useArrowNav` hooks, exported from `/data`, give
+bounded previous/next navigation through that order without wrapping or guessing a
+missing cursor. Everything is additive. See *Operations density and detail navigation*
+in the README.
 
-- Delegate theme-only persistence to design-tokens while preserving sysop.theme,
-  legacy IDs and defaults. Catch blocked storage getters; no palette/CSS changes.
+**Success and info feedback tokens (CW-20261001-0522).** `--hl-success` and `--hl-info`
+are defined for every dashboard palette.
 
-## Unreleased (CW-20260912-0031)
+**Opt-in themed scrollbars (CW-20260912-0031).** `show-scrollbar` draws a scrollbar in the
+contract's colours, following light and dark mode. Global suppression is unchanged, and an
+explicit `no-scrollbar` wins.
 
-- Add opt-in `show-scrollbar` with contract colors that follow light/dark mode.
-  Keep global suppression unchanged; explicit `no-scrollbar` wins. Add a gallery
-  example and 24-state rendered proof. No app-specific escape-hatch names.
+**Kit-owned idiom vocabulary (CW-20261001-0529, CW-20260912-0046, CW-20260911-0071).**
+The package ships `idiom-tokens.json` (exported as
+`@hollis-labs/kit-dashboard/idiom-tokens.json`) as the single source of its idiom names
+and deprecations, and `DASHBOARD_DEPRECATED_TOKENS` is derived from it. Workflow status and
+label styling moved to canonical `dash-status` and `dash-status-label` utilities, and
+`PriorityBadge` to `dash-priority-*`, with the same bindings and measured colours. The old
+names remain as deprecated compatibility aliases. Priority fills are preserved as
+`dash-priority-p1-bg` and `dash-priority-p2-bg`.
 
-## Unreleased (CW-20261001-0529)
-
-- Own idiom names and deprecations in the shipped `idiom-tokens.json` manifest;
-  derive `DASHBOARD_DEPRECATED_TOKENS` from it. Register the checked bindings in
-  the design gate and switch PriorityBadge to canonical `dash-priority-*` utilities.
-
-## Unreleased (CW-20260912-0097)
-
-- CW-20260912-0046: preserve priority fills as `dash-priority-p1-bg` /
-  `dash-priority-p2-bg`; retain deprecated CSS aliases and badge compatibility
-  uses until the idiom vocabulary registration seam lands (CW-20261001-0529).
-  Export dashboard-owned token migration metadata. Workflow status/label names
-  remain unchanged. All measured badge colors and sizes are preserved.
-
-- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
-  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
-  resolution. Document the explicit app dependency and CSS build integration,
-  which an automatic peer install does not configure.
+**Theme persistence (CW-20260911-0071).** The kit's theme storage now delegates to the
+theme-only helpers in design-tokens. `sysop.theme`, the legacy ids and the defaults are
+unchanged, and a blocked storage getter no longer throws.
 
 ## 0.1.0 — 2026-09-11
 

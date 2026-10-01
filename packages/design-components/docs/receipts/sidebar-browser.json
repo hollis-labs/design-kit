@@ -1,0 +1,46 @@
+{
+  "receipts": [
+    {
+      "width": 1280,
+      "side": "left",
+      "dimensions": {
+        "width": 320,
+        "left": 0,
+        "right": 320,
+        "font": "13px",
+        "bodyHeight": 552,
+        "bodyScroll": 2432,
+        "footerBottom": 720,
+        "documentWidth": 1280
+      },
+      "checks": [
+        "focus containment",
+        "Escape and focus return",
+        "host selection dismissal",
+        "Close control",
+        "backdrop dismissal"
+      ]
+    },
+    {
+      "width": 280,
+      "side": "right",
+      "dimensions": {
+        "width": 280,
+        "left": 0,
+        "right": 280,
+        "font": "13px",
+        "bodyHeight": 552,
+        "bodyScroll": 2432,
+        "footerBottom": 720,
+        "documentWidth": 280
+      },
+      "checks": [
+        "focus containment",
+        "Escape and focus return",
+        "host selection dismissal",
+        "Close control"
+      ]
+    }
+  ],
+  "errors": []
+}

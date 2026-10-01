@@ -2,6 +2,20 @@
 
 ## Unreleased
 
+- Add a framed composer with a visible Send action and optional host-owned Stop
+  callback. Keep the busy draft editable; hosts with their own actions can opt
+  out with `showSubmitButton={false}`.
+- Protect IME composition and Shift+Enter from submission or suggestion
+  selection; preserve textarea focus on pointer selection, connect suggestion
+  ARIA references to cmdk's actual IDs, show empty matches, and fix repeated
+  sent-message history recall.
+- Bound transcript width, preserve plain-string line breaks and wrap long
+  tokens. Add first-token/streaming feedback, reduced-motion loading icons,
+  initial loading and host-driven older-history loading/retry presentation.
+- Keep card envelopes within narrow transcript columns and wide tables locally
+  scrollable. Record [ops-chat dogfood](docs/polish-dogfood.md); pagination and
+  live-app adoption remain separate work.
+
 - Preserve named typography tokens beside foreground colors when merging class
   names. Registry-consumer Chromium verification found 0.1.0 message bubbles
   inheriting 16px because `text-control` was removed beside `text-fg`; the packed

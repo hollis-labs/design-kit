@@ -1,6 +1,8 @@
-import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react'
+import { useCallback, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent, ReactNode, Ref } from 'react'
+import { ArrowUp, Square } from 'lucide-react'
 import {
+  Button,
   Command,
   CommandEmpty,
   CommandGroup,
@@ -30,6 +32,10 @@ export interface ChatInputProps<TItem extends SuggestionItem = SuggestionItem> {
   readonly disabled?: boolean
   /** A reply is in flight. The composer stays editable; submit is suppressed. */
   readonly busy?: boolean
+  /** Optional host-owned cancellation. No transport or lifecycle action is implied. */
+  readonly onStop?: () => void
+  /** Hide the built-in action when a host supplies its own submit control. */
+  readonly showSubmitButton?: boolean
 
   /**
    * What opens a menu. A `reference` trigger inserts its selection into the message;
@@ -98,6 +104,8 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
   placeholder = 'Send a message…',
   disabled = false,
   busy = false,
+  onStop,
+  showSubmitButton = true,
   triggers,
   history,
   menuSide = 'top',
@@ -108,6 +116,7 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
   'aria-label': ariaLabel = 'Message',
 }: ChatInputProps<TItem>) {
   const innerRef = useRef<HTMLTextAreaElement | null>(null)
+  const suggestionsRef = useRef<HTMLDivElement | null>(null)
   const [active, setActive] = useState<ActiveSuggestion<TItem> | null>(null)
   const [highlighted, setHighlighted] = useState<string>('')
   const [historyIndex, setHistoryIndex] = useState<number | null>(null)
@@ -116,7 +125,21 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
     () => (active ? filterSuggestions(active.trigger.items, active.query) : []),
     [active],
   )
-  const open = active !== null && matches.length > 0
+  const open = active !== null
+
+  // cmdk owns and overrides list/option IDs. Connect the external textarea to
+  // those actual DOM IDs after commit rather than inventing dangling targets.
+  useLayoutEffect(() => {
+    const input = innerRef.current
+    const list = suggestionsRef.current
+    if (!input) return
+    const option = list ? Array.from(list.querySelectorAll('[role="option"]'))
+      .find((node) => node.getAttribute('data-value') === highlighted) : undefined
+    if (open && list) input.setAttribute('aria-controls', list.id)
+    else input.removeAttribute('aria-controls')
+    if (open && option) input.setAttribute('aria-activedescendant', option.id)
+    else input.removeAttribute('aria-activedescendant')
+  }, [open, highlighted, matches])
 
   /*
    * `useImperativeHandle` rather than a hand-merged callback ref. Merging by hand
@@ -206,13 +229,22 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
     [history, historyIndex, onValueChange],
   )
 
+  const submit = useCallback(() => {
+    const trimmed = value.trim()
+    if (trimmed === '' || busy || disabled) return
+    onSubmit(trimmed)
+    setHistoryIndex(null)
+  }, [value, busy, disabled, onSubmit])
+
   const onKeyDown = useCallback(
     (event: KeyboardEvent<HTMLTextAreaElement>) => {
+      // Enter commits an IME candidate before it can mean send or select.
+      if (event.nativeEvent.isComposing || event.keyCode === 229 || disabled) return
       if (open) {
         if (event.key === 'ArrowDown') return event.preventDefault(), move(1)
         if (event.key === 'ArrowUp') return event.preventDefault(), move(-1)
         if (event.key === 'Escape') return event.preventDefault(), setActive(null)
-        if (event.key === 'Enter' || event.key === 'Tab') {
+        if ((event.key === 'Enter' && !event.shiftKey) || event.key === 'Tab') {
           const item = matches.find((m) => m.id === highlighted)
           if (item) {
             event.preventDefault()
@@ -224,23 +256,23 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
 
       if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault()
-        const trimmed = value.trim()
-        if (trimmed === '' || busy || disabled) return
-        onSubmit(trimmed)
-        setHistoryIndex(null)
+        submit()
         return
       }
 
-      // History only when the composer is empty, so it never eats a real edit.
-      if (!open && value === '' && event.key === 'ArrowUp' && recall(-1)) event.preventDefault()
+      // Start recall from empty; keep walking until the recalled draft is edited.
+      if (!open && (value === '' || historyIndex !== null) && event.key === 'ArrowUp' && recall(-1)) event.preventDefault()
       else if (!open && historyIndex !== null && event.key === 'ArrowDown' && recall(1))
         event.preventDefault()
     },
-    [open, move, matches, highlighted, choose, value, busy, disabled, onSubmit, recall, historyIndex],
+    [open, move, matches, highlighted, choose, value, disabled, submit, recall, historyIndex],
   )
 
   return (
-    <div className={cn('relative flex flex-col gap-2', className)} data-slot="chat-input">
+    <div
+      className={cn('relative flex min-w-0 flex-col gap-2 rounded-panel border border-border-subtle bg-bg-elevated p-3 transition-colors focus-within:border-ring', className)}
+      data-slot="chat-input"
+    >
       {open && active ? (
         <div
           className={cn(
@@ -250,7 +282,7 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
           data-slot="chat-input-suggestions"
         >
           <Command shouldFilter={false} value={highlighted} onValueChange={setHighlighted}>
-            <CommandList className="max-h-64">
+            <CommandList ref={suggestionsRef} className="max-h-64">
               <CommandEmpty className="text-control text-fg-muted">
                 {active.trigger.emptyLabel ?? 'No matches'}
               </CommandEmpty>
@@ -262,6 +294,7 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
                       key={item.id}
                       value={item.id}
                       onSelect={() => choose(item)}
+                      onPointerDown={(event) => event.preventDefault()}
                       className="gap-2"
                     >
                       {Icon ? <Icon className="size-4 text-fg-muted" aria-hidden /> : null}
@@ -285,11 +318,11 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
         disabled={disabled}
         aria-label={ariaLabel}
         aria-expanded={open}
-        aria-controls={open ? 'chat-input-suggestions' : undefined}
+        aria-autocomplete="list"
         role="combobox"
         // The primitive uses md:text-sm. A typed length reference lets its
         // merger replace that size even before it knows our named type scale.
-        className="text-control md:text-(length:--text-control)"
+        className="min-h-16 max-h-64 resize-none rounded-none border-0 bg-transparent px-0 py-1 text-control shadow-none focus-visible:ring-0 md:text-(length:--text-control)"
         onKeyDown={onKeyDown}
         onChange={(e) => handleChange(e.target.value, e.target.selectionStart ?? e.target.value.length)}
         onClick={(e) => {
@@ -299,10 +332,26 @@ export function ChatInput<TItem extends SuggestionItem = SuggestionItem>({
         onBlur={() => setActive(null)}
       />
 
-      {toolbarStart || toolbarEnd ? (
-        <div className="flex items-center gap-2" data-slot="chat-input-toolbar">
+      {toolbarStart || toolbarEnd || showSubmitButton ? (
+        <div className="flex min-w-0 flex-wrap items-center gap-2" data-slot="chat-input-toolbar">
           {toolbarStart}
-          <div className="ml-auto flex items-center gap-2">{toolbarEnd}</div>
+          <div className="ml-auto flex items-center gap-2">
+            {busy ? <span className="text-caption text-fg-muted" role="status">Responding…</span> : null}
+            {toolbarEnd}
+            {showSubmitButton ? (
+              busy && onStop ? (
+                <Button type="button" variant="outline" size="sm" disabled={disabled} onClick={onStop} aria-label="Stop response">
+                  <Square className="size-3.5" aria-hidden />
+                  Stop
+                </Button>
+              ) : (
+                <Button type="button" size="sm" disabled={disabled || busy || value.trim() === ''} onClick={submit} aria-label="Send message">
+                  <ArrowUp className="size-4" aria-hidden />
+                  Send
+                </Button>
+              )
+            ) : null}
+          </div>
         </div>
       ) : null}
     </div>

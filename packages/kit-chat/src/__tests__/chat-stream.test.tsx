@@ -61,6 +61,32 @@ describe('ChatStream', () => {
     expect(alert.textContent).toBe('stream failed')
   })
 
+  it('shows initial loading instead of the empty-conversation slot', () => {
+    render(<ChatStream items={[]} loading empty={<span>Nothing yet</span>} />)
+    expect(screen.getByRole('status').textContent).toBe('Loading conversation…')
+    expect(screen.queryByText('Nothing yet')).toBeNull()
+  })
+
+  it('shows first-token feedback even before streaming content arrives', () => {
+    render(<ChatStream items={[]} status={{ status: 'streaming', role: 'assistant', content: '' }} />)
+    expect(screen.getByRole('status').textContent).toBe('Responding…')
+  })
+
+  it('delegates older history to the host and offers a retry without dropping messages', () => {
+    const onLoadOlder = vi.fn()
+    render(<ChatStream items={items} history={{ hasOlder: true, loading: false, error: 'History unavailable', onLoadOlder }} />)
+    expect(screen.getByRole('alert').textContent).toBe('History unavailable')
+    screen.getByRole('button', { name: 'Retry loading history' }).click()
+    expect(onLoadOlder).toHaveBeenCalledOnce()
+    expect(screen.getByText('ping')).toBeDefined()
+  })
+
+  it('suppresses repeated history requests while the host is loading', () => {
+    render(<ChatStream items={items} history={{ hasOlder: true, loading: true, onLoadOlder: vi.fn() }} />)
+    expect(screen.queryByRole('button', { name: 'Load older messages' })).toBeNull()
+    expect(screen.getByRole('status').textContent).toBe('Loading older messages…')
+  })
+
   it('lets the host replace item rendering entirely — the seam CW-0129 composes against', () => {
     render(<ChatStream items={items} renderItem={(item) => <div>custom:{item.id}</div>} />)
     expect(screen.getByText('custom:m1')).toBeDefined()

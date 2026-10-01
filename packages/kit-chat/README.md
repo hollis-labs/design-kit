@@ -79,6 +79,12 @@ function Chat() {
 ## `ChatInput`
 
 A controlled composer. Enter submits, Shift+Enter inserts a newline.
+The framed composer includes a visible Send action, so touch users can submit
+without a keyboard shortcut. Enter used to commit an IME candidate does not send.
+
+`busy` keeps the draft editable and disables sending. Supply `onStop` to show a
+Stop action that calls your cancellation handler. Set `showSubmitButton={false}`
+when your `toolbarEnd` already supplies an action; existing toolbar slots remain.
 
 ### Two trigger kinds, because they are two different operations
 
@@ -126,6 +132,24 @@ back is plaintext fidelity on submit, which is what a chat message is.
 ## `ChatStream`
 
 The transcript. Renders an ordered list of items the host provides.
+The default content column is bounded at `max-w-3xl`. Plain string messages
+preserve newlines and wrap long tokens; rendered nodes keep their own formatting.
+
+Pass `loading` while fetching the initial conversation to show progress instead
+of the empty state. The optional `history` prop renders an older-history action,
+loading feedback, and a retry action without fetching anything:
+
+```tsx
+<ChatStream
+  items={items}
+  loading={initialLoading}
+  history={{ hasOlder, loading: loadingOlder, error: historyError,
+    onLoadOlder: loadOlder }}
+/>
+```
+
+The host owns cursors, deduplication and request state. This presentation seam
+does not implement the windowed-history adapter tracked by CW-20260930-0017.
 
 ### Scroll is the hard part and this package does not own it
 
@@ -168,6 +192,9 @@ type ChatStreamStatus =
 
 A partially-arrived reply renders outside the item list, because it is not a message
 yet.
+Streaming shows Responding feedback even before the first token. A stalled reply
+keeps its content and shows a waiting message; an error renders an alert. Loading
+icons respect reduced motion.
 
 **`ChatStream` cannot detect a stall itself**, and that is a real consequence of it
 taking already-rendered content: two renders of the same text are two different
@@ -241,6 +268,9 @@ to us.
 
 Interactive cards for a transcript: the `Envelope` chassis, five presentational
 shapes, three that take an answer, and the cards that draw a binding miss.
+Envelopes fill the transcript column, wrap long body text, and let wide tables
+scroll within the card. See the [polish dogfood record](docs/polish-dogfood.md)
+for the Flux gap list and browser checks in an isolated ops-chat consumer.
 
 ```tsx
 import { ConfirmationCard, CardBoundary, CardMiss } from '@hollis-labs/kit-chat'

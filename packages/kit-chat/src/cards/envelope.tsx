@@ -47,7 +47,7 @@ export function Envelope({ accent, muted, className, children, ...rest }: Envelo
       data-slot="envelope"
       data-accent={accent}
       className={cn(
-        'relative overflow-hidden rounded-panel border border-border-subtle bg-bg-elevated',
+        'relative min-w-0 w-full overflow-hidden rounded-panel border border-border-subtle bg-bg-elevated',
         accent ? cn('border-l-4', ACCENT_BORDER_L_CLASSES[accent]) : null,
         muted ? 'opacity-70' : null,
         className,
@@ -120,7 +120,7 @@ export function EnvelopeBody({
   const hasLede = title != null || description != null
 
   return (
-    <div data-slot="envelope-body" className={cn('px-4 py-3', className)} {...rest}>
+    <div data-slot="envelope-body" className={cn('min-w-0 px-4 py-3 [overflow-wrap:anywhere]', className)} {...rest}>
       {title != null ? <h3 className="text-sm font-semibold leading-snug text-fg">{title}</h3> : null}
       {description != null ? (
         <p className="mt-1 text-control leading-relaxed text-fg-secondary">{description}</p>

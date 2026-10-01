@@ -1,5 +1,11 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20260912-0031)
+
+- Add opt-in `show-scrollbar` with contract colors that follow light/dark mode.
+  Keep global suppression unchanged; explicit `no-scrollbar` wins. Add a gallery
+  example and 24-state rendered proof. No app-specific escape-hatch names.
+
 ## Unreleased (CW-20261001-0529)
 
 - Own idiom names and deprecations in the shipped `idiom-tokens.json` manifest;

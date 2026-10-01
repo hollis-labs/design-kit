@@ -1,9 +1,11 @@
 // CW-20261001-0498: text floors and feedback tints corrected for contrast.
 // Syntax follows the new fg-faint floor; filled accents use a legible foreground.
+// Declared derivations now call the exported rules (CW-20260913-0027).
 // GENERATED CONTENT, HAND-REVIEWED. Source: apps/nanite/ui/src/lib/theme/defaults.ts
 // @d2d82c93, carried across to the contract vocabulary. See README.md § "Where the
 // values came from". Do not re-run a generator over this file; edit it directly.
 import type { Theme } from '../theme.js'
+import { deriveBuiltinValues } from '../derivation-plan.js'
 
 /** Direction C — cool concrete, brand red as the only signal. Swiss / Dieter Rams. */
 export const CONCRETE_AND_SIGNAL: Theme = {
@@ -14,7 +16,7 @@ export const CONCRETE_AND_SIGNAL: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('nanite-default', 'dark', {
       'bg': '#0c0d0e',
       'bg-elevated': '#16181a',
       'surface': '#25282c',
@@ -46,25 +48,18 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'danger-fg': '#000000',
       'warning': '#e2adb4',
       'warning-muted': 'color-mix(in srgb, #e2adb4 10%, transparent)',
-      'warning-fg': '#000000',  // derived
       'success': '#c0c4c8',
       'success-muted': 'rgba(192, 196, 200, 0.10)',
       'success-fg': '#000000',
       'info': '#b4bac0',
       'info-muted': 'color-mix(in srgb, #b4bac0 10%, transparent)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#e8eaed',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #e8eaed 75%, #8e9298)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #e8eaed 50%, #8e9298)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #e8eaed 25%, #8e9298)',  // derived — R4
-      'syntax-null': '#8e9298',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('nanite-default', 'light', {
       'bg': '#f4f5f6',
       'bg-elevated': '#ffffff',
       'surface': '#dde0e3',
@@ -96,24 +91,17 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#8c1824',
       'warning-muted': 'color-mix(in srgb, #8c1824 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#464c53',
       'success-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#464c53',
       'info-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#18191b',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #18191b 75%, #5c6166)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #18191b 50%, #5c6166)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #18191b 25%, #5c6166)',  // derived — R4
-      'syntax-null': '#5c6166',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -126,7 +114,7 @@ export const DIRECTION_A: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('dir-a', 'dark', {
       'bg': '#0e0e10',
       'bg-elevated': '#18181b',
       'surface': '#27272a',
@@ -158,25 +146,18 @@ export const DIRECTION_A: Theme = {
       'danger-fg': '#000000',
       'warning': '#d5b397',
       'warning-muted': 'color-mix(in srgb, #d5b397 10%, transparent)',
-      'warning-fg': '#000000',  // derived
       'success': '#abbfa9',
       'success-muted': 'color-mix(in srgb, #abbfa9 10%, transparent)',
       'success-fg': '#000000',
       'info': '#aabacb',
       'info-muted': 'color-mix(in srgb, #aabacb 10%, transparent)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#f4f4f5',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #f4f4f5 75%, #919197)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #f4f4f5 50%, #919197)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #f4f4f5 25%, #919197)',  // derived — R4
-      'syntax-null': '#919197',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('dir-a', 'light', {
       'bg': '#f7f7f6',
       'bg-elevated': '#ffffff',
       'surface': '#e7e7e4',
@@ -208,24 +189,17 @@ export const DIRECTION_A: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#69482d',
       'warning-muted': 'color-mix(in srgb, #69482d 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#425441',
       'success-muted': 'color-mix(in srgb, #425441 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#37516c',
       'info-muted': 'color-mix(in srgb, #37516c 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#18181b',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #18181b 75%, #646467)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #18181b 50%, #646467)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #18181b 25%, #646467)',  // derived — R4
-      'syntax-null': '#646467',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -238,7 +212,7 @@ export const DIRECTION_B: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('dir-b', 'dark', {
       'bg': '#14110e',
       'bg-elevated': '#1c1813',
       'surface': '#2a241e',
@@ -270,25 +244,18 @@ export const DIRECTION_B: Theme = {
       'danger-fg': '#000000',
       'warning': '#d3ae94',
       'warning-muted': 'color-mix(in srgb, #d3ae94 10%, transparent)',
-      'warning-fg': '#000000',  // derived
       'success': '#c2b689',
       'success-muted': 'color-mix(in srgb, #c2b689 10%, transparent)',
       'success-fg': '#000000',
       'info': '#afb6bb',
       'info-muted': 'color-mix(in srgb, #afb6bb 10%, transparent)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#f0eae0',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #f0eae0 75%, #968f85)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #f0eae0 50%, #968f85)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #f0eae0 25%, #968f85)',  // derived — R4
-      'syntax-null': '#968f85',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('dir-b', 'light', {
       'bg': '#f5f1ea',
       'bg-elevated': '#fbf8f2',
       'surface': '#e4ddd0',
@@ -320,24 +287,17 @@ export const DIRECTION_B: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#703c21',
       'warning-muted': 'color-mix(in srgb, #703c21 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#564822',
       'success-muted': 'color-mix(in srgb, #564822 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#414b54',
       'info-muted': 'color-mix(in srgb, #414b54 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#1f1a14',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #1f1a14 75%, #655e55)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #1f1a14 50%, #655e55)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #1f1a14 25%, #655e55)',  // derived — R4
-      'syntax-null': '#655e55',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -350,7 +310,7 @@ export const DIRECTION_D: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('dir-d', 'dark', {
       'bg': '#0e0a1c',
       'bg-elevated': '#181230',
       'surface': '#2a2148',
@@ -382,25 +342,18 @@ export const DIRECTION_D: Theme = {
       'danger-fg': '#000000',
       'warning': '#ffaa44',
       'warning-muted': 'rgba(255, 170, 68, 0.14)',
-      'warning-fg': '#000000',  // derived
       'success': '#5ee0b8',
       'success-muted': 'rgba(94, 224, 184, 0.14)',
       'success-fg': '#000000',
       'info': '#00e5ff',
       'info-muted': 'rgba(0, 229, 255, 0.12)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#f0e8ff',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #f0e8ff 75%, #968db7)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #f0e8ff 50%, #968db7)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #f0e8ff 25%, #968db7)',  // derived — R4
-      'syntax-null': '#968db7',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('dir-d', 'light', {
       'bg': '#f5f0fa',
       'bg-elevated': '#ffffff',
       'surface': '#ddd2e8',
@@ -432,24 +385,17 @@ export const DIRECTION_D: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#762a1b',
       'warning-muted': 'color-mix(in srgb, #762a1b 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#134967',
       'success-muted': 'color-mix(in srgb, #134967 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#1c39a0',
       'info-muted': 'color-mix(in srgb, #1c39a0 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#1a0e2e',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #1a0e2e 75%, #5f5472)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #1a0e2e 50%, #5f5472)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #1a0e2e 25%, #5f5472)',  // derived — R4
-      'syntax-null': '#5f5472',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -462,7 +408,7 @@ export const DIRECTION_E: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('dir-e', 'dark', {
       'bg': '#050a14',
       'bg-elevated': '#081120',
       'surface': '#14253d',
@@ -494,25 +440,18 @@ export const DIRECTION_E: Theme = {
       'danger-fg': '#000000',
       'warning': '#ffaa00',
       'warning-muted': 'rgba(255, 170, 0, 0.10)',
-      'warning-fg': '#000000',  // derived
       'success': '#2ee59d',
       'success-muted': 'rgba(46, 229, 157, 0.10)',
       'success-fg': '#000000',
       'info': '#00e0ff',
       'info-muted': 'rgba(0, 224, 255, 0.08)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#c8e0f0',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #c8e0f0 75%, #7891a9)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #c8e0f0 50%, #7891a9)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #c8e0f0 25%, #7891a9)',  // derived — R4
-      'syntax-null': '#7891a9',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('dir-e', 'light', {
       'bg': '#f4f1e8',
       'bg-elevated': '#fbf9f2',
       'surface': '#dfd8c0',
@@ -544,24 +483,17 @@ export const DIRECTION_E: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#5e4113',
       'warning-muted': 'color-mix(in srgb, #5e4113 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#0e4f39',
       'success-muted': 'color-mix(in srgb, #0e4f39 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#044b60',
       'info-muted': 'color-mix(in srgb, #044b60 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#0a1a24',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #0a1a24 75%, #4d5e69)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #0a1a24 50%, #4d5e69)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #0a1a24 25%, #4d5e69)',  // derived — R4
-      'syntax-null': '#4d5e69',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -574,7 +506,7 @@ export const DIRECTION_F: Theme = {
   origin: 'nanite',
   chartPalette: 'placeholder',
   tokens: {
-    dark: {
+    dark: deriveBuiltinValues('dir-f', 'dark', {
       'bg': '#0c0c0c',
       'bg-elevated': '#161616',
       'surface': '#242424',
@@ -606,25 +538,18 @@ export const DIRECTION_F: Theme = {
       'danger-fg': '#000000',
       'warning': '#e2a584',
       'warning-muted': 'color-mix(in srgb, #e2a584 10%, transparent)',
-      'warning-fg': '#000000',  // derived
       'success': '#c8c8c8',
       'success-muted': 'rgba(200, 200, 200, 0.07)',
       'success-fg': '#000000',
       'info': '#b3b3b3',
       'info-muted': 'color-mix(in srgb, #b3b3b3 10%, transparent)',
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#f0f0f0',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #f0f0f0 75%, #8e8e8e)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #f0f0f0 50%, #8e8e8e)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #f0f0f0 25%, #8e8e8e)',  // derived — R4
-      'syntax-null': '#8e8e8e',  // derived — R4
-    },
-    light: {
+    }),
+    light: deriveBuiltinValues('dir-f', 'light', {
       'bg': '#ededed',
       'bg-elevated': '#f8f8f8',
       'surface': '#d4d4d4',
@@ -656,24 +581,17 @@ export const DIRECTION_F: Theme = {
       'danger-fg': '#ffffff',
       'warning': '#68351a',
       'warning-muted': 'color-mix(in srgb, #68351a 10%, transparent)',
-      'warning-fg': '#ffffff',  // derived
       'success': '#434343',
       'success-muted': 'color-mix(in srgb, #434343 10%, transparent)',
       'success-fg': '#ffffff',
       'info': '#434343',
       'info-muted': 'color-mix(in srgb, #434343 10%, transparent)',
-      'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': '#0a0a0a',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, #0a0a0a 75%, #595959)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, #0a0a0a 50%, #595959)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, #0a0a0a 25%, #595959)',  // derived — R4
-      'syntax-null': '#595959',  // derived — R4
-    },
+    }),
   },
 }
 

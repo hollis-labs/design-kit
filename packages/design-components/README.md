@@ -4,6 +4,9 @@ Layer 4 of the Hollis Labs frontend layering: **the idiom-free base.** Styled
 compositions of Base UI primitives that name tokens from
 `@hollis-labs/design-tokens` and carry no idiom of their own.
 
+[`OverlaySidebar`](docs/overlay-sidebar.md) adds a host-controlled modal sidebar
+on the existing Sheet, with pinned chrome and a scrolling body.
+
 > **The one rule: a component may name a token, never a value.**
 > It covers **scale** as much as colour. `text-[13px]` names a value exactly as
 > much as `#1a1b26` does.

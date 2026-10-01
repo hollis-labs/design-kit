@@ -1,10 +1,13 @@
 // CW-20261001-0498: text floors and feedback tints corrected for contrast.
 // Syntax follows the new fg-faint floor; filled accents use a legible foreground.
+// Declared derivations now call the exported rules (CW-20260913-0027).
 // GENERATED CONTENT, HAND-REVIEWED. Source: libs/sysop-ui@aef2dff styles/theme.css,
 // as carried into packages/kit-dashboard. Four dark palettes, mapped onto the
 // contract vocabulary. See README.md § "Where the values came from" — every value
-// marked `derived` had no source in the palette and is flagged for design review.
+// listed in DERIVED_TOKEN_VALUES had no source in the palette; authored overrides
+// are excluded from that list.
 import type { Theme } from '../theme.js'
+import { deriveBuiltinValues } from '../derivation-plan.js'
 import { SYSOP_LIGHT } from './sysop-light.js'
 
 /** The sysop-ui default. Neutral zinc on near-black; the dense-ops look. */
@@ -18,12 +21,11 @@ export const SYSOP_P4_WHITE: Theme = {
   /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
     light: SYSOP_LIGHT.white,
-    dark: {
+    dark: deriveBuiltinValues('sysop-p4-white', 'dark', {
       'bg': 'rgb(9 9 11)',
       'bg-elevated': 'rgb(24 24 27)',
       'surface': 'rgb(24 24 27)',
       'surface-hover': 'rgb(24 24 27)',
-      'surface-active': 'rgb(57 57 60)',  // derived
       'fg': 'rgb(244 244 245)',
       'fg-secondary': 'rgb(212 212 216)',
       'fg-muted': 'rgb(161 161 170)',
@@ -32,42 +34,23 @@ export const SYSOP_P4_WHITE: Theme = {
       'border-subtle': 'rgb(39 39 42 / 80%)',
       'divider': 'rgb(39 39 42 / 70%)',
       'primary': 'rgb(228 228 231)',
-      'primary-hover': 'rgb(231 231 234)',  // derived
-      'primary-active': 'rgb(201 201 203)',  // derived
-      'primary-muted': 'rgb(228 228 231 / 12%)',  // derived
       'primary-fg': '#000000',
       'brand': 'rgb(228 228 231)',
-      'brand-hover': 'rgb(231 231 234)',  // derived
-      'brand-active': 'rgb(201 201 203)',  // derived
-      'brand-muted': 'rgb(228 228 231 / 12%)',  // derived
       'brand-fg': '#000000',
       'selection': 'rgb(24 24 27)',
       'selection-fg': 'rgb(244 244 245)',
       'ring': 'rgb(63 63 70 / 60%)',
       'danger': '#fb7588',
-      'danger-hover': '#fa8495',  // derived
-      'danger-muted': 'color-mix(in srgb, #fb7588 10%, transparent)',  // derived
-      'danger-fg': '#000000',  // derived
+      'danger-hover': '#fa8495',  // authored contrast correction, not R2
       'warning': 'rgb(245 158 11)',
-      'warning-muted': 'rgb(245 158 11 / 12%)',  // derived
-      'warning-fg': '#000000',  // derived
       'success': 'rgb(52 211 153)',
-      'success-muted': 'rgb(52 211 153 / 12%)',  // derived
-      'success-fg': '#000000',  // derived
       'info': 'rgb(96 165 250)',
-      'info-muted': 'rgb(96 165 250 / 12%)',  // derived
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': 'rgb(244 244 245)',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, rgb(244 244 245) 75%, #83838b)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, rgb(244 244 245) 50%, #83838b)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, rgb(244 244 245) 25%, #83838b)',  // derived — R4
-      'syntax-null': '#83838b',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -82,12 +65,11 @@ export const SYSOP_GREEN_PHOSPHOR: Theme = {
   /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
     light: SYSOP_LIGHT.green,
-    dark: {
+    dark: deriveBuiltinValues('sysop-green-phosphor', 'dark', {
       'bg': 'rgb(10 10 10)',
       'bg-elevated': 'rgb(18 26 20)',
       'surface': 'rgb(18 26 20)',
       'surface-hover': 'rgb(22 34 25)',
-      'surface-active': 'rgb(19 67 37)',  // derived
       'fg': 'rgb(0 255 102)',
       'fg-secondary': 'rgb(102 255 170)',
       'fg-muted': 'rgb(93 214 138)',
@@ -96,42 +78,22 @@ export const SYSOP_GREEN_PHOSPHOR: Theme = {
       'border-subtle': 'rgb(82 153 101 / 70%)',
       'divider': 'rgb(64 108 75 / 60%)',
       'primary': 'rgb(102 255 170)',
-      'primary-hover': 'rgb(120 255 180)',  // derived
-      'primary-active': 'rgb(90 224 150)',  // derived
-      'primary-muted': 'rgb(102 255 170 / 12%)',  // derived
       'primary-fg': '#000000',
       'brand': 'rgb(102 255 170)',
-      'brand-hover': 'rgb(120 255 180)',  // derived
-      'brand-active': 'rgb(90 224 150)',  // derived
-      'brand-muted': 'rgb(102 255 170 / 12%)',  // derived
       'brand-fg': '#000000',
       'selection': 'rgb(18 26 20)',
       'selection-fg': 'rgb(0 255 102)',
       'ring': 'rgb(102 255 170 / 58%)',
       'danger': 'rgb(255 184 77)',
-      'danger-hover': 'rgb(255 193 98)',  // derived
-      'danger-muted': 'rgb(255 184 77 / 12%)',  // derived
-      'danger-fg': '#000000',  // derived
       'warning': 'rgb(255 212 102)',
-      'warning-muted': 'rgb(255 212 102 / 12%)',  // derived
-      'warning-fg': '#000000',  // derived
       'success': 'rgb(102 255 170)',
-      'success-muted': 'rgb(102 255 170 / 12%)',  // derived
-      'success-fg': '#000000',  // derived
       'info': 'rgb(0 204 85)',
-      'info-muted': 'rgb(0 204 85 / 12%)',  // derived
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': 'rgb(0 255 102)',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, rgb(0 255 102) 75%, #35955d)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, rgb(0 255 102) 50%, #35955d)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, rgb(0 255 102) 25%, #35955d)',  // derived — R4
-      'syntax-null': '#35955d',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -146,12 +108,11 @@ export const SYSOP_AMBER_PHOSPHOR: Theme = {
   /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
     light: SYSOP_LIGHT.amber,
-    dark: {
+    dark: deriveBuiltinValues('sysop-amber-phosphor', 'dark', {
       'bg': 'rgb(10 10 10)',
       'bg-elevated': 'rgb(28 22 14)',
       'surface': 'rgb(28 22 14)',
       'surface-hover': 'rgb(36 28 17)',
-      'surface-active': 'rgb(69 50 14)',  // derived
       'fg': 'rgb(255 176 0)',
       'fg-secondary': 'rgb(255 208 96)',
       'fg-muted': 'rgb(232 172 72)',
@@ -160,42 +121,23 @@ export const SYSOP_AMBER_PHOSPHOR: Theme = {
       'border-subtle': 'rgb(160 122 52 / 74%)',
       'divider': 'rgb(110 84 36 / 62%)',
       'primary': 'rgb(255 208 96)',
-      'primary-hover': 'rgb(255 214 115)',  // derived
-      'primary-active': 'rgb(224 183 84)',  // derived
-      'primary-muted': 'rgb(255 208 96 / 12%)',  // derived
       'primary-fg': '#000000',
       'brand': 'rgb(255 208 96)',
-      'brand-hover': 'rgb(255 214 115)',  // derived
-      'brand-active': 'rgb(224 183 84)',  // derived
-      'brand-muted': 'rgb(255 208 96 / 12%)',  // derived
       'brand-fg': '#000000',
       'selection': 'rgb(28 22 14)',
       'selection-fg': 'rgb(255 176 0)',
       'ring': 'rgb(255 208 96 / 56%)',
       'danger': '#ff7645',
-      'danger-hover': '#ff7d3d',  // derived
-      'danger-muted': 'color-mix(in srgb, #ff7645 10%, transparent)',  // derived
-      'danger-fg': '#000000',  // derived
+      'danger-hover': '#ff7d3d',  // authored contrast correction, not R2
       'warning': 'rgb(255 208 96)',
-      'warning-muted': 'rgb(255 208 96 / 12%)',  // derived
-      'warning-fg': '#000000',  // derived
       'success': 'rgb(255 208 96)',
-      'success-muted': 'rgb(255 208 96 / 12%)',  // derived
-      'success-fg': '#000000',  // derived
       'info': 'rgb(255 176 0)',
-      'info-muted': 'rgb(255 176 0 / 12%)',  // derived
-      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': 'rgb(255 176 0)',  // derived — R4
-      'syntax-string': 'color-mix(in oklab, rgb(255 176 0) 75%, #aa7b1e)',  // derived — R4
-      'syntax-number': 'color-mix(in oklab, rgb(255 176 0) 50%, #aa7b1e)',  // derived — R4
-      'syntax-boolean': 'color-mix(in oklab, rgb(255 176 0) 25%, #aa7b1e)',  // derived — R4
-      'syntax-null': '#aa7b1e',  // derived — R4
-    },
+    }),
   },
 }
 
@@ -210,12 +152,11 @@ export const SYSOP_HI_CONTRAST: Theme = {
   /** Light variants added by CW-20261001-0498; see sysop-light.ts. */
   tokens: {
     light: SYSOP_LIGHT.contrast,
-    dark: {
+    dark: deriveBuiltinValues('sysop-hi-contrast', 'dark', {
       'bg': 'rgb(0 0 0)',
       'bg-elevated': 'rgb(18 18 18)',
       'surface': 'rgb(18 18 18)',
       'surface-hover': 'rgb(24 24 24)',
-      'surface-active': 'rgb(59 59 59)',  // derived
       'fg': 'rgb(255 255 255)',
       'fg-secondary': 'rgb(255 255 255)',
       'fg-muted': 'rgb(235 235 235)',
@@ -224,42 +165,23 @@ export const SYSOP_HI_CONTRAST: Theme = {
       'border-subtle': 'rgb(255 255 255 / 88%)',
       'divider': 'rgb(255 255 255 / 72%)',
       'primary': 'rgb(255 255 0)',
-      'primary-hover': 'rgb(255 255 31)',  // derived
-      'primary-active': 'rgb(224 224 0)',  // derived
-      'primary-muted': 'rgb(255 255 0 / 12%)',  // derived
       'primary-fg': 'rgb(0 0 0)',
       'brand': 'rgb(255 255 0)',
-      'brand-hover': 'rgb(255 255 31)',  // derived
-      'brand-active': 'rgb(224 224 0)',  // derived
-      'brand-muted': 'rgb(255 255 0 / 12%)',  // derived
       'brand-fg': 'rgb(0 0 0)',
       'selection': 'rgb(18 18 18)',
       'selection-fg': 'rgb(255 255 255)',
       'ring': 'rgb(255 255 0 / 84%)',
       'danger': '#ff645b',
-      'danger-hover': '#ff776f',  // derived
-      'danger-muted': 'color-mix(in srgb, #ff645b 10%, transparent)',  // derived
-      'danger-fg': 'rgb(0 0 0)',  // derived
+      'danger-hover': '#ff776f',  // authored contrast correction, not R2
       'warning': 'rgb(255 255 0)',
-      'warning-muted': 'rgb(255 255 0 / 12%)',  // derived
-      'warning-fg': 'rgb(0 0 0)',  // derived
       'success': 'rgb(0 255 0)',
-      'success-muted': 'rgb(0 255 0 / 12%)',  // derived
-      'success-fg': 'rgb(0 0 0)',  // derived
       'info': 'rgb(0 255 255)',
-      'info-muted': 'rgb(0 255 255 / 12%)',  // derived
-      'info-fg': 'rgb(0 0 0)',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
-      'syntax-key': 'rgb(255 255 255)',  // derived — R4
-      'syntax-string': 'rgb(243 243 243)',  // derived — R4
-      'syntax-number': 'rgb(231 231 231)',  // derived — R4
-      'syntax-boolean': 'rgb(220 220 220)',  // derived — R4
-      'syntax-null': 'rgb(208 208 208)',  // derived — R4
-    },
+    }),
   },
 }
 

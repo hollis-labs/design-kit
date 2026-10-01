@@ -1,0 +1,64 @@
+{
+  "results": [
+    {
+      "legacy": "p4-white",
+      "canonical": "sysop-p4-white",
+      "mode": "dark",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "p4-white",
+      "canonical": "sysop-p4-white",
+      "mode": "light",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "p1-green-phosphor",
+      "canonical": "sysop-green-phosphor",
+      "mode": "dark",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "p1-green-phosphor",
+      "canonical": "sysop-green-phosphor",
+      "mode": "light",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "p3-amber-phosphor",
+      "canonical": "sysop-amber-phosphor",
+      "mode": "dark",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "p3-amber-phosphor",
+      "canonical": "sysop-amber-phosphor",
+      "mode": "light",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "hi-contrast",
+      "canonical": "sysop-hi-contrast",
+      "mode": "dark",
+      "mismatches": [],
+      "nestedMismatches": []
+    },
+    {
+      "legacy": "hi-contrast",
+      "canonical": "sysop-hi-contrast",
+      "mode": "light",
+      "mismatches": [],
+      "nestedMismatches": []
+    }
+  ],
+  "defaultProof": {
+    "dark": "#09090b",
+    "light": "#fafafa"
+  }
+}

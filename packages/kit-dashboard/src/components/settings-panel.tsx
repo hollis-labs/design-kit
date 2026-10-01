@@ -91,9 +91,9 @@ export function SettingsNotice({
 }: SettingsNoticeProps) {
   const toneClassName =
     tone === 'danger'
-      ? 'border-dash-status-blocked/30 bg-dash-status-blocked/10 text-dash-status-blocked'
+      ? 'border-danger/30 bg-danger/10 text-danger'
       : tone === 'info'
-        ? 'border-dash-status-indexed/30 bg-dash-status-indexed/10 text-dash-status-indexed'
+        ? 'border-info/30 bg-info/10 text-info'
         : 'border-warning/30 bg-warning/10 text-warning'
 
   return (

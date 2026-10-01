@@ -77,7 +77,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "demo": "vite --config demo/vite.config.ts",
-    "demo:build": "vite build --config demo/vite.config.ts"
+    "demo:build": "vite build --config demo/vite.config.ts",
+    "generate:themes": "node scripts/generate-theme-aliases.mjs"
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0",

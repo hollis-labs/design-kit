@@ -1,0 +1,3178 @@
+[
+  {
+    "legacy": "p4-white",
+    "canonical": "sysop-p4-white",
+    "samples": {
+      "p4-white": {
+        "--hl-bg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(212 212 216)",
+          "resolved": "rgb(212, 212, 216)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--hl-fg-faint": {
+          "raw": "rgb(113 113 122)",
+          "resolved": "rgb(113, 113, 122)"
+        },
+        "--hl-border": {
+          "raw": "rgb(39 39 42 / 80%)",
+          "resolved": "rgba(39, 39, 42, 0.8)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(39 39 42)",
+          "resolved": "rgb(39, 39, 42)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(39 39 42 / 70%)",
+          "resolved": "rgba(39, 39, 42, 0.7)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-primary-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-fg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-brand-fg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(63 63 70 / 60%)",
+          "resolved": "rgba(63, 63, 70, 0.6)"
+        },
+        "--hl-danger": {
+          "raw": "rgb(251 113 133)",
+          "resolved": "rgb(251, 113, 133)"
+        },
+        "--hl-danger-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-danger-muted": {
+          "raw": "rgb(253 164 175 / 80%)",
+          "resolved": "rgba(253, 164, 175, 0.8)"
+        },
+        "--hl-danger-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--hl-warning-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--hl-success-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--hl-info-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-2": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-3": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-4": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-5": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 75%, rgb(113 113 122))",
+          "resolved": "oklab(0.863486 0.00126756 -0.00425588)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 50%, rgb(113 113 122))",
+          "resolved": "oklab(0.759544 0.00211723 -0.00725906)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 25%, rgb(113 113 122))",
+          "resolved": "oklab(0.655602 0.0029669 -0.0102622)"
+        },
+        "--hl-syntax-null": {
+          "raw": "rgb(113 113 122)",
+          "resolved": "rgb(113, 113, 122)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(20 20 22)",
+          "resolved": "rgb(20, 20, 22)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(21 21 24)",
+          "resolved": "rgb(21, 21, 24)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(15 15 17)",
+          "resolved": "rgb(15, 15, 17)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(39 39 42)",
+          "resolved": "rgb(39, 39, 42)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(39 39 42 / 70%)",
+          "resolved": "rgba(39, 39, 42, 0.7)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(39 39 42 / 80%)",
+          "resolved": "rgba(39, 39, 42, 0.8)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(212 212 216)",
+          "resolved": "rgb(212, 212, 216)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "rgb(113 113 122)",
+          "resolved": "rgb(113, 113, 122)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--theme-color-danger": {
+          "raw": "rgb(251 113 133)",
+          "resolved": "rgb(251, 113, 133)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "rgb(253 164 175 / 80%)",
+          "resolved": "rgba(253, 164, 175, 0.8)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(63 63 70 / 60%)",
+          "resolved": "rgba(63, 63, 70, 0.6)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(63 63 70 / 50%)",
+          "resolved": "rgba(63, 63, 70, 0.5)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 70%)",
+          "resolved": "rgba(0, 0, 0, 0.7)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 10%)",
+          "resolved": "rgba(0, 0, 0, 0.1)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 20%)",
+          "resolved": "rgba(0, 0, 0, 0.2)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(148 163 184)",
+          "resolved": "rgb(148, 163, 184)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(251 191 36)",
+          "resolved": "rgb(251, 191, 36)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(167 139 250)",
+          "resolved": "rgb(167, 139, 250)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "rgb(248 113 113)",
+          "resolved": "rgb(248, 113, 113)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(250 204 21)",
+          "resolved": "rgb(250, 204, 21)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(82 82 91)",
+          "resolved": "rgb(82, 82, 91)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(251 191 36)",
+          "resolved": "rgb(251, 191, 36)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(148 163 184) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.81337 -0.0046289 -0.0210031)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(161 161 170) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.814057 0.00233472 -0.00795133)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(251 191 36) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.889089 0.00976875 0.0976914)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(96 165 250) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.815207 -0.0226256 -0.0834406)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(167 139 250) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.812346 0.0383294 -0.088043)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(52 211 153) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.850734 -0.0879847 0.026088)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, rgb(248 113 113) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.81335 0.0924714 0.0372012)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(250 204 21) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.903308 -0.00331614 0.103314)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(82 82 91) 55%, rgb(244 244 245))",
+          "resolved": "oklab(0.678364 0.00238614 -0.0082947)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(251 191 36) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.889089 0.00976875 0.0976914)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(96 165 250) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.815207 -0.0226256 -0.0834406)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(52 211 153) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.850734 -0.0879847 0.026088)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, rgb(248 113 113) 22%, rgb(9 9 11))",
+          "resolved": "oklab(0.266135 0.0347826 0.0105351)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(251 191 36) 22%, rgb(9 9 11))",
+          "resolved": "oklab(0.293906 0.00445833 0.0327148)"
+        }
+      },
+      "sysop-p4-white": {
+        "--hl-bg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-surface-active": {
+          "raw": "rgb(57 57 60)",
+          "resolved": "rgb(57, 57, 60)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(212 212 216)",
+          "resolved": "rgb(212, 212, 216)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--hl-fg-faint": {
+          "raw": "#83838b",
+          "resolved": "rgb(131, 131, 139)"
+        },
+        "--hl-border": {
+          "raw": "rgb(39 39 42)",
+          "resolved": "rgb(39, 39, 42)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(39 39 42 / 80%)",
+          "resolved": "rgba(39, 39, 42, 0.8)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(39 39 42 / 70%)",
+          "resolved": "rgba(39, 39, 42, 0.7)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-primary-hover": {
+          "raw": "rgb(231 231 234)",
+          "resolved": "rgb(231, 231, 234)"
+        },
+        "--hl-primary-active": {
+          "raw": "rgb(201 201 203)",
+          "resolved": "rgb(201, 201, 203)"
+        },
+        "--hl-primary-muted": {
+          "raw": "rgb(228 228 231 / 12%)",
+          "resolved": "rgba(228, 228, 231, 0.12)"
+        },
+        "--hl-primary-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(231 231 234)",
+          "resolved": "rgb(231, 231, 234)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(201 201 203)",
+          "resolved": "rgb(201, 201, 203)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(228 228 231 / 12%)",
+          "resolved": "rgba(228, 228, 231, 0.12)"
+        },
+        "--hl-brand-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(63 63 70 / 60%)",
+          "resolved": "rgba(63, 63, 70, 0.6)"
+        },
+        "--hl-danger": {
+          "raw": "#fb7588",
+          "resolved": "rgb(251, 117, 136)"
+        },
+        "--hl-danger-hover": {
+          "raw": "#fa8495",
+          "resolved": "rgb(250, 132, 149)"
+        },
+        "--hl-danger-muted": {
+          "raw": "color-mix(in srgb, #fb7588 10%, transparent)",
+          "resolved": "color(srgb 0.984314 0.458824 0.533333 / 0.1)"
+        },
+        "--hl-danger-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--hl-warning-muted": {
+          "raw": "rgb(245 158 11 / 12%)",
+          "resolved": "rgba(245, 158, 11, 0.12)"
+        },
+        "--hl-warning-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--hl-success-muted": {
+          "raw": "rgb(52 211 153 / 12%)",
+          "resolved": "rgba(52, 211, 153, 0.12)"
+        },
+        "--hl-success-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--hl-info-muted": {
+          "raw": "rgb(96 165 250 / 12%)",
+          "resolved": "rgba(96, 165, 250, 0.12)"
+        },
+        "--hl-info-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-2": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-3": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-4": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-5": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 75%, #83838b)",
+          "resolved": "oklab(0.878718 0.00114542 -0.0038058)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 50%, #83838b)",
+          "resolved": "oklab(0.790007 0.00187296 -0.00635889)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(244 244 245) 25%, #83838b)",
+          "resolved": "oklab(0.701297 0.00260049 -0.00891198)"
+        },
+        "--hl-syntax-null": {
+          "raw": "#83838b",
+          "resolved": "rgb(131, 131, 139)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(9 9 11)",
+          "resolved": "rgb(9, 9, 11)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(57 57 60)",
+          "resolved": "rgb(57, 57, 60)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(24 24 27)",
+          "resolved": "rgb(24, 24, 27)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(39 39 42)",
+          "resolved": "rgb(39, 39, 42)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(39 39 42 / 80%)",
+          "resolved": "rgba(39, 39, 42, 0.8)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(39 39 42)",
+          "resolved": "rgb(39, 39, 42)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(244 244 245)",
+          "resolved": "rgb(244, 244, 245)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(212 212 216)",
+          "resolved": "rgb(212, 212, 216)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "#83838b",
+          "resolved": "rgb(131, 131, 139)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-danger": {
+          "raw": "#fb7588",
+          "resolved": "rgb(251, 117, 136)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "#fb7588",
+          "resolved": "rgb(251, 117, 136)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(63 63 70 / 60%)",
+          "resolved": "rgba(63, 63, 70, 0.6)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(63 63 70 / 60%)",
+          "resolved": "rgba(63, 63, 70, 0.6)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 70%)",
+          "resolved": "rgba(0, 0, 0, 0.7)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 10%)",
+          "resolved": "rgba(0, 0, 0, 0.1)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 20%)",
+          "resolved": "rgba(0, 0, 0, 0.2)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(212 212 216)",
+          "resolved": "rgb(212, 212, 216)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(228 228 231)",
+          "resolved": "rgb(228, 228, 231)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "#fb7588",
+          "resolved": "rgb(251, 117, 136)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(161 161 170)",
+          "resolved": "rgb(161, 161, 170)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(245 158 11)",
+          "resolved": "rgb(245, 158, 11)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(52 211 153)",
+          "resolved": "rgb(52, 211, 153)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(161 161 170) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.814057 0.00233472 -0.00795133)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(212 212 216) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.909633 0.00110824 -0.00363011)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(245 158 11) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.848128 0.0338478 0.0923893)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(96 165 250) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.815207 -0.0226256 -0.0834406)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(228 228 231) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.938805 0.000872093 -0.0028114)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(52 211 153) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.850734 -0.0879847 0.026088)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, #fb7588 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.822154 0.0959656 0.0221813)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(245 158 11) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.848128 0.0338478 0.0923893)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(161 161 170) 55%, rgb(244 244 245))",
+          "resolved": "oklab(0.826838 0.00217498 -0.00739311)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(245 158 11) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.848128 0.0338478 0.0923893)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(96 165 250) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.815207 -0.0226256 -0.0834406)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(52 211 153) 60%, rgb(244 244 245))",
+          "resolved": "oklab(0.850734 -0.0879847 0.026088)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, #fb7588 22%, rgb(9 9 11))",
+          "resolved": "oklab(0.269363 0.0360638 0.00502781)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(245 158 11) 22%, rgb(9 9 11))",
+          "resolved": "oklab(0.278887 0.0132873 0.0307707)"
+        }
+      }
+    }
+  },
+  {
+    "legacy": "p1-green-phosphor",
+    "canonical": "sysop-green-phosphor",
+    "samples": {
+      "p1-green-phosphor": {
+        "--hl-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(22 34 25)",
+          "resolved": "rgb(22, 34, 25)"
+        },
+        "--hl-surface-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--hl-fg-faint": {
+          "raw": "rgb(58 140 92)",
+          "resolved": "rgb(58, 140, 92)"
+        },
+        "--hl-border": {
+          "raw": "rgb(82 153 101 / 70%)",
+          "resolved": "rgba(82, 153, 101, 0.7)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(38 74 47)",
+          "resolved": "rgb(38, 74, 47)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(64 108 75 / 60%)",
+          "resolved": "rgba(64, 108, 75, 0.6)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-primary-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-fg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-brand-fg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(102 255 170 / 58%)",
+          "resolved": "rgba(102, 255, 170, 0.58)"
+        },
+        "--hl-danger": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--hl-danger-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-danger-muted": {
+          "raw": "rgb(255 184 77 / 82%)",
+          "resolved": "rgba(255, 184, 77, 0.82)"
+        },
+        "--hl-danger-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--hl-warning-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-success-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--hl-info-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-2": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-3": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-4": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-5": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 75%, rgb(58 140 92))",
+          "resolved": "oklab(0.797888 -0.186139 0.113832)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 50%, rgb(58 140 92))",
+          "resolved": "oklab(0.724017 -0.157167 0.0913128)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 25%, rgb(58 140 92))",
+          "resolved": "oklab(0.650146 -0.128195 0.068794)"
+        },
+        "--hl-syntax-null": {
+          "raw": "rgb(58 140 92)",
+          "resolved": "rgb(58, 140, 92)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(15 20 16)",
+          "resolved": "rgb(15, 20, 16)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(17 24 18)",
+          "resolved": "rgb(17, 24, 18)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(20 30 22)",
+          "resolved": "rgb(20, 30, 22)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(22 34 25)",
+          "resolved": "rgb(22, 34, 25)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(19 28 21)",
+          "resolved": "rgb(19, 28, 21)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(38 74 47)",
+          "resolved": "rgb(38, 74, 47)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(64 108 75 / 60%)",
+          "resolved": "rgba(64, 108, 75, 0.6)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(82 153 101 / 70%)",
+          "resolved": "rgba(82, 153, 101, 0.7)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "rgb(58 140 92)",
+          "resolved": "rgb(58, 140, 92)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-danger": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "rgb(255 184 77 / 82%)",
+          "resolved": "rgba(255, 184, 77, 0.82)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(102 255 170 / 58%)",
+          "resolved": "rgba(102, 255, 170, 0.58)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(102 255 170 / 42%)",
+          "resolved": "rgba(102, 255, 170, 0.42)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 78%)",
+          "resolved": "rgba(0, 0, 0, 0.78)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 28%)",
+          "resolved": "rgba(0, 0, 0, 0.28)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 48%)",
+          "resolved": "rgba(0, 0, 0, 0.48)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(84 120 98)",
+          "resolved": "rgb(84, 120, 98)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(102 153 119)",
+          "resolved": "rgb(102, 153, 119)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(51 255 136)",
+          "resolved": "rgb(51, 255, 136)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(49 78 60)",
+          "resolved": "rgb(49, 78, 60)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(51 255 136)",
+          "resolved": "rgb(51, 255, 136)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(0 136 51)",
+          "resolved": "rgb(0, 136, 51)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(84 120 98) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.671931 -0.115653 0.0669782)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(102 153 119) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.730942 -0.126624 0.0738559)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(51 255 136) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.876711 -0.203139 0.118214)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(0 204 85) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.791158 -0.194033 0.12108)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, rgb(255 184 77) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.847013 -0.0622505 0.138435)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 212 102) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.880377 -0.0831454 0.136302)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(49 78 60) 55%, rgb(0 255 102))",
+          "resolved": "oklab(0.609579 -0.120188 0.0716235)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(51 255 136) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.876711 -0.203139 0.118214)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(0 204 85) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.791158 -0.194033 0.12108)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(0 136 51) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.676555 -0.166862 0.105638)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, rgb(255 184 77) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.295647 0.00872953 0.0307637)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(51 255 136) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.306537 -0.0429296 0.0233492)"
+        }
+      },
+      "sysop-green-phosphor": {
+        "--hl-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(22 34 25)",
+          "resolved": "rgb(22, 34, 25)"
+        },
+        "--hl-surface-active": {
+          "raw": "rgb(19 67 37)",
+          "resolved": "rgb(19, 67, 37)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--hl-fg-faint": {
+          "raw": "#35955d",
+          "resolved": "rgb(53, 149, 93)"
+        },
+        "--hl-border": {
+          "raw": "rgb(38 74 47)",
+          "resolved": "rgb(38, 74, 47)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(82 153 101 / 70%)",
+          "resolved": "rgba(82, 153, 101, 0.7)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(64 108 75 / 60%)",
+          "resolved": "rgba(64, 108, 75, 0.6)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-primary-hover": {
+          "raw": "rgb(120 255 180)",
+          "resolved": "rgb(120, 255, 180)"
+        },
+        "--hl-primary-active": {
+          "raw": "rgb(90 224 150)",
+          "resolved": "rgb(90, 224, 150)"
+        },
+        "--hl-primary-muted": {
+          "raw": "rgb(102 255 170 / 12%)",
+          "resolved": "rgba(102, 255, 170, 0.12)"
+        },
+        "--hl-primary-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(120 255 180)",
+          "resolved": "rgb(120, 255, 180)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(90 224 150)",
+          "resolved": "rgb(90, 224, 150)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(102 255 170 / 12%)",
+          "resolved": "rgba(102, 255, 170, 0.12)"
+        },
+        "--hl-brand-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(102 255 170 / 58%)",
+          "resolved": "rgba(102, 255, 170, 0.58)"
+        },
+        "--hl-danger": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--hl-danger-hover": {
+          "raw": "rgb(255 193 98)",
+          "resolved": "rgb(255, 193, 98)"
+        },
+        "--hl-danger-muted": {
+          "raw": "rgb(255 184 77 / 12%)",
+          "resolved": "rgba(255, 184, 77, 0.12)"
+        },
+        "--hl-danger-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--hl-warning-muted": {
+          "raw": "rgb(255 212 102 / 12%)",
+          "resolved": "rgba(255, 212, 102, 0.12)"
+        },
+        "--hl-warning-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--hl-success-muted": {
+          "raw": "rgb(102 255 170 / 12%)",
+          "resolved": "rgba(102, 255, 170, 0.12)"
+        },
+        "--hl-success-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--hl-info-muted": {
+          "raw": "rgb(0 204 85 / 12%)",
+          "resolved": "rgba(0, 204, 85, 0.12)"
+        },
+        "--hl-info-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-2": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-3": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-4": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-5": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 75%, #35955d)",
+          "resolved": "oklab(0.803532 -0.189273 0.115747)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 50%, #35955d)",
+          "resolved": "oklab(0.735304 -0.163435 0.0951436)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(0 255 102) 25%, #35955d)",
+          "resolved": "oklab(0.667076 -0.137597 0.0745402)"
+        },
+        "--hl-syntax-null": {
+          "raw": "#35955d",
+          "resolved": "rgb(53, 149, 93)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(19 67 37)",
+          "resolved": "rgb(19, 67, 37)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(22 34 25)",
+          "resolved": "rgb(22, 34, 25)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(18 26 20)",
+          "resolved": "rgb(18, 26, 20)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(38 74 47)",
+          "resolved": "rgb(38, 74, 47)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(82 153 101 / 70%)",
+          "resolved": "rgba(82, 153, 101, 0.7)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(38 74 47)",
+          "resolved": "rgb(38, 74, 47)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(0 255 102)",
+          "resolved": "rgb(0, 255, 102)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "#35955d",
+          "resolved": "rgb(53, 149, 93)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-danger": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(102 255 170 / 58%)",
+          "resolved": "rgba(102, 255, 170, 0.58)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(102 255 170 / 58%)",
+          "resolved": "rgba(102, 255, 170, 0.58)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 70%)",
+          "resolved": "rgba(0, 0, 0, 0.7)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 10%)",
+          "resolved": "rgba(0, 0, 0, 0.1)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 20%)",
+          "resolved": "rgba(0, 0, 0, 0.2)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "rgb(255 184 77)",
+          "resolved": "rgb(255, 184, 77)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(93 214 138)",
+          "resolved": "rgb(93, 214, 138)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(255 212 102)",
+          "resolved": "rgb(255, 212, 102)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(0 204 85)",
+          "resolved": "rgb(0, 204, 85)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(102 255 170)",
+          "resolved": "rgb(102, 255, 170)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(93 214 138) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.821438 -0.168718 0.0960651)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(255 212 102) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.880377 -0.0831454 0.136302)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(0 204 85) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.791158 -0.194033 0.12108)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, rgb(255 184 77) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.847013 -0.0622505 0.138435)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 212 102) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.880377 -0.0831454 0.136302)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(93 214 138) 55%, rgb(0 255 102))",
+          "resolved": "oklab(0.825632 -0.172584 0.0994222)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(255 212 102) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.880377 -0.0831454 0.136302)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(0 204 85) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.791158 -0.194033 0.12108)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(102 255 170) 60%, rgb(0 255 102))",
+          "resolved": "oklab(0.886916 -0.182563 0.0981027)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, rgb(255 184 77) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.295647 0.00872953 0.0307637)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(255 212 102) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.307881 0.00106805 0.0299816)"
+        }
+      }
+    }
+  },
+  {
+    "legacy": "p3-amber-phosphor",
+    "canonical": "sysop-amber-phosphor",
+    "samples": {
+      "p3-amber-phosphor": {
+        "--hl-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(36 28 17)",
+          "resolved": "rgb(36, 28, 17)"
+        },
+        "--hl-surface-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--hl-fg-faint": {
+          "raw": "rgb(153 112 36)",
+          "resolved": "rgb(153, 112, 36)"
+        },
+        "--hl-border": {
+          "raw": "rgb(160 122 52 / 74%)",
+          "resolved": "rgba(160, 122, 52, 0.74)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(86 65 26)",
+          "resolved": "rgb(86, 65, 26)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(110 84 36 / 62%)",
+          "resolved": "rgba(110, 84, 36, 0.62)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-primary-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-fg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-brand-fg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(255 208 96 / 56%)",
+          "resolved": "rgba(255, 208, 96, 0.56)"
+        },
+        "--hl-danger": {
+          "raw": "rgb(255 110 78)",
+          "resolved": "rgb(255, 110, 78)"
+        },
+        "--hl-danger-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-danger-muted": {
+          "raw": "rgb(255 110 78 / 84%)",
+          "resolved": "rgba(255, 110, 78, 0.84)"
+        },
+        "--hl-danger-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-warning-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-success-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-info-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-2": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-3": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-4": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-5": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 75%, rgb(153 112 36))",
+          "resolved": "oklab(0.752549 0.0351206 0.149686)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 50%, rgb(153 112 36))",
+          "resolved": "oklab(0.692675 0.030114 0.133768)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 25%, rgb(153 112 36))",
+          "resolved": "oklab(0.6328 0.0251074 0.117851)"
+        },
+        "--hl-syntax-null": {
+          "raw": "rgb(153 112 36)",
+          "resolved": "rgb(153, 112, 36)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(20 16 10)",
+          "resolved": "rgb(20, 16, 10)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(24 19 12)",
+          "resolved": "rgb(24, 19, 12)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(31 24 15)",
+          "resolved": "rgb(31, 24, 15)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(36 28 17)",
+          "resolved": "rgb(36, 28, 17)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(24 19 12)",
+          "resolved": "rgb(24, 19, 12)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(86 65 26)",
+          "resolved": "rgb(86, 65, 26)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(110 84 36 / 62%)",
+          "resolved": "rgba(110, 84, 36, 0.62)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(160 122 52 / 74%)",
+          "resolved": "rgba(160, 122, 52, 0.74)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "rgb(153 112 36)",
+          "resolved": "rgb(153, 112, 36)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-danger": {
+          "raw": "rgb(255 110 78)",
+          "resolved": "rgb(255, 110, 78)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "rgb(255 110 78 / 84%)",
+          "resolved": "rgba(255, 110, 78, 0.84)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(255 208 96 / 56%)",
+          "resolved": "rgba(255, 208, 96, 0.56)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(255 208 96 / 40%)",
+          "resolved": "rgba(255, 208, 96, 0.4)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 78%)",
+          "resolved": "rgba(0, 0, 0, 0.78)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 28%)",
+          "resolved": "rgba(0, 0, 0, 0.28)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 48%)",
+          "resolved": "rgba(0, 0, 0, 0.48)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(133 110 74)",
+          "resolved": "rgb(133, 110, 74)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(173 132 58)",
+          "resolved": "rgb(173, 132, 58)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(255 228 163)",
+          "resolved": "rgb(255, 228, 163)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "rgb(255 110 78)",
+          "resolved": "rgb(255, 110, 78)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 236 163)",
+          "resolved": "rgb(255, 236, 163)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(92 74 47)",
+          "resolved": "rgb(92, 74, 47)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(96 165 250)",
+          "resolved": "rgb(96, 165, 250)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(133 110 74) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.655821 0.0232518 0.100836)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(173 132 58) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.708131 0.0272542 0.127679)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.812423 0.0401273 0.165604)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(255 228 163) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.880662 0.0179156 0.118639)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, rgb(255 110 78) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.751594 0.107496 0.127827)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 236 163) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.890099 0.0108894 0.122323)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(92 74 47) 55%, rgb(255 176 0))",
+          "resolved": "oklab(0.59701 0.0239367 0.100003)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.812423 0.0401273 0.165604)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(96 165 250) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.753205 -0.00674182 -0.016698)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, rgb(255 110 78) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.269363 0.0335351 0.0225836)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.306035 0.00196689 0.0305304)"
+        }
+      },
+      "sysop-amber-phosphor": {
+        "--hl-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(36 28 17)",
+          "resolved": "rgb(36, 28, 17)"
+        },
+        "--hl-surface-active": {
+          "raw": "rgb(69 50 14)",
+          "resolved": "rgb(69, 50, 14)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--hl-fg-faint": {
+          "raw": "#aa7b1e",
+          "resolved": "rgb(170, 123, 30)"
+        },
+        "--hl-border": {
+          "raw": "rgb(86 65 26)",
+          "resolved": "rgb(86, 65, 26)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(160 122 52 / 74%)",
+          "resolved": "rgba(160, 122, 52, 0.74)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(110 84 36 / 62%)",
+          "resolved": "rgba(110, 84, 36, 0.62)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-primary-hover": {
+          "raw": "rgb(255 214 115)",
+          "resolved": "rgb(255, 214, 115)"
+        },
+        "--hl-primary-active": {
+          "raw": "rgb(224 183 84)",
+          "resolved": "rgb(224, 183, 84)"
+        },
+        "--hl-primary-muted": {
+          "raw": "rgb(255 208 96 / 12%)",
+          "resolved": "rgba(255, 208, 96, 0.12)"
+        },
+        "--hl-primary-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(255 214 115)",
+          "resolved": "rgb(255, 214, 115)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(224 183 84)",
+          "resolved": "rgb(224, 183, 84)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(255 208 96 / 12%)",
+          "resolved": "rgba(255, 208, 96, 0.12)"
+        },
+        "--hl-brand-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(255 208 96 / 56%)",
+          "resolved": "rgba(255, 208, 96, 0.56)"
+        },
+        "--hl-danger": {
+          "raw": "#ff7645",
+          "resolved": "rgb(255, 118, 69)"
+        },
+        "--hl-danger-hover": {
+          "raw": "#ff7d3d",
+          "resolved": "rgb(255, 125, 61)"
+        },
+        "--hl-danger-muted": {
+          "raw": "color-mix(in srgb, #ff7645 10%, transparent)",
+          "resolved": "color(srgb 1 0.462745 0.270588 / 0.1)"
+        },
+        "--hl-danger-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-warning-muted": {
+          "raw": "rgb(255 208 96 / 12%)",
+          "resolved": "rgba(255, 208, 96, 0.12)"
+        },
+        "--hl-warning-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--hl-success-muted": {
+          "raw": "rgb(255 208 96 / 12%)",
+          "resolved": "rgba(255, 208, 96, 0.12)"
+        },
+        "--hl-success-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-info-muted": {
+          "raw": "rgb(255 176 0 / 12%)",
+          "resolved": "rgba(255, 176, 0, 0.12)"
+        },
+        "--hl-info-fg": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-2": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-3": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-4": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-5": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 75%, #aa7b1e)",
+          "resolved": "oklab(0.762988 0.0356316 0.153116)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 50%, #aa7b1e)",
+          "resolved": "oklab(0.713552 0.0311359 0.140629)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 25%, #aa7b1e)",
+          "resolved": "oklab(0.664116 0.0266402 0.128141)"
+        },
+        "--hl-syntax-null": {
+          "raw": "#aa7b1e",
+          "resolved": "rgb(170, 123, 30)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(69 50 14)",
+          "resolved": "rgb(69, 50, 14)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(36 28 17)",
+          "resolved": "rgb(36, 28, 17)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(28 22 14)",
+          "resolved": "rgb(28, 22, 14)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(86 65 26)",
+          "resolved": "rgb(86, 65, 26)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(160 122 52 / 74%)",
+          "resolved": "rgba(160, 122, 52, 0.74)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(86 65 26)",
+          "resolved": "rgb(86, 65, 26)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "#aa7b1e",
+          "resolved": "rgb(170, 123, 30)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "#000000",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-danger": {
+          "raw": "#ff7645",
+          "resolved": "rgb(255, 118, 69)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "#ff7645",
+          "resolved": "rgb(255, 118, 69)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(255 208 96 / 56%)",
+          "resolved": "rgba(255, 208, 96, 0.56)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(255 208 96 / 56%)",
+          "resolved": "rgba(255, 208, 96, 0.56)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 70%)",
+          "resolved": "rgba(0, 0, 0, 0.7)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 10%)",
+          "resolved": "rgba(0, 0, 0, 0.1)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 20%)",
+          "resolved": "rgba(0, 0, 0, 0.2)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "#ff7645",
+          "resolved": "rgb(255, 118, 69)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(232 172 72)",
+          "resolved": "rgb(232, 172, 72)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(255 176 0)",
+          "resolved": "rgb(255, 176, 0)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(255 208 96)",
+          "resolved": "rgb(255, 208, 96)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(232 172 72) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.794637 0.0340832 0.144721)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.812423 0.0401273 0.165604)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, #ff7645 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.757519 0.0988989 0.134667)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(232 172 72) 55%, rgb(255 176 0))",
+          "resolved": "oklab(0.796119 0.0345869 0.146461)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(255 176 0) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.812423 0.0401273 0.165604)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 60%, rgb(255 176 0))",
+          "resolved": "oklab(0.851608 0.0214011 0.1495)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, #ff7645 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.271535 0.0303828 0.0250917)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(255 208 96) 22%, rgb(10 10 10))",
+          "resolved": "oklab(0.306035 0.00196689 0.0305304)"
+        }
+      }
+    }
+  },
+  {
+    "legacy": "hi-contrast",
+    "canonical": "sysop-hi-contrast",
+    "samples": {
+      "hi-contrast": {
+        "--hl-bg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(24 24 24)",
+          "resolved": "rgb(24, 24, 24)"
+        },
+        "--hl-surface-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--hl-fg-faint": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--hl-border": {
+          "raw": "rgb(255 255 255 / 88%)",
+          "resolved": "rgba(255, 255, 255, 0.88)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(255 255 255 / 72%)",
+          "resolved": "rgba(255, 255, 255, 0.72)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-primary-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-active": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-primary-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-brand-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(255 255 0 / 84%)",
+          "resolved": "rgba(255, 255, 0, 0.84)"
+        },
+        "--hl-danger": {
+          "raw": "rgb(255 59 48)",
+          "resolved": "rgb(255, 59, 48)"
+        },
+        "--hl-danger-hover": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-danger-muted": {
+          "raw": "rgb(255 59 48 / 90%)",
+          "resolved": "rgba(255, 59, 48, 0.9)"
+        },
+        "--hl-danger-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-warning-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-warning-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--hl-success-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-success-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--hl-info-muted": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-info-fg": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-2": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-3": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-4": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-chart-5": {
+          "raw": "",
+          "resolved": "rgba(0, 0, 0, 0)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-syntax-string": {
+          "raw": "color-mix(in oklab, rgb(255 255 255) 75%, rgb(208 208 208))",
+          "resolved": "oklab(0.964395 0.0000439584 0.0000193566)"
+        },
+        "--hl-syntax-number": {
+          "raw": "color-mix(in oklab, rgb(255 255 255) 50%, rgb(208 208 208))",
+          "resolved": "oklab(0.928797 0.0000423491 0.0000186265)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "color-mix(in oklab, rgb(255 255 255) 25%, rgb(208 208 208))",
+          "resolved": "oklab(0.893198 0.0000407398 0.0000178963)"
+        },
+        "--hl-syntax-null": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(10 10 10)",
+          "resolved": "rgb(10, 10, 10)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(6 6 6)",
+          "resolved": "rgb(6, 6, 6)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(20 20 20)",
+          "resolved": "rgb(20, 20, 20)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(24 24 24)",
+          "resolved": "rgb(24, 24, 24)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(16 16 16)",
+          "resolved": "rgb(16, 16, 16)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(255 255 255 / 72%)",
+          "resolved": "rgba(255, 255, 255, 0.72)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(255 255 255 / 88%)",
+          "resolved": "rgba(255, 255, 255, 0.88)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-danger": {
+          "raw": "rgb(255 59 48)",
+          "resolved": "rgb(255, 59, 48)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "rgb(255 59 48 / 90%)",
+          "resolved": "rgba(255, 59, 48, 0.9)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(255 255 0 / 84%)",
+          "resolved": "rgba(255, 255, 0, 0.84)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(255 255 255 / 68%)",
+          "resolved": "rgba(255, 255, 255, 0.68)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 88%)",
+          "resolved": "rgba(0, 0, 0, 0.88)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 36%)",
+          "resolved": "rgba(0, 0, 0, 0.36)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 60%)",
+          "resolved": "rgba(0, 0, 0, 0.6)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(255 0 255)",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "rgb(255 59 48)",
+          "resolved": "rgb(255, 59, 48)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(160 160 160)",
+          "resolved": "rgb(160, 160, 160)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.999994 0.0000455678 0.0000200868)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(208 208 208) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.914558 0.0000417054 0.0000183344)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.94323 -0.0896237 -0.0236213)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(255 0 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.820999 0.164775 -0.101471)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.919858 -0.140286 0.107709)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, rgb(255 59 48) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.792532 0.122248 0.0668154)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(160 160 160) 55%, rgb(255 255 255))",
+          "resolved": "oklab(0.838161 0.0000381425 0.0000168085)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.94323 -0.0896237 -0.0236213)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.919858 -0.140286 0.107709)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, rgb(255 59 48) 22%, rgb(0 0 0))",
+          "resolved": "oklab(0.143929 0.0448175 0.024496)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 22%, rgb(0 0 0))",
+          "resolved": "oklab(0.212956 -0.0156904 0.0436871)"
+        }
+      },
+      "sysop-hi-contrast": {
+        "--hl-bg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-bg-elevated": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-surface": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-surface-hover": {
+          "raw": "rgb(24 24 24)",
+          "resolved": "rgb(24, 24, 24)"
+        },
+        "--hl-surface-active": {
+          "raw": "rgb(59 59 59)",
+          "resolved": "rgb(59, 59, 59)"
+        },
+        "--hl-fg": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-fg-secondary": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-fg-muted": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--hl-fg-faint": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--hl-border": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-border-subtle": {
+          "raw": "rgb(255 255 255 / 88%)",
+          "resolved": "rgba(255, 255, 255, 0.88)"
+        },
+        "--hl-divider": {
+          "raw": "rgb(255 255 255 / 72%)",
+          "resolved": "rgba(255, 255, 255, 0.72)"
+        },
+        "--hl-primary": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-primary-hover": {
+          "raw": "rgb(255 255 31)",
+          "resolved": "rgb(255, 255, 31)"
+        },
+        "--hl-primary-active": {
+          "raw": "rgb(224 224 0)",
+          "resolved": "rgb(224, 224, 0)"
+        },
+        "--hl-primary-muted": {
+          "raw": "rgb(255 255 0 / 12%)",
+          "resolved": "rgba(255, 255, 0, 0.12)"
+        },
+        "--hl-primary-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-brand": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-brand-hover": {
+          "raw": "rgb(255 255 31)",
+          "resolved": "rgb(255, 255, 31)"
+        },
+        "--hl-brand-active": {
+          "raw": "rgb(224 224 0)",
+          "resolved": "rgb(224, 224, 0)"
+        },
+        "--hl-brand-muted": {
+          "raw": "rgb(255 255 0 / 12%)",
+          "resolved": "rgba(255, 255, 0, 0.12)"
+        },
+        "--hl-brand-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-selection": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--hl-selection-fg": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-ring": {
+          "raw": "rgb(255 255 0 / 84%)",
+          "resolved": "rgba(255, 255, 0, 0.84)"
+        },
+        "--hl-danger": {
+          "raw": "#ff645b",
+          "resolved": "rgb(255, 100, 91)"
+        },
+        "--hl-danger-hover": {
+          "raw": "#ff776f",
+          "resolved": "rgb(255, 119, 111)"
+        },
+        "--hl-danger-muted": {
+          "raw": "color-mix(in srgb, #ff645b 10%, transparent)",
+          "resolved": "color(srgb 1 0.392157 0.356863 / 0.1)"
+        },
+        "--hl-danger-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-warning": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--hl-warning-muted": {
+          "raw": "rgb(255 255 0 / 12%)",
+          "resolved": "rgba(255, 255, 0, 0.12)"
+        },
+        "--hl-warning-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-success": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--hl-success-muted": {
+          "raw": "rgb(0 255 0 / 12%)",
+          "resolved": "rgba(0, 255, 0, 0.12)"
+        },
+        "--hl-success-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-info": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--hl-info-muted": {
+          "raw": "rgb(0 255 255 / 12%)",
+          "resolved": "rgba(0, 255, 255, 0.12)"
+        },
+        "--hl-info-fg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--hl-chart-1": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-2": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-3": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-4": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-chart-5": {
+          "raw": "#ff00ff",
+          "resolved": "rgb(255, 0, 255)"
+        },
+        "--hl-syntax-key": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--hl-syntax-string": {
+          "raw": "rgb(243 243 243)",
+          "resolved": "rgb(243, 243, 243)"
+        },
+        "--hl-syntax-number": {
+          "raw": "rgb(231 231 231)",
+          "resolved": "rgb(231, 231, 231)"
+        },
+        "--hl-syntax-boolean": {
+          "raw": "rgb(220 220 220)",
+          "resolved": "rgb(220, 220, 220)"
+        },
+        "--hl-syntax-null": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--theme-color-bg": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-panel": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-panel-2": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--theme-color-panel-overlay": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--theme-color-panel-overlay-strong": {
+          "raw": "rgb(59 59 59)",
+          "resolved": "rgb(59, 59, 59)"
+        },
+        "--theme-color-panel-hover": {
+          "raw": "rgb(24 24 24)",
+          "resolved": "rgb(24, 24, 24)"
+        },
+        "--theme-color-panel-hover-soft": {
+          "raw": "rgb(18 18 18)",
+          "resolved": "rgb(18, 18, 18)"
+        },
+        "--theme-color-border": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-border-soft": {
+          "raw": "rgb(255 255 255 / 88%)",
+          "resolved": "rgba(255, 255, 255, 0.88)"
+        },
+        "--theme-color-border-strong": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-text": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-text-muted": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-text-soft": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--theme-color-text-subtle": {
+          "raw": "rgb(208 208 208)",
+          "resolved": "rgb(208, 208, 208)"
+        },
+        "--theme-color-accent": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-accent-foreground": {
+          "raw": "rgb(0 0 0)",
+          "resolved": "rgb(0, 0, 0)"
+        },
+        "--theme-color-danger": {
+          "raw": "#ff645b",
+          "resolved": "rgb(255, 100, 91)"
+        },
+        "--theme-color-danger-soft": {
+          "raw": "#ff645b",
+          "resolved": "rgb(255, 100, 91)"
+        },
+        "--theme-color-warning": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-ring": {
+          "raw": "rgb(255 255 0 / 84%)",
+          "resolved": "rgba(255, 255, 0, 0.84)"
+        },
+        "--theme-color-ring-soft": {
+          "raw": "rgb(255 255 0 / 84%)",
+          "resolved": "rgba(255, 255, 0, 0.84)"
+        },
+        "--theme-color-overlay": {
+          "raw": "rgb(0 0 0 / 70%)",
+          "resolved": "rgba(0, 0, 0, 0.7)"
+        },
+        "--theme-color-shadow": {
+          "raw": "rgb(0 0 0 / 10%)",
+          "resolved": "rgba(0, 0, 0, 0.1)"
+        },
+        "--theme-color-shadow-strong": {
+          "raw": "rgb(0 0 0 / 20%)",
+          "resolved": "rgba(0, 0, 0, 0.2)"
+        },
+        "--theme-color-status-backlog": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--theme-color-status-todo": {
+          "raw": "rgb(255 255 255)",
+          "resolved": "rgb(255, 255, 255)"
+        },
+        "--theme-color-status-queued": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-doing": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--theme-color-status-review": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-done": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--theme-color-status-blocked": {
+          "raw": "#ff645b",
+          "resolved": "rgb(255, 100, 91)"
+        },
+        "--theme-color-status-paused": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-archived": {
+          "raw": "rgb(235 235 235)",
+          "resolved": "rgb(235, 235, 235)"
+        },
+        "--theme-color-status-inbox": {
+          "raw": "rgb(255 255 0)",
+          "resolved": "rgb(255, 255, 0)"
+        },
+        "--theme-color-status-routed": {
+          "raw": "rgb(0 255 255)",
+          "resolved": "rgb(0, 255, 255)"
+        },
+        "--theme-color-status-indexed": {
+          "raw": "rgb(0 255 0)",
+          "resolved": "rgb(0, 255, 0)"
+        },
+        "--theme-color-status-backlog-label": {
+          "raw": "color-mix(in oklab, rgb(235 235 235) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.964036 0.0000439227 0.0000193357)"
+        },
+        "--theme-color-status-todo-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.999994 0.0000455678 0.0000200868)"
+        },
+        "--theme-color-status-queued-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-doing-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.94323 -0.0896237 -0.0236213)"
+        },
+        "--theme-color-status-review-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-done-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.919858 -0.140286 0.107709)"
+        },
+        "--theme-color-status-blocked-label": {
+          "raw": "color-mix(in oklab, #ff645b 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.820099 0.102479 0.0510673)"
+        },
+        "--theme-color-status-paused-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-archived-label": {
+          "raw": "color-mix(in oklab, rgb(235 235 235) 55%, rgb(255 255 255))",
+          "resolved": "oklab(0.967033 0.0000440598 0.0000193983)"
+        },
+        "--theme-color-status-inbox-label": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.980787 -0.0427737 0.119155)"
+        },
+        "--theme-color-status-routed-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 255) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.94323 -0.0896237 -0.0236213)"
+        },
+        "--theme-color-status-indexed-label": {
+          "raw": "color-mix(in oklab, rgb(0 255 0) 60%, rgb(255 255 255))",
+          "resolved": "oklab(0.919858 -0.140286 0.107709)"
+        },
+        "--theme-color-priority-p1-bg": {
+          "raw": "color-mix(in oklab, #ff645b 22%, rgb(0 0 0))",
+          "resolved": "oklab(0.154037 0.037569 0.0187217)"
+        },
+        "--theme-color-priority-p2-bg": {
+          "raw": "color-mix(in oklab, rgb(255 255 0) 22%, rgb(0 0 0))",
+          "resolved": "oklab(0.212956 -0.0156904 0.0436871)"
+        }
+      }
+    }
+  }
+]

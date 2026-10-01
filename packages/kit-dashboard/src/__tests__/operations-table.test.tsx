@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import { DataTable } from '../components/data-table/data-table'
@@ -11,6 +12,20 @@ const columns: ColumnDef<(typeof items)[number]>[] = [
 ]
 
 describe('operations composition', () => {
+  it('allows a consumer to store the cursor with inline column/id/callback props', () => {
+    function Consumer() {
+      const [cursor, setCursor] = useState<string[]>([])
+      return <>
+        <span data-testid="cursor">{cursor.join(',')}</span>
+        <DataTable items={items} columns={[...columns]} getRowId={(item) => item.id} onVisibleOrderChange={(ids) => setCursor(ids)} />
+      </>
+    }
+    const { getByTestId, getByRole } = render(<Consumer />)
+    expect(getByTestId('cursor').textContent).toBe('z,a')
+    fireEvent.click(getByRole('button', { name: /Task/ }))
+    expect(getByTestId('cursor').textContent).toBe('a,z')
+  })
+
   it('publishes rendered order after sorting and reports sort direction accessibly', () => {
     const onVisibleOrderChange = vi.fn()
     const { getByRole } = render(<DataTable items={items} columns={columns} getRowId={getRowId} onVisibleOrderChange={onVisibleOrderChange} />)

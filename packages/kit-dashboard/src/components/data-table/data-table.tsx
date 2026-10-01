@@ -65,6 +65,7 @@ export function DataTable<T>({
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [visibleCount, setVisibleCount] = useState(pageSize)
   const sentinelRef = useRef<HTMLTableRowElement | null>(null)
+  const reportedOrderRef = useRef<string[] | null>(null)
 
   // Reset the window to the first page whenever the list, sort, or page size
   // changes. Done as an adjust-state-during-render rather than an effect so it
@@ -102,7 +103,17 @@ export function DataTable<T>({
   const hasMore = visibleCount < sorted.length
 
   useEffect(() => {
-    onVisibleOrderChange?.(visible.map(getRowId))
+    if (!onVisibleOrderChange) {
+      reportedOrderRef.current = null
+      return
+    }
+    const ids = visible.map(getRowId)
+    const previous = reportedOrderRef.current
+    // Inline columns/getRowId/callbacks may change identity when the app stores
+    // this cursor in state. Publish actual order changes, avoiding a render loop.
+    if (previous?.length === ids.length && previous.every((id, index) => id === ids[index])) return
+    reportedOrderRef.current = ids
+    onVisibleOrderChange(ids)
   }, [visible, getRowId, onVisibleOrderChange])
 
   useEffect(() => {

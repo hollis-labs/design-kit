@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Activity, Minus, TrendingDown, TrendingUp } from 'lucide-react'
-import { ACCENT_TEXT_CLASSES, cn, type Accent, type IconComponent } from '@hollis-labs/design-components'
+import { ACCENT_TEXT_CLASSES, type Accent, type IconComponent } from '@hollis-labs/design-components'
+import { cn } from '../lib/cn'
 import { Envelope, EnvelopeBody, EnvelopeHeader } from './envelope'
 
 /**

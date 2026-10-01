@@ -1,5 +1,15 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- Preserve named typography tokens beside foreground colors when merging class
+  names. Registry-consumer Chromium verification found 0.1.0 message bubbles
+  inheriting 16px because `text-control` was removed beside `text-fg`; the packed
+  candidate computes the 13px control token. Keep the composer's control size
+  across the primitive's desktop breakpoint as well (previously 14px).
+- Record the published-package source registration negative control and
+  ChatStream-only optional-peer check in [consumer verification](docs/consumer-verification.md).
+
 ## 0.1.0 — 2026-09-12
 
 First release, joining the six already-published packages in this repo at 0.1.0.

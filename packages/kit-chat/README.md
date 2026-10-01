@@ -36,6 +36,10 @@ code says.
 `design-components/source.css` is a **separate import and both are needed** — this
 package composes its primitives, so their class strings live in a different `dist`.
 
+[Consumer verification](docs/consumer-verification.md) records the registry
+0.1.0 browser measurements, source-registration negative control, typography
+defect and packed-candidate fix. Import resolution alone does not verify styling.
+
 ---
 
 ## Use

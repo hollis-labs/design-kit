@@ -1,6 +1,8 @@
+import type { TableDensity } from './data-table'
 import { alignClass, type ColumnDef } from '@hollis-labs/design-components'
 
 interface DataTableRowProps<T> {
+  density?: TableDensity
   item: T
   rowId: string
   columns: ColumnDef<T>[]
@@ -18,6 +20,7 @@ const INTERACTIVE_SELECTOR = '[data-row-interactive="true"]'
 
 /** A single `DataTable` row. Internal — rendered by `DataTable`. */
 export function DataTableRow<T>({
+  density = 'compact',
   item,
   rowId,
   columns,
@@ -56,12 +59,12 @@ export function DataTableRow<T>({
       aria-label={onOpen ? ariaLabel : undefined}
     >
       {selectable && (
-        <td className="w-8 align-top py-1.5 pl-4 pr-0">
+        <td className={`w-8 align-top ${density === 'compact' ? 'py-1.5' : 'py-3'} pl-3.5 pr-0`}>
           <input
             type="checkbox"
             checked={selected ?? false}
             onChange={(e) => onSelect?.(rowId, e.target.checked)}
-            className="mt-[3px] h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border bg-panel-2 checked:border-text-soft checked:bg-text-soft"
+            className="mt-0.5 h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border bg-panel-2 checked:border-text-soft checked:bg-text-soft"
             aria-label={ariaLabel ? `Select ${ariaLabel}` : 'Select row'}
             data-row-interactive="true"
           />
@@ -70,7 +73,7 @@ export function DataTableRow<T>({
       {columns.map((column) => (
         <td
           key={column.key}
-          className={`px-3 py-1.5 align-top ${alignClass(column.align)} ${
+          className={`px-3 ${density === 'compact' ? 'py-1.5' : 'py-3'} align-top ${alignClass(column.align)} ${
             column.width === 'fill'
               ? 'w-full max-w-0'
               : 'w-px whitespace-nowrap'

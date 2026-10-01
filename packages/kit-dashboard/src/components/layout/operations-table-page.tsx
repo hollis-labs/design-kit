@@ -5,6 +5,7 @@ import { SummaryCards, type SummaryCard } from '../summary-cards'
 import { FilterBar } from '../filter-bar'
 import { Skeleton, type ColumnDef, type SortState } from '@hollis-labs/design-components'
 import { DataTable } from '../data-table'
+import type { TableDensity } from '../data-table/data-table'
 
 interface OperationsTablePageProps<T> {
   /* ---- header ---- */
@@ -27,12 +28,17 @@ interface OperationsTablePageProps<T> {
   activeFilterCount?: number
   /** Optional summary string, e.g. "2 filters · 14 matches". */
   filterSummary?: string
+  searchMatchCount?: number
+  filterActions?: ReactNode
+  footer?: ReactNode
   /** When provided, a Clear button appears once anything is active. */
   onClear?: () => void
   /** Row-2 facet controls — status chips, cycle toggles, comboboxes. */
   filterControls?: ReactNode
 
   /* ---- table ---- */
+  density?: TableDensity
+  onVisibleOrderChange?: (ids: string[]) => void
   items: T[]
   columns: ColumnDef<T>[]
   getRowId: (item: T) => string
@@ -48,6 +54,8 @@ interface OperationsTablePageProps<T> {
   loading?: boolean
   /** Shown in place of the table body when there are no rows. */
   emptyState?: ReactNode
+  /** Request failure content, distinct from a successful empty result. */
+  errorState?: ReactNode
 }
 
 function TableSkeleton() {
@@ -81,6 +89,11 @@ export function OperationsTablePage<T>({
   searchAriaLabel,
   activeFilterCount = 0,
   filterSummary,
+  searchMatchCount,
+  filterActions,
+  footer,
+  density,
+  onVisibleOrderChange,
   onClear,
   filterControls,
   items,
@@ -94,6 +107,7 @@ export function OperationsTablePage<T>({
   pageSize,
   loading,
   emptyState,
+  errorState,
 }: OperationsTablePageProps<T>) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -102,6 +116,7 @@ export function OperationsTablePage<T>({
       scrollRef={scrollRef}
       header={<PageHeader title={title}>{headerActions}</PageHeader>}
       tabs={tabs}
+      footer={footer}
       summary={summaryCards ? <SummaryCards cards={summaryCards} /> : undefined}
       filters={
         <FilterBar
@@ -111,6 +126,8 @@ export function OperationsTablePage<T>({
           searchAriaLabel={searchAriaLabel}
           activeFilterCount={activeFilterCount}
           summary={filterSummary}
+          searchMatchCount={searchMatchCount}
+          actions={filterActions}
           onClear={onClear}
         >
           {filterControls}
@@ -119,9 +136,11 @@ export function OperationsTablePage<T>({
     >
       {loading ? (
         <TableSkeleton />
-      ) : (
+      ) : errorState ? errorState : (
         <DataTable
           items={items}
+          density={density}
+          onVisibleOrderChange={onVisibleOrderChange}
           columns={columns}
           getRowId={getRowId}
           initialSort={initialSort}

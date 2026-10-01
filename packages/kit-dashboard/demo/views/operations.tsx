@@ -3,7 +3,7 @@ import { Copy, ExternalLink, Trash2 } from 'lucide-react'
 import { PriorityBadge, StatusBadge, statusTone } from '../../src'
 import { formatRelativeTime } from '@hollis-labs/design-app-runtime'
 import { Button, ConfirmDialog, CopyableId, EmptyState } from '@hollis-labs/design-components'
-import { FilterChipGroup, type FilterChip } from '../../src/data'
+import { FilterChipGroup, FilterCycleToggle, type TableDensity, type FilterChip } from '../../src/data'
 import { OverflowMenu, type ColumnDef } from '@hollis-labs/design-components'
 import { OperationsTablePage } from '../../src/layout'
 import { TASKS, type DemoTask } from '../fixtures/tasks'
@@ -96,11 +96,16 @@ const baseColumns: ColumnDef<DemoTask>[] = [
 
 interface OperationsViewProps {
   onOpenTask: (id: string) => void
+  onVisibleOrderChange: (ids: string[]) => void
 }
 
-export function OperationsView({ onOpenTask }: OperationsViewProps) {
+const getRowId = (task: DemoTask) => task.id
+
+export function OperationsView({ onOpenTask, onVisibleOrderChange }: OperationsViewProps) {
   const [tasks, setTasks] = useState<DemoTask[]>(TASKS)
   const [search, setSearch] = useState('')
+  const [errorsOnly, setErrorsOnly] = useState(false)
+  const [density, setDensity] = useState<TableDensity>('compact')
   const [statuses, setStatuses] = useState<Set<string>>(() => new Set(DEFAULT_STATUSES))
   const [confirmId, setConfirmId] = useState<string | null>(null)
 
@@ -119,11 +124,12 @@ export function OperationsView({ onOpenTask }: OperationsViewProps) {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
     return tasks.filter((t) => {
+      if (errorsOnly && t.status !== 'blocked') return false
       if (statuses.size > 0 && !statuses.has(t.status)) return false
       if (q && !t.title.toLowerCase().includes(q) && !t.id.toLowerCase().includes(q)) return false
       return true
     })
-  }, [tasks, search, statuses])
+  }, [tasks, search, statuses, errorsOnly])
 
   const columns = useMemo<ColumnDef<DemoTask>[]>(
     () => [
@@ -184,27 +190,48 @@ export function OperationsView({ onOpenTask }: OperationsViewProps) {
         searchQuery={search}
         onSearchChange={setSearch}
         searchPlaceholder="Search tasks by title or id…"
-        activeFilterCount={isDefaultStatuses ? 0 : statuses.size}
-        filterSummary={
-          !isDefaultStatuses
-            ? `${statuses.size} status filter${statuses.size === 1 ? '' : 's'} · ${filtered.length} match${filtered.length === 1 ? '' : 'es'}`
-            : undefined
+        activeFilterCount={(isDefaultStatuses ? 0 : 1) + (errorsOnly ? 1 : 0)}
+        searchMatchCount={filtered.length}
+        density={density}
+        onVisibleOrderChange={onVisibleOrderChange}
+        filterActions={
+          <FilterCycleToggle
+            ariaLabel="Table density"
+            value={density}
+            onChange={setDensity}
+            options={[{ value: 'compact', label: 'Compact' }, { value: 'comfortable', label: 'Comfortable' }]}
+          />
+        }
+        footer={
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border px-4 py-2 text-label text-fg-muted">
+            <span>{filtered.length} tasks · {errorsOnly ? 'Errors only' : 'All matching tasks'}</span>
+            <span>Open a row · ← / → previous / next {errorsOnly ? 'error' : 'task'}</span>
+          </div>
         }
         onClear={() => {
           setSearch('')
+          setErrorsOnly(false)
           setStatuses(new Set(DEFAULT_STATUSES))
         }}
         filterControls={
+          <>
           <FilterChipGroup
             label="Status"
             chips={STATUS_CHIPS}
             selected={[...statuses]}
             onToggle={toggleStatus}
           />
+          <div className="border-l border-border pl-3">
+            <button type="button" aria-pressed={errorsOnly} onClick={() => setErrorsOnly((value) => !value)}
+              className={`rounded border px-2 py-0.5 text-caption uppercase tracking-label ${errorsOnly ? 'border-danger bg-danger-muted text-danger' : 'border-border bg-surface text-fg-muted hover:text-fg'}`}>
+              Errors only
+            </button>
+          </div>
+          </>
         }
         items={filtered}
         columns={columns}
-        getRowId={(t) => t.id}
+        getRowId={getRowId}
         initialSort={{ key: 'updated', dir: 'desc' }}
         selectable
         onRowOpen={(id) => onOpenTask(id)}

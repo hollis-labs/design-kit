@@ -9,6 +9,8 @@ interface ListPageLayoutProps {
   summary?: ReactNode
   /** Optional filter region — typically a `<FilterBar>`. */
   filters?: ReactNode
+  /** Pinned result count, selection actions, or paging controls. */
+  footer?: ReactNode
   /**
    * Ref attached to the scroll body. Pass the same ref to a `DataTable`'s
    * `scrollRootRef` so its infinite-scroll observer uses this region as root.
@@ -32,18 +34,20 @@ export function ListPageLayout({
   tabs,
   summary,
   filters,
+  footer,
   scrollRef,
   children,
 }: ListPageLayoutProps) {
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col [&>*]:shrink-0">
       {header}
       {tabs}
       {summary}
       {filters}
-      <div ref={scrollRef} className="min-h-0 flex-1 overflow-auto">
+      <div ref={scrollRef} className="min-h-0 flex-1 shrink overflow-auto">
         {children}
       </div>
+      {footer}
     </div>
   )
 }

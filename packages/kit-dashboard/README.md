@@ -283,3 +283,57 @@ Questions to answer in the report:
 ## License
 
 MIT — see [LICENSE](./LICENSE).
+
+### Operations density and detail navigation
+
+`OperationsTablePage` keeps Torque's compact two-row filter band and dense table
+as its default. `density="comfortable"` increases row padding using the spacing
+scale. `filterActions` holds density/refresh/view controls; `searchMatchCount`
+generates the filter/match summary (an explicit `filterSummary` takes precedence).
+`footer` pins result/selection controls below the scrolling body. `errorState`
+renders request failures separately from `emptyState`; loading takes precedence.
+All of these are optional additions to the existing props.
+
+`onVisibleOrderChange` publishes the rendered ids after sorting and windowing.
+Keep that order in app state when opening a detail view, then use the `/data`
+hooks for bounded previous/next navigation:
+
+```tsx
+import { useListNavigation } from '@hollis-labs/kit-dashboard/data'
+
+// The app decides which rows are errors and whether the detail view is active.
+const navigation = useListNavigation({
+  ids: orderedErrorIds,
+  currentId: openErrorId,
+  onNavigate: openError,
+  enabled: detailOpen,
+})
+// Bind navigation.onPrev/onNext to buttons, disabling them when the
+// corresponding previousId/nextId is undefined. ArrowLeft/ArrowRight use
+// the same handlers. Boundaries do not wrap; a missing cursor does not jump.
+```
+
+`useArrowNav` accepts callbacks directly when the app owns its own cursor.
+Both hooks preserve editing, modifiers, already-consumed events and arrow-key
+widgets. A custom widget can opt out with `data-arrow-nav-ignore`. Enable only
+one navigation owner at a time. Cursor persistence, error classification,
+fetching further pages, and auto-advance after mutations remain app behavior.
+
+The Operations demo exercises compact/comfortable rows, errors-only filtering,
+and keyboard detail navigation. Torque's primary `BoardPage`, domain filter bar,
+`TaskTable` and `use-arrow-nav` informed this composition; Cerberus's resource
+attention filter informed the app-owned errors-only facet. Atlas Register and
+Audit Board were not present as identifiable authored views in the available
+checkouts, so this change makes no claim to reproduce those surfaces.
+
+Visual check for CW-20261001-0500 (2026-10-01): `npm run demo`, Playwright
+headless Chromium, 1440 × 900 and 640 × 900. Captures live in
+[`docs/screenshots`](../../docs/screenshots): compact, comfortable, errors-only,
+error detail navigation and narrow layout. Browser assertions exercised both
+arrow directions through two blocked fixtures with no page errors. The fixture
+classification is a demo policy, not a status model supplied by the kit.
+
+A separate, disposable Tachyon worktree rendered the built `/layout` and `/data`
+entrypoints with the kit's theme CSS and mocked API responses. Its screenshot is
+`tachyon-operations-consumer.png`. The preview was temporary consumer wiring;
+it is not a Tachyon migration or a check against a live backend.

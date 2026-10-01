@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Check, List } from 'lucide-react'
-import { Button, Pill, cn, type Tone } from '@hollis-labs/design-components'
+import { Button, Pill, type Tone } from '@hollis-labs/design-components'
+import { cn } from '../lib/cn'
 import { Envelope, EnvelopeBody, EnvelopeFooter, EnvelopeHeader } from './envelope'
 import {
   acceptsInput,

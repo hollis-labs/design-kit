@@ -135,6 +135,58 @@ await designConfig({
 })
 ```
 
+## Kit-owned idiom vocabulary
+
+Register a kit's shipped JSON manifest explicitly. `designConfig` checks every
+binding against the manifest's relative `stylesheet` before accepting its exact
+token names; missing/different bindings or undeclared CSS names fail configuration.
+The base contract remains separate, including the shadowing check.
+
+```js
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+
+export default await designConfig({
+  files: ['src/**/*.{ts,tsx}'],
+  idiomManifests: [require.resolve('@hollis-labs/kit-dashboard/idiom-tokens.json')],
+})
+```
+
+`idiomManifests` accepts absolute paths. Multiple manifests enroll their combined
+names within `files`; an app using several kits opts into each. Tokens outside
+that scope remain undefined. In this repository the gate discovers
+`package.json`'s `designKit.idiomManifest` and enrolls it only for that package's
+files, so cross-kit use is not implicitly allowed. A prefix never admits invented
+names. Kit-owned deprecations produce the existing retired-token finding.
+
+A new kit keeps one authored JSON vocabulary beside its theme:
+
+```json
+{
+  "prefix": "observe",
+  "stylesheet": "./theme.css",
+  "tokens": { "observe-timeline-marker": "var(--color-info)" },
+  "deprecated": { "old-timeline-marker": "observe-timeline-marker" }
+}
+```
+
+Its CSS declares the matching `--color-observe-timeline-marker` binding.
+Migration exports derive from the manifest's `deprecated` map, rather than
+maintaining another list. A prefix must differ from the base token families;
+an idiom name may not shadow a base contract name.
+
+The ratchet's `--no-config` path and the Biome wrapper support explicit enrollment
+with repeatable `--idiom-manifest <file>` (relative to `--root` or absolute):
+
+```sh
+node node_modules/@hollis-labs/eslint-config-design/scripts/biome-check.mjs \
+  --idiom-manifest node_modules/@hollis-labs/kit-dashboard/src/styles/idiom-tokens.json src
+```
+
+Without that opt-in, `--no-config` uses only the base vocabulary; it does not
+crawl installed kits or grant global access to their tokens. With a normal ESLint
+config, enroll using `designConfig` rather than the CLI flag.
+
 ## Two exemptions, and why one is much narrower than the other
 
 **Build output is never linted.** `**/dist/**`, `**/build/**`, `**/*.d.ts` and

@@ -26,6 +26,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "type": "module",
+  "designKit": {
+    "idiomManifest": "./src/styles/idiom-tokens.json"
+  },
   "sideEffects": [
     "**/*.css"
   ],
@@ -60,6 +63,7 @@
       "import": "./dist/charts.js"
     },
     "./theme.css": "./src/styles/theme.css",
+    "./idiom-tokens.json": "./src/styles/idiom-tokens.json",
     "./source.css": "./src/styles/source.css"
   },
   "main": "./dist/index.js",

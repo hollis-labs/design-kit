@@ -35,9 +35,9 @@
   --hl-selection: rgb(18 18 18);
   --hl-selection-fg: rgb(255 255 255);
   --hl-ring: rgb(255 255 0 / 84%);
-  --hl-danger: rgb(255 59 48);
-  --hl-danger-hover: rgb(255 83 73);
-  --hl-danger-muted: rgb(255 59 48 / 12%);
+  --hl-danger: #ff645b;
+  --hl-danger-hover: #ff776f;
+  --hl-danger-muted: color-mix(in srgb, #ff645b 10%, transparent);
   --hl-danger-fg: rgb(0 0 0);
   --hl-warning: rgb(255 255 0);
   --hl-warning-muted: rgb(255 255 0 / 12%);

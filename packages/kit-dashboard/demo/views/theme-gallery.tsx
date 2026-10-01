@@ -20,7 +20,7 @@ export function ThemeGalleryView() {
             <Button>Primary</Button><Button variant="outline">Outline</Button><Button variant="destructive">Delete</Button>
           </div>
           <Input aria-label="Example input" placeholder="Search components" />
-          <div className="flex flex-wrap gap-2">{tones.map((tone) => <Pill key={tone} tone={tone}>{tone}</Pill>)}</div>
+          <div className="flex flex-wrap gap-2"><Pill>neutral</Pill>{tones.map((tone) => <Pill key={tone} tone={tone}>{tone}</Pill>)}</div>
           {tones.map((tone) => <Callout key={tone} tone={tone} title={tone}>Readable feedback on a tinted surface.</Callout>)}
           <div className="rounded-md border border-border bg-bg-elevated p-3"><JsonViewer value={{ ready: true, mode: 'theme proof', items: 3, pending: null }} /></div>
           <p className="text-sm text-fg-secondary">Secondary text</p>

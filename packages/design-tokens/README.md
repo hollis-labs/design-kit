@@ -487,3 +487,14 @@ verified again from the tarball in a browser: `Metric`'s value computed to
 `rgb(82, 82, 91)` against `#52525b` for `fg-faint`, and the four added type steps
 measured 9 / 10 / 11 / 13 px with `rounded-panel` at 10px and `rounded-control` at
 6px — the declared values, on a screen, through a consumer's own Tailwind build.
+
+## Light/dark contrast pass — CW-20261001-0498
+
+Inherited palettes had faint/muted text below 4.5:1, including chat kickers and
+JSON syntax. The theme sources now raise those text floors on page, elevated,
+and surface backgrounds. Feedback colors move toward each palette's foreground
+until labels remain legible on tinted fills (including dashboard priority chips);
+filled accents choose black or white by contrast. Syntax retains the oklab ramp
+between foreground and the corrected faint endpoint. Four sysop light companions
+are new appearance choices and await visual sign-off in [screenshots](../../docs/screenshots/README.md).
+This does not design the chart palette: its magenta placeholders remain explicit.

@@ -1,3 +1,5 @@
+// CW-20261001-0498: text floors and feedback tints corrected for contrast.
+// Syntax follows the new fg-faint floor; filled accents use a legible foreground.
 // GENERATED CONTENT, HAND-REVIEWED. Source: apps/nanite/ui/src/lib/theme/defaults.ts
 // @d2d82c93, carried across to the contract vocabulary. See README.md § "Where the
 // values came from". Do not re-run a generator over this file; edit it directly.
@@ -20,8 +22,8 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'surface-active': '#4a5058',
       'fg': '#e8eaed',
       'fg-secondary': '#98a0a8',
-      'fg-muted': '#6c747c',
-      'fg-faint': '#4a5058',
+      'fg-muted': '#91979e',
+      'fg-faint': '#8e9298',
       'border': '#25282c',
       'border-subtle': '#1d1f22',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -29,7 +31,7 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'primary-hover': '#ffffff',
       'primary-active': '#cfd4d8',
       'primary-muted': 'rgba(232, 234, 237, 0.10)',
-      'primary-fg': '#0c0d0e',
+      'primary-fg': '#000000',
       'brand': '#d4202e',
       'brand-hover': '#e13a46',
       'brand-active': '#b61b28',
@@ -38,29 +40,29 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'selection': 'rgba(255, 255, 255, 0.08)',
       'selection-fg': '#e8eaed',
       'ring': '#e8eaed',
-      'danger': '#d4202e',
-      'danger-hover': '#e13a46',
-      'danger-muted': 'rgba(212, 32, 46, 0.14)',
-      'danger-fg': '#ffffff',
-      'warning': '#d4202e',
-      'warning-muted': 'rgba(212, 32, 46, 0.12)',
-      'warning-fg': '#ffffff',  // derived
+      'danger': '#e2adb4',
+      'danger-hover': '#e3b4bb',
+      'danger-muted': 'color-mix(in srgb, #e2adb4 10%, transparent)',
+      'danger-fg': '#000000',
+      'warning': '#e2adb4',
+      'warning-muted': 'color-mix(in srgb, #e2adb4 10%, transparent)',
+      'warning-fg': '#000000',  // derived
       'success': '#c0c4c8',
       'success-muted': 'rgba(192, 196, 200, 0.10)',
-      'success-fg': '#ffffff',
-      'info': '#98a0a8',
-      'info-muted': 'rgba(152, 160, 168, 0.10)',
-      'info-fg': '#0c0d0e',  // derived
+      'success-fg': '#000000',
+      'info': '#b4bac0',
+      'info-muted': 'color-mix(in srgb, #b4bac0 10%, transparent)',
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#e8eaed',  // derived — R4
-      'syntax-string': '#bec1c5',  // derived — R4
-      'syntax-number': '#95999f',  // derived — R4
-      'syntax-boolean': '#6e747b',  // derived — R4
-      'syntax-null': '#4a5058',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #e8eaed 75%, #8e9298)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #e8eaed 50%, #8e9298)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #e8eaed 25%, #8e9298)',  // derived — R4
+      'syntax-null': '#8e9298',  // derived — R4
     },
     light: {
       'bg': '#f4f5f6',
@@ -70,8 +72,8 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'surface-active': '#c2c7cc',
       'fg': '#18191b',
       'fg-secondary': '#4a5058',
-      'fg-muted': '#6c747c',
-      'fg-faint': '#98a0a8',
+      'fg-muted': '#575d64',
+      'fg-faint': '#5c6166',
       'border': '#d0d4d8',
       'border-subtle': '#e2e5e8',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -88,18 +90,18 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'selection': 'rgba(0, 0, 0, 0.06)',
       'selection-fg': '#18191b',
       'ring': '#18191b',
-      'danger': '#c81828',
-      'danger-hover': '#b01422',
-      'danger-muted': 'rgba(200, 24, 40, 0.08)',
+      'danger': '#8c1824',
+      'danger-hover': '#7e1823',
+      'danger-muted': 'color-mix(in srgb, #8c1824 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#c81828',
-      'warning-muted': 'rgba(200, 24, 40, 0.07)',
+      'warning': '#8c1824',
+      'warning-muted': 'color-mix(in srgb, #8c1824 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#4a5058',
-      'success-muted': 'rgba(74, 80, 88, 0.08)',
+      'success': '#464c53',
+      'success-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#4a5058',
-      'info-muted': 'rgba(74, 80, 88, 0.07)',
+      'info': '#464c53',
+      'info-muted': 'color-mix(in srgb, #464c53 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -107,10 +109,10 @@ export const CONCRETE_AND_SIGNAL: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#18191b',  // derived — R4
-      'syntax-string': '#34373a',  // derived — R4
-      'syntax-number': '#54585d',  // derived — R4
-      'syntax-boolean': '#757b81',  // derived — R4
-      'syntax-null': '#98a0a8',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #18191b 75%, #5c6166)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #18191b 50%, #5c6166)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #18191b 25%, #5c6166)',  // derived — R4
+      'syntax-null': '#5c6166',  // derived — R4
     },
   },
 }
@@ -132,8 +134,8 @@ export const DIRECTION_A: Theme = {
       'surface-active': '#464650',
       'fg': '#f4f4f5',
       'fg-secondary': '#a1a1aa',
-      'fg-muted': '#71717a',
-      'fg-faint': '#52525b',
+      'fg-muted': '#96969c',
+      'fg-faint': '#919197',
       'border': '#27272a',
       'border-subtle': '#1f1f23',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -141,7 +143,7 @@ export const DIRECTION_A: Theme = {
       'primary-hover': '#8aa3bf',
       'primary-active': '#5a7694',
       'primary-muted': 'rgba(110, 138, 168, 0.16)',
-      'primary-fg': '#0a0e14',
+      'primary-fg': '#000000',
       'brand': '#c8202e',
       'brand-hover': '#d83a46',
       'brand-active': '#a61a26',
@@ -150,29 +152,29 @@ export const DIRECTION_A: Theme = {
       'selection': 'rgba(255, 255, 255, 0.08)',
       'selection-fg': '#f4f4f5',
       'ring': '#6e8aa8',
-      'danger': '#c14a45',
-      'danger-hover': '#d05e59',
-      'danger-muted': 'rgba(193, 74, 69, 0.14)',
-      'danger-fg': '#ffffff',
-      'warning': '#c08858',
-      'warning-muted': 'rgba(192, 136, 88, 0.14)',
-      'warning-fg': '#0e0e10',  // derived
-      'success': '#8ba888',
-      'success-muted': 'rgba(139, 168, 136, 0.15)',
-      'success-fg': '#0a0e14',
-      'info': '#6e8aa8',
-      'info-muted': 'rgba(110, 138, 168, 0.14)',
-      'info-fg': '#0e0e10',  // derived
+      'danger': '#dfadab',
+      'danger-hover': '#e2b6b4',
+      'danger-muted': 'color-mix(in srgb, #dfadab 10%, transparent)',
+      'danger-fg': '#000000',
+      'warning': '#d5b397',
+      'warning-muted': 'color-mix(in srgb, #d5b397 10%, transparent)',
+      'warning-fg': '#000000',  // derived
+      'success': '#abbfa9',
+      'success-muted': 'color-mix(in srgb, #abbfa9 10%, transparent)',
+      'success-fg': '#000000',
+      'info': '#aabacb',
+      'info-muted': 'color-mix(in srgb, #aabacb 10%, transparent)',
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#f4f4f5',  // derived — R4
-      'syntax-string': '#c9c9cc',  // derived — R4
-      'syntax-number': '#9f9fa5',  // derived — R4
-      'syntax-boolean': '#77777f',  // derived — R4
-      'syntax-null': '#52525b',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #f4f4f5 75%, #919197)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #f4f4f5 50%, #919197)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #f4f4f5 25%, #919197)',  // derived — R4
+      'syntax-null': '#919197',  // derived — R4
     },
     light: {
       'bg': '#f7f7f6',
@@ -182,8 +184,8 @@ export const DIRECTION_A: Theme = {
       'surface-active': '#cecec8',
       'fg': '#18181b',
       'fg-secondary': '#4a4a50',
-      'fg-muted': '#76767c',
-      'fg-faint': '#a4a4a8',
+      'fg-muted': '#606066',
+      'fg-faint': '#646467',
       'border': '#d8d8d4',
       'border-subtle': '#e8e8e4',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -200,18 +202,18 @@ export const DIRECTION_A: Theme = {
       'selection': 'rgba(0, 0, 0, 0.06)',
       'selection-fg': '#18181b',
       'ring': '#3c5a78',
-      'danger': '#a8302a',
-      'danger-hover': '#922820',
-      'danger-muted': 'rgba(168, 48, 42, 0.08)',
+      'danger': '#8d2b27',
+      'danger-hover': '#7f2926',
+      'danger-muted': 'color-mix(in srgb, #8d2b27 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#9a6638',
-      'warning-muted': 'rgba(154, 102, 56, 0.09)',
+      'warning': '#69482d',
+      'warning-muted': 'color-mix(in srgb, #69482d 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#5a7858',
-      'success-muted': 'rgba(90, 120, 88, 0.10)',
+      'success': '#425441',
+      'success-muted': 'color-mix(in srgb, #425441 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#3c5a78',
-      'info-muted': 'rgba(60, 90, 120, 0.08)',
+      'info': '#37516c',
+      'info-muted': 'color-mix(in srgb, #37516c 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -219,10 +221,10 @@ export const DIRECTION_A: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#18181b',  // derived — R4
-      'syntax-string': '#37373a',  // derived — R4
-      'syntax-number': '#59595d',  // derived — R4
-      'syntax-boolean': '#7d7d81',  // derived — R4
-      'syntax-null': '#a4a4a8',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #18181b 75%, #646467)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #18181b 50%, #646467)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #18181b 25%, #646467)',  // derived — R4
+      'syntax-null': '#646467',  // derived — R4
     },
   },
 }
@@ -244,8 +246,8 @@ export const DIRECTION_B: Theme = {
       'surface-active': '#4c4038',
       'fg': '#f0eae0',
       'fg-secondary': '#b0a89c',
-      'fg-muted': '#82796d',
-      'fg-faint': '#5a5249',
+      'fg-muted': '#9b9387',
+      'fg-faint': '#968f85',
       'border': '#2a241e',
       'border-subtle': '#221d18',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -253,7 +255,7 @@ export const DIRECTION_B: Theme = {
       'primary-hover': '#a4b1bc',
       'primary-active': '#7a8898',
       'primary-muted': 'rgba(138, 153, 166, 0.14)',
-      'primary-fg': '#14110e',
+      'primary-fg': '#000000',
       'brand': '#c8202e',
       'brand-hover': '#d83a46',
       'brand-active': '#a61a26',
@@ -262,29 +264,29 @@ export const DIRECTION_B: Theme = {
       'selection': 'rgba(255, 240, 220, 0.08)',
       'selection-fg': '#f0eae0',
       'ring': '#8a99a6',
-      'danger': '#c14a45',
-      'danger-hover': '#d05e59',
-      'danger-muted': 'rgba(193, 74, 69, 0.14)',
-      'danger-fg': '#ffffff',
-      'warning': '#b8744a',
-      'warning-muted': 'rgba(184, 116, 74, 0.14)',
-      'warning-fg': '#14110e',  // derived
-      'success': '#a89858',
-      'success-muted': 'rgba(168, 152, 88, 0.14)',
-      'success-fg': '#14110e',
-      'info': '#8a99a6',
-      'info-muted': 'rgba(138, 153, 166, 0.13)',
-      'info-fg': '#14110e',  // derived
+      'danger': '#ddaaa2',
+      'danger-hover': '#dfb2a9',
+      'danger-muted': 'color-mix(in srgb, #ddaaa2 10%, transparent)',
+      'danger-fg': '#000000',
+      'warning': '#d3ae94',
+      'warning-muted': 'color-mix(in srgb, #d3ae94 10%, transparent)',
+      'warning-fg': '#000000',  // derived
+      'success': '#c2b689',
+      'success-muted': 'color-mix(in srgb, #c2b689 10%, transparent)',
+      'success-fg': '#000000',
+      'info': '#afb6bb',
+      'info-muted': 'color-mix(in srgb, #afb6bb 10%, transparent)',
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#f0eae0',  // derived — R4
-      'syntax-string': '#c8c1b8',  // derived — R4
-      'syntax-number': '#a29b91',  // derived — R4
-      'syntax-boolean': '#7d756c',  // derived — R4
-      'syntax-null': '#5a5249',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #f0eae0 75%, #968f85)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #f0eae0 50%, #968f85)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #f0eae0 25%, #968f85)',  // derived — R4
+      'syntax-null': '#968f85',  // derived — R4
     },
     light: {
       'bg': '#f5f1ea',
@@ -294,8 +296,8 @@ export const DIRECTION_B: Theme = {
       'surface-active': '#ccc4b0',
       'fg': '#1f1a14',
       'fg-secondary': '#5a5145',
-      'fg-muted': '#82796d',
-      'fg-faint': '#a8a094',
+      'fg-muted': '#615a50',
+      'fg-faint': '#655e55',
       'border': '#d4cab8',
       'border-subtle': '#e2dac8',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -312,18 +314,18 @@ export const DIRECTION_B: Theme = {
       'selection': 'rgba(60, 40, 20, 0.06)',
       'selection-fg': '#1f1a14',
       'ring': '#4d5d6b',
-      'danger': '#9c2a26',
-      'danger-hover': '#851f1c',
-      'danger-muted': 'rgba(156, 42, 38, 0.07)',
+      'danger': '#842723',
+      'danger-hover': '#782521',
+      'danger-muted': 'color-mix(in srgb, #842723 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#a05028',
-      'warning-muted': 'rgba(160, 80, 40, 0.08)',
+      'warning': '#703c21',
+      'warning-muted': 'color-mix(in srgb, #703c21 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#8a7530',
-      'success-muted': 'rgba(138, 117, 48, 0.08)',
+      'success': '#564822',
+      'success-muted': 'color-mix(in srgb, #564822 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#4d5d6b',
-      'info-muted': 'rgba(77, 93, 107, 0.07)',
+      'info': '#414b54',
+      'info-muted': 'color-mix(in srgb, #414b54 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -331,10 +333,10 @@ export const DIRECTION_B: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#1f1a14',  // derived — R4
-      'syntax-string': '#3e3830',  // derived — R4
-      'syntax-number': '#5f584f',  // derived — R4
-      'syntax-boolean': '#837b71',  // derived — R4
-      'syntax-null': '#a8a094',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #1f1a14 75%, #655e55)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #1f1a14 50%, #655e55)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #1f1a14 25%, #655e55)',  // derived — R4
+      'syntax-null': '#655e55',  // derived — R4
     },
   },
 }
@@ -356,8 +358,8 @@ export const DIRECTION_D: Theme = {
       'surface-active': '#4a3872',
       'fg': '#f0e8ff',
       'fg-secondary': '#b0a0d8',
-      'fg-muted': '#7c6ca8',
-      'fg-faint': '#524880',
+      'fg-muted': '#9c8fc0',
+      'fg-faint': '#968db7',
       'border': '#2a2148',
       'border-subtle': '#1f1838',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -365,38 +367,38 @@ export const DIRECTION_D: Theme = {
       'primary-hover': '#4cf0ff',
       'primary-active': '#00b8cc',
       'primary-muted': 'rgba(0, 229, 255, 0.14)',
-      'primary-fg': '#061824',
+      'primary-fg': '#000000',
       'brand': '#ff2d92',
       'brand-hover': '#ff52a4',
       'brand-active': '#e61478',
       'brand-muted': 'rgba(255, 45, 146, 0.14)',
-      'brand-fg': '#ffffff',
+      'brand-fg': '#000000',
       'selection': 'rgba(240, 232, 255, 0.08)',
       'selection-fg': '#f0e8ff',
       'ring': '#00e5ff',
-      'danger': '#ff2d92',
-      'danger-hover': '#ff52a4',
-      'danger-muted': 'rgba(255, 45, 146, 0.14)',
-      'danger-fg': '#ffffff',
+      'danger': '#f69dd3',
+      'danger-hover': '#f5a6d8',
+      'danger-muted': 'color-mix(in srgb, #f69dd3 10%, transparent)',
+      'danger-fg': '#000000',
       'warning': '#ffaa44',
       'warning-muted': 'rgba(255, 170, 68, 0.14)',
-      'warning-fg': '#0e0a1c',  // derived
+      'warning-fg': '#000000',  // derived
       'success': '#5ee0b8',
       'success-muted': 'rgba(94, 224, 184, 0.14)',
-      'success-fg': '#061824',
+      'success-fg': '#000000',
       'info': '#00e5ff',
       'info-muted': 'rgba(0, 229, 255, 0.12)',
-      'info-fg': '#0e0a1c',  // derived
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#f0e8ff',  // derived — R4
-      'syntax-string': '#c5bedf',  // derived — R4
-      'syntax-number': '#9d95bf',  // derived — R4
-      'syntax-boolean': '#766e9f',  // derived — R4
-      'syntax-null': '#524880',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #f0e8ff 75%, #968db7)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #f0e8ff 50%, #968db7)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #f0e8ff 25%, #968db7)',  // derived — R4
+      'syntax-null': '#968db7',  // derived — R4
     },
     light: {
       'bg': '#f5f0fa',
@@ -406,8 +408,8 @@ export const DIRECTION_D: Theme = {
       'surface-active': '#bcaecc',
       'fg': '#1a0e2e',
       'fg-secondary': '#4e3e6e',
-      'fg-muted': '#76688e',
-      'fg-faint': '#a298b4',
+      'fg-muted': '#5d5074',
+      'fg-faint': '#5f5472',
       'border': '#d0c4dc',
       'border-subtle': '#e4daee',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -424,18 +426,18 @@ export const DIRECTION_D: Theme = {
       'selection': 'rgba(40, 20, 60, 0.06)',
       'selection-fg': '#1a0e2e',
       'ring': '#1d4ed8',
-      'danger': '#c4147a',
-      'danger-hover': '#a81069',
-      'danger-muted': 'rgba(196, 20, 122, 0.08)',
+      'danger': '#7d115a',
+      'danger-hover': '#711155',
+      'danger-muted': 'color-mix(in srgb, #7d115a 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#c2410c',
-      'warning-muted': 'rgba(194, 65, 12, 0.08)',
+      'warning': '#762a1b',
+      'warning-muted': 'color-mix(in srgb, #762a1b 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#0e7490',
-      'success-muted': 'rgba(14, 116, 144, 0.09)',
+      'success': '#134967',
+      'success-muted': 'color-mix(in srgb, #134967 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#1d4ed8',
-      'info-muted': 'rgba(29, 78, 216, 0.08)',
+      'info': '#1c39a0',
+      'info-muted': 'color-mix(in srgb, #1c39a0 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -443,10 +445,10 @@ export const DIRECTION_D: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#1a0e2e',  // derived — R4
-      'syntax-string': '#382d4d',  // derived — R4
-      'syntax-number': '#594f6e',  // derived — R4
-      'syntax-boolean': '#7c7290',  // derived — R4
-      'syntax-null': '#a298b4',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #1a0e2e 75%, #5f5472)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #1a0e2e 50%, #5f5472)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #1a0e2e 25%, #5f5472)',  // derived — R4
+      'syntax-null': '#5f5472',  // derived — R4
     },
   },
 }
@@ -467,9 +469,9 @@ export const DIRECTION_E: Theme = {
       'surface-hover': '#1a3050',
       'surface-active': '#203c62',
       'fg': '#c8e0f0',
-      'fg-secondary': '#6a8aa8',
-      'fg-muted': '#4a6a88',
-      'fg-faint': '#2e4868',
+      'fg-secondary': '#7f9db8',
+      'fg-muted': '#7a97b0',
+      'fg-faint': '#7891a9',
       'border': '#1a3050',
       'border-subtle': '#0c1a2e',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -477,38 +479,38 @@ export const DIRECTION_E: Theme = {
       'primary-hover': '#4ce8ff',
       'primary-active': '#00b8d4',
       'primary-muted': 'rgba(0, 224, 255, 0.10)',
-      'primary-fg': '#050a14',
+      'primary-fg': '#000000',
       'brand': '#ff2d92',
       'brand-hover': '#ff52a4',
       'brand-active': '#e61478',
       'brand-muted': 'rgba(255, 45, 146, 0.10)',
-      'brand-fg': '#050a14',
+      'brand-fg': '#000000',
       'selection': 'rgba(0, 224, 255, 0.08)',
       'selection-fg': '#c8e0f0',
       'ring': '#00e0ff',
-      'danger': '#ff4d6e',
-      'danger-hover': '#ff7085',
-      'danger-muted': 'rgba(255, 77, 110, 0.10)',
-      'danger-fg': '#050a14',
+      'danger': '#e0a1b8',
+      'danger-hover': '#dda9bf',
+      'danger-muted': 'color-mix(in srgb, #e0a1b8 10%, transparent)',
+      'danger-fg': '#000000',
       'warning': '#ffaa00',
       'warning-muted': 'rgba(255, 170, 0, 0.10)',
-      'warning-fg': '#050a14',  // derived
+      'warning-fg': '#000000',  // derived
       'success': '#2ee59d',
       'success-muted': 'rgba(46, 229, 157, 0.10)',
-      'success-fg': '#050a14',
+      'success-fg': '#000000',
       'info': '#00e0ff',
       'info-muted': 'rgba(0, 224, 255, 0.08)',
-      'info-fg': '#050a14',  // derived
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#c8e0f0',  // derived — R4
-      'syntax-string': '#9fb8cd',  // derived — R4
-      'syntax-number': '#7791aa',  // derived — R4
-      'syntax-boolean': '#516b88',  // derived — R4
-      'syntax-null': '#2e4868',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #c8e0f0 75%, #7891a9)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #c8e0f0 50%, #7891a9)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #c8e0f0 25%, #7891a9)',  // derived — R4
+      'syntax-null': '#7891a9',  // derived — R4
     },
     light: {
       'bg': '#f4f1e8',
@@ -518,8 +520,8 @@ export const DIRECTION_E: Theme = {
       'surface-active': '#bfb490',
       'fg': '#0a1a24',
       'fg-secondary': '#2e4a5e',
-      'fg-muted': '#5a7484',
-      'fg-faint': '#8a9ca8',
+      'fg-muted': '#435a68',
+      'fg-faint': '#4d5e69',
       'border': '#c8be9c',
       'border-subtle': '#dcd4b8',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -536,18 +538,18 @@ export const DIRECTION_E: Theme = {
       'selection': 'rgba(10, 26, 36, 0.06)',
       'selection-fg': '#0a1a24',
       'ring': '#006e8c',
-      'danger': '#a8224a',
-      'danger-hover': '#8e1a3e',
-      'danger-muted': 'rgba(168, 34, 74, 0.08)',
+      'danger': '#7d2040',
+      'danger-hover': '#6f1f3d',
+      'danger-muted': 'color-mix(in srgb, #7d2040 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#b86b00',
-      'warning-muted': 'rgba(184, 107, 0, 0.08)',
+      'warning': '#5e4113',
+      'warning-muted': 'color-mix(in srgb, #5e4113 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#117a4a',
-      'success-muted': 'rgba(17, 122, 74, 0.08)',
+      'success': '#0e4f39',
+      'success-muted': 'color-mix(in srgb, #0e4f39 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#006e8c',
-      'info-muted': 'rgba(0, 110, 140, 0.07)',
+      'info': '#044b60',
+      'info-muted': 'color-mix(in srgb, #044b60 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -555,10 +557,10 @@ export const DIRECTION_E: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#0a1a24',  // derived — R4
-      'syntax-string': '#273742',  // derived — R4
-      'syntax-number': '#465762',  // derived — R4
-      'syntax-boolean': '#677884',  // derived — R4
-      'syntax-null': '#8a9ca8',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #0a1a24 75%, #4d5e69)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #0a1a24 50%, #4d5e69)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #0a1a24 25%, #4d5e69)',  // derived — R4
+      'syntax-null': '#4d5e69',  // derived — R4
     },
   },
 }
@@ -579,9 +581,9 @@ export const DIRECTION_F: Theme = {
       'surface-hover': '#2e2e2e',
       'surface-active': '#383838',
       'fg': '#f0f0f0',
-      'fg-secondary': '#909090',
-      'fg-muted': '#6c6c6c',
-      'fg-faint': '#4a4a4a',
+      'fg-secondary': '#999999',
+      'fg-muted': '#949494',
+      'fg-faint': '#8e8e8e',
       'border': '#242424',
       'border-subtle': '#1c1c1c',
       'divider': 'rgba(255, 255, 255, 0.06)',
@@ -589,38 +591,38 @@ export const DIRECTION_F: Theme = {
       'primary-hover': '#f0f0f0',
       'primary-active': '#e0e0e0',
       'primary-muted': 'rgba(255, 255, 255, 0.08)',
-      'primary-fg': '#0c0c0c',
+      'primary-fg': '#000000',
       'brand': '#d97742',
       'brand-hover': '#e38a57',
       'brand-active': '#c0622c',
       'brand-muted': 'rgba(217, 119, 66, 0.10)',
-      'brand-fg': '#ffffff',
+      'brand-fg': '#000000',
       'selection': 'rgba(255, 255, 255, 0.08)',
       'selection-fg': '#f0f0f0',
       'ring': '#ffffff',
-      'danger': '#d97742',
-      'danger-hover': '#e38a57',
-      'danger-muted': 'rgba(217, 119, 66, 0.12)',
-      'danger-fg': '#ffffff',
-      'warning': '#d97742',
-      'warning-muted': 'rgba(217, 119, 66, 0.10)',
-      'warning-fg': '#0c0c0c',  // derived
+      'danger': '#e2a584',
+      'danger-hover': '#e4ae91',
+      'danger-muted': 'color-mix(in srgb, #e2a584 10%, transparent)',
+      'danger-fg': '#000000',
+      'warning': '#e2a584',
+      'warning-muted': 'color-mix(in srgb, #e2a584 10%, transparent)',
+      'warning-fg': '#000000',  // derived
       'success': '#c8c8c8',
       'success-muted': 'rgba(200, 200, 200, 0.07)',
-      'success-fg': '#0c0c0c',
-      'info': '#909090',
-      'info-muted': 'rgba(144, 144, 144, 0.08)',
-      'info-fg': '#0c0c0c',  // derived
+      'success-fg': '#000000',
+      'info': '#b3b3b3',
+      'info-muted': 'color-mix(in srgb, #b3b3b3 10%, transparent)',
+      'info-fg': '#000000',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
       'chart-3': '#ff00ff',
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#f0f0f0',  // derived — R4
-      'syntax-string': '#c3c3c3',  // derived — R4
-      'syntax-number': '#999999',  // derived — R4
-      'syntax-boolean': '#707070',  // derived — R4
-      'syntax-null': '#4a4a4a',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #f0f0f0 75%, #8e8e8e)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #f0f0f0 50%, #8e8e8e)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #f0f0f0 25%, #8e8e8e)',  // derived — R4
+      'syntax-null': '#8e8e8e',  // derived — R4
     },
     light: {
       'bg': '#ededed',
@@ -630,8 +632,8 @@ export const DIRECTION_F: Theme = {
       'surface-active': '#b4b4b4',
       'fg': '#0a0a0a',
       'fg-secondary': '#4a4a4a',
-      'fg-muted': '#6c6c6c',
-      'fg-faint': '#909090',
+      'fg-muted': '#555555',
+      'fg-faint': '#595959',
       'border': '#c8c8c8',
       'border-subtle': '#dcdcdc',
       'divider': 'rgba(0, 0, 0, 0.07)',
@@ -648,18 +650,18 @@ export const DIRECTION_F: Theme = {
       'selection': 'rgba(0, 0, 0, 0.06)',
       'selection-fg': '#0a0a0a',
       'ring': '#0a0a0a',
-      'danger': '#b85a28',
-      'danger-hover': '#9e4c20',
-      'danger-muted': 'rgba(184, 90, 40, 0.09)',
+      'danger': '#68351a',
+      'danger-hover': '#5d3018',
+      'danger-muted': 'color-mix(in srgb, #68351a 10%, transparent)',
       'danger-fg': '#ffffff',
-      'warning': '#b85a28',
-      'warning-muted': 'rgba(184, 90, 40, 0.08)',
+      'warning': '#68351a',
+      'warning-muted': 'color-mix(in srgb, #68351a 10%, transparent)',
       'warning-fg': '#ffffff',  // derived
-      'success': '#4a4a4a',
-      'success-muted': 'rgba(74, 74, 74, 0.06)',
+      'success': '#434343',
+      'success-muted': 'color-mix(in srgb, #434343 10%, transparent)',
       'success-fg': '#ffffff',
-      'info': '#4a4a4a',
-      'info-muted': 'rgba(74, 74, 74, 0.06)',
+      'info': '#434343',
+      'info-muted': 'color-mix(in srgb, #434343 10%, transparent)',
       'info-fg': '#ffffff',  // derived
       'chart-1': '#ff00ff',
       'chart-2': '#ff00ff',
@@ -667,10 +669,10 @@ export const DIRECTION_F: Theme = {
       'chart-4': '#ff00ff',
       'chart-5': '#ff00ff',
       'syntax-key': '#0a0a0a',  // derived — R4
-      'syntax-string': '#272727',  // derived — R4
-      'syntax-number': '#474747',  // derived — R4
-      'syntax-boolean': '#6b6b6b',  // derived — R4
-      'syntax-null': '#909090',  // derived — R4
+      'syntax-string': 'color-mix(in oklab, #0a0a0a 75%, #595959)',  // derived — R4
+      'syntax-number': 'color-mix(in oklab, #0a0a0a 50%, #595959)',  // derived — R4
+      'syntax-boolean': 'color-mix(in oklab, #0a0a0a 25%, #595959)',  // derived — R4
+      'syntax-null': '#595959',  // derived — R4
     },
   },
 }

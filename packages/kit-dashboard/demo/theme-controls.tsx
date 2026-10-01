@@ -1,12 +1,9 @@
-import { createThemeStore, useTheme } from '@hollis-labs/design-app-runtime'
+import { useTheme } from '@hollis-labs/design-app-runtime'
 import { ModeToggle, ThemePicker } from '@hollis-labs/design-components'
-import { BUILTIN_THEMES, DEFAULT_THEME_ID } from '@hollis-labs/design-tokens'
+import { BUILTIN_THEMES } from '@hollis-labs/design-tokens'
+import { appearance } from './appearance'
 
-export const appearance = createThemeStore({
-  defaultTheme: DEFAULT_THEME_ID,
-  themes: BUILTIN_THEMES.map((theme) => theme.id),
-  storageKey: 'design-kit.demo.appearance',
-})
+
 
 export function ThemeControls() {
   const state = useTheme(appearance)

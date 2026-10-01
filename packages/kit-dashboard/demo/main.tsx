@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './demo.css'
-import { appearance } from './theme-controls'
+import { appearance } from './appearance'
 import { App } from './App'
 
 appearance.initialize()

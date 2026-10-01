@@ -1,0 +1,348 @@
+{
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 1440,
+    "height": 1200
+  },
+  "pageErrors": [],
+  "legacyPills": [
+    {
+      "theme": "p4-white",
+      "pills": [
+        {
+          "tone": "neutral",
+          "size": "10px",
+          "color": "rgb(161, 161, 170)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-border bg-bg-elevated text-fg-muted"
+        },
+        {
+          "tone": "success",
+          "size": "10px",
+          "color": "rgb(52, 211, 153)",
+          "border": "oklab(0.772937 -0.14692 0.0443151 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-success/40 bg-success/10 text-success"
+        },
+        {
+          "tone": "warning",
+          "size": "10px",
+          "color": "rgb(245, 158, 11)",
+          "border": "oklab(0.768595 0.0561344 0.154817 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-warning/40 bg-warning/10 text-warning"
+        },
+        {
+          "tone": "danger",
+          "size": "10px",
+          "color": "rgb(251, 113, 133)",
+          "border": "oklab(0.71919 0.164391 0.0392594 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-danger/40 bg-danger/10 text-danger"
+        },
+        {
+          "tone": "info",
+          "size": "10px",
+          "color": "rgb(96, 165, 250)",
+          "border": "oklab(0.713726 -0.0379879 -0.138233 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-info/40 bg-info/10 text-info"
+        }
+      ],
+      "feedback": [
+        "#34d399",
+        "#60a5fa"
+      ]
+    },
+    {
+      "theme": "p1-green-phosphor",
+      "pills": [
+        {
+          "tone": "neutral",
+          "size": "10px",
+          "color": "rgb(93, 214, 138)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-border bg-bg-elevated text-fg-muted"
+        },
+        {
+          "tone": "success",
+          "size": "10px",
+          "color": "rgb(102, 255, 170)",
+          "border": "oklab(0.89702 -0.160865 0.0726043 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-success/40 bg-success/10 text-success"
+        },
+        {
+          "tone": "warning",
+          "size": "10px",
+          "color": "rgb(255, 212, 102)",
+          "border": "oklab(0.886122 0.00483131 0.13627 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-warning/40 bg-warning/10 text-warning"
+        },
+        {
+          "tone": "danger",
+          "size": "10px",
+          "color": "rgb(255, 184, 77)",
+          "border": "oklab(0.830516 0.0396562 0.139825 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-danger/40 bg-danger/10 text-danger"
+        },
+        {
+          "tone": "info",
+          "size": "10px",
+          "color": "rgb(0, 204, 85)",
+          "border": "oklab(0.737424 -0.179982 0.1109 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-info/40 bg-info/10 text-info"
+        }
+      ],
+      "feedback": [
+        "#6fa",
+        "#0c5"
+      ]
+    },
+    {
+      "theme": "p3-amber-phosphor",
+      "pills": [
+        {
+          "tone": "neutral",
+          "size": "10px",
+          "color": "rgb(232, 172, 72)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-border bg-bg-elevated text-fg-muted"
+        },
+        {
+          "tone": "success",
+          "size": "10px",
+          "color": "rgb(255, 208, 96)",
+          "border": "oklab(0.877732 0.00891694 0.138764 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-success/40 bg-success/10 text-success"
+        },
+        {
+          "tone": "warning",
+          "size": "10px",
+          "color": "rgb(255, 208, 96)",
+          "border": "oklab(0.877732 0.00891694 0.138764 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-warning/40 bg-warning/10 text-warning"
+        },
+        {
+          "tone": "danger",
+          "size": "10px",
+          "color": "rgb(255, 110, 78)",
+          "border": "oklab(0.711042 0.152409 0.102643 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-danger/40 bg-danger/10 text-danger"
+        },
+        {
+          "tone": "info",
+          "size": "10px",
+          "color": "rgb(255, 176, 0)",
+          "border": "oklab(0.812423 0.0401273 0.165604 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-info/40 bg-info/10 text-info"
+        }
+      ],
+      "feedback": [
+        "#ffd060",
+        "#ffb000"
+      ]
+    },
+    {
+      "theme": "hi-contrast",
+      "pills": [
+        {
+          "tone": "neutral",
+          "size": "10px",
+          "color": "rgb(235, 235, 235)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-border bg-bg-elevated text-fg-muted"
+        },
+        {
+          "tone": "success",
+          "size": "10px",
+          "color": "rgb(0, 255, 0)",
+          "border": "oklab(0.866435 -0.23384 0.179502 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-success/40 bg-success/10 text-success"
+        },
+        {
+          "tone": "warning",
+          "size": "10px",
+          "color": "rgb(255, 255, 0)",
+          "border": "oklab(0.967983 -0.0713198 0.198578 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-warning/40 bg-warning/10 text-warning"
+        },
+        {
+          "tone": "danger",
+          "size": "10px",
+          "color": "rgb(255, 59, 48)",
+          "border": "oklab(0.654224 0.203716 0.111346 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-danger/40 bg-danger/10 text-danger"
+        },
+        {
+          "tone": "info",
+          "size": "10px",
+          "color": "rgb(0, 255, 255)",
+          "border": "oklab(0.905387 -0.149403 -0.0393822 / 0.4)",
+          "classes": "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-caption uppercase tracking-wider border-info/40 bg-info/10 text-info"
+        }
+      ],
+      "feedback": [
+        "#0f0",
+        "#0ff"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "theme": "nanite-default",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(12, 13, 14)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "nanite-default",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(244, 245, 246)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-a",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(14, 14, 16)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-a",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(247, 247, 246)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-b",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(20, 17, 14)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-b",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(245, 241, 234)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-d",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(14, 10, 28)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-d",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(245, 240, 250)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-e",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(5, 10, 20)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-e",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(244, 241, 232)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-f",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(12, 12, 12)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "dir-f",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(237, 237, 237)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(9, 9, 11)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(250, 250, 250)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(10, 10, 10)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(244, 250, 245)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(10, 10, 10)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(255, 251, 239)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "dark",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(0, 0, 0)",
+      "interactionFailures": []
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "light",
+      "failures": [],
+      "undefinedTokens": [],
+      "body": "rgb(255, 255, 255)",
+      "interactionFailures": []
+    }
+  ]
+}

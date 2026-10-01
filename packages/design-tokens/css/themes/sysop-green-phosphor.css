@@ -18,7 +18,7 @@
   --hl-fg: rgb(0 255 102);
   --hl-fg-secondary: rgb(102 255 170);
   --hl-fg-muted: rgb(93 214 138);
-  --hl-fg-faint: rgb(58 140 92);
+  --hl-fg-faint: #35955d;
   --hl-border: rgb(38 74 47);
   --hl-border-subtle: rgb(82 153 101 / 70%);
   --hl-divider: rgb(64 108 75 / 60%);
@@ -26,38 +26,38 @@
   --hl-primary-hover: rgb(120 255 180);
   --hl-primary-active: rgb(90 224 150);
   --hl-primary-muted: rgb(102 255 170 / 12%);
-  --hl-primary-fg: rgb(10 10 10);
+  --hl-primary-fg: #000000;
   --hl-brand: rgb(102 255 170);
   --hl-brand-hover: rgb(120 255 180);
   --hl-brand-active: rgb(90 224 150);
   --hl-brand-muted: rgb(102 255 170 / 12%);
-  --hl-brand-fg: rgb(10 10 10);
+  --hl-brand-fg: #000000;
   --hl-selection: rgb(18 26 20);
   --hl-selection-fg: rgb(0 255 102);
   --hl-ring: rgb(102 255 170 / 58%);
   --hl-danger: rgb(255 184 77);
   --hl-danger-hover: rgb(255 193 98);
   --hl-danger-muted: rgb(255 184 77 / 12%);
-  --hl-danger-fg: rgb(10 10 10);
+  --hl-danger-fg: #000000;
   --hl-warning: rgb(255 212 102);
   --hl-warning-muted: rgb(255 212 102 / 12%);
-  --hl-warning-fg: rgb(10 10 10);
+  --hl-warning-fg: #000000;
   --hl-success: rgb(102 255 170);
   --hl-success-muted: rgb(102 255 170 / 12%);
-  --hl-success-fg: rgb(10 10 10);
+  --hl-success-fg: #000000;
   --hl-info: rgb(0 204 85);
   --hl-info-muted: rgb(0 204 85 / 12%);
-  --hl-info-fg: rgb(10 10 10);
+  --hl-info-fg: #000000;
   --hl-chart-1: #ff00ff;
   --hl-chart-2: #ff00ff;
   --hl-chart-3: #ff00ff;
   --hl-chart-4: #ff00ff;
   --hl-chart-5: #ff00ff;
   --hl-syntax-key: rgb(0 255 102);
-  --hl-syntax-string: rgb(38 225 102);
-  --hl-syntax-number: rgb(51 196 100);
-  --hl-syntax-boolean: rgb(56 168 97);
-  --hl-syntax-null: rgb(58 140 92);
+  --hl-syntax-string: color-mix(in oklab, rgb(0 255 102) 75%, #35955d);
+  --hl-syntax-number: color-mix(in oklab, rgb(0 255 102) 50%, #35955d);
+  --hl-syntax-boolean: color-mix(in oklab, rgb(0 255 102) 25%, #35955d);
+  --hl-syntax-null: #35955d;
 }
 [data-theme="sysop-green-phosphor"][data-mode="light"],
 [data-theme="sysop-green-phosphor"].light {

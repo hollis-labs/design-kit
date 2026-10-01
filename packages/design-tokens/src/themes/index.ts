@@ -92,7 +92,8 @@ const SYNTAX_DERIVED = [
  * A contract token that neither source implementation had a value for. Filling
  * these mechanically is how the package ships complete themes without inventing
  * a palette; listing them here is how that stays honest. 168 values — 88 at the
- * contract's landing plus 80 from R4 — and none has been through design review.
+ * contract's landing plus 80 from R4. CW-20261001-0498 adds light sysop ramps
+ * and corrects text/feedback contrast; screenshots await visual sign-off.
  *
  * FOUR RULES PRODUCED ALL OF THEM, applied once, offline, with the results
  * written into the theme files as literal colours so every value stays
@@ -164,4 +165,5 @@ export const DERIVED_TOKEN_VALUES: ReadonlyArray<{
   { theme: 'sysop-green-phosphor', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
   { theme: 'sysop-amber-phosphor', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
   { theme: 'sysop-hi-contrast', mode: 'dark', tokens: [...SYSOP_DERIVED, ...SYNTAX_DERIVED] },
+  ...SYSOP_PALETTES.map((theme) => ({ theme: theme.id, mode: 'light' as const, tokens: SYNTAX_DERIVED })),
 ]

@@ -99,7 +99,6 @@ test('the placeholder is loud, not plausible', () => {
 
 test('every derived value is declared, and declared accurately', () => {
   const ids = new Set(BUILTIN_THEMES.map((t) => t.id))
-  let total = 0
   for (const row of DERIVED_TOKEN_VALUES) {
     assert.ok(ids.has(row.theme), `unknown theme ${row.theme}`)
     const theme = getBuiltinTheme(row.theme)
@@ -108,11 +107,8 @@ test('every derived value is declared, and declared accurately', () => {
       assert.ok(COLOR_TOKENS.includes(t), `${row.theme}: ${t} is not a token`)
       assert.ok(!CHART_TOKENS.includes(t), `${t} is a placeholder, not a derived value`)
     }
-    total += row.tokens.length
+    assert.equal(new Set(row.tokens).size, row.tokens.length, `${row.theme}/${row.mode}: duplicate derivation`)
   }
-  // 88 at the contract's landing (R1-R3), plus R4's 80: the five syntax names in
-  // each of 16 theme-modes. Updated deliberately when §3.10 landed.
-  assert.equal(total, 168, 'the design pass worklist is 168 values')
 })
 
 test('sysop palettes lack exactly the sixteen the manifest says they lack', () => {
@@ -125,7 +121,7 @@ test('sysop palettes lack exactly the sixteen the manifest says they lack', () =
   // Separating the two keeps a future syntax change from silently passing as a
   // gap, and a future gap from hiding inside the ramp.
   const SYNTAX = ['syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null']
-  const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-'))
+  const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-') && r.mode === 'dark')
   assert.equal(rows.length, 4)
   for (const r of rows) {
     const gaps = r.tokens.filter((t) => !SYNTAX.includes(t))

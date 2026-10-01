@@ -80,7 +80,7 @@ import {
 | Radius steps added | 1 new + 1 alias | `panel` 10px · `control` = Tailwind's `md` |
 | Tracking steps added | 2 | `tracking-label` 0.18em · `tracking-eyebrow` 0.28em |
 | Spacing tokens | **0** | Tailwind's scale *is* the contract — 99.4% adherence already |
-| Built-in themes | **10** | 6 from Nanite (dark + light), 4 from sysop-ui (dark) |
+| Built-in themes | **10** | 6 from Nanite (dark + light), 4 from sysop-ui (dark + light) |
 
 ```
 surfaces    bg  bg-elevated  surface  surface-hover  surface-active
@@ -142,11 +142,10 @@ problems. Direction is TS → CSS (§10), the generated CSS is committed, and
 
 ### Dark/light as modes, or as sibling palettes? — **Modes, with dark-only allowed**
 
-Nanite's model, which is the more conventional and more useful one. But
-sysop-ui's four palettes are **alternates, not modes** — `p1-green-phosphor` has
-no light variant and does not acquire one by being asked. So `Theme.tokens.light`
-is optional. This is the package's **one deviation from the contract as written**;
-see *Findings* below.
+All built-ins now carry both modes (CW-20261001-0498). The sysop palettes retain
+phosphor/neutral/high-contrast dark identity and add paper-and-ink light variants.
+Custom themes may still omit `tokens.light` for compatibility.
+See [appearance setup](../../docs/appearance.md) for controls and persistence.
 
 ### `@theme inline` for colours — **yes, and it is load-bearing**
 
@@ -194,7 +193,7 @@ losing either costs the epic its working examples.
 | Themes | From | Modes |
 |---|---|---|
 | `dir-a` (Graphite & Ink — **the default**), `dir-b`, `dir-d`, `dir-e`, `dir-f`, `nanite-default` (Concrete & Signal) | `apps/nanite` | dark **and** light |
-| `sysop-p4-white`, `sysop-green-phosphor`, `sysop-amber-phosphor`, `sysop-hi-contrast` | `libs/sysop-ui` | dark only |
+| `sysop-p4-white`, `sysop-green-phosphor`, `sysop-amber-phosphor`, `sysop-hi-contrast` | `libs/sysop-ui` + new light companions | dark + light |
 
 Nanite's typed half was re-verified rather than trusted: **12 value sets × 40
 keys, one key set, zero drift.** The claim holds exactly.
@@ -218,7 +217,7 @@ Two criteria picked `dir-a`:
   `dir-b` was the other muted candidate, and its `success` is gold — which reads
   as a warning. `dir-d` and `dir-e` are distinct but loud; Synthwave and
   Hacker/Terminal are aesthetic statements, not neutral starting points.
-- **Light mode.** All four sysop palettes are dark-only, so any of them as the
+- **Light mode.** At the original decision all four sysop palettes were dark-only, so any as the
   default would make the out-of-box experience dark-only while
   `Theme.tokens.light` is optional. All six Nanite themes carry both.
 
@@ -344,14 +343,10 @@ Reported rather than worked around, per the epic's standing rule. Five separate
 measured claims in this epic have turned out to count something other than what
 they named; these are re-derivations, not inherited numbers.
 
-1. **The contract's `Theme` type is unimplementable as written, given CW-0124's
-   own requirements.** §10 makes `tokens.light` required; CW-0124 requires
-   sysop-ui's dark-only palettes to survive and be demonstrable. Satisfying both
-   means inventing four light palettes, which is a design pass. Implemented with
-   `light?:`, which loses nothing — `Record<ColorToken, string>` still forces
-   completeness on whichever modes a theme declares, so the no-drift property the
-   requirement existed for is intact. **This is the one place the contract was not
-   implemented literally.**
+1. **Custom dark-only themes remain supported.** The original port made
+   `tokens.light` optional to preserve sysop's dark-only palettes. CW-20261001-0498
+   adds light companions to every built-in; the optional field remains for custom
+   themes. Every supplied mode is still a complete `Record<ColorToken, string>`.
 
 2. **"+18 generated shadcn aliases" is not what §3.7's table contains.** The table
    yields **24** alias names, of which **8** map a name onto itself (`primary`,
@@ -492,3 +487,14 @@ verified again from the tarball in a browser: `Metric`'s value computed to
 `rgb(82, 82, 91)` against `#52525b` for `fg-faint`, and the four added type steps
 measured 9 / 10 / 11 / 13 px with `rounded-panel` at 10px and `rounded-control` at
 6px — the declared values, on a screen, through a consumer's own Tailwind build.
+
+## Light/dark contrast pass — CW-20261001-0498
+
+Inherited palettes had faint/muted text below 4.5:1, including chat kickers and
+JSON syntax. The theme sources now raise those text floors on page, elevated,
+and surface backgrounds. Feedback colors move toward each palette's foreground
+until labels remain legible on tinted fills (including dashboard priority chips);
+filled accents choose black or white by contrast. Syntax retains the oklab ramp
+between foreground and the corrected faint endpoint. Four sysop light companions
+are new appearance choices and await visual sign-off in [screenshots](../../docs/screenshots/README.md).
+This does not design the chart palette: its magenta placeholders remain explicit.

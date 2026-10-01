@@ -97,6 +97,8 @@ export function setMode(mode: ThemeMode): void {
   const root = document.documentElement
   root.setAttribute('data-mode', mode)
   root.classList.toggle('light', mode === 'light')
+  root.classList.toggle('dark', mode === 'dark')
+  root.style.colorScheme = mode
 }
 
 export function currentTheme(): string | null {

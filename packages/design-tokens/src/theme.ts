@@ -58,27 +58,7 @@ export interface Theme {
    * today. `hasDesignedChartPalette()` is the runtime check.
    */
   chartPalette: 'placeholder' | 'designed'
-  /**
-   * ── DEVIATION FROM THE CONTRACT, REPORTED RATHER THAN PAPERED OVER ──────────
-   *
-   * §10 writes this as `{ dark: TokenValues; light: TokenValues }` — both
-   * required. Implemented here with `light` OPTIONAL, because the contract's own
-   * two requirements collide otherwise:
-   *
-   *   · §10 says every theme carries a complete dark AND light set.
-   *   · CW-0124 says sysop-ui's four palettes must survive the move and be
-   *     demonstrable.
-   *
-   * Those four palettes are dark-only ALTERNATES, not modes — `p1-green-phosphor`
-   * has no light variant, and a phosphor CRT does not acquire one by being asked
-   * politely. Satisfying both would mean inventing four light palettes, which is
-   * a design pass and is Chrispian's, not this package's. `light?` is the
-   * smaller deviation and it loses nothing: `Record<ColorToken, string>` still
-   * forces completeness on whichever modes a theme declares, so the
-   * no-drift property the requirement existed for is intact.
-   *
-   * Nanite's six themes carry both, unchanged.
-   */
+  /** Built-ins ship both modes. Custom dark-only themes remain supported. */
   tokens: {
     dark: TokenValues
     light?: TokenValues

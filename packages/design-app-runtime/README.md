@@ -143,3 +143,8 @@ exercises the API client, the hooks, the router, storage and the formatters in a
 Node process. It is committed because it earned it: on its first run it found both of
 the defects listed above, neither of which the unit tests could have caught — they run
 inside a configured jsdom workspace, and this runs with nothing else installed.
+
+## Appearance preferences
+
+See [theme and mode setup](../../docs/appearance.md) for the shared preference store,
+ModeToggle, ThemePicker, persistence, and the system default.

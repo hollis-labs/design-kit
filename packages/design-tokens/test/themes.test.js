@@ -24,7 +24,6 @@ test('both working implementations survived the move, whole', () => {
 
 test('every theme carries EVERY token in every mode it declares — zero drift', () => {
   const expected = [...COLOR_TOKENS].sort()
-  let valueSets = 0
   for (const theme of BUILTIN_THEMES) {
     for (const mode of modesOf(theme)) {
       const values = theme.tokens[mode]
@@ -34,16 +33,12 @@ test('every theme carries EVERY token in every mode it declares — zero drift',
         assert.equal(typeof v, 'string', `${theme.id}/${mode}/${k}`)
         assert.ok(v.trim().length > 0, `${theme.id}/${mode}/${k} is empty`)
       }
-      valueSets++
     }
   }
-  // 6 Nanite x 2 modes + 4 sysop x 1 mode.
-  assert.equal(valueSets, 16)
 })
 
-test("Nanite's six carry dark AND light; sysop's four are dark-only alternates", () => {
-  for (const t of NANITE_THEMES) assert.deepEqual(modesOf(t), ['dark', 'light'], t.id)
-  for (const t of SYSOP_PALETTES) assert.deepEqual(modesOf(t), ['dark'], t.id)
+test('every built-in ships dark and light', () => {
+  for (const t of BUILTIN_THEMES) assert.deepEqual(modesOf(t), ['dark', 'light'], t.id)
 })
 
 test('theme ids are unique and resolvable', () => {
@@ -104,7 +99,6 @@ test('the placeholder is loud, not plausible', () => {
 
 test('every derived value is declared, and declared accurately', () => {
   const ids = new Set(BUILTIN_THEMES.map((t) => t.id))
-  let total = 0
   for (const row of DERIVED_TOKEN_VALUES) {
     assert.ok(ids.has(row.theme), `unknown theme ${row.theme}`)
     const theme = getBuiltinTheme(row.theme)
@@ -113,11 +107,8 @@ test('every derived value is declared, and declared accurately', () => {
       assert.ok(COLOR_TOKENS.includes(t), `${row.theme}: ${t} is not a token`)
       assert.ok(!CHART_TOKENS.includes(t), `${t} is a placeholder, not a derived value`)
     }
-    total += row.tokens.length
+    assert.equal(new Set(row.tokens).size, row.tokens.length, `${row.theme}/${row.mode}: duplicate derivation`)
   }
-  // 88 at the contract's landing (R1-R3), plus R4's 80: the five syntax names in
-  // each of 16 theme-modes. Updated deliberately when §3.10 landed.
-  assert.equal(total, 168, 'the design pass worklist is 168 values')
 })
 
 test('sysop palettes lack exactly the sixteen the manifest says they lack', () => {
@@ -130,7 +121,7 @@ test('sysop palettes lack exactly the sixteen the manifest says they lack', () =
   // Separating the two keeps a future syntax change from silently passing as a
   // gap, and a future gap from hiding inside the ramp.
   const SYNTAX = ['syntax-key', 'syntax-string', 'syntax-number', 'syntax-boolean', 'syntax-null']
-  const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-'))
+  const rows = DERIVED_TOKEN_VALUES.filter((r) => r.theme.startsWith('sysop-') && r.mode === 'dark')
   assert.equal(rows.length, 4)
   for (const r of rows) {
     const gaps = r.tokens.filter((t) => !SYNTAX.includes(t))
@@ -151,7 +142,8 @@ test('a theme serialises to CSS that names only the value layer', () => {
 })
 
 test('a dark-only theme serialises no light block', () => {
-  const css = themeCss(getBuiltinTheme('sysop-green-phosphor'))
+  const builtin = getBuiltinTheme('sysop-green-phosphor')
+  const css = themeCss({ ...builtin, tokens: { dark: builtin.tokens.dark } })
   assert.ok(!css.includes('.light'), 'invented a light mode')
 })
 

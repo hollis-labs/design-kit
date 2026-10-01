@@ -74,6 +74,9 @@ const v = (name: string) => `--${VALUE_PREFIX}-${name}`
 export function emitContractCss(): string {
   const out: string[] = [BANNER, '']
 
+  out.push('/* Explicit mode follows the app preference, independently of the OS. */')
+  out.push('@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *, .dark, .dark *));')
+  out.push('')
   out.push('@theme inline {')
   out.push('  /* Fonts — §3.9 */')
   for (const f of FONT_TOKENS) out.push(`  --font-${f}: var(${v(`font-${f}`)});`)

@@ -5,6 +5,9 @@
  * suite runs so a hand-edit fails CI instead of drifting quietly.
  */
 
+/* Explicit mode follows the app preference, independently of the OS. */
+@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *, .dark, .dark *));
+
 @theme inline {
   /* Fonts — §3.9 */
   --font-sans: var(--hl-font-sans);

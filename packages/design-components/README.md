@@ -174,3 +174,8 @@ say so. `prepack` is the only hook that is right on both counts. Do not tidy it.
 flattens the JS to `dist/`, which is why `types` points at `./dist/src/index.d.ts`.
 `rollupTypes: true` was tried in sysop-ui and produced an empty `export {}` bundle —
 see `[[sysop_ui_build_quirks]]` before "fixing" it.
+
+## Appearance preferences
+
+See [theme and mode setup](../../docs/appearance.md) for the shared preference store,
+ModeToggle, ThemePicker, persistence, and the system default.

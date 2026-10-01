@@ -33,7 +33,7 @@
  *
  * If a future component needs `scroll-fade` or `shimmer`, take the definition — not
  * the import. */
-@import "@hollis-labs/design-tokens/tokens.css";
+@import "@hollis-labs/design-tokens/design-tokens.css";
 
 /* THE TWO LINES BELOW ARE WHY THE COMPONENTS HAVE COLOUR. Tailwind v4 emits a
  * utility only for a class string it has SEEN, and it does not scan `node_modules`.
@@ -260,75 +260,15 @@
   --theme-color-status-indexed: rgb(0 255 0);
 }
 
-/* ───────────────────── THE CONTRACT'S VALUE LAYER ─────────────────────────
- *
- * `@import "@hollis-labs/design-tokens/tokens.css"` above brings in the contract
- * NAMES — 59 `--color-*` entries inside `@theme inline`, every one of which reads
- * a `--hl-*`. That file defines no values at all; they live in the contract's own
- * `themes/*.css`, which this package deliberately does not import. The two-level
- * split is what makes the vocabulary adoptable without the palette.
- *
- * So this block supplies `--hl-*` FROM THE VALUES THIS KIT ALREADY HAS. It is
- * additive and changes no pixel: every mapping below was derived from this file's
- * own `@theme inline` block, so a component that migrates from `text-text-subtle`
- * to `text-fg-faint` resolves to the identical colour.
- *
- * WHY `:root` IS THE RIGHT SCOPE, since it looks like it should need repeating per
- * palette. `data-theme` is set on `document.documentElement`, and the
- * `[data-theme="..."]` blocks above match THAT SAME ELEMENT — so does `:root`.
- * A custom property is resolved where it is USED, against that element's computed
- * value, so one declaration per token picks up whichever palette is live. If the
- * theme scope is ever moved off the root element, this block breaks and has to
- * move with it.
- *
- * DERIVED, NOT TRANSCRIBED. Each value was read out of `@theme inline` below by
- * matching the contract token to the shadcn alias or retired name the kit already
- * maps. That matters for one of them: `selection` comes from `--color-accent`
- * (the neutral hover surface, `panel-2`) and NOT from `--theme-color-accent`,
- * which is this kit's near-white action colour and belongs to `primary`. The
- * contract documents that collision explicitly; naively inverting its
- * `DEPRECATED_TOKENS` map would have wired `selection` to the wrong one.
- *
- * It also makes the 20 name collisions with the contract's block harmless: where
- * both define `--color-border`, both resolve to `--theme-color-border`.
- *
- * PRECEDENCE: A RETIRED NAME BEATS A SHADCN ALIAS, and getting that backwards
- * costs a real colour. `fg-muted` has two candidate sources — shadcn's
- * `muted-foreground`, which this kit maps to `text-subtle`, and the contract's
- * retirement of `text-soft`, which maps to `text-soft`. The retirement is the
- * exact 1:1 rename of the same step; the shadcn alias is a COARSER vocabulary
- * collapsing four text steps onto one, so it lands on whichever the kit happened
- * to pick. Preferring the alias silently moved `fg-muted` from #a1a1aa to
- * #71717a. Caught by comparing compiled utilities, not by reading the maps.
- *
- * NINETEEN CONTRACT TOKENS ARE DELIBERATELY LEFT UNSET — chart-1..5,
- * primary-hover/active/muted, danger-hover/fg, warning-fg/muted, success*, info*,
- * surface-active. This kit has no value for any of them, and NO COMPONENT IN THIS
- * PACKAGE NAMES ONE (verified against every colour utility in src/ and demo/).
- * Inventing values nobody asked for is how a palette acquires colours no designer
- * chose.
- *
- * THE TRAP THAT LEAVES, STATED PLAINLY BECAUSE THE LINTER WILL NOT STATE IT: each
- * of those nineteen now EXISTS as a `--color-*` name resolving to an undefined
- * `--hl-*`. A component here naming `text-success` would render nothing, and
- * `no-undefined-token` WILL NOT TELL YOU — `success` is in the contract
- * vocabulary, and that rule checks membership, not resolvability. If you need one
- * of these, give it a value here in the same commit.
- *
- * `chart-1..5` in particular resolve in `design-tokens`' OWN themes, not here, so
- * they stay unset in this block even after the chart palette is designed. Do not
- * read a decision about chart colours as having filled them.
- *
- * STILL NINETEEN after §3.10 added the five `syntax-*` names, because those are
- * SET below rather than left unset — they derive from `fg` and `fg-faint`, which
- * this kit has. `syntax-*` and `chart-*` look like the same kind of family and
- * are treated oppositely here on purpose; the reason is in the contract and in
- * `SYNTAX_TOKENS`.
- *
- * They arrive with CW-20260911-0071, which swaps this block for the contract's own
- * themes.
- * ------------------------------------------------------------------------- */
-:root {
+/* Legacy palette ids keep their existing values through this reverse mapping.
+ * Shared built-ins supply --hl-* themselves; applying both directions would
+ * create a custom-property cycle and silently erase the dark palette.
+ * The complete shared values are imported above for mode switching. The full
+ * legacy theme-layer migration remains CW-20260911-0071.
+ * Selection intentionally uses panel-2, not the near-white action accent;
+ * fg-muted follows the retired text-soft step rather than the coarser shadcn
+ * muted-foreground alias. Palette ids stay on document.documentElement. */
+:root:not([data-theme="nanite-default"]):not([data-theme^="dir-"]):not([data-theme^="sysop-"]) {
   /* Surfaces */
   --hl-bg: var(--theme-color-bg);
   --hl-bg-elevated: var(--theme-color-panel-2);
@@ -501,6 +441,48 @@
     color-mix(in oklab, var(--theme-color-status-blocked) 22%, var(--theme-color-bg));
   --theme-color-priority-p2-bg:
     color-mix(in oklab, var(--theme-color-status-queued) 22%, var(--theme-color-bg));
+}
+
+/* Shared built-in themes opt into the base vocabulary. Legacy palette selectors
+ * above stay intact; their full migration is CW-20260911-0071. Values resolve on
+ * the themed element so descendant themes work too. */
+[data-theme="nanite-default"], [data-theme^="dir-"], [data-theme^="sysop-"] {
+  --theme-color-bg: var(--hl-bg);
+  --theme-color-panel: var(--hl-bg);
+  --theme-color-panel-2: var(--hl-bg-elevated);
+  --theme-color-panel-overlay: var(--hl-surface);
+  --theme-color-panel-overlay-strong: var(--hl-surface-active);
+  --theme-color-panel-hover: var(--hl-surface-hover);
+  --theme-color-panel-hover-soft: var(--hl-surface);
+  --theme-color-border: var(--hl-border);
+  --theme-color-border-soft: var(--hl-border-subtle);
+  --theme-color-border-strong: var(--hl-border);
+  --theme-color-text: var(--hl-fg);
+  --theme-color-text-muted: var(--hl-fg-secondary);
+  --theme-color-text-soft: var(--hl-fg-muted);
+  --theme-color-text-subtle: var(--hl-fg-faint);
+  --theme-color-accent: var(--hl-primary);
+  --theme-color-accent-foreground: var(--hl-primary-fg);
+  --theme-color-danger: var(--hl-danger);
+  --theme-color-danger-soft: var(--hl-danger);
+  --theme-color-warning: var(--hl-warning);
+  --theme-color-ring: var(--hl-ring);
+  --theme-color-ring-soft: var(--hl-ring);
+  --theme-color-status-backlog: var(--hl-fg-muted);
+  --theme-color-status-todo: var(--hl-fg-secondary);
+  --theme-color-status-queued: var(--hl-warning);
+  --theme-color-status-doing: var(--hl-info);
+  --theme-color-status-review: var(--hl-brand);
+  --theme-color-status-done: var(--hl-success);
+  --theme-color-status-blocked: var(--hl-danger);
+  --theme-color-status-paused: var(--hl-warning);
+  --theme-color-status-archived: var(--hl-fg-muted);
+  --theme-color-status-inbox: var(--hl-warning);
+  --theme-color-status-routed: var(--hl-info);
+  --theme-color-status-indexed: var(--hl-success);
+  --theme-color-overlay: rgb(0 0 0 / 70%);
+  --theme-color-shadow: rgb(0 0 0 / 10%);
+  --theme-color-shadow-strong: rgb(0 0 0 / 20%);
 }
 
 @theme inline {

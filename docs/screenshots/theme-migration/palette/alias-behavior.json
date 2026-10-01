@@ -4,49 +4,57 @@
       "legacy": "p4-white",
       "canonical": "sysop-p4-white",
       "mode": "dark",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "p4-white",
       "canonical": "sysop-p4-white",
       "mode": "light",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "p1-green-phosphor",
       "canonical": "sysop-green-phosphor",
       "mode": "dark",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "p1-green-phosphor",
       "canonical": "sysop-green-phosphor",
       "mode": "light",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "p3-amber-phosphor",
       "canonical": "sysop-amber-phosphor",
       "mode": "dark",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "p3-amber-phosphor",
       "canonical": "sysop-amber-phosphor",
       "mode": "light",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "hi-contrast",
       "canonical": "sysop-hi-contrast",
       "mode": "dark",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     },
     {
       "legacy": "hi-contrast",
       "canonical": "sysop-hi-contrast",
       "mode": "light",
-      "mismatches": []
+      "mismatches": [],
+      "nestedMismatches": []
     }
   ],
   "defaultProof": {

@@ -189,7 +189,14 @@
   --color-shadow: var(--theme-color-shadow);
   --color-shadow-strong: var(--theme-color-shadow-strong);
 
-  /* Base and shadcn aliases are imported from the generated contract. */
+  /* Keep the dashboard's established shadcn treatment across modern themes.
+   * Inputs remain contract-backed; legacy palettes adopt canonical values. */
+  --color-input: var(--theme-color-border);
+  --color-secondary: var(--theme-color-panel-2);
+  --color-muted: var(--theme-color-panel-2);
+  --color-muted-foreground: var(--theme-color-text-subtle);
+  --color-accent: var(--theme-color-panel-2);
+  --color-accent-foreground: var(--theme-color-text);
 
   /* sidebar tokens */
   --color-sidebar: var(--theme-color-panel);

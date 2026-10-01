@@ -4,8 +4,9 @@
 
 - Remove the hand-authored base palette and reverse --hl mapping. Generate legacy
   ID aliases from design-tokens; keep sysop.theme and existing helper IDs.
-- Stop shadowing base/shadcn utilities, retain dashboard compatibility roles and
-  workflow derivations. Canonical legacy colors require visual review.
+- Consume canonical base utilities; retain six shadcn compatibility mappings so
+  modern controls keep their appearance. Dashboard workflow derivations remain.
+  Canonical legacy colors approved under CW-20261001-0526 option A.
 - Use feedback danger/info for SettingsNotice; keep status pills on workflow tones.
 
 ## Unreleased (CW-20260911-0071, step b)

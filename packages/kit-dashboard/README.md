@@ -444,7 +444,11 @@ it is not a Tachyon migration or a check against a live backend.
 
 The theme layer imports the design-tokens contract and built-in palettes; it no
 longer authors a second base palette or reverse-maps dashboard values onto
-`--hl-*`. Base and generated shadcn utilities come directly from that contract.
+`--hl-*`. Base utilities come directly from that contract. Six shadcn mappings
+retain the dashboard's established control treatment: input uses border,
+secondary/muted/accent use bg-elevated, muted foreground uses fg-faint, and accent
+foreground uses fg. These mappings consume contract-backed compatibility roles,
+so modern themes keep their appearance while legacy palettes adopt canonical values.
 The remaining layer supplies dashboard workflow tones, label/priority mixes,
 sidebar roles, and old utility compatibility aliases.
 

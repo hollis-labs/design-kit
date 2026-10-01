@@ -1,6 +1,7 @@
 # Theme migration: canonical palette layer (CW-20260911-0071, split c)
 
-**HOLD FOR CHRISPIAN’S VISUAL DECISION. Passing CI does not authorize merge.**
+**Approved under CW-20261001-0526, option A only:** adopt canonical legacy
+palettes and preserve modern themes by restoring the six shadcn mappings.
 
 The [value-by-value comparison](legacy-contract-comparison.md) was committed and
 posted to Torque/lead before changing the palette (624d040). Its JSON contains
@@ -11,23 +12,26 @@ The mixed-package gallery renders design-components, kit-dashboard and kit-chat.
 The supplementary fixture renders the built SettingsNotice, SettingsStatusPill
 and all workflow badges against production-built CSS. Both have 24 before/after
 states: ten built-in themes in both modes plus four supported legacy dark IDs.
-Motion/transitions/caret are frozen. No gallery page errors.
+Motion/transitions/caret are frozen. No gallery page errors. The gallery uses
+Vite development CSS, matching the committed BEFORE captures; settings and alias
+checks use production CSS. Chromium's default hide-scrollbars flag is disabled.
+Production precomputation of color mixes can introduce tiny rounding differences,
+so gallery pixel comparisons use the same build mode on both sides.
 
 Visible differences to judge:
 - Legacy aliases adopt canonical borders, faint text, overlays and workflow colors.
   Neutral backlog/archived, warning queued/paused/inbox, brand review, success
   done/indexed and info doing/routed now follow the contract mappings.
-- Removing shadcn shadows changes input border from border to border-subtle,
-  muted/secondary surfaces from bg-elevated to surface, muted foreground from
-  fg-faint to fg-muted, and accent from bg-elevated to selection. Modern theme
-  screenshots can therefore change too, especially input/ChatInput surfaces.
+- Six shadcn mappings retain input border, muted/secondary/accent surfaces,
+  muted foreground and accent foreground exactly as in baseline 3122c45.
 - SettingsNotice info changes from indexed/success to base info. Danger names base
   danger; warning was already base warning. Pending/current pills stay workflow.
-- Canonical gallery sampled text styles remain identical across all 20 modern
-  theme/mode states; the four legacy states visibly change. Three modern gallery
-  screenshots are byte-identical (Sysop P4/Green/Amber light); other differences
-  include control surfaces/borders. Do not infer unchanged appearance from the
-  text-only sample: the screenshots are the review evidence.
+- Modern gallery preservation is measured by decoded PNG pixels, rather than
+  only sampled text styles: **20/20 modern states are pixel-identical to BEFORE**
+  (zero changed pixels in each 1440×1200 PNG). See the
+  [pixel comparison](modern-pixel-comparison.json). The four legacy states retain
+  the approved palette changes.
+
 
 The kit default without data-theme remains P4 White. Legacy IDs now support light
 mode too, through the same generator mode selectors as canonical IDs. Storage

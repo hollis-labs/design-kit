@@ -9,6 +9,12 @@
 
 ## Unreleased
 
+- Reconcile Nanite/Flux card surfaces with the existing eight primitive cards;
+  add compact `ArtifactCard`, bounded `DocumentCard`, and controlled text
+  `PromptCard` on the existing Envelope. Host callbacks/slots keep download,
+  rendering, navigation, persistence and wire translation outside the kit.
+  See [inventory and usage](docs/nanite-card-reconciliation.md).
+
 - Add a framed composer with a visible Send action and optional host-owned Stop
   callback. Keep the busy draft editable; hosts with their own actions can opt
   out with `showSubmitButton={false}`.

@@ -5,6 +5,8 @@
       "side": "left",
       "dimensions": {
         "width": 320,
+        "left": 0,
+        "right": 320,
         "font": "13px",
         "bodyHeight": 552,
         "bodyScroll": 2432,
@@ -24,6 +26,8 @@
       "side": "right",
       "dimensions": {
         "width": 280,
+        "left": 0,
+        "right": 280,
         "font": "13px",
         "bodyHeight": 552,
         "bodyScroll": 2432,

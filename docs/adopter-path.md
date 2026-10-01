@@ -175,16 +175,22 @@ measurements are recorded in [Tangent PR #48](https://github.com/hollis-labs/tan
 and the task's first-consumer records; they are not present-day bundle budgets.
 
 Tangent's current [remaining-color adoption, PR #73](https://github.com/hollis-labs/tangent/pull/73)
-is a separate review candidate at `2fb5b28897ce8fb9584e8b94fdffc7f0d9b29378`.
+merged at `9967d1b729e94381b10af22d1df6b51153b2f9e6`.
 It already imports `source.css`; it supplies no new missing-import negative
 control. The component diff replaces literal colors with existing contract
-roles. Its [computed-style evidence](https://github.com/hollis-labs/tangent/blob/2fb5b28897ce8fb9584e8b94fdffc7f0d9b29378/docs/evidence/CW-20260913-0033/computed-styles.json)
+roles. The merged [mapping](https://github.com/hollis-labs/tangent/blob/9967d1b729e94381b10af22d1df6b51153b2f9e6/docs/evidence/CW-20260913-0033/mapping.md)
+distinguishes exact, near and role-collapse replacements using a disclosed
+RGB/opacity heuristic, not a perceptual-equivalence claim. The signal hover
+becomes `info/90`, a darker treatment; muted status fills now composite the
+theme's 12% status color over the existing surface. Its
+[computed-style evidence](https://github.com/hollis-labs/tangent/blob/9967d1b729e94381b10af22d1df6b51153b2f9e6/docs/evidence/CW-20260913-0033/computed-styles.json)
 shows actual semantic changes: removed-line text moves from `rgb(240, 170, 166)`
 to the theme's danger value `rgb(217, 107, 103)`, for example. Token migration
 should verify intended roles and contrast rather than promise byte-identical
 appearance. A CSP-coupled sandbox iframe ring remains an explicit exception.
-The clean install/build and frontend tests pass, but the host lacks pkg-config
-for the full Wails gate. Its unpublished Biome/ratchet check remains proof-only;
+The adoption's verification record reports a passing clean install/build and
+frontend tests, with the full Wails gate limited by the host's missing pkg-config.
+Its unpublished Biome/ratchet check remains proof-only;
 CI wiring waits for a release. Those boundaries must accompany the browser
 proof, rather than treating a local tool or merged source as a shipped check.
 

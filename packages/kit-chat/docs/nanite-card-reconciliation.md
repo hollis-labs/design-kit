@@ -120,6 +120,19 @@ recorded terminal/unknown status and decline. Existing card tests still run.
 The five-check workspace gate and a packed browser consumer verify the final
 candidate; browser receipts accompany this inventory.
 
+All five checks passed after merging PR 25 and PR 26 into this branch:
+typecheck, lint, test:run, build and the built-package design-rules gate, with
+zero violations. The kit has 89 passing tests. The browser consumer used the
+packed kit candidate, packed base 0.1.1 and published design-tokens 0.1.0 with
+Tailwind v4. At 1280px and 390px, native download/filename and host callbacks,
+document navigation/actions/local scroll, prompt rejection/draft retention,
+in-flight locking, trimmed persisted answers, unknown-status locking and
+decline passed with no page errors. Prompt type computed to 13px, the document
+pane to 384px, and document scroll width stayed within each viewport.
+See `receipts/cards-browser.json` and the narrow consumer screenshot below.
+
+![Extracted cards in a narrow consumer](screenshots/nanite-cards-390.png)
+
 Neither Nanite nor Flux is migrated by this change. Live API turns, plugin
 registration, approval policy, windowed history (0017), schema/code generation,
 publishing and the apps' own token-debt cleanup remain separate work.

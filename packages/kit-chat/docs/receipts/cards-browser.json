@@ -1,0 +1,45 @@
+{
+  "receipts": [
+    {
+      "size": {
+        "width": 1280,
+        "scrollWidth": 1280,
+        "documentHeight": 384,
+        "documentScroll": 1159,
+        "inputFont": "13px"
+      },
+      "checks": [
+        "native download and filename",
+        "host download/dismiss callbacks",
+        "bounded local document scroll",
+        "host document actions/navigation",
+        "prompt rejection keeps draft and unlocks",
+        "in-flight duplicate actions disabled",
+        "trimmed persisted answer",
+        "unknown status locked",
+        "decline persists via host"
+      ]
+    },
+    {
+      "size": {
+        "width": 390,
+        "scrollWidth": 390,
+        "documentHeight": 384,
+        "documentScroll": 1899,
+        "inputFont": "13px"
+      },
+      "checks": [
+        "native download and filename",
+        "host download/dismiss callbacks",
+        "bounded local document scroll",
+        "host document actions/navigation",
+        "prompt rejection keeps draft and unlocks",
+        "in-flight duplicate actions disabled",
+        "trimmed persisted answer",
+        "unknown status locked",
+        "decline persists via host"
+      ]
+    }
+  ],
+  "errors": []
+}

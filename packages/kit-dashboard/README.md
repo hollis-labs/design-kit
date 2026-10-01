@@ -206,6 +206,30 @@ Nanite's retired health-triad names.
 Decision: CW-20260912-0046. Before/after screenshots and computed styles are in
 [priority proof](../../docs/screenshots/priority-tokens/README.md).
 
+## Visible scrollbars (opt-in)
+
+The kit keeps scrollbars hidden by default. Add `show-scrollbar` to the element
+that owns overflow when a region should show a themed bar:
+
+```tsx
+<div className="show-scrollbar h-64 overflow-auto" tabIndex={0} role="region" aria-label="Task history">
+  {/* scrollable content */}
+</div>
+```
+
+The thumb uses contract `fg-muted`, with `fg` for the WebKit hover state;
+transparent track and thin sizing follow the browser. WebKit fallback dimensions
+and radius use the spacing/radius tokens. Contract colors follow the active theme
+and light/dark mode, including explicit `data-mode`; no extra light-mode class is
+needed. `no-scrollbar` takes precedence if both classes are supplied. Both axes
+still scroll when their bars are hidden.
+
+The opt-in lives beside the dashboard's suppression policy. Nanite's
+`chat-scroll` and `provider-scroll` merely repeat suppression and are not portable
+kit vocabulary, so they are not exported. No app is changed. The theme gallery
+includes an opt-in region; [24-state before/after proof](../../docs/screenshots/scrollbar-opt-in/README.md)
+shows the deliberate visible-bar change (CW-20260912-0031).
+
 ## App structure
 
 Default Sysop app shape:

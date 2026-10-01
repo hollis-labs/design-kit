@@ -691,6 +691,34 @@
     @apply whitespace-nowrap;
   }
 
+  /* Explicit per-region opt-in. Contract colors follow the active palette and
+     light/dark mode; no app-specific chat/provider escape-hatch names. */
+  .show-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-fg-muted) transparent;
+    -ms-overflow-style: auto;
+  }
+
+  .show-scrollbar::-webkit-scrollbar {
+    display: block;
+    width: calc(var(--spacing) * 1.5);
+    height: calc(var(--spacing) * 1.5);
+  }
+
+  .show-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-fg-muted);
+    border-radius: var(--radius-sm);
+  }
+
+  .show-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-fg);
+  }
+
+  /* Explicit suppression takes precedence when both classes are present. */
   .no-scrollbar {
     scrollbar-width: none;
     -ms-overflow-style: none;

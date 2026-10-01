@@ -17,7 +17,7 @@ export interface TimeSeriesSeries<T> {
   key: string
   /** Human label shown in the legend and tooltip. */
   label: string
-  /** Series color — a theme token string (e.g. `var(--color-status-done)`). */
+  /** Series color — a theme token string (e.g. `var(--color-dash-status-done)`). */
   color: string
   /** Per-item numeric contribution to this series. */
   value: (item: T) => number

@@ -8,7 +8,7 @@ export interface BarMeterRow {
   label: string
   /** Numeric magnitude — bar width is `value / max`. */
   value: number
-  /** Bar color — a theme token string. Default `var(--color-status-doing)`. */
+  /** Bar color — a theme token string. Default `var(--color-dash-status-doing)`. */
   color?: string
 }
 
@@ -22,7 +22,7 @@ export interface BarMeterProps {
   className?: string
 }
 
-const DEFAULT_COLOR = 'var(--color-status-doing)'
+const DEFAULT_COLOR = 'var(--color-dash-status-doing)'
 
 /**
  * Horizontal labeled bar meter — a stack of thin bars sized against a shared

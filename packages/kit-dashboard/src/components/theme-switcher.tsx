@@ -43,7 +43,7 @@ export function ThemeSwitcher() {
             <span className="text-caption uppercase tracking-label text-text-subtle">
               {option.shortLabel}
             </span>
-            {theme === option.value && <Check className="h-3.5 w-3.5 text-status-routed" />}
+            {theme === option.value && <Check className="h-3.5 w-3.5 text-dash-status-routed" />}
           </button>
         ))}
       </PopoverContent>

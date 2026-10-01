@@ -183,9 +183,9 @@ export function OperationsView({ onOpenTask, onVisibleOrderChange }: OperationsV
         }
         summaryCards={[
           { label: 'Open', value: count(['backlog', 'todo', 'queued']) },
-          { label: 'In Progress', value: count(['doing']), accentColor: 'var(--color-status-doing)' },
-          { label: 'In Review', value: count(['review']), accentColor: 'var(--color-status-review)' },
-          { label: 'Blocked', value: count(['blocked']), accentColor: 'var(--color-status-blocked)' },
+          { label: 'In Progress', value: count(['doing']), accentColor: 'var(--color-dash-status-doing)' },
+          { label: 'In Review', value: count(['review']), accentColor: 'var(--color-dash-status-review)' },
+          { label: 'Blocked', value: count(['blocked']), accentColor: 'var(--color-dash-status-blocked)' },
         ]}
         searchQuery={search}
         onSearchChange={setSearch}

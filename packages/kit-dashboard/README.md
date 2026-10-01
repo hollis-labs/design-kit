@@ -208,14 +208,22 @@ register the manifest with `designConfig({ idiomManifests })` or ratchet/Biome
 migrations. The base contract's `DEPRECATED_TOKENS` intentionally maps base names
 to base replacements; dashboard-specific retirements belong to this kit.
 
-**Workflow status names stay unchanged in this change.** `status-*` carries the
-lifecycle color and `status-*-label` carries its derived readable label step.
+**Workflow utilities use the dashboard namespace.** `dash-status-*` carries the
+lifecycle color and `dash-status-*-label` carries its derived readable label step.
 Both families cover backlog, todo, queued, doing, review, done, blocked, paused,
-archived, inbox, routed and indexed. The label family came from moving component
-mixing into the theme layer, not from the frozen sysop palette. Their eventual
-`dash-status-*` / `dash-status-*-label` migration remains CW-20260911-0071; this
-priority decision does not perform it. These workflow labels are separate from
-Nanite's retired health-triad names.
+archived, inbox, routed and indexed. Their CSS bindings and label mixes are
+unchanged. For example, replace `bg-status-doing/10` with
+`bg-dash-status-doing/10` and `text-status-doing-label` with
+`text-dash-status-doing-label`. The old utility names remain CSS compatibility
+aliases and are deprecated in the same kit-owned manifest; kit components and
+examples use the canonical names. Unknown names in either family are checked by
+the kit's existing design-rule registration.
+
+Workflow colors describe lifecycle state, rather than general feedback severity.
+The label family comes from moving component mixing into the theme layer. These
+workflow names are separate from Nanite's retired health-triad names. The palette
+migration is the next CW-20260911-0071 split; this naming change does not alter
+colors. See the [24-state workflow proof](../../docs/screenshots/theme-migration/workflow/README.md).
 
 Decision: CW-20260912-0046. Before/after screenshots and computed styles are in
 [priority proof](../../docs/screenshots/priority-tokens/README.md).

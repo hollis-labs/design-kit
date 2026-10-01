@@ -9,7 +9,7 @@ export interface HourlyPulseProps<T> {
   title?: string
   /** Height of the bar area in px. Default 48. */
   height?: number
-  /** Bar color — a theme token string. Default `var(--color-status-done)`. */
+  /** Bar color — a theme token string. Default `var(--color-dash-status-done)`. */
   color?: string
   className?: string
 }
@@ -31,7 +31,7 @@ export function HourlyPulse<T>({
   timestamp,
   title = '24h pulse',
   height = 48,
-  color = 'var(--color-status-done)',
+  color = 'var(--color-dash-status-done)',
   className,
 }: HourlyPulseProps<T>) {
   const buckets = useMemo<HourBucket[]>(() => {

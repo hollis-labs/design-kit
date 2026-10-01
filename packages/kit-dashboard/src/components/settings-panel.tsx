@@ -91,9 +91,9 @@ export function SettingsNotice({
 }: SettingsNoticeProps) {
   const toneClassName =
     tone === 'danger'
-      ? 'border-status-blocked/30 bg-status-blocked/10 text-status-blocked'
+      ? 'border-dash-status-blocked/30 bg-dash-status-blocked/10 text-dash-status-blocked'
       : tone === 'info'
-        ? 'border-status-indexed/30 bg-status-indexed/10 text-status-indexed'
+        ? 'border-dash-status-indexed/30 bg-dash-status-indexed/10 text-dash-status-indexed'
         : 'border-warning/30 bg-warning/10 text-warning'
 
   return (
@@ -114,8 +114,8 @@ export function SettingsStatusPill({
       className={cn(
         'inline-flex items-center rounded-full border px-2 py-0.5 text-label font-medium',
         pending
-          ? 'border-status-doing/30 bg-status-doing/10 text-status-doing'
-          : 'border-status-done/30 bg-status-done/10 text-status-done',
+          ? 'border-dash-status-doing/30 bg-dash-status-doing/10 text-dash-status-doing'
+          : 'border-dash-status-done/30 bg-dash-status-done/10 text-dash-status-done',
       )}
     >
       {pending ? pendingLabel : currentLabel}

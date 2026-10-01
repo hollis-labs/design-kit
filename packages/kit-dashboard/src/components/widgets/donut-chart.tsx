@@ -6,7 +6,7 @@ export interface DonutSegment {
   key: string
   /** Human label shown in the legend. */
   label: string
-  /** Slice color — a theme token string (e.g. `var(--color-status-done)`). */
+  /** Slice color — a theme token string (e.g. `var(--color-dash-status-done)`). */
   color: string
   /** Numeric magnitude of the slice. */
   value: number

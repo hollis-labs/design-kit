@@ -1,5 +1,11 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased (CW-20260911-0071, step b)
+
+- Register dash-status lifecycle and label utilities in the kit-owned manifest;
+  migrate components and demo uses, preserving CSS bindings and rendered colors.
+  Keep the old names as deprecated compatibility aliases in the same manifest.
+
 ## Unreleased (CW-20260911-0071, step a)
 
 - Delegate theme-only persistence to design-tokens while preserving sysop.theme,

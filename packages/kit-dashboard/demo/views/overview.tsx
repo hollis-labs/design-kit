@@ -8,10 +8,10 @@ import { BarList, CompositionBars, IntelligenceRow, Kpi, KpiGrid, MiniTrend, Pan
 // ---------------------------------------------------------------------------
 
 const SUMMARY = [
-  { label: 'Sessions', value: 118, subtitle: '19 running', accentColor: 'var(--color-status-done)' },
+  { label: 'Sessions', value: 118, subtitle: '19 running', accentColor: 'var(--color-dash-status-done)' },
   { label: 'Tool Calls', value: 2000, subtitle: '142 / 1h', accentColor: 'var(--color-text)' },
   { label: 'Messages', value: 365, subtitle: '66% unread', accentColor: 'var(--color-warning)' },
-  { label: 'Events', value: 23400, subtitle: '1K / 1h', accentColor: 'var(--color-status-blocked)' },
+  { label: 'Events', value: 23400, subtitle: '1K / 1h', accentColor: 'var(--color-dash-status-blocked)' },
 ]
 
 // 24-bucket trend series (one per hour)
@@ -166,7 +166,7 @@ export function OverviewView() {
               <Kpi label="p50"    value="84ms" />
               <Kpi label="p95"    value="620ms" />
               <Kpi label="Avg"    value="142ms" />
-              <Kpi label="Errors" value={42} accent="var(--color-status-blocked)" />
+              <Kpi label="Errors" value={42} accent="var(--color-dash-status-blocked)" />
             </KpiGrid>
             <div className="p-3">
               <div className="mb-2 text-caption uppercase tracking-label text-text-subtle">Top tools</div>
@@ -180,7 +180,7 @@ export function OverviewView() {
 
           <Panel title="Messaging" icon={<Mail className="h-3.5 w-3.5" />}>
             <KpiGrid>
-              <Kpi label="Unread"   value={242} accent="var(--color-status-inbox)" />
+              <Kpi label="Unread"   value={242} accent="var(--color-dash-status-inbox)" />
               <Kpi label="Archived" value={88} />
               <Kpi label="Recent"   value={66} />
               <Kpi label="Kinds"    value={3} />

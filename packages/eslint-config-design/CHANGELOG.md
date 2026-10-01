@@ -1,5 +1,12 @@
 # @hollis-labs/eslint-config-design
 
+## Unreleased (CW-20260912-0097)
+
+- Declare `tailwindcss: ^4.0.0` as an optional peer for the consumer-owned CSS
+  pipeline. npm does not auto-install it or warn when it is missing; incompatible
+  installed majors fail peer resolution. Document the explicit build-tool install.
+  JavaScript-only consumers can continue without Tailwind.
+
 ## Unreleased (CW-20260913-0031)
 
 **Biome consumer support.** Decision: ESLint alongside Biome, scoped to the

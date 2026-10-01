@@ -12,6 +12,23 @@ guideline being ignored by someone who meant well. And because Chrispian chose t
 representable — so lint is not a backstop to the type scale, it is **the
 enforcement mechanism for it**.
 
+## Tailwind compatibility
+
+The design-kit CSS pipeline requires **Tailwind CSS v4**. This package declares
+`tailwindcss: ^4.0.0` as an optional peer because its nonvisual JavaScript APIs
+also work without the CSS compiler. npm does not auto-install an optional peer
+and produces **no warning when it is absent**; npm 11's default resolver rejects
+an installed incompatible major.
+
+When using the CSS pipeline, declare Tailwind in the app's build dependencies
+and configure the matching Vite/PostCSS/CLI integration:
+
+```sh
+npm install -D tailwindcss@^4.0.0
+```
+
+A successful install alone does not verify CSS setup.
+
 ## The rules
 
 | Rule | Catches | Autofix |

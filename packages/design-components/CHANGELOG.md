@@ -4,6 +4,10 @@
 
 - Add `OverlaySidebar`, composing Sheet with a named modal, pinned header/footer
   and scrolling host content. See [source reconciliation](docs/overlay-sidebar.md).
+- Declare `tailwindcss: ^4.0.0` as a required peer for styled components.
+  npm 7+ auto-installs a missing peer; incompatible installed majors fail peer
+  resolution. Document the explicit app dependency and CSS build integration,
+  which an automatic peer install does not configure.
 
 ## 0.1.1 — 2026-10-01
 

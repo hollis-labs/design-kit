@@ -1,0 +1,42 @@
+{
+  "fixture": "packages/kit-account/demo/access.tsx",
+  "credentials": "synthetic only; values intentionally omitted from receipts/screenshots",
+  "results": [
+    {
+      "width": 1280,
+      "controlledCreateScopes": true,
+      "failedCreateRetainsDraft": true,
+      "oneTimeDisclosure": true,
+      "explicitCopy": true,
+      "secretRemovedOnDismissAndContextChange": true,
+      "staleCreateCanceled": true,
+      "browserStorageEntries": 0,
+      "confirmedRevokeAndRetry": true,
+      "providerConnectRetryAndDisconnect": true,
+      "unknownStatesReadOnly": true,
+      "revealBounds": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "pageErrors": []
+    },
+    {
+      "width": 390,
+      "controlledCreateScopes": true,
+      "failedCreateRetainsDraft": true,
+      "oneTimeDisclosure": true,
+      "explicitCopy": true,
+      "secretRemovedOnDismissAndContextChange": true,
+      "staleCreateCanceled": true,
+      "browserStorageEntries": 0,
+      "confirmedRevokeAndRetry": true,
+      "providerConnectRetryAndDisconnect": true,
+      "unknownStatesReadOnly": true,
+      "revealBounds": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "pageErrors": []
+    }
+  ]
+}

@@ -1,6 +1,11 @@
 # @hollis-labs/design-components
 
-## Unreleased
+## 0.3.0 — 2026-10-02
+
+Co-released with kit-dashboard and kit-chat, alongside the first releases of kit-settings and
+kit-observe. Requires `@hollis-labs/design-tokens` `^0.2.0` (unchanged).
+
+**Behaviour change to know before upgrading: small controls are squarer.**
 
 - Register contract radius tokens in `cn()`'s existing radius groups. Named
   `rounded-control`/`rounded-panel` now replace competing steps in argument order,
@@ -11,7 +16,7 @@
   CSS) or 9px (dashboard theme) to the intended 6px. Existing panel-only surfaces
   and kit-settings' token-variable workaround are unchanged. This includes
   kit-observe retry/copy actions, kit-chat card actions and composer Send/Stop.
-  Option A approved 2026-10-02; [computed evidence](docs/radius-aliases.md).
+  Option A approved 2026-10-02; [computed evidence](https://github.com/hollis-labs/design-kit/blob/main/packages/design-components/docs/radius-aliases.md).
 - No release here. Ship in the next design-components **minor**, with internal
   dependency ranges raised together. Kit-chat uses the shared `cn()` after #48.
 

@@ -1,6 +1,9 @@
 # Changelog
 
-## 0.0.0 (private)
+## 0.1.0 — 2026-10-02 — first release
+
+First published release. Requires `@hollis-labs/design-components` `^0.3.0` and
+`@hollis-labs/design-tokens` `^0.2.0`; Tailwind v4 is a required peer.
 
 - Controlled flat-schema settings groups, scalar/enum validation, effective read-only permissions, dirty/save/discard and explicit override removal.
 - Blank secret replacements with presence-only snapshots and host-owned drafts, values and transport.

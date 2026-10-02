@@ -1,11 +1,17 @@
 # @hollis-labs/kit-chat
 
-## Unreleased
+## 0.3.0 — 2026-10-02
 
-- Internal refactor, no behaviour change: use design-components' token-aware
-  `cn()` throughout cards, composer, stream and markdown, retiring the local
-  stopgap. Existing typography cases stay verbatim against the shared helper.
-  Ships with the next kit-chat release; no separate publish.
+Co-released with design-components and kit-dashboard, alongside the first releases of
+kit-settings and kit-observe. Requires `@hollis-labs/design-components` `^0.3.0`;
+design-tokens stays at `^0.2.0`.
+
+- Internal refactor: use design-components' token-aware `cn()` throughout cards, composer,
+  stream and markdown, retiring the local stopgap. Existing typography cases stay verbatim
+  against the shared helper.
+- **Visible change, through design-components 0.3.0:** the composer's Send and Stop buttons and
+  the card action buttons (artifact, document, prompt, confirmation, list and table actions)
+  render the 6px control radius instead of 8px. Nothing else in the package changes.
 
 ## 0.2.0 — 2026-10-01
 

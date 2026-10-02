@@ -28,13 +28,15 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-dashboard` | the dashboard idiom — forked whole from `@hollis-labs/sysop-ui` 0.9.0 |
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
 | `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished |
-| `packages/kit-settings` | controlled schema-driven settings forms; private `0.0.0`, unpublished |
-| `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; private `0.0.0`, unpublished |
+| `packages/kit-settings` | controlled schema-driven settings forms, provenance and a setup wizard; released at `0.1.0` |
+| `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; released at `0.1.0` |
 | `packages/eslint-config-design` | the gate |
 
-Six packages are **released at `0.2.0`** — `design-tokens`, `design-components`,
-`design-app-runtime`, `eslint-config-design`, `kit-chat` and `kit-dashboard` — and
-`design-bindings` stays at `0.1.0` until it next changes. See [`CHANGELOG.md`](./CHANGELOG.md).
+Current releases: `design-components`, `kit-dashboard` and `kit-chat` at **`0.3.0`**;
+`design-tokens`, `design-app-runtime` and `eslint-config-design` at `0.2.0`; `design-bindings`
+at `0.1.0`; and the first releases of `kit-settings` and `kit-observe` at `0.1.0`.
+`kit-account` is private. A package keeps its number until it next changes. See
+[`CHANGELOG.md`](./CHANGELOG.md).
 `kit-chat` was an empty stub when the first six published, so it was excluded rather than
 holding five finished packages for it, and shipped separately — CW-20260912-0042.
 

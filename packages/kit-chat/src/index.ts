@@ -123,3 +123,6 @@ export type { AttachmentData, AttachmentMediaCategory, AttachmentVariant, Attach
 export { AttachmentDropzone, PromptInputActionAddAttachments } from './components/attachment-dropzone'
 export type { AttachmentDropzoneProps, AttachmentRejection, PromptInputActionAddAttachmentsProps } from './components/attachment-dropzone'
 export { getMediaCategory, getAttachmentLabel } from './lib/attachment'
+
+export { ModelSelector, ModelSelectorTrigger, ModelSelectorContent, ModelSelectorDialog, ModelSelectorInput, ModelSelectorList, ModelSelectorEmpty, ModelSelectorGroup, ModelSelectorItem, ModelSelectorShortcut, ModelSelectorSeparator, ModelSelectorLogo, ModelSelectorLogoGroup, ModelSelectorName } from './components/model-selector'
+export type { ModelSelectorProps, ModelSelectorTriggerProps, ModelSelectorContentProps, ModelSelectorDialogProps, ModelSelectorInputProps, ModelSelectorListProps, ModelSelectorEmptyProps, ModelSelectorGroupProps, ModelSelectorItemProps, ModelSelectorShortcutProps, ModelSelectorSeparatorProps, ModelSelectorLogoProps, ModelSelectorLogoGroupProps, ModelSelectorNameProps } from './components/model-selector'

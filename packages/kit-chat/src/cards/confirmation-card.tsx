@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react'
 import { Button, Pill, type IconComponent } from '@hollis-labs/design-components'
+import { ConfirmationCardContext } from '../lib/confirmation-context'
 import type { Tone } from '@hollis-labs/design-tokens'
 import { Envelope, EnvelopeBody, EnvelopeFooter, EnvelopeHeader } from './envelope'
 import {
@@ -137,6 +138,7 @@ export function ConfirmationCard({
   const chosen = priorActionId == null ? null : actions.find((a) => a.id === priorActionId)
 
   return (
+    <ConfirmationCardContext.Provider value={{ state, priorActionId }}>
     <Envelope accent={live ? 'warning' : undefined} muted={!live} className={className}>
       <EnvelopeHeader
         icon={resolved ? resolved.icon : icon}
@@ -197,5 +199,6 @@ export function ConfirmationCard({
         </EnvelopeFooter>
       ) : null}
     </Envelope>
+    </ConfirmationCardContext.Provider>
   )
 }

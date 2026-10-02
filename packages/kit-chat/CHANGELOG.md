@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Add AI Elements Tool with host-mapped ToolState and JsonViewer/host-rendered content,
+  preserving falsy outputs; no AI SDK or code-renderer dependency (CW-20261002-0044 C).
+- Reconcile Confirmation content slots under ConfirmationCard's sole envelope/responder;
+  unchanged card props/locks/actions, opaque host-selected action IDs, host-supplied messages.
+- Add presentational Queue slots with bounded native list scrolling, Base UI disclosure,
+  and always-visible host action buttons for keyboard/touch.
+- Needs the next design-components release (unreleased) for Collapsible; publish with
+  the next coordinated core minor. No version/range/dependency/manifest changes.
+
 - Add AI Elements Message actions/branching without message-layout or AI SDK dependencies;
   controlled selection, wraparound navigation and preserved inactive drafts (CW-20261002-0044).
 - Add Shimmer with token-colored, opt-in `keyframes.css`, a static fallback and reduced-motion support;

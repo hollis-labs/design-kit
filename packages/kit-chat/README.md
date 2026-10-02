@@ -459,3 +459,38 @@ No component import installs keyframes. Reduced-motion users see static text;
 [demo/chat-core.tsx](demo/chat-core.tsx) for all three compositions and
 [the upstream inventory](docs/upstream-versions.md) for provenance. The shipped
 `LICENSE` retains Hollis Labs MIT terms and AI Elements Apache-2.0 attribution.
+
+## Tool, Confirmation content and Queue (unreleased)
+
+This slice **needs the next design-components release**: Collapsible is present in
+workspace source, but absent from published design-components 0.3.0. Release with
+the next coordinated six-package core minor; versions/ranges are unchanged here.
+
+`Tool`, `ToolHeader`, `ToolContent`, `ToolInput` and `ToolOutput` present a tool
+lifecycle. Map host state to our `ToolState`: pending, running,
+awaiting-confirmation, confirmed, completed, denied or error. Supply `toolName`
+(and optional `title`); no SDK part or wire-kind name is accepted. The host owns
+execution and input/output. Input/output use JsonViewer, accept React elements,
+or accept arbitrary host-rendered content through children. Falsy JSON results
+(false, zero, empty string, null) remain visible. `errorText` is host-supplied.
+
+`ConfirmationTitle`, `ConfirmationRequest`, `ConfirmationAccepted` and
+`ConfirmationRejected` are **content slots inside the existing ConfirmationCard**.
+They throw a clear error outside that card, including Title. There is no new
+Confirmation root, action row, responder or approval type. All existing card
+props, submission payloads, busy state and persisted-state locks remain intact.
+Request is shown while the card is open. Accepted/Rejected require a host-selected
+`actionId` and show their host-supplied children only when priorStatus classifies
+as submitted and priorActionId equals that opaque ID. They never interpret action
+names: a host may map any ID to either presentation. Dismissal, failure, pending
+and unrecognized statuses do not imply acceptance or rejection. The card's
+existing resolved status remains visible; do not place interactive controls in
+these content slots.
+
+`Queue` composes Section/Trigger/Label/Content, a bounded, keyboard-focusable
+native `QueueList`, and Item/Indicator/Content/Description/Actions/Action/Attachment/
+Image/File slots. Completion is presentational; hosts own list data and action
+handlers. Action buttons remain visible for touch and keyboard users. Supply an
+accessible label to icon-only actions and a useful QueueList label. Filename width
+and image sizing use the token scale. No queue store, executor or transport is added.
+See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).

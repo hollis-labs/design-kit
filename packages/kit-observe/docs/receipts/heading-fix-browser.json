@@ -1,0 +1,60 @@
+[
+  {
+    "width": 1440,
+    "unknownNeverHealthy": true,
+    "zeroMissingPendingDistinct": true,
+    "perResourceFreshness": true,
+    "loadingRefreshStaleFailureUnsupportedPaused": true,
+    "hostRetry": true,
+    "emptyVersusUnsupportedSeries": true,
+    "diagnosticPlainTextCopyAndKeyboardSchema": true,
+    "hostValidationVisible": true,
+    "statusAria": true,
+    "statHeadingStyle": {
+      "fontSize": "13px",
+      "fontWeight": "600"
+    },
+    "styles": {
+      "labelSize": "11px",
+      "headingSize": "11px",
+      "border": "rgba(39, 39, 42, 0.8)",
+      "panelBorder": "rgba(39, 39, 42, 0.8)",
+      "bodyOverflow": "visible",
+      "lineStroke": "rgb(228, 228, 231)",
+      "primary": "rgb(228, 228, 231)",
+      "scrollWidth": 1440,
+      "viewport": 1440
+    },
+    "pageErrors": [],
+    "remoteSchemaRequests": []
+  },
+  {
+    "width": 390,
+    "unknownNeverHealthy": true,
+    "zeroMissingPendingDistinct": true,
+    "perResourceFreshness": true,
+    "loadingRefreshStaleFailureUnsupportedPaused": true,
+    "hostRetry": true,
+    "emptyVersusUnsupportedSeries": true,
+    "diagnosticPlainTextCopyAndKeyboardSchema": true,
+    "hostValidationVisible": true,
+    "statusAria": true,
+    "statHeadingStyle": {
+      "fontSize": "13px",
+      "fontWeight": "600"
+    },
+    "styles": {
+      "labelSize": "11px",
+      "headingSize": "11px",
+      "border": "rgba(39, 39, 42, 0.8)",
+      "panelBorder": "rgba(39, 39, 42, 0.8)",
+      "bodyOverflow": "visible",
+      "lineStroke": "rgb(228, 228, 231)",
+      "primary": "rgb(228, 228, 231)",
+      "scrollWidth": 390,
+      "viewport": 390
+    },
+    "pageErrors": [],
+    "remoteSchemaRequests": []
+  }
+]

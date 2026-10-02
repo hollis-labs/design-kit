@@ -6,7 +6,8 @@
  * Divergences: Opt-in `/terminal` entry on the optional ansi-to-react peer; Base UI/shared primitives, contract tokens
  *              (no zinc), ANSI roles mapped to contract colours with utilities, no inline colours.
  *              Output is untrusted: rendered as React text with `useClasses` and `linkify={false}` (no anchors),
- *              control sequences other than colour/style removed, rendering bounded to the last `maxChars`.
+ *              control sequences other than colour/style removed, `\r`/`\b` normalised in linear time (the peer's helper is
+ *              quadratic on a run of carriage returns), rendering bounded to the last `maxChars`.
  *              Copy puts the visible text on the clipboard, not raw escape sequences; shared clipboard lifecycle.
  *              Named status ("Streaming"), labelled copy/clear actions, a focusable `role="log"` scroll region,
  *              composed clicks, reduced-motion cursor. See ./terminal-text.ts for the text handling.
@@ -18,7 +19,12 @@ import { Button, cn } from "@hollis-labs/design-components";
 import * as AnsiModule from "ansi-to-react";
 import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from "lucide-react";
 import type { CodeBlockCopyButtonProps } from "./code-block";
-import { sanitizeForDisplay, tailOf, toCopyText } from "./terminal-text";
+import {
+  normalizeLineControls,
+  sanitizeForDisplay,
+  tailOf,
+  toCopyText,
+} from "./terminal-text";
 import { useClipboard } from "./use-clipboard";
 
 type AnsiProps = {
@@ -219,7 +225,10 @@ export const TerminalContent = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const shown = useMemo(() => {
     const tail = tailOf(output, maxChars);
-    return { text: sanitizeForDisplay(tail.text), truncated: tail.truncated };
+    return {
+      text: normalizeLineControls(sanitizeForDisplay(tail.text)),
+      truncated: tail.truncated,
+    };
   }, [output, maxChars]);
 
   useEffect(() => {

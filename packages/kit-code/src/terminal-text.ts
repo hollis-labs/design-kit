@@ -8,10 +8,14 @@
  *    terminal lays out (`\n \t \b \r`) and removes everything else that is a control sequence: window
  *    titles, OSC 8 hyperlinks, cursor and screen control, device strings, stray ESC and C0/C1 control
  *    bytes. The renderer would otherwise print an OSC payload (`javascript:...`) as visible text.
- * 2. `tailOf` bounds the work: the renderer builds one DOM element per styled run, so cost grows with
+ * 2. `normalizeLineControls` makes the peer's own `\r` and `\b` helpers cheap. In ansi-to-react 6.2.6 (via escape-carriage 1.3.1)
+ *    `/\r+\n/gm` is quadratic on a run of carriage returns: a line of 65,536 of them takes ~6 s, and the other helper loops add a
+ *    log-factor of passes. A length cap alone does not stop that, so the controls are normalised here in linear time and the peer
+ *    never sees a run. See docs/terminal-evidence/security-audit.md.
+ * 3. `tailOf` bounds the work: the renderer builds one DOM element per styled run, so cost grows with
  *    the input. Measured with ansi-to-react 6.2.6 on a hostile input of one colour change per six
  *    characters, rendering took ~0.2 s at 96 KB and ~8.6 s at 6 MB. Only the last `maxChars` are shown.
- * 3. `toCopyText` strips every control sequence, so what is copied is the text the user sees, not
+ * 4. `toCopyText` strips every control sequence, so what is copied is the text the user sees, not
  *    bytes that a terminal would execute when pasted.
  *
  * Every pattern here is linear: the character classes inside one sequence are disjoint, there is no
@@ -48,6 +52,55 @@ const ALL = new RegExp(
 /** Keep SGR colour and style, `\n \t \b \r` and text; drop every other control sequence and control byte. */
 export function sanitizeForDisplay(text: string): string {
   return text.replace(DISPLAY, '')
+}
+
+// "\b" preceded by any character but a newline: the peer's backspace rule (it removes both), applied until nothing changes.
+const BACKSPACE_PAIR = new RegExp(String.raw`[^\n]\x08`, 'g')
+/**
+ * The loop converges in about log2(length) passes (exhaustively over every string of three symbols up to length 13 the worst
+ * case is 4), so 32 passes is far beyond any real input and still bounds the work if one were ever found.
+ */
+const MAX_BACKSPACE_PASSES = 32
+
+/**
+ * Prepare `\r` and `\b` for the peer, in linear time, with the result the peer itself would produce. It does its work in this
+ * order (backspaces, then carriage returns), and so does this:
+ * - backspaces are applied by the peer's own rule until nothing changes, in a bounded number of passes. A `\b` left over (one at
+ *   the start of a line, with nothing before it to erase) stays, because the peer counts it as a character when a later `\r`
+ *   overwrites the line; it is invisible. Should the pass limit ever be reached, the remaining backspaces are dropped instead;
+ * - a run of carriage returns becomes one: both of the peer's helpers read `\r+` as a single separator, so this is exact, and it
+ *   removes the quadratic scan. Carriage returns at the very end of the text are dropped: there is nothing for them to overwrite
+ *   yet (the next chunk of a stream will fold in properly), and the peer would leave each as a literal character, which CSS
+ *   `pre-wrap` can show as a space;
+ * After this the peer's helpers find no pair to erase and no run, so neither loops. `src/terminal-text.test.ts` checks the result
+ * against the peer on thousands of random inputs.
+ */
+export function normalizeLineControls(text: string): string {
+  let out = text
+  if (out.includes('\b')) {
+    let converged = false
+    for (let pass = 0; pass < MAX_BACKSPACE_PASSES; pass += 1) {
+      const next = out.replace(BACKSPACE_PAIR, '')
+      if (next.length === out.length) {
+        converged = true
+        break
+      }
+      out = next
+    }
+    if (!converged) {
+      out = out.replaceAll('\b', '')
+    }
+  }
+  if (!out.includes('\r')) {
+    return out
+  }
+  out = out.replace(/\r{2,}/g, '\r')
+  // By index, not `/\r+$/`: that pattern rescans a whole run from every position inside it.
+  let end = out.length
+  while (end > 0 && out.charCodeAt(end - 1) === 13) {
+    end -= 1
+  }
+  return end === out.length ? out : out.slice(0, end)
 }
 
 /** The text a user would select: no control sequences at all, `\r\n` and `\r` as newlines, `\b` gone. */

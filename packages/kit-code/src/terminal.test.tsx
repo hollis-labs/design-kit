@@ -304,3 +304,79 @@ describe('Terminal scrolling', () => {
     expect(content.scrollTop).toBe(300)
   })
 })
+
+describe('Terminal on hostile shapes, 100 lines inside the cap', () => {
+  // About 600 characters a line, 100 lines, well inside the 65,536-character window: the whole of it is rendered, so the text must
+  // come out exactly as expected and in well under the ceiling. A regex that backtracks on any of these shapes does not.
+  const LINES = 100
+  const LEN = 600
+  const line = (build: (len: number) => string) => Array.from({ length: LINES }, () => build(LEN)).join('\n')
+  const exact: Array<[string, (len: number) => string, string]> = [
+    ['one delimiter repeated "("', (len) => '('.repeat(len), '('.repeat(LEN)],
+    ['one delimiter repeated ";"', (len) => ';'.repeat(len), ';'.repeat(LEN)],
+    ['one delimiter repeated "/"', (len) => '/'.repeat(len), '/'.repeat(LEN)],
+    ['one delimiter repeated "["', (len) => '['.repeat(len), '['.repeat(LEN)],
+    ['long terminated SGR parameters', (len) => `${ESC}[${'1;'.repeat(len / 2)}m kept`, ' kept'],
+    ['colour change every six characters', (len) => `${ESC}[31ma`.repeat(len / 6), 'a'.repeat(LEN / 6)],
+    ['OSC 8 links', (len) => `${ESC}]8;;http://x\x07L${ESC}]8;;\x07`.repeat(len / 24), 'L'.repeat(LEN / 24)],
+    // A space, not a letter, after the escapes: ESC followed by 0x30-0x7E is itself a two-byte escape and takes that character with it.
+    ['bare escapes', (len) => `${ESC}`.repeat(len) + ' end', ' end'],
+    ['bidi overrides', (len) => `${'‮'.repeat(len)}end`, 'end'],
+    ['C1 controls', (len) => `${'\u009b'.repeat(len)}end`, 'end'],
+    ['cursor and erase controls', (len) => `${ESC}[2K${ESC}[1A`.repeat(len / 8) + 'end', 'end'],
+  ]
+
+  it.each(exact)('keeps %s exactly, and quickly', (_label, build, expectedLine) => {
+    const start = performance.now()
+    const { container } = render(<Terminal output={line(build)} />)
+    const elapsed = performance.now() - start
+    expect(container.querySelector('pre')!.textContent).toBe(Array.from({ length: LINES }, () => expectedLine).join('\n'))
+    expect(elapsed).toBeLessThan(3000)
+  })
+
+  const unterminated: Array<[string, (len: number) => string]> = [
+    ['unterminated SGR parameters', (len) => `${ESC}[${'1;'.repeat(len / 2)}`],
+    ['unfinished CSI starts', (len) => `${ESC}[`.repeat(len / 2)],
+    ['OSC starts', (len) => `${ESC}]x`.repeat(len / 3)],
+    ['an unterminated OSC 8 link', (len) => `${ESC}]8;;http://x/${'a'.repeat(len)}`],
+    ['an unterminated DCS', (len) => `${ESC}P${'q'.repeat(len)}`],
+    ['mixed escape, backspace, return and colour', (len) => `${ESC}[3\b1m\ra${ESC}]0;t\x07\b${ESC}[0m`.repeat(len / 18)],
+  ]
+
+  it.each(unterminated)('stays inert and quick on %s', (_label, build) => {
+    const start = performance.now()
+    const { container } = render(<Terminal output={line(build)} />)
+    const elapsed = performance.now() - start
+    expect(container.querySelector('script, img, a, iframe')).toBeNull()
+    expect(container.querySelector('pre')!.textContent!.length).toBeLessThanOrEqual(DEFAULT_MAX_CHARS)
+    expect(elapsed).toBeLessThan(3000)
+  })
+
+  const returnsAndBackspaces: Array<[string, (len: number) => string]> = [
+    ['carriage returns only', (len) => '\r'.repeat(len)],
+    ['text between runs of carriage returns', (len) => `x${'\r'.repeat(len / 2)}y${'\r'.repeat(len / 2)}z`],
+    ['alternating "a\\r"', (len) => 'a\r'.repeat(len / 2)],
+    ['alternating "ab\\rc"', (len) => 'ab\rc'.repeat(len / 4)],
+    ['backspaces after text', (len) => 'a'.repeat(len / 2) + '\b'.repeat(len / 2)],
+    ['alternating "a\\b"', (len) => 'a\b'.repeat(len / 2)],
+    ['backspace after an escape', (len) => `${ESC}[\b`.repeat(len / 3)],
+  ]
+
+  it.each(returnsAndBackspaces)('renders %s quickly', (_label, build) => {
+    const start = performance.now()
+    render(<Terminal output={line(build)} />)
+    expect(performance.now() - start).toBeLessThan(3000)
+  })
+
+  it('renders a single line of 65,536 carriage returns in well under a second (the peer alone took ~6 s)', () => {
+    const start = performance.now()
+    const { container } = render(<Terminal output={'\r'.repeat(65_536)} />)
+    expect(performance.now() - start).toBeLessThan(1000)
+    expect(container.querySelector('pre')!.textContent).toBe('')
+  })
+
+  it('applies carriage returns and backspaces to what is shown, as a terminal would', () => {
+    const { container } = render(<Terminal output={'10%\r20%\r100%\nabc\b\bd\nplain'} />)
+    expect(container.querySelector('pre')!.textContent).toBe('100%\nad\nplain')
+  })
+})

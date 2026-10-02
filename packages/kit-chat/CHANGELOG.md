@@ -1,5 +1,11 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — model selector (CW-20261002-0045)
+
+- Add ModelSelector Dialog/Command compositions with host-owned catalog, filtering and selection.
+- Replace upstream brand-logo hotlinks with consumer ReactNode slots; bundle no marks or new dependencies.
+- Keep titles/descriptions inside the real popup, with Command unit tests and Chromium dialog evidence.
+
 ## Unreleased — attachments (CW-20261002-0045)
 
 - Host-controlled Attachments grid/inline/list, media previews, metadata and removal events; own presentation types.

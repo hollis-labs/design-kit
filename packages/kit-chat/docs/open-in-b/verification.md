@@ -33,8 +33,8 @@ design-components/source.css and kit-chat/source.css; register the demo and sour
 when serving unbuilt TSX. Run the script with PLAYWRIGHT_MODULE, PROOF_OUTPUT and
 optional BASE_URL. Only existing workspace tools are needed.
 
-OpenIn's direct Button/DropdownMenu imports already exist in published
- design-components 0.3.0. The integrated kit-chat package includes other exports
+published-primitives.json records all direct Button/DropdownMenu imports verified
+in the registry design-components 0.3.0 tarball. The integrated kit-chat package includes other exports
 using Collapsible/HoverCard and **needs next design-components release (unreleased)**.
 consumer.json records an isolated packed ChatStream-only consumer with packed
 workspace design-components/bindings, registry design-tokens, no workspace links
@@ -42,7 +42,7 @@ and no installed Streamdown. Its production bundle/render verifies the optional
 markdown boundary, not release readiness or CSS coverage. root-graph.json records
 the built main graph and absence of Streamdown/Shiki/ANSI peer references. The
 package license retains the canonical complete Apache text once (249 lines,
-one TERMS AND CONDITIONS heading after integration of PR A).
+one TERMS AND CONDITIONS heading after integration of PR A and Context/Question).
 
 All five integrated gates and actual kit-chat test counts are recorded in the PR.
 Limits: Chromium only; no provider catalog/prompt export/content encoding or

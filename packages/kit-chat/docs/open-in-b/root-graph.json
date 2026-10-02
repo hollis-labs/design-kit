@@ -23,6 +23,9 @@
     "dist/components/confirmation.js",
     "dist/components/queue.js",
     "dist/components/open-in.js",
+    "dist/components/suggestion.js",
+    "dist/components/context.js",
+    "dist/components/question.js",
     "dist/components/image.js",
     "dist/components/inline-citation.js",
     "dist/cards/envelope.js",
@@ -42,5 +45,5 @@
     "dist/index.js"
   ],
   "optionalPeerMatches": [],
-  "bytes": 105690
+  "bytes": 117007
 }

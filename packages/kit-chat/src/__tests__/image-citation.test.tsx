@@ -65,11 +65,16 @@ describe('Image and InlineCitation', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Previous citation' }))
     expect(change).not.toHaveBeenCalled()
   })
-  it('exposes interactive hover content and leaves source URLs as host-supplied text', async () => {
-    render(<InlineCitationCard defaultOpen><InlineCitationCardTrigger>Host source label</InlineCitationCardTrigger><InlineCitationCardBody data-testid="body"><InlineCitationCarousel>{controls()}{pages()}</InlineCitationCarousel><InlineCitationSource title="Local evidence" url="a non-URL host reference" /></InlineCitationCardBody></InlineCitationCard>)
-    await waitFor(() => expect(screen.getByTestId('body').getAttribute('aria-hidden')).toBe('false'))
+  // HoverCard positioning/portal focus and aria-hidden are proven in Chromium,
+  // where layout exists, following design-components' HoverCard test discipline.
+  it('leaves hover visibility with the host and source URLs as host-supplied text', async () => {
+    const changed = vi.fn()
+    render(<><InlineCitationCard open={false} onOpenChange={changed}><InlineCitationCardTrigger>Host source label</InlineCitationCardTrigger><InlineCitationCardBody>Supplemental evidence</InlineCitationCardBody></InlineCitationCard><InlineCitationSource title="Local evidence" url="a non-URL host reference" /></>)
+    fireEvent.mouseEnter(screen.getByRole('button', { name: 'Host source label' }))
+    await waitFor(() => expect(changed).toHaveBeenCalled())
+    expect(changed.mock.calls[0][0]).toBe(true)
     expect(screen.getByRole('button', { name: 'Host source label' }).tagName).toBe('BUTTON')
-    expect(screen.getByRole('button', { name: 'Next citation' })).toBeTruthy()
+    expect(screen.queryByText('Supplemental evidence')).toBeNull()
     expect(screen.getByText('a non-URL host reference')).toBeTruthy()
     expect(screen.queryByRole('link')).toBeNull()
   })

@@ -1,5 +1,10 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — Image + InlineCitation (CW-20261002-0049 A)
+
+- Image uses host-owned `src`, required `alt`, and optional `mediaType` metadata; no AI SDK/generated-file or base64 assumptions.
+- InlineCitation retains the upstream composition names with a controlled local pager (index, previous/next, wraparound), exposed interactive HoverCard content and keyboard focus handoffs. No embla or new dependency. Needs the next design-components release (unreleased), which supplies HoverCard.
+
 ## Unreleased — attachments (CW-20261002-0045)
 
 - Host-controlled Attachments grid/inline/list, media previews, metadata and removal events; own presentation types.

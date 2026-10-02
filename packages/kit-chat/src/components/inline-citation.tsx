@@ -5,8 +5,8 @@
  * Version: ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
  * Divergences: Base UI HoverCard render trigger; accessible interactive body; host trigger label; controlled local pager instead of embla; tokens.
  */
-import { Children, createContext, isValidElement, useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import type { ComponentProps } from 'react'
+import { Children, createContext, isValidElement, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import type { ComponentProps, Ref, RefObject } from 'react'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { Button, HoverCard, HoverCardContent, HoverCardTrigger, cn } from '@hollis-labs/design-components'
 
@@ -19,17 +19,68 @@ export function InlineCitationText({ className, ...props }: InlineCitationTextPr
   return <span className={cn('transition-colors group-hover:bg-surface', className)} {...props} />
 }
 export type InlineCitationCardProps = ComponentProps<typeof HoverCard>
-export function InlineCitationCard(props: InlineCitationCardProps) { return <HoverCard {...props} /> }
+interface CitationFocus { trigger: RefObject<HTMLElement | null>; body: RefObject<HTMLDivElement | null>; close: () => void }
+const Citation = createContext<CitationFocus | null>(null)
+function useCitation() {
+  const value = useContext(Citation)
+  if (!value) throw new Error('InlineCitationCard components must be used within InlineCitationCard')
+  return value
+}
+function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
+  if (typeof ref === 'function') ref(value)
+  else if (ref) ref.current = value
+}
+function focusable(container: HTMLElement) {
+  return Array.from(container.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'))
+    .filter((element) => !element.closest('[hidden], [inert]') && element.tabIndex >= 0)
+}
+export function InlineCitationCard({ actionsRef, ...props }: InlineCitationCardProps) {
+  const trigger = useRef<HTMLElement>(null)
+  const body = useRef<HTMLDivElement>(null)
+  const internalActions = useRef<{ close: () => void; unmount: () => void }>(null)
+  const actions = actionsRef ?? internalActions
+  const value = useMemo(() => ({ trigger, body, close: () => actions.current?.close() }), [actions])
+  return <Citation.Provider value={value}><HoverCard {...props} actionsRef={actions} /></Citation.Provider>
+}
 export type InlineCitationCardTriggerProps = ComponentProps<typeof HoverCardTrigger>
 /** Supply a human-readable citation label; no URL parsing or inferred destination. */
-export function InlineCitationCardTrigger({ className, children, ...props }: InlineCitationCardTriggerProps) {
-  return <HoverCardTrigger delay={0} closeDelay={0} render={<button type="button" />} {...props}
+export function InlineCitationCardTrigger({ className, children, onKeyDown, ref, ...props }: InlineCitationCardTriggerProps) {
+  const citation = useCitation()
+  const mergeRef = useCallback((node: HTMLAnchorElement | null) => { citation.trigger.current = node; assignRef(ref, node) }, [citation, ref])
+  return <HoverCardTrigger delay={0} closeDelay={0} render={<button type="button" />} {...props} ref={mergeRef}
+    onKeyDown={(event) => {
+      onKeyDown?.(event)
+      if (!event.defaultPrevented && event.key === 'Tab' && !event.shiftKey && citation.body.current) {
+        const first = focusable(citation.body.current)[0]
+        if (first) { event.preventDefault(); first.focus() }
+      }
+    }}
     className={(state) => cn('ml-1 inline-flex items-center rounded-control border border-border bg-surface px-2 py-0.5 text-caption font-medium text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', typeof className === 'function' ? className(state) : className)}>{children ?? 'Sources'}</HoverCardTrigger>
 }
 export type InlineCitationCardBodyProps = Omit<ComponentProps<typeof HoverCardContent>, 'aria-hidden'>
 /** This popup contains interactive controls, so it must be exposed to assistive technology. */
-export function InlineCitationCardBody({ className, ...props }: InlineCitationCardBodyProps) {
-  return <HoverCardContent {...props} aria-hidden={false} className={(state) => cn('w-80 max-w-full p-0', typeof className === 'function' ? className(state) : className)} />
+export function InlineCitationCardBody({ className, onKeyDown, onBlur, ref, ...props }: InlineCitationCardBodyProps) {
+  const citation = useCitation()
+  const mergeRef = useCallback((node: HTMLDivElement | null) => { citation.body.current = node; assignRef(ref, node) }, [citation, ref])
+  return <HoverCardContent {...props} ref={mergeRef} aria-hidden={false}
+    onBlur={(event) => {
+      onBlur?.(event)
+      if (!event.defaultPrevented && !event.currentTarget.contains(event.relatedTarget) && event.relatedTarget !== citation.trigger.current) citation.close()
+    }}
+    onKeyDown={(event) => {
+      onKeyDown?.(event)
+      if (event.defaultPrevented) return
+      if (event.key === 'Escape') citation.trigger.current?.focus()
+      if (event.key !== 'Tab') return
+      const controls = focusable(event.currentTarget)
+      if (event.shiftKey && event.target === controls[0]) { event.preventDefault(); citation.trigger.current?.focus() }
+      else if (!event.shiftKey && event.target === controls.at(-1) && citation.trigger.current) {
+        // Portals are appended to body. Continue from the trigger's place in the host's tab order.
+        const hostControls = focusable(event.currentTarget.ownerDocument.body).filter((element) => !event.currentTarget.contains(element))
+        const next = hostControls[hostControls.indexOf(citation.trigger.current) + 1]
+        if (next) { event.preventDefault(); next.focus() }
+      }
+    }} className={(state) => cn('w-80 max-w-full p-0', typeof className === 'function' ? className(state) : className)} />
 }
 
 interface PagerContext {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Image, InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationCarousel, InlineCitationCarouselHeader, InlineCitationCarouselPrev, InlineCitationCarouselIndex, InlineCitationCarouselNext, InlineCitationCarouselContent, InlineCitationCarouselItem, InlineCitationSource, InlineCitationQuote } from '@hollis-labs/kit-chat'
 
 // Host-created SVG fixture; no network, generated-file types or bundled brand assets.
-const illustration = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240"><rect width="100%" height="100%" fill="currentColor"/><text x="32" y="128" fill="white" font-size="32">Host illustration</text></svg>')}`
+const illustration = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="240"><circle cx="160" cy="120" r="72" fill="currentColor" opacity="0.5"/><circle cx="320" cy="120" r="72" fill="currentColor" opacity="0.3"/><circle cx="480" cy="120" r="72" fill="currentColor" opacity="0.2"/></svg>')}`
 export function ImageCitationDemo() {
   const [index, setIndex] = useState(0)
   return <main className="mx-auto max-w-3xl space-y-4 bg-bg p-4 text-fg">

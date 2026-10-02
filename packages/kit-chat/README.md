@@ -578,3 +578,15 @@ users. Supply an
 accessible label to icon-only actions and a useful QueueList label. Filename width
 and image sizing use the token scale. No queue store, executor or transport is added.
 See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).
+
+## Image and InlineCitation (unreleased)
+
+`Image` renders a native image from required host-owned `src` and `alt`, plus optional `mediaType` metadata and standard image props. An empty `alt` marks a decorative image. The host creates and releases Blob URLs, chooses data/network URLs and handles errors; the kit does no base64 conversion, MIME detection, fetching or generated-file interpretation.
+
+`InlineCitation`, `InlineCitationText`, `InlineCitationCard`, `InlineCitationCardTrigger` and `InlineCitationCardBody` compose an inline source preview. Supply the trigger's readable label as children; destinations and source descriptions belong to the host. `InlineCitationSource` renders `title`, `url` and `description` as text, and accepts host children for explicit links/actions. `InlineCitationQuote` renders a blockquote. No URL parsing or external destination is inferred.
+
+The `InlineCitationCarousel` family is a small pager: optional controlled `index` and `onIndexChange`, or `defaultIndex` for local selection; previous/next wrap around. Use one `InlineCitationCarouselContent` with one `InlineCitationCarouselItem` per page, plus Header, Index, Prev and Next slots. Empty/single-page navigation is disabled; invalid indexes and shrinking lists are normalized; inactive pages remain mounted but hidden. A controlled host must accept the requested index to change the displayed page. Click handlers can prevent navigation.
+
+The interactive body uses `aria-hidden={false}` to override the supplementary HoverCard default. Keyboard focus on the trigger opens the preview; Tab enters its controls, Shift+Tab from the first returns to the trigger, and Tab from the last continues to the following host control. Escape returns focus to the trigger. HoverCard open state/callbacks still belong to Base UI/the host. This needs the next design-components release (unreleased); published 0.3.0 lacks HoverCard. No dependency, manifest or lockfile changes.
+
+See [the demo](demo/image-citation.tsx) and [verification](docs/image-citation/verification.md). No application migration or transport changes are included.

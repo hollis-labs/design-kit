@@ -26,10 +26,15 @@ in its own change.
 
 - **design-tokens:** Tailwind `dark:` utilities match the default dark palette when
   no explicit mode marker is present, fixing first paint; explicit light scope
-  behavior and zero-specificity matching remain intact.
+  behavior and zero-specificity matching remain intact. Strengthen the existing
+  ring values for Graphite dark, Hacker light and P4 dark; no token is added and
+  ring-soft remains retired. Decorative strokes follow the stronger ring in those
+  three combinations.
 - **design-components:** add ButtonGroup, Collapsible, HoverCard and the shared
   useControllableState hook; correct inherited shadcn MIT attribution. HoverCard
-  is supplementary by default, with an opt-in accessible-content override.
+  is supplementary by default, with an opt-in accessible-content override. Replace
+  ring-ring/50 with full-strength ring-ring on ten controls, including destructive
+  and invalid focus states; native text-field click focus strengthens too.
 - **kit-dashboard:** restore keyboard Button/menu focus rings under theme.css,
   retain quiet pointer focus and increase unsorted DataTable glyph contrast.
 - **kit-chat:** add Message actions/branching, CSS Shimmer, Reasoning, ChainOfThought,

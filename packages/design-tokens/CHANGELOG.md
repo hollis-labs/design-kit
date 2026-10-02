@@ -11,8 +11,7 @@
   general outline-color mapping deliberately follow the stronger ring in those
   same three pairs. Their before/after computed styles are recorded in the
   repo's `docs/screenshots/focus-ring/` audit; styling polish is deferred.
-  Appearance-only change for the next minor core release, with no version bump
-  here. Native text-field click rings strengthen along with keyboard focus
+  Native text-field click rings strengthen along with keyboard focus
   (CW-20261002-0091).
 
 - Tailwind `dark:` utilities also match

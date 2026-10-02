@@ -10,6 +10,13 @@
   and always-visible host action buttons for keyboard/touch.
 - Needs the next design-components release (unreleased) for Collapsible; publish with
   the next coordinated core minor. No version/range/dependency/manifest changes.
+- Add AI Elements Reasoning, ChainOfThought, Sources and Plan on the shared Base UI
+  Collapsible; keep content, citations and plan actions host-owned (CW-20261002-0044 B).
+- Fix upstream split disclosure roots in ChainOfThought so header/panel ARIA linkage
+  is preserved. Reasoning elapsed seconds are host-supplied; no markdown deps in main.
+- **Release prerequisite:** these components require the next, unreleased
+  design-components core release. Published design-components 0.3.0 lacks Collapsible.
+  Publish together in the next six-way core minor; no version/range changes here.
 
 - Add AI Elements Message actions/branching without message-layout or AI SDK dependencies;
   controlled selection, wraparound navigation and preserved inactive drafts (CW-20261002-0044).

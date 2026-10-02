@@ -11,6 +11,10 @@
 | src/components/tool.tsx | packages/elements/src/tool.tsx | Base UI; own ToolState/name; JsonViewer/host content instead of CodeBlock; falsy output retained; tokens |
 | src/components/confirmation.tsx | packages/elements/src/confirmation.tsx | Subordinate slots inside existing ConfirmationCard; no second card/actions; opaque host-selected IDs and host messages; no AI SDK |
 | src/components/queue.tsx | packages/elements/src/queue.tsx | Base UI; native bounded scrolling list; actions visible for keyboard/touch; token geometry/colors |
+| src/components/reasoning.tsx | packages/elements/src/reasoning.tsx | Base UI/local state; host-rendered content and elapsed seconds; auto-open once per streaming run; no Streamdown/plugins; opt-in CSS; tokens |
+| src/components/chain-of-thought.tsx | packages/elements/src/chain-of-thought.tsx | Base UI/local state; shared disclosure root fixes header/panel linkage; tokens; bounded image slot |
+| src/components/sources.tsx | packages/elements/src/sources.tsx | Base UI root props; non-link provenance when href absent; merged classes; tokens |
+| src/components/plan.tsx | packages/elements/src/plan.tsx | Base UI render composition; token radius; span Shimmer avoids nested paragraphs |
 
 The package-root LICENSE ships the original Hollis Labs MIT text and upstream
 Vercel attribution/full Apache-2.0 text. The pin contains no upstream NOTICE.

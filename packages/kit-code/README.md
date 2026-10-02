@@ -103,10 +103,11 @@ about it. The evidence is in `docs/terminal-evidence/` (`security-audit.md`, `br
   strings, stray ESC and C0/C1 bytes. Every pattern is linear: no nested quantifiers or overlapping
   alternatives, and OSC/device payloads are capped at 4,096 characters so an unterminated one cannot
   swallow the output that follows.
+- **Controls the peer is slow on are normalised first.** In `ansi-to-react` 6.2.6 a single line of 65,536 carriage returns takes about 6 s to render (a quadratic regex in `escape-carriage`, which a size cap alone does not stop), so `\r` and `\b` are applied in linear time before the peer sees them; its result is unchanged (checked against it on thousands of random inputs).
 - **Work is bounded by size.** Only the last `maxChars` (default 65,536) are rendered, starting on a line
   boundary, with a visible "Showing the last N of M characters" note; the host keeps the full output and
   Copy takes all of it. Measured with ansi-to-react 6.2.6 (`demo/scripts/ansi-cost.mjs`), 6 MiB of
-  worst-case input took 4-23 s to render alone and takes 0.1-0.2 s through `Terminal`. Raise `maxChars` only
+  worst-case input took 4-23 s to render alone and takes 0.1-0.2 s through `Terminal`; 22 hostile shapes, as one line and as 100 lines, are in `docs/terminal-evidence/ansi-hostile-shapes.md`. Raise `maxChars` only
   for output you trust.
 - **Copy is the visible text**, with every escape sequence removed (and `\r`/`\r\n` as newlines), not the
   raw bytes: escape sequences pasted into a terminal act. Computed when the button is pressed.

@@ -4,7 +4,9 @@
  * characters). Server render in plain Node, warm second run, milliseconds.
  *
  *   npm run build -w @hollis-labs/kit-code
- *   cd packages/kit-code && node demo/scripts/ansi-hostile-shapes.mjs [totalChars=65536]
+ *   cd packages/kit-code && node demo/scripts/ansi-hostile-shapes.mjs [totalChars=65536] [skip-peer]
+ *
+ * `skip-peer` leaves the peer-alone column out: on a run of carriage returns it is quadratic, so at 1 MiB it would run for over an hour.
  *
  * The point is shape, not absolute time: a length cap alone does not protect against an ambiguous regex, so each pattern must
  * be linear and the cap must hold in total. Run at the cap (65,536) and at 1 MiB to see which column grows.
@@ -22,6 +24,7 @@ const peer = (text) => renderToString(h(Ansi, { useClasses: true, linkify: false
 const terminal = (text) => renderToString(h(Terminal, { output: text }))
 const ESC = '\x1b'
 const total = Number(process.argv[2] ?? 65_536)
+const skipPeer = process.argv[3] === 'skip-peer'
 
 // Each shape builds one line of roughly `len` characters.
 const shapes = {
@@ -50,7 +53,7 @@ const shapes = {
 }
 
 const ms = (fn, text) => { fn(text); const s = process.hrtime.bigint(); fn(text); return Number(process.hrtime.bigint() - s) / 1e6 }
-const cell = (v) => (v >= 1000 ? (v / 1000).toFixed(2) + ' s' : v.toFixed(v < 10 ? 1 : 0) + ' ms').padStart(9)
+const cell = (v) => Number.isNaN(v) ? 'skipped'.padStart(9) : (v >= 1000 ? (v / 1000).toFixed(2) + ' s' : v.toFixed(v < 10 ? 1 : 0) + ' ms').padStart(9)
 console.log(`total input per case: ${total.toLocaleString('en-US')} characters\n`)
 console.log('shape'.padEnd(42) + 'lines'.padStart(6) + 'peer'.padStart(10) + 'sanitize'.padStart(10) + 'terminal'.padStart(10))
 let worstPeer = { v: 0 }
@@ -59,13 +62,13 @@ for (const [name, build] of Object.entries(shapes)) {
   for (const lines of [100, 1]) {
     const len = Math.max(2, Math.floor(total / lines) - 1)
     const text = Array.from({ length: lines }, () => build(len)).join('\n').slice(0, total)
-    const a = ms(peer, text)
+    const a = skipPeer ? Number.NaN : ms(peer, text)
     const b = ms((t) => { sanitizeForDisplay(t); toCopyText(t) }, text)
     const c = ms(terminal, text)
-    if (a > worstPeer.v) worstPeer = { v: a, name, lines }
+    if (!skipPeer && a > worstPeer.v) worstPeer = { v: a, name, lines }
     if (Math.max(b, c) > worstOurs.v) worstOurs = { v: Math.max(b, c), name, lines }
     console.log(name.padEnd(42) + String(lines).padStart(6) + cell(a) + cell(b) + cell(c))
   }
 }
-console.log(`\nslowest peer-alone case: ${worstPeer.name} (${worstPeer.lines} lines) ${worstPeer.v.toFixed(0)} ms`)
+if (!skipPeer) console.log(`\nslowest peer-alone case: ${worstPeer.name} (${worstPeer.lines} lines) ${worstPeer.v.toFixed(0)} ms`)
 console.log(`slowest sanitize/terminal case: ${worstOurs.name} (${worstOurs.lines} lines) ${worstOurs.v.toFixed(0)} ms`)

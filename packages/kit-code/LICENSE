@@ -22,7 +22,7 @@ SOFTWARE.
 
 Vendored AI Elements files retain the Vercel Apache-2.0 license.
 Scope: src/code-block.tsx, src/snippet.tsx, src/file-tree.tsx, src/stack-trace.tsx,
-src/test-results.tsx, src/commit.tsx, src/agent.tsx.
+src/test-results.tsx, src/commit.tsx, src/agent.tsx, src/terminal.tsx.
 Original Hollis Labs files remain MIT.
 
 Copyright 2023 Vercel, Inc.

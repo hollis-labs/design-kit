@@ -749,8 +749,8 @@ controls are native non-submitting buttons; `disabled` remains inert. Button
 render overrides are excluded and native buttons are enforced after the prop
 spread, so controls remain buttons. Tooltips use Base UI
 render composition without nested buttons. An open tooltip is linked as a
-description; its optional hint never replaces the required action label. Clicks only report host callbacks;
-Close does not internally unmount or alter the viewer.
+description; its optional hint never replaces the required action label. Clicks
+only report host callbacks; Close does not internally unmount or alter the viewer.
 
 `ArtifactContent` is a bounded, keyboard-focusable native scrolling region,
 labelled “Artifact content” by default. Supply a useful `aria-label`; hosts may

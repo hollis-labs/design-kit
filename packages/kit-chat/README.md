@@ -716,3 +716,50 @@ See `demo/context-question.tsx` and `docs/context-question-c/` for unit/Chromium
 light/dark theme and packed ChatStream-without-streamdown evidence. As with other
 popover slices, unit tests cover inner Context presentation without opening the
 Base UI popup in jsdom; Chromium proves real open/focus/Escape behavior.
+
+## Expanded Artifact (unreleased)
+
+`Artifact` is the expanded viewer shell beside the compact transcript
+`ArtifactCard`. The card remains its existing Envelope presentation with
+name/meta/download/dismiss props. The expanded family keeps the upstream names:
+`ArtifactHeader`, `ArtifactTitle`, `ArtifactDescription`, `ArtifactClose`,
+`ArtifactActions`, `ArtifactAction` and `ArtifactContent`. Neither surface is a
+wire kind or chooses a renderer. Hosts decide how a compact record opens an
+expanded viewer, when it closes, and what already-rendered content it contains.
+
+```tsx
+<Artifact role="region" aria-labelledby="artifact-title">
+  <ArtifactHeader>
+    <div><ArtifactTitle id="artifact-title">Host document</ArtifactTitle>
+      <ArtifactDescription>{hostMetadata}</ArtifactDescription></div>
+    <ArtifactActions>
+      <ArtifactAction label="Save document" icon={DownloadIcon} onClick={hostSave} />
+      <ArtifactClose onClick={hostClose} />
+    </ArtifactActions>
+  </ArtifactHeader>
+  <ArtifactContent aria-label="Document preview">{hostRenderedContent}</ArtifactContent>
+</Artifact>
+```
+
+Each `ArtifactAction` requires a nonempty `label` independent of optional tooltip
+text; icon-only controls keep that accessible name. `icon` accepts a Lucide icon
+component; children can supply other host-rendered content. `ArtifactClose` has
+the default label “Close artifact”, overridable with a nonempty `label`. All
+controls are native non-submitting buttons; `disabled` remains inert. Button
+render overrides are excluded and native buttons are enforced after the prop
+spread, so controls remain buttons. Tooltips use Base UI
+render composition without nested buttons. An open tooltip is linked as a
+description; its optional hint never replaces the required action label. Clicks
+only report host callbacks; Close does not internally unmount or alter the viewer.
+
+`ArtifactContent` is a bounded, keyboard-focusable native scrolling region,
+labelled “Artifact content” by default. Supply a useful `aria-label`; hosts may
+override its height/classes/tabIndex for their layout. Titles/descriptions are
+paragraph slots, so the host chooses heading/region structure. No MIME detection,
+fetching, HTML insertion, editor/renderer dependency or automatic download is
+included. Host React children keep their own behavior and asset/URL policies.
+
+Only published Button/Tooltip/cn exports are used by this slice; the integrated
+kit-chat package still **needs next design-components release (unreleased)** for
+its Collapsible/HoverCard exports. See [demo/artifact.tsx](demo/artifact.tsx) and
+[verification](docs/artifact-c/verification.md).

@@ -21,6 +21,7 @@ import bash from "shiki/langs/bash.mjs";
 import "./demo.css";
 import { InspectionDemo } from "./InspectionDemo";
 import { TerminalDemo } from "./TerminalDemo";
+import { MetadataDemo } from "./MetadataDemo";
 const query = new URLSearchParams(window.location.search);
 export function Demo() {
   const [theme, setTheme] = useState(query.get("theme") ?? DEFAULT_THEME_ID);
@@ -85,6 +86,8 @@ export function Demo() {
           <TerminalDemo />
         ) : query.get("view") === "inspection" ? (
           <InspectionDemo />
+        ) : query.get("view") === "metadata" ? (
+          <MetadataDemo />
         ) : (
           <>
             <section className="space-y-3">

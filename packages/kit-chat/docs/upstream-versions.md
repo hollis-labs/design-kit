@@ -19,6 +19,9 @@
 | src/components/sources.tsx | packages/elements/src/sources.tsx | Base UI root props; non-link provenance when href absent; merged classes; tokens |
 | src/components/plan.tsx | packages/elements/src/plan.tsx | Base UI render composition; token radius; span Shimmer avoids nested paragraphs |
 
+| src/components/image.tsx | packages/elements/src/image.tsx | Own native src/alt/mediaType props; no AI SDK/base64 conversion; token radius |
+| src/components/inline-citation.tsx | packages/elements/src/inline-citation.tsx | Base UI interactive HoverCard, keyboard portal handoff, host labels/text, controlled local pager/wraparound; no embla; tokens |
+
 The package-root LICENSE ships the original Hollis Labs MIT text and upstream
 Vercel attribution/full Apache-2.0 text. The pin contains no upstream NOTICE.
 Keep upstream names and per-file provenance; record future pins without erasing

@@ -7,6 +7,8 @@ Private, unpublished `0.0.0`. Code presentation uses the design-kit contract.
 - **FileTree** uses native disclosure/selection buttons and groups, with controlled or uncontrolled immutable expansion. It makes no incomplete ARIA tree/roving-focus claim.
 - **StackTrace** preserves unknown frames, displays paths as text by default, and delegates valid coordinates to an optional host callback. Its copy action preserves the raw trace.
 - **TestResults** composes summaries, bounded progress, independently controlled Base UI suites and labelled pass/fail/skipped/running statuses. Zero duration remains visible.
+- **Commit** composes a native disclosure, sibling hash-copy action, author/initials metadata, guarded timestamps and file statuses/change counts.
+- **Agent** displays host-supplied instructions and local tool/schema descriptors through the shared JsonViewer. Tool disclosures are independent.
 - **`/terminal`** renders untrusted terminal output (ANSI colour and style) on the optional `ansi-to-react` peer: React text only, no links, no inline colours, control sequences other than colour removed, at most the last 65,536 characters rendered. See *Terminal* below.
 - **`/highlight`** creates one host-owned Shiki core highlighter using the JS regexp engine and explicitly selected grammars. Its structural plugin serves both CodeBlock and `kit-chat/markdown`. No global caches, downloads, per-language singleton or markdown dependency.
 
@@ -62,12 +64,10 @@ access requires a secure context. The host supplies labels for language selector
 and owns value/onValueChange. Component names follow upstream, with Base UI's
 `render` props replacing `asChild`.
 
-FileTree, StackTrace and TestSuite use Collapsible; FileTree and StackTrace also
+FileTree, StackTrace, TestSuite, Commit and AgentTool use Collapsible; FileTree and StackTrace also
 use the shared controlled-state helper. Each **needs next design-components release (unreleased)**.
 This private workspace is not a claim of
 compatibility with registry design-components 0.3.0. Nothing publishes here.
-The remaining component slices have not landed yet.
-
 ## Terminal
 
 `@hollis-labs/kit-code/terminal` is opt-in: install `ansi-to-react@^6.2.6` (BSD-3-Clause; its `anser`,
@@ -139,3 +139,19 @@ clamped to the finite positive total; skipped tests remain in the summary.
 
 Use `?view=inspection` in the demo. Theme/mode screenshots and browser interaction
 receipts for this slice are in `docs/inspection-evidence/`.
+
+Commit header names and metadata use phrasing elements so they compose inside
+its native trigger. Put action buttons in `actions` or direct `CommitActions`
+children; they render beside the trigger. `CommitAuthorAvatar` displays
+decorative initials; provide the author name with `CommitAuthor`. Valid timestamps
+carry an ISO `dateTime` and a relative day label (updated on render); invalid
+dates show `Unknown date`. Change counts omit nonfinite/nonpositive values.
+
+`AgentToolDefinition` is the local `{ description?: string; inputSchema: unknown }`
+presentation shape. Supply JSON-serializable schema data, rather than SDK tool
+objects or validators. `AgentOutput schema={value}` uses the same JsonViewer;
+strings render as JSON string values, so parse serialized JSON in the host when
+you want an object view. Instructions and schemas render as React text. Each
+AgentTool accepts Base UI `open`/`defaultOpen`/`onOpenChange`; multiple tools may
+remain open. AgentTools is a labelled container rather than an accordion.
+Use `?view=metadata` in the demo; light/dark proof is in `docs/metadata-evidence/`.

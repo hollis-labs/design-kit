@@ -6,6 +6,8 @@
 
 | Local source | Upstream source | Divergences |
 | --- | --- | --- |
+| src/components/attachments.tsx, src/lib/attachment.ts | packages/elements/src/attachments.tsx | Own data; shared Button/cn; Base UI Popover instead of hover-only preview; visible removal; tokens |
+| src/components/attachment-dropzone.tsx | packages/elements/src/prompt-input.tsx (attachment sections only) | Local picker/dropzone emits files/rejections; host list and URL lifetime; no stores/global listeners/screenshots/composer logic; extension matching; tokens |
 | src/components/message.tsx | packages/elements/src/message.tsx | Actions and branching only; Base UI tooltips; native group; controlled branch; normalized children/count; no AI SDK or markdown deps; tokens |
 | src/components/shimmer.tsx, src/styles/keyframes.css | packages/elements/src/shimmer.tsx | motion/react → opt-in CSS; no module cache; token colors/spacing; reduced motion |
 

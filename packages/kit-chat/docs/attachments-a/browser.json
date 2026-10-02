@@ -1,0 +1,23 @@
+{
+  "themes": [
+    "nanite-default",
+    "dir-a",
+    "dir-b",
+    "dir-d",
+    "dir-e",
+    "dir-f",
+    "sysop-p4-white",
+    "sysop-green-phosphor",
+    "sysop-amber-phosphor",
+    "sysop-hi-contrast"
+  ],
+  "screenshots": 20,
+  "keyboardOpenEscapeFocus": true,
+  "clickOpen": true,
+  "realPickerImage": true,
+  "hostRemovalRevokes": true,
+  "localFileDrop": true,
+  "disabledIntake": true,
+  "chatInputTriggerPreserved": true,
+  "pageErrors": []
+}

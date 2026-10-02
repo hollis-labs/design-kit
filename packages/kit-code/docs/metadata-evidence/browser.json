@@ -1,0 +1,252 @@
+{
+  "results": [
+    {
+      "theme": "nanite-default",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(24, 25, 27)",
+        "background": "rgb(244, 245, 246)",
+        "radius": "10px",
+        "added": "rgb(48, 79, 66)",
+        "deleted": "rgb(140, 24, 36)",
+        "key": "rgb(24, 25, 27)"
+      }
+    },
+    {
+      "theme": "nanite-default",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(232, 234, 237)",
+        "background": "rgb(12, 13, 14)",
+        "radius": "10px",
+        "added": "rgb(202, 220, 213)",
+        "deleted": "rgb(226, 173, 180)",
+        "key": "rgb(232, 234, 237)"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(24, 24, 27)",
+        "background": "rgb(247, 247, 246)",
+        "radius": "10px",
+        "added": "rgb(66, 84, 65)",
+        "deleted": "rgb(141, 43, 39)",
+        "key": "rgb(24, 24, 27)"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(244, 244, 245)",
+        "background": "rgb(14, 14, 16)",
+        "radius": "10px",
+        "added": "rgb(171, 191, 169)",
+        "deleted": "rgb(223, 173, 171)",
+        "key": "rgb(244, 244, 245)"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(31, 26, 20)",
+        "background": "rgb(245, 241, 234)",
+        "radius": "10px",
+        "added": "rgb(86, 72, 34)",
+        "deleted": "rgb(132, 39, 35)",
+        "key": "rgb(31, 26, 20)"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(240, 234, 224)",
+        "background": "rgb(20, 17, 14)",
+        "radius": "10px",
+        "added": "rgb(194, 182, 137)",
+        "deleted": "rgb(221, 170, 162)",
+        "key": "rgb(240, 234, 224)"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(26, 14, 46)",
+        "background": "rgb(245, 240, 250)",
+        "radius": "10px",
+        "added": "rgb(19, 73, 103)",
+        "deleted": "rgb(125, 17, 90)",
+        "key": "rgb(26, 14, 46)"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(240, 232, 255)",
+        "background": "rgb(14, 10, 28)",
+        "radius": "10px",
+        "added": "rgb(94, 224, 184)",
+        "deleted": "rgb(246, 157, 211)",
+        "key": "rgb(240, 232, 255)"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(10, 26, 36)",
+        "background": "rgb(244, 241, 232)",
+        "radius": "10px",
+        "added": "rgb(14, 79, 57)",
+        "deleted": "rgb(125, 32, 64)",
+        "key": "rgb(10, 26, 36)"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(200, 224, 240)",
+        "background": "rgb(5, 10, 20)",
+        "radius": "10px",
+        "added": "rgb(46, 229, 157)",
+        "deleted": "rgb(224, 161, 184)",
+        "key": "rgb(200, 224, 240)"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(10, 10, 10)",
+        "background": "rgb(237, 237, 237)",
+        "radius": "10px",
+        "added": "rgb(67, 67, 67)",
+        "deleted": "rgb(104, 53, 26)",
+        "key": "rgb(10, 10, 10)"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(240, 240, 240)",
+        "background": "rgb(12, 12, 12)",
+        "radius": "10px",
+        "added": "rgb(200, 200, 200)",
+        "deleted": "rgb(226, 165, 132)",
+        "key": "rgb(240, 240, 240)"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(24, 24, 27)",
+        "background": "rgb(250, 250, 250)",
+        "radius": "10px",
+        "added": "rgb(22, 101, 52)",
+        "deleted": "rgb(165, 16, 52)",
+        "key": "rgb(24, 24, 27)"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(244, 244, 245)",
+        "background": "rgb(9, 9, 11)",
+        "radius": "10px",
+        "added": "rgb(52, 211, 153)",
+        "deleted": "rgb(251, 117, 136)",
+        "key": "rgb(244, 244, 245)"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(18, 59, 34)",
+        "background": "rgb(244, 250, 245)",
+        "radius": "10px",
+        "added": "rgb(23, 97, 50)",
+        "deleted": "rgb(150, 62, 11)",
+        "key": "rgb(18, 59, 34)"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(0, 255, 102)",
+        "background": "rgb(10, 10, 10)",
+        "radius": "10px",
+        "added": "rgb(102, 255, 170)",
+        "deleted": "rgb(255, 184, 77)",
+        "key": "rgb(0, 255, 102)"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(73, 48, 0)",
+        "background": "rgb(255, 251, 239)",
+        "radius": "10px",
+        "added": "rgb(102, 81, 0)",
+        "deleted": "rgb(163, 44, 18)",
+        "key": "rgb(73, 48, 0)"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(255, 176, 0)",
+        "background": "rgb(10, 10, 10)",
+        "radius": "10px",
+        "added": "rgb(255, 208, 96)",
+        "deleted": "rgb(255, 118, 69)",
+        "key": "rgb(255, 176, 0)"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "light",
+      "styles": {
+        "foreground": "rgb(0, 0, 0)",
+        "background": "rgb(255, 255, 255)",
+        "radius": "10px",
+        "added": "rgb(0, 80, 0)",
+        "deleted": "rgb(160, 0, 0)",
+        "key": "rgb(0, 0, 0)"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "dark",
+      "styles": {
+        "foreground": "rgb(255, 255, 255)",
+        "background": "rgb(0, 0, 0)",
+        "radius": "10px",
+        "added": "rgb(0, 255, 0)",
+        "deleted": "rgb(255, 100, 91)",
+        "key": "rgb(255, 255, 255)"
+      }
+    }
+  ],
+  "nativeKeyboard": true,
+  "independentTools": true,
+  "siblingActions": true,
+  "exactHashCopy": true,
+  "invalidDate": true,
+  "inertSchemaAndInstructions": true,
+  "reducedMotion": true,
+  "errors": []
+}

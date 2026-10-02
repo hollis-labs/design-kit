@@ -63,6 +63,30 @@ appears, nothing errors, and nothing in the stack points at the bundler. This pa
 has nothing to vendor and no build step at all: `main` and `types` point straight at
 source, so there is no bundle for a copy to hide in.
 
+## Node and SSR consumers
+
+This package exports TypeScript source. Browser builds must transpile it. Node
+cannot strip types from dependencies in `node_modules`: a direct import under
+Node 24 fails with `ERR_UNSUPPORTED_NODE_MODULES_TYPE_STRIPPING`. Bundle this
+package into the server output before running that output in Node.
+
+Vite normally externalizes installed dependencies for SSR. Include this package
+with `ssr.noExternal` so Vite transpiles its source:
+
+```ts
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  // Keep the host's existing plugins and build configuration.
+  ssr: { noExternal: ['@hollis-labs/design-bindings'] },
+})
+```
+
+Use the equivalent dependency-transpilation setting in another SSR bundler.
+The packed-install adoption smoke verified a Vite 5.4.21 server build with this
+setting and executed its output in Node 24.21.0. It does not establish direct
+Node import support or compatibility with every server bundler.
+
 ## The shape
 
 ```ts

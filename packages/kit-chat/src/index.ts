@@ -133,6 +133,9 @@ export { AttachmentDropzone, PromptInputActionAddAttachments } from './component
 export type { AttachmentDropzoneProps, AttachmentRejection, PromptInputActionAddAttachmentsProps } from './components/attachment-dropzone'
 export { getMediaCategory, getAttachmentLabel } from './lib/attachment'
 
+export { ModelSelector, ModelSelectorTrigger, ModelSelectorContent, ModelSelectorDialog, ModelSelectorInput, ModelSelectorList, ModelSelectorEmpty, ModelSelectorGroup, ModelSelectorItem, ModelSelectorShortcut, ModelSelectorSeparator, ModelSelectorLogo, ModelSelectorLogoGroup, ModelSelectorName } from './components/model-selector'
+export type { ModelSelectorProps, ModelSelectorTriggerProps, ModelSelectorContentProps, ModelSelectorDialogProps, ModelSelectorInputProps, ModelSelectorListProps, ModelSelectorEmptyProps, ModelSelectorGroupProps, ModelSelectorItemProps, ModelSelectorShortcutProps, ModelSelectorSeparatorProps, ModelSelectorLogoProps, ModelSelectorLogoGroupProps, ModelSelectorNameProps } from './components/model-selector'
+
 export { Tool, ToolHeader, ToolContent, ToolInput, ToolOutput } from './components/tool'
 export type { ToolState, ToolProps, ToolHeaderProps, ToolContentProps, ToolInputProps, ToolOutputProps } from './components/tool'
 export { ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected } from './components/confirmation'

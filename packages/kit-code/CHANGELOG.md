@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add Commit with a native Base UI trigger, sibling copy actions, phrasing metadata slots, guarded dates/counts and contract file-status tokens.
+- Add Agent using local tool descriptors and shared JsonViewer, independent Base UI disclosures and inert instructions/schema text; no AI SDK types or highlighting dependency. Commit and AgentTool each needs next design-components release (unreleased).
+- Add metadata tests and light/dark browser evidence across built-in themes.
+
 - Add FileTree, StackTrace and TestResults with Base UI disclosures, contract tokens, immutable controlled expansion, sibling actions, exact trace copying and accessible bounded progress. These components use Collapsible/shared controlled state and each needs next design-components release (unreleased).
 - Bound stack-frame regex matching to 1,000 characters; longer tool-supplied lines remain unknown text, preventing crafted delimiter backtracking during render.
 - Add inspection tests and light/dark browser evidence across all built-in themes.

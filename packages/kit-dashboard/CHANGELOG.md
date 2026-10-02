@@ -1,5 +1,13 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased
+
+- Add `TimestampSampleChart` to `/charts` for exact UTC gauge and cumulative-counter
+  samples, visible null gaps, real zero values, and an accessible data table.
+  Existing `TimeSeriesChart` keeps its day-summing behavior. No release in this
+  change; this additive API ships in the next minor with internal ranges updated
+  together. kit-observe cannot publish until that dashboard release is available.
+
 ## 0.2.0 — 2026-10-01
 
 Co-released with design-tokens, design-components, design-app-runtime, eslint-config-design

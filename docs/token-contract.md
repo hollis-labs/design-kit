@@ -192,7 +192,32 @@ contract: the ask is granted, as three role names rather than two intensity name
 | `brand-fg` | Text and icons on a `brand` fill. | — |
 | `selection` | Neutral hover / focus surface on menus, lists, options, command palettes. | `selection-fg` |
 | `selection-fg` | Text on `selection`. | — |
-| `ring` | Focus ring. | — |
+| `ring` | Focus indicator, used at full authored strength (no `/50` dilution). | — |
+
+**Focus contrast — CW-20261002-0091.** The built-in `ring` values and the base
+components' focus indicators reach at least **3:1 against the surrounding
+surface**, measured in all ten themes and both modes, plus the dashboard's four
+legacy IDs. The measurement covers page, elevated, surface, hover, active,
+selection and menu/popover surrounds; translucent colors are composited before
+calculating sRGB relative luminance. Custom themes must meet the same contrast
+requirement on their own surrounds. A ring on a custom saturated fill or under
+host opacity still needs verification in that host.
+
+Base controls use the full-strength ring, including destructive and invalid
+focus states; feedback borders/fills remain separate. `:focus-visible` follows
+native browser behavior: clicked text fields can show the same indicator as Tab
+focus. No input-modality JavaScript is added. Clicked buttons, toggles and the
+Base UI Select trigger keep their pointer appearance.
+
+No token is added or restored: `ring-soft` remains a retired name mapped to
+`ring`. The three stronger `ring` values deliberately also change chat drag
+feedback, workflow selected-edge/node/marquee and connection strokes, and the
+dashboard's general outline-color mapping in those same palette/mode pairs.
+Those decorative uses remain coupled to `ring`; their computed before/after
+styles are recorded in the [ring-use audit](screenshots/focus-ring/ring-uses.md).
+Color/style polishing is deferred. The focus change is appearance-only for the
+next minor core release; no token is removed or renamed. See the committed
+[before/after matrix](screenshots/focus-ring/README.md) and computed-style receipts.
 
 **`primary` and `brand` are separate on purpose.** Nanite draws this line explicitly (brand is
 "fire-engine red, rare identity moments only"; primary is "the workhorse highlight") and it is the

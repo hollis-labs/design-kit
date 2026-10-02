@@ -151,7 +151,7 @@
   --hl-brand-fg: #ffffff;
   --hl-selection: rgba(255, 255, 255, 0.08);
   --hl-selection-fg: #f4f4f5;
-  --hl-ring: #6e8aa8;
+  --hl-ring: #96969c;
   --hl-danger: #dfadab;
   --hl-danger-hover: #e2b6b4;
   --hl-danger-muted: color-mix(in srgb, #dfadab 10%, transparent);
@@ -252,7 +252,7 @@
   --hl-brand-fg: #ffffff;
   --hl-selection: rgba(255, 255, 255, 0.08);
   --hl-selection-fg: #f4f4f5;
-  --hl-ring: #6e8aa8;
+  --hl-ring: #96969c;
   --hl-danger: #dfadab;
   --hl-danger-hover: #e2b6b4;
   --hl-danger-muted: color-mix(in srgb, #dfadab 10%, transparent);
@@ -621,7 +621,7 @@
   --hl-brand-fg: #ffffff;
   --hl-selection: rgba(10, 26, 36, 0.06);
   --hl-selection-fg: #0a1a24;
-  --hl-ring: #006e8c;
+  --hl-ring: #4d5e69;
   --hl-danger: #7d2040;
   --hl-danger-hover: #6f1f3d;
   --hl-danger-muted: color-mix(in srgb, #7d2040 10%, transparent);
@@ -782,7 +782,7 @@
   --hl-brand-fg: #000000;
   --hl-selection: rgb(24 24 27);
   --hl-selection-fg: rgb(244 244 245);
-  --hl-ring: rgb(63 63 70 / 60%);
+  --hl-ring: #83838b;
   --hl-danger: #fb7588;
   --hl-danger-hover: #fa8495;
   --hl-danger-muted: color-mix(in srgb, #fb7588 10%, transparent);

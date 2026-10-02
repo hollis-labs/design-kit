@@ -39,7 +39,7 @@ export const SYSOP_P4_WHITE: Theme = {
       'brand-fg': '#000000',
       'selection': 'rgb(24 24 27)',
       'selection-fg': 'rgb(244 244 245)',
-      'ring': 'rgb(63 63 70 / 60%)',
+      'ring': '#83838b',
       'danger': '#fb7588',
       'danger-hover': '#fa8495',  // authored contrast correction, not R2
       'warning': 'rgb(245 158 11)',

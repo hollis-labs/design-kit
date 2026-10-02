@@ -33,6 +33,7 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-admin` | controlled admin directory, settings/setup, status and diagnostics; private `0.0.0`, unpublished |
 | `packages/kit-voice` | voice input and output components (speech input, microphone and voice selection, transcript, audio playback); private `0.0.0`, unpublished |
 | `packages/kit-workflow` | opt-in controlled workflow canvas; private `0.0.0`, unpublished |
+| `packages/kit-code` | code and developer presentation; private `0.0.0`, unpublished |
 | `packages/eslint-config-design` | the gate |
 
 Current releases: the six core packages (`design-tokens`, `design-components`,

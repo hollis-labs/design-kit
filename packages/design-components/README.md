@@ -212,4 +212,5 @@ ModeToggle, ThemePicker, persistence, and the system default.
 
 AI Elements ports follow the [vendoring convention](docs/vendoring.md), with
 per-file provenance, a [version inventory](docs/upstream-versions.md), and upstream
-attribution and Apache-2.0 terms carried in this package’s `LICENSE`.
+licence reference texts. Each source-taking PR carries the applicable attribution
+and licence in the receiving package’s shipped `LICENSE`.

@@ -4,6 +4,9 @@ Private, unpublished `0.0.0`. Code presentation uses the design-kit contract.
 
 - **CodeBlock** displays source as React text, with optional hidden line numbers, a filename/header/actions family, an accessible copy button and shared Base UI language selectors. The root entry does not load Shiki.
 - **Snippet** composes a command prefix, a read-only Input and a labelled copy button. Give `SnippetInput` an `aria-label` or associated label; copying uses the supplied code, never the prefix.
+- **FileTree** uses native disclosure/selection buttons and groups, with controlled or uncontrolled immutable expansion. It makes no incomplete ARIA tree/roving-focus claim.
+- **StackTrace** preserves unknown frames, displays paths as text by default, and delegates valid coordinates to an optional host callback. Its copy action preserves the raw trace.
+- **TestResults** composes summaries, bounded progress, independently controlled Base UI suites and labelled pass/fail/skipped/running statuses. Zero duration remains visible.
 - **`/highlight`** creates one host-owned Shiki core highlighter using the JS regexp engine and explicitly selected grammars. Its structural plugin serves both CodeBlock and `kit-chat/markdown`. No global caches, downloads, per-language singleton or markdown dependency.
 
 ```css
@@ -58,8 +61,9 @@ access requires a secure context. The host supplies labels for language selector
 and owns value/onValueChange. Component names follow upstream, with Base UI's
 `render` props replacing `asChild`.
 
-Later FileTree/StackTrace/Commit/TestSuite components need the next
-design-components release (unreleased). This private workspace is not a claim of
+FileTree, StackTrace and TestSuite use Collapsible; FileTree and StackTrace also
+use the shared controlled-state helper. Each **needs next design-components release (unreleased)**.
+This private workspace is not a claim of
 compatibility with registry design-components 0.3.0. Nothing publishes here.
 `/terminal` and the remaining component slices have not landed yet.
 
@@ -70,3 +74,20 @@ BSD-3-Clause. Neither optional peer enters the main module graph.
 Run `npm run test:run --workspace @hollis-labs/kit-code`, or the demo with
 `npm run demo --workspace @hollis-labs/kit-code`. Light/dark browser evidence across
 all built-in themes is in `docs/code-block-evidence/`.
+
+FileTree `expanded`/`defaultExpanded` accept Sets; expansion requests create a new
+Set and never mutate the supplied Set. Controlled expansion waits for the host.
+Selection is host-owned through `selectedPath`/`onSelect`; without a callback,
+files are read-only text. Folder expansion and selection have separate buttons.
+Place row buttons in `actions` or direct `FileTreeActions` children of a file;
+keep interactive controls out of names/icons. StackTrace uses one disclosure
+root: `StackTraceHeader` is its native trigger, direct `StackTraceActions` or
+`actions` are siblings, and `StackTraceExpandButton` is a decorative indicator.
+Do not put additional interactive controls inside trigger content.
+`onFilePathClick(path, line?, column?)` delegates navigation entirely to the host.
+Unknown/malformed frames remain text; `showInternalFrames={false}` only filters
+recognized internal paths. Test progress measures passed plus failed tests,
+clamped to the finite positive total; skipped tests remain in the summary.
+
+Use `?view=inspection` in the demo. Theme/mode screenshots and browser interaction
+receipts for this slice are in `docs/inspection-evidence/`.

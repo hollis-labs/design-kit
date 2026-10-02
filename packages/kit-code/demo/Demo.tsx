@@ -19,6 +19,7 @@ import typescript from "shiki/langs/typescript.mjs";
 import json from "shiki/langs/json.mjs";
 import bash from "shiki/langs/bash.mjs";
 import "./demo.css";
+import { InspectionDemo } from "./InspectionDemo";
 const query = new URLSearchParams(window.location.search);
 export function Demo() {
   const [theme, setTheme] = useState(query.get("theme") ?? DEFAULT_THEME_ID);
@@ -79,51 +80,59 @@ export function Demo() {
         <p role="status" className="text-sm text-fg-muted">
           {status}
         </p>
-        <section className="space-y-3">
-          <h2 className="text-lg font-medium">
-            CodeBlock — opt-in highlighting
-          </h2>
-          <CodeBlock
-            code={'const ready: boolean = true;\nconsole.log("Hello", 42);\n'}
-            language="typescript"
-            highlighter={highlighter}
-            showLineNumbers
-          >
-            <CodeBlockHeader>
-              <CodeBlockTitle>
-                <CodeBlockFilename>example.ts</CodeBlockFilename>
-              </CodeBlockTitle>
-              <CodeBlockActions>
-                <CodeBlockCopyButton
-                  onCopy={() => setStatus("Copied code")}
+        {query.get("view") === "inspection" ? (
+          <InspectionDemo />
+        ) : (
+          <>
+            <section className="space-y-3">
+              <h2 className="text-lg font-medium">
+                CodeBlock — opt-in highlighting
+              </h2>
+              <CodeBlock
+                code={
+                  'const ready: boolean = true;\nconsole.log("Hello", 42);\n'
+                }
+                language="typescript"
+                highlighter={highlighter}
+                showLineNumbers
+              >
+                <CodeBlockHeader>
+                  <CodeBlockTitle>
+                    <CodeBlockFilename>example.ts</CodeBlockFilename>
+                  </CodeBlockTitle>
+                  <CodeBlockActions>
+                    <CodeBlockCopyButton
+                      onCopy={() => setStatus("Copied code")}
+                      onError={(e) => setStatus(e.message)}
+                    />
+                  </CodeBlockActions>
+                </CodeBlockHeader>
+              </CodeBlock>
+              <CodeBlock
+                code={'{"enabled":true,"missing":null,"count":42}'}
+                language="json"
+                highlighter={highlighter}
+              />
+            </section>
+            <section className="space-y-3">
+              <h2 className="text-lg font-medium">Plain code fallback</h2>
+              <CodeBlock
+                code={"<script>\n  This is displayed as text.\n</script>"}
+              />
+            </section>
+            <section className="space-y-3">
+              <h2 className="text-lg font-medium">Snippet</h2>
+              <Snippet code="npm run test:run">
+                <SnippetText>$</SnippetText>
+                <SnippetInput aria-label="Command" />
+                <SnippetCopyButton
+                  onCopy={() => setStatus("Copied snippet")}
                   onError={(e) => setStatus(e.message)}
                 />
-              </CodeBlockActions>
-            </CodeBlockHeader>
-          </CodeBlock>
-          <CodeBlock
-            code={'{"enabled":true,"missing":null,"count":42}'}
-            language="json"
-            highlighter={highlighter}
-          />
-        </section>
-        <section className="space-y-3">
-          <h2 className="text-lg font-medium">Plain code fallback</h2>
-          <CodeBlock
-            code={"<script>\n  This is displayed as text.\n</script>"}
-          />
-        </section>
-        <section className="space-y-3">
-          <h2 className="text-lg font-medium">Snippet</h2>
-          <Snippet code="npm run test:run">
-            <SnippetText>$</SnippetText>
-            <SnippetInput aria-label="Command" />
-            <SnippetCopyButton
-              onCopy={() => setStatus("Copied snippet")}
-              onError={(e) => setStatus(e.message)}
-            />
-          </Snippet>
-        </section>
+              </Snippet>
+            </section>
+          </>
+        )}
       </div>
     </main>
   );

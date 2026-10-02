@@ -1,7 +1,7 @@
 {
   "name": "@hollis-labs/kit-voice",
   "version": "0.0.0",
-  "description": "Voice kit \u2014 speech input, microphone and voice selection, transcript and audio playback. Props down, messages up: no transport, no STT/TTS, no opinion about where audio goes.",
+  "description": "Voice kit — speech input, microphone and voice selection, transcript and audio playback. Props down, messages up: no transport, no STT/TTS, no opinion about where audio goes.",
   "keywords": [
     "react",
     "voice",

@@ -154,3 +154,6 @@ export { Image } from './components/image'
 export type { ImageProps } from './components/image'
 export { InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationCarousel, InlineCitationCarouselContent, InlineCitationCarouselItem, InlineCitationCarouselHeader, InlineCitationCarouselIndex, InlineCitationCarouselPrev, InlineCitationCarouselNext, InlineCitationSource, InlineCitationQuote } from './components/inline-citation'
 export type { InlineCitationProps, InlineCitationTextProps, InlineCitationCardProps, InlineCitationCardTriggerProps, InlineCitationCardBodyProps, InlineCitationCarouselProps, InlineCitationCarouselContentProps, InlineCitationCarouselItemProps, InlineCitationCarouselHeaderProps, InlineCitationCarouselIndexProps, InlineCitationCarouselPrevProps, InlineCitationCarouselNextProps, InlineCitationSourceProps, InlineCitationQuoteProps } from './components/inline-citation'
+
+export { Artifact, ArtifactHeader, ArtifactTitle, ArtifactDescription, ArtifactClose, ArtifactActions, ArtifactAction, ArtifactContent } from './components/artifact'
+export type { ArtifactProps, ArtifactHeaderProps, ArtifactTitleProps, ArtifactDescriptionProps, ArtifactCloseProps, ArtifactActionsProps, ArtifactActionProps, ArtifactContentProps } from './components/artifact'

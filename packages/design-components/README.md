@@ -121,7 +121,7 @@ non-Tailwind consumer ever turns up, that is a small task rather than a migratio
 
 | | |
 |---|---|
-| shadcn primitives (`ui/`) | 23 files — table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner |
+| shadcn primitives (`ui/`) | 25 files — button-group, collapsible, table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner |
 | Components | 21 — `Pill` · `LiveDot` · `Callout` · `CopyableId` · `CopyButton` · `ConfirmDialog` · `DetailDialog`/`DetailSection` · `FormDialog` · `JsonViewer` · `JsonModal`/`PayloadActions`/`PayloadSummary` · `MetaList` · `Metric` · `ProgressBar` · `AppShell` · `DetailPageLayout` · `OverflowMenu` · `CollapsibleSection` · `Combobox` · `EmptyState` · `SearchInput` · `TransferList` |
 | Hooks | `useCopy` · `useArrowNav` |
 | Contracts | `ColumnDef`/`SortState`/`alignClass`/`compareBy` · `Tone`/`TONE_CLASSES` · `IconComponent` · the row-activation protocol |
@@ -214,3 +214,21 @@ AI Elements ports follow the [vendoring convention](docs/vendoring.md), with
 per-file provenance, a [version inventory](docs/upstream-versions.md), and upstream
 licence reference texts. Each source-taking PR carries the applicable attribution
 and licence in the receiving package’s shipped `LICENSE`.
+
+### Added primitives
+
+- `ButtonGroup`, `ButtonGroupText`, `ButtonGroupSeparator`: labelled independent
+  controls in horizontal/vertical layout. Base UI 1.8.0 has no ButtonGroup export;
+  this is a semantic `role="group"` layout with normal Tab order, not a toolbar.
+  `ButtonGroupText` uses Base UI `render` composition, replacing upstream `asChild`.
+- `Collapsible`, `CollapsibleTrigger`, `CollapsibleContent`: Base UI Root/Trigger/
+  Panel, with controlled `open`/`onOpenChange` or uncontrolled `defaultOpen`,
+  `disabled`, `keepMounted` on content, and Base UI `render` composition.
+
+Run the [primitive demo](demo/index.html) with
+`npx vite --config packages/design-components/demo/vite.config.ts` from the repo root.
+
+- `Alert` is omitted: existing `Callout` already supplies `role="alert"`, title,
+  rich children, configurable icon, tone and actions. Use `tone="neutral"` or
+  `tone="danger"` for the upstream default/destructive cases; another notice
+  surface would duplicate that contract without adding needed behavior.

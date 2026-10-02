@@ -1,11 +1,10 @@
 /**
- * The 23 vendored primitives, in one barrel.
+ * The vendored primitives, in one barrel.
  *
- * These are shadcn components on Base UI (`@base-ui/react`), a peer. Fifteen bind
- * a Base UI module; of those, `badge` binds `useRender` + `mergeProps` rather than
- * a component, so fourteen bind an actual primitive. The other eight —
- * `card`, `command` (cmdk), `input-group`, `label`, `skeleton`, `sonner`, `table`,
- * `textarea` — are substrate-independent outright.
+ * These are shadcn components on Base UI (`@base-ui/react`), a peer.
+ * Some bind Base UI components; Badge and ButtonGroupText use useRender.
+ * Others are substrate-independent (table, textarea, card) or wrap their
+ * existing peers (command/cmdk, sonner).
  *
  * `export *` is safe for tree-shaking here: the package declares
  * `sideEffects: ["**\/*.css"]` and the build preserves modules, so a consumer
@@ -14,6 +13,8 @@
 export * from './alert-dialog'
 export * from './badge'
 export * from './button'
+export * from './button-group'
+export * from './collapsible'
 export * from './card'
 export * from './checkbox'
 export * from './command'

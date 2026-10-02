@@ -373,14 +373,14 @@
       "notice": "Showing the last 65,526 of 908,893 characters.",
       "shown": 39885,
       "spans": 5698,
-      "renderMs": 167
+      "renderMs": 128
     },
     "colourChanges": {
       "truncated": "true",
       "notice": "Showing the last 65,536 of 6,000,000 characters.",
       "shown": 10926,
       "spans": 10923,
-      "renderMs": 270
+      "renderMs": 244
     },
     "keyboard": {
       "bottom": 2588,

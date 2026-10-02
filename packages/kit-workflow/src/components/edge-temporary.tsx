@@ -12,4 +12,3 @@ export const Temporary = ({ id, sourceX, sourceY, targetX, targetY, sourcePositi
   const [path] = getSimpleBezierPath({ sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition })
   return <BaseEdge id={id} path={path} markerStart={markerStart} markerEnd={markerEnd} className="wf-edge-temporary" style={style} />
 }
-

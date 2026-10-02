@@ -17,4 +17,3 @@ export const Animated = ({ id, sourceX, sourceY, targetX, targetY, sourcePositio
     <circle className="wf-edge-traveller" style={{ offsetPath: `path("${path}")` }} aria-hidden="true" />
   </>
 }
-

@@ -2,8 +2,9 @@
 
 ## 0.3.0 — 2026-10-02
 
-Co-released with kit-dashboard and kit-chat, alongside the first releases of kit-settings and
-kit-observe. Requires `@hollis-labs/design-tokens` `^0.2.0` (unchanged).
+Co-released with the other core packages (design-tokens, design-app-runtime, kit-dashboard,
+kit-chat, eslint-config-design), alongside the first releases of kit-settings and kit-observe.
+Requires `@hollis-labs/design-tokens` `^0.3.0`.
 
 **Behaviour change to know before upgrading: small controls are squarer.**
 

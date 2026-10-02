@@ -1,5 +1,13 @@
 # @hollis-labs/eslint-config-design
 
+## 0.3.0 — 2026-10-02 — version alignment, no code change
+
+Released with the other core packages so that one number selects a compatible set. The `@hollis-labs/design-tokens` peer is now `^0.3.0`. The package documentation gains a section
+on running the ratchet in an app whose TypeScript is newer than `typescript-eslint` supports (an
+isolated lint-tool package); this is documentation only.
+No source or behaviour changed; the published files differ from 0.2.0 only in `package.json`,
+this changelog and the documentation above.
+
 ## 0.2.0 — 2026-10-01
 
 Co-released with design-tokens, design-components, design-app-runtime, kit-chat and

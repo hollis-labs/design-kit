@@ -1,23 +1,26 @@
 # Changelog
 
-The packages in this repo are released together and share a version number, so "same
-number, same release" holds for every package that moves. A package that has not changed
-keeps its number and the entry says so. This file is the release record for the set; each
-package also carries its own `CHANGELOG.md` for anything specific to it.
+The six **core packages** (`design-tokens`, `design-components`, `design-app-runtime`,
+`kit-dashboard`, `kit-chat` and `eslint-config-design`) release together at one number. Folio
+scaffolds them with a single version input, and a mixed set would let one `^0.x` range resolve a
+second copy of `design-tokens`. A core package with no code change still takes the new number and
+its entry says so. `design-bindings`, `kit-settings`, `kit-observe` and `kit-account` version on
+their own. This file is the release record; each package also carries its own `CHANGELOG.md` for
+anything specific to it.
 
 ---
 
-## 0.3.0 — 2026-10-02 — three packages move, two are released for the first time
+## 0.3.0 — 2026-10-02 — the six core packages move together; two packages are released for the first time
 
-`design-components`, `kit-dashboard` and `kit-chat` move to `0.3.0` together.
-`kit-settings` and `kit-observe` are published for the first time, at `0.1.0`.
-Not in this release, because nothing in them changed: `design-tokens` (`0.2.0`),
-`design-app-runtime` (`0.2.0`), `design-bindings` (`0.1.0`) and `eslint-config-design`
-(`0.2.0`, which gained documentation only; that ships with its next change).
+The six core packages move to `0.3.0`. Three have changes: `design-components`, `kit-dashboard`
+and `kit-chat`. Three take the number with **no code change** so one number selects a compatible
+set: `design-tokens`, `design-app-runtime` and `eslint-config-design` (the last also gains
+documentation). `kit-settings` and `kit-observe` are published for the first time, at `0.1.0`.
+`design-bindings` is not in this release and stays at `0.1.0`: it has not changed.
 
-**Upgrade the set together.** `kit-dashboard`, `kit-chat`, `kit-settings` and `kit-observe`
-now require `@hollis-labs/design-components` `^0.3.0`, and a caret range on a `0.x` package
-does not reach the next minor, so a `0.2` `design-components` will not resolve against them.
+**Upgrade the set together.** Every internal range is now `^0.3.0` (and the two new packages
+require the core set at `^0.3.0`). A caret range on a `0.x` package does not reach the next
+minor, so a `0.2` package will not resolve against a `0.3` one.
 
 **Behaviour change to read before upgrading: small controls are squarer.**
 `design-components`' `cn()` did not know the contract's `rounded-control` / `rounded-panel`

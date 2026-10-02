@@ -32,10 +32,10 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; released at `0.1.0` |
 | `packages/eslint-config-design` | the gate |
 
-Current releases: `design-components`, `kit-dashboard` and `kit-chat` at **`0.3.0`**;
-`design-tokens`, `design-app-runtime` and `eslint-config-design` at `0.2.0`; `design-bindings`
-at `0.1.0`; and the first releases of `kit-settings` and `kit-observe` at `0.1.0`.
-`kit-account` is private. A package keeps its number until it next changes. See
+Current releases: the six core packages (`design-tokens`, `design-components`,
+`design-app-runtime`, `kit-dashboard`, `kit-chat` and `eslint-config-design`) at **`0.3.0`**,
+released together at one number; `design-bindings` at `0.1.0`; and the first releases of
+`kit-settings` and `kit-observe` at `0.1.0`. `kit-account` is private. See
 [`CHANGELOG.md`](./CHANGELOG.md).
 `kit-chat` was an empty stub when the first six published, so it was excluded rather than
 holding five finished packages for it, and shipped separately — CW-20260912-0042.

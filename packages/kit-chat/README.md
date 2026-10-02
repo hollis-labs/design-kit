@@ -460,3 +460,31 @@ for tool-use provenance or other non-link children. It resolves no citations.
 Action/Trigger, Content and Footer slots. The host supplies steps/actions; no
 plan store, approval flow or executor is included. See
 [demo/chat-disclosures.tsx](demo/chat-disclosures.tsx) for all four surfaces.
+
+## Message extras and Shimmer
+
+`MessageActions` / `MessageAction` provide host-owned action buttons with optional
+Base UI tooltips. Supply `label` or `tooltip` for icon-only actions. No message
+layout or markdown renderer is included.
+
+`MessageBranch`, `MessageBranchContent`, `MessageBranchSelector`,
+`MessageBranchPrevious`, `MessageBranchNext` and `MessageBranchPage` compose
+alternative responses. Use one Content per Branch. Navigation wraps; inactive
+branches remain mounted but hidden, preserving drafts. `defaultBranch` initializes
+local selection; optional `branch` + `onBranchChange` gives the host control.
+Out-of-range indices are clamped to the available alternatives. Empty and single
+responses hide the selector. Branch changes never send a message or fetch content.
+
+`Shimmer` renders text with optional `as`, `duration` (seconds) and `spread`
+(highlight width multiplier). Without the stylesheet it stays ordinary readable
+text. To enable the token-colored CSS sweep, import explicitly:
+
+```css
+@import "@hollis-labs/kit-chat/keyframes.css";
+```
+
+No component import installs keyframes. Reduced-motion users see static text;
+`duration={0}` stops motion. No motion library is required. See
+[demo/chat-core.tsx](demo/chat-core.tsx) for all three compositions and
+[the upstream inventory](docs/upstream-versions.md) for provenance. The shipped
+`LICENSE` retains Hollis Labs MIT terms and AI Elements Apache-2.0 attribution.

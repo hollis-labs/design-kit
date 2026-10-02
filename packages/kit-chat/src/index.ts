@@ -121,3 +121,8 @@ export { Sources, SourcesTrigger, SourcesContent, Source } from './components/so
 export type { SourcesProps, SourcesTriggerProps, SourcesContentProps, SourceProps } from './components/sources'
 export { Plan, PlanHeader, PlanTitle, PlanDescription, PlanAction, PlanContent, PlanFooter, PlanTrigger } from './components/plan'
 export type { PlanProps, PlanHeaderProps, PlanTitleProps, PlanDescriptionProps, PlanActionProps, PlanContentProps, PlanFooterProps, PlanTriggerProps } from './components/plan'
+
+export { Shimmer } from './components/shimmer'
+export type { TextShimmerProps } from './components/shimmer'
+export { MessageActions, MessageAction, MessageBranch, MessageBranchContent, MessageBranchSelector, MessageBranchPrevious, MessageBranchNext, MessageBranchPage } from './components/message'
+export type { MessageActionsProps, MessageActionProps, MessageBranchProps, MessageBranchContentProps, MessageBranchSelectorProps, MessageBranchPreviousProps, MessageBranchNextProps, MessageBranchPageProps } from './components/message'

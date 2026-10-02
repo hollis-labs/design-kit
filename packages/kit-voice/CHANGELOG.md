@@ -18,6 +18,13 @@
 - Add `Transcription` and `TranscriptionSegment`, with a local `TranscriptionSegmentData`
   instead of the AI SDK's type. Clicking a segment records the time when uncontrolled and always
   calls `onSeek`; a segment nothing can act on is a `<span>`, not a button.
+- Add `AudioPlayer` and its controls on the opt-in `@hollis-labs/kit-voice/audio-player`
+  subpath, on `media-chrome` (an optional peer; the main entry never imports it). Plays a `src`
+  or a `blob` (object URL created and revoked by the element). Fixes upstream: no `ai`
+  `SpeechResult`, no `data` object spread onto the `<audio>` node, `--media-control-padding` is
+  `0px` (upstream's unitless `0` is invalid in media-chrome's `calc()`, which collapsed the time
+  range's height), and the time range is `min-w-40` by default. **Imports `ButtonGroup` and
+  `ButtonGroupText`: needs the next `design-components` release (unreleased).**
 - Radix's `useControllableState` is replaced by the one `design-components` now exports.
   **kit-voice therefore needs the next `design-components` release (unreleased); the
   published `0.3.0` does not export it.**

@@ -36,6 +36,9 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
+        // Opt-in subpath: media-chrome is an optional peer and registers custom elements, so
+        // nothing in the main entry may import this module. See README, "AudioPlayer".
+        'audio-player/index': path.resolve(__dirname, 'src/audio-player/index.tsx'),
       },
       formats: ['es'],
     },

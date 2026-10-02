@@ -1,7 +1,9 @@
 /**
  * Real-browser check of what jsdom cannot cover: the microphone paths (the MediaRecorder
  * fallback, MicSelector's real Popover, the permission re-prompt loop, the insecure
- * context) and VoiceSelector's dialog and Transcription's seeking in a real layout.
+ * context), VoiceSelector's dialog and Transcription's seeking in a real layout, and the
+ * AudioPlayer: media-chrome's elements upgraded, a Blob playing, play/pause, seek buttons,
+ * the time and volume ranges, mute, and Transcription following and seeking the audio.
  * Manual evidence, not run by CI.
  *
  *   npm run demo:build -w @hollis-labs/kit-voice
@@ -271,15 +273,115 @@ const gum = (page) => page.evaluate(() => window.__gum?.calls ?? null)
 // ---- H. Transcription follows the host's clock and seeks on click
 {
   const { page, context } = await open('transcription')
-  const active = () => page.locator('[data-slot="transcription-segment"][data-active="true"]').allInnerTexts()
+  const slider = 'section[aria-labelledby="transcription"]' // the audio section has a transcription of its own
+  const active = () => page.locator(`${slider} [data-slot="transcription-segment"][data-active="true"]`).allInnerTexts()
   check('at 1.0s the active segment is "input"', JSON.stringify(await active()) === '["input"]', await active())
   await page.locator('[data-testid="time"]').fill('2')
   check('the active segment follows the controlled time', JSON.stringify(await active()) === '["arrives"]', await active())
-  await page.locator('[data-slot="transcription-segment"]', { hasText: 'text' }).click()
+  await page.locator(`${slider} [data-slot="transcription-segment"]`, { hasText: 'text' }).click()
   check(
     'clicking a segment seeks the host clock to its start',
     (await page.locator('[data-testid="time-value"]').innerText()) === '3.0s' && JSON.stringify(await active()) === '["text"]',
     await page.locator('[data-testid="time-value"]').innerText()
+  )
+  await context.close()
+}
+
+// ---- I. AudioPlayer: real media-chrome elements playing a local Blob
+{
+  const { page, context } = await open('audio-player')
+  const audio = (property) => page.evaluate((name) => document.querySelector('[data-slot="audio-player-element"]')[name], property)
+  // Moves like a hand does (media-chrome's ranges read the pointer's travel), then presses.
+  const clickAt = async (selector, fraction) => {
+    await page.locator(selector).scrollIntoViewIfNeeded()
+    // The range's hit area is its inner container, narrower than the element (padding, gaps).
+    const box = await page.locator(selector).evaluate((element) => {
+      const rect = (element.shadowRoot?.querySelector('#container') ?? element).getBoundingClientRect()
+      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+    })
+    const x = box.x + box.width * fraction
+    const y = box.y + box.height / 2
+    await page.mouse.move(x - 6, y)
+    await page.mouse.move(x, y, { steps: 6 })
+    await page.mouse.down()
+    await page.waitForTimeout(50)
+    await page.mouse.up()
+  }
+  const pairedActive = () =>
+    page.locator('[data-testid="paired-transcription"] [data-slot="transcription-segment"][data-active="true"]').allInnerTexts()
+
+  const upgraded = await page.evaluate(() => ({
+    controller: Boolean(customElements.get('media-controller')),
+    play: Boolean(customElements.get('media-play-button')),
+    audioFlag: document.querySelector('[data-slot="audio-player"]').hasAttribute('audio'),
+  }))
+  check('media-chrome elements are registered and the controller is in audio mode', upgraded.controller && upgraded.play && upgraded.audioFlag, upgraded)
+
+  await page.waitForFunction(() => document.querySelector('[data-slot="audio-player-element"]').readyState >= 1)
+  const src = await audio('src')
+  const duration = await audio('duration')
+  check('the Blob plays through an object URL, and its duration is read', String(src).startsWith('blob:') && Math.abs(duration - 4) < 0.1, { src: String(src).slice(0, 24), duration })
+  check('no stray attribute reaches the <audio> node', await page.evaluate(() => {
+    const el = document.querySelector('[data-slot="audio-player-element"]')
+    return !el.hasAttribute('data') && !el.hasAttribute('blob')
+  }))
+
+  await page.locator('[data-slot="audio-player-play-button"]').click()
+  await page.waitForFunction(() => document.querySelector('[data-slot="audio-player-element"]').currentTime > 0.5, null, { timeout: 5000 })
+  check('play starts playback and the clock advances', (await audio('paused')) === false, await audio('currentTime'))
+  await page
+    .waitForFunction(() => {
+      const active = document.querySelector('[data-testid="paired-transcription"] [data-active="true"]')
+      return active && active.textContent !== 'A'
+    }, null, { timeout: 3000 })
+    .catch(() => {})
+  check('the paired transcription follows the audio', JSON.stringify(await pairedActive()) !== '["A"]', await pairedActive())
+
+  await page.locator('[data-slot="audio-player-play-button"]').click()
+  await page.waitForTimeout(200)
+  check('pause pauses it', (await audio('paused')) === true)
+
+  await page.evaluate(() => { document.querySelector('[data-slot="audio-player-element"]').currentTime = 1 })
+  await page.waitForTimeout(200)
+  await page.locator('[data-slot="audio-player-seek-forward-button"]').click()
+  await page.waitForTimeout(300)
+  const afterForward = await audio('currentTime')
+  check('seek forward moves the clock by its offset (1s)', Math.abs(afterForward - 2) < 0.3, afterForward)
+  await page.locator('[data-slot="audio-player-seek-backward-button"]').click()
+  await page.waitForTimeout(300)
+  const afterBackward = await audio('currentTime')
+  check('seek backward moves it back by its offset (1s)', Math.abs(afterBackward - 1) < 0.3, afterBackward)
+
+  const rangeBox = await page.locator('[data-slot="audio-player-time-range"]').boundingBox()
+  const hitArea = await page.locator('[data-slot="audio-player-time-range"]').evaluate((element) => {
+    const rect = element.shadowRoot.querySelector('#container').getBoundingClientRect()
+    return { width: Math.round(rect.width), height: Math.round(rect.height) }
+  })
+  check('the time range has a usable hit area (a unitless --media-control-padding collapsed its height; it was ~50px wide)', hitArea.height >= 16 && hitArea.width >= 100, { host: rangeBox, hitArea })
+  await page.locator('[data-slot="audio-player-time-range"]').scrollIntoViewIfNeeded()
+  await clickAt('[data-slot="audio-player-time-range"]', 0.75)
+  await page.waitForTimeout(400)
+  const afterRange = await audio('currentTime')
+  check('clicking the time range seeks proportionally (~75% of 4s)', afterRange > 2.4 && afterRange < 3.6, afterRange)
+
+  await clickAt('[data-slot="audio-player-volume-range"]', 0.5)
+  await page.waitForTimeout(300)
+  const volume = await audio('volume')
+  check('clicking the volume range sets the volume (~0.5)', volume > 0.25 && volume < 0.75, volume)
+
+  await page.locator('[data-slot="audio-player-mute-button"]').click()
+  await page.waitForTimeout(200)
+  const muted = await audio('muted')
+  await page.locator('[data-slot="audio-player-mute-button"]').click()
+  await page.waitForTimeout(200)
+  check('the mute button toggles muted', muted === true && (await audio('muted')) === false)
+
+  await page.locator('[data-testid="paired-transcription"] [data-slot="transcription-segment"]', { hasText: 'generated' }).click()
+  await page.waitForTimeout(500)
+  check(
+    'clicking a transcription word seeks the audio to it, and it becomes active',
+    Math.abs((await audio('currentTime')) - 2) < 0.3 && JSON.stringify(await pairedActive()) === '["generated"]',
+    { currentTime: await audio('currentTime'), active: await pairedActive() }
   )
   await context.close()
 }
@@ -312,6 +414,11 @@ for (const theme of ['nanite-default', 'sysop-p4-white']) {
     await page.keyboard.press('Escape')
     await page.getByRole('dialog').waitFor({ state: 'detached' })
     await page.locator('section[aria-labelledby="transcription"]').screenshot({ path: path.join(here, `transcription-${theme}-${mode}.png`) })
+
+    // The player paused part-way, with the paired transcription under it.
+    await page.evaluate(() => { document.querySelector('[data-slot="audio-player-element"]').currentTime = 1.5 })
+    await page.waitForTimeout(400)
+    await page.locator('section[aria-labelledby="audio-player"]').screenshot({ path: path.join(here, `audio-${theme}-${mode}.png`) })
     await context.close()
   }
 }

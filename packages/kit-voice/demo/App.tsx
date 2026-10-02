@@ -31,6 +31,7 @@ import {
 } from '../src'
 import type { TranscriptionSegmentData } from '../src'
 import type { SpeechInputError } from '../src'
+import { AudioSection } from './AudioSection'
 
 const VOICES = [
   { id: 'aria', name: 'Aria', gender: 'female', accent: 'american', age: '32', description: 'Warm and conversational' },
@@ -212,6 +213,8 @@ export function App() {
             {(segment, index) => <TranscriptionSegment index={index} key={segment.startSecond} segment={segment} />}
           </Transcription>
         </section>
+
+        <AudioSection panelClassName={panel} />
 
         <section className={panel} aria-labelledby="error-log">
           <h2 id="error-log" className="text-label font-medium">onError log</h2>

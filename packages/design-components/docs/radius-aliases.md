@@ -1,6 +1,6 @@
 # Radius alias merge review — CW-20261002-0002
 
-**HOLD: Chrispian's visual sign-off is required. No option has been selected.**
+**Option A chosen by Chrispian 2026-10-02 (delegated).**
 
 Button `xs`, `sm`, `icon-xs` and `icon-sm` already declare `rounded-control`.
 Before this change, `cn()` retains that class beside the base `rounded-lg`;
@@ -17,8 +17,8 @@ The existing radius/corner groups, modifiers and last-argument semantics remain.
 | B — change variants to declare today's rendering | Small Buttons retain today's look, but consumer `rounded-control` overrides stay silently ineffective: a latent defect remains. |
 | C — fix `cn()` and explicitly retain today's small Button radius | Button appearance stays as today; caller overrides begin working. A single explicit class must account for contract CSS's 8px versus dashboard CSS's 9px. |
 
-No versions, dependency ranges, tokens, root configuration, or kit-chat's local
-helper change here. Internal ranges move together at a future release. The
+No versions, dependency ranges, tokens, root configuration, or kit-chat production
+code changes here. Kit-chat now imports the shared helper after PR #48. Internal ranges move together at a future release. The
 kit-settings explicit token-variable workaround already renders 6px.
 
 ## Evidence
@@ -36,14 +36,17 @@ The expanded capture uses **actual baseline and patched source**, never a DOM
 simulation, at 1440 and 390 pixels in `sysop-p4-white` dark and `dir-b` light.
 Both contract and dashboard CSS are included. All four computed corner radii
 are recorded; comparison images use identical 1100px-high viewport crops,
-with the chat history scrolled to its Load older messages action.
+with the chat history scrolled to its Load older messages action. The refreshed
+fixture adds settings, observe and chat card/composer/stream/markdown states.
+See the current-main refresh and cause inventory in the evidence index; the
+initial capture is historical evidence, not the current acceptance set.
 
 See [evidence index](radius-evidence/index.md) for paired images and raw data.
 
 ## Reproduce
 
 Install from the repository lock and build the workspace. Use two isolated
-checkouts: baseline `e789ecd` and this PR. The fixture directory is review-only;
+checkouts: current-main baseline `6e62a0f` and this PR. The fixture directory is review-only;
 copy this PR's `docs/radius-fixture` into the baseline package as well. It mounts
 primary demo source and real package builds; it does not alter consumer code.
 
@@ -84,4 +87,14 @@ Assemble matched images with the same browser environment:
 ```sh
 node packages/design-components/docs/radius-fixture/pair.mjs \
   /absolute/path/to/before /absolute/path/to/after /absolute/path/to/pairs
+```
+
+For close-ups of the added observe, card and composer controls, run
+`controls-capture.mjs` instead of `capture.mjs` in each checkout, using the same
+environment and separate `RADIUS_OUTPUT` directories. Then run:
+
+```sh
+node packages/design-components/docs/radius-fixture/controls-pair.mjs \
+  /absolute/path/to/before-closeups /absolute/path/to/after-closeups \
+  /absolute/path/to/pairs
 ```

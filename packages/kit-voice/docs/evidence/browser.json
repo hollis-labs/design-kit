@@ -32,7 +32,7 @@
     {
       "name": "onAudioRecorded received a non-empty Blob typed by the recorder",
       "pass": true,
-      "detail": "Received 10054 bytes of audio/webm;codecs=opus."
+      "detail": "Received 11686 bytes of audio/webm;codecs=opus."
     },
     {
       "name": "getUserMedia was called once for one recording",
@@ -142,7 +142,7 @@
       "note": "recognition cannot run here (no speech service); this is what the component reported, not a pass or fail of recognition"
     },
     "recording": {
-      "received": "Received 10054 bytes of audio/webm;codecs=opus."
+      "received": "Received 11686 bytes of audio/webm;codecs=opus."
     },
     "devices": [
       "Fake Default Audio Input",

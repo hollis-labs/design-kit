@@ -41,6 +41,7 @@ try {
   const palette = [];
   for (const theme of themes) for (const mode of ['light','dark']) {
     await page.evaluate(({theme,mode}) => { document.documentElement.dataset.theme=theme;document.documentElement.dataset.mode=mode; },{theme,mode});
+    await page.waitForTimeout(400); // Let theme transitions settle before measuring/capturing.
     palette.push(await menu.evaluate((el) => ({ theme:document.documentElement.dataset.theme,mode:document.documentElement.dataset.mode,color:getComputedStyle(el).color,background:getComputedStyle(el).backgroundColor })));
     await page.screenshot({path:`${output}/screenshots/${theme}-${mode}.png`,animations:'disabled'});
   }

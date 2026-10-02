@@ -56,9 +56,22 @@ function coordinate(value: string) {
   const number = Number(value);
   return Number.isSafeInteger(number) && number >= 0 ? number : null;
 }
+// Ambiguous function/path delimiters can make the frame regexes backtrack.
+// Keep tool-supplied long lines readable without matching them during render.
+const MAX_FRAME_CHARS = 1000;
 function parseFrame(raw: string): StackFrame {
-  const text = raw.trim(),
-    withFn = text.match(/^at\s+(.+?)\s+\((.+):(\d+):(\d+)\)$/),
+  const text = raw.trim();
+  if (text.length > MAX_FRAME_CHARS) {
+    return {
+      raw: text,
+      functionName: null,
+      filePath: null,
+      lineNumber: null,
+      columnNumber: null,
+      isInternal: false,
+    };
+  }
+  const withFn = text.match(/^at\s+(.+?)\s+\((.+):(\d+):(\d+)\)$/),
     withoutFn = text.match(/^at\s+(.+):(\d+):(\d+)$/);
   const match = withFn ?? withoutFn;
   const valid =

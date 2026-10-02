@@ -88,6 +88,28 @@ describe("FileTree", () => {
   });
 });
 describe("StackTrace", () => {
+  it("retains crafted long frames as unknown text without regex backtracking", () => {
+    const crafted = "at " + "a (".repeat(32000);
+    const longValid = crafted + "/src/main.ts:1:2)";
+    const started = performance.now();
+    const { container } = render(
+      <StackTrace
+        trace={`Error: oversized\n${crafted}\n${longValid}`}
+        defaultOpen
+        onFilePathClick={vi.fn()}
+      >
+        <StackTraceContent>
+          <StackTraceFrames />
+        </StackTraceContent>
+      </StackTrace>,
+    );
+    // Even the syntactically valid long frame stays unknown rather than becoming
+    // a host-navigation button. Both complete raw lines remain visible as text.
+    expect(container.textContent).toContain(crafted);
+    expect(container.textContent).toContain(longValid);
+    expect(screen.queryByRole("button")).toBeNull();
+    expect(performance.now() - started).toBeLessThan(2000);
+  });
   const trace =
     "Error: broken\n    at run (C:\\src\\main.ts:12:4)\nunknown frame <img src=x>\n    at huge (/src/x.ts:99999999999999999999:2)";
   it("retains unknown frames as text and delegates valid coordinates to the host", () => {

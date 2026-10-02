@@ -74,3 +74,24 @@ model/transport, remote image service, content policy, host Blob URL lifecycle,
 or external citation destination was exercised. No publishing or app migration.
 The five-gate output, including actual kit-chat test file/count lines and zero
 design violations, is pasted in the PR body.
+
+## Citation focus audit correction
+
+CW-20261002-0049 audit-fix PR 2, measured 2026-10-02. The earlier handoff
+selector admitted CSS-hidden controls even though they could not receive focus.
+The internal helpers now exclude hidden/inert ancestors, disabled/negative-tabindex
+controls, CSS-hidden controls and empty/zero-area rects. Native `checkVisibility`
+is used where available; computed visibility and client rects cover the fallback.
+Each attempted focus is verified against `document.activeElement`; unsuccessful
+candidates are skipped and Tab is prevented only after a successful transfer.
+These helpers are original Hollis Labs code and have no public package exports.
+
+Three additional unit tests exercise filtering, native visibility/fallback and
+failed-focus continuation without mounting a layout-dependent portal in jsdom.
+The [extended Chromium receipt](focus-browser.json) identifies source 59dd40e
+and confirms the exact display:none host-button repro, visibility:hidden and
+zero-area controls, hidden/inert ancestors, and a visible candidate whose focus
+method declines. Tab reaches the following visible host action. All existing
+keyboard, pointer, accessibility, mobile and reduced-motion checks still pass
+with no page errors. The script captured 21 theme/mode/mobile views in scratch;
+the component's appearance is unchanged from the captures above.

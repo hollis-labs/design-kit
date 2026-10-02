@@ -3,7 +3,7 @@
  * Upstream: packages/elements/src/reasoning.tsx
  * Source:   https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/reasoning.tsx
  * Version:  ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
- * Divergences: Base UI disclosure/local controllable state; host-rendered content and duration, no Streamdown/plugins; opt-in Shimmer CSS; tokens.
+ * Divergences: Base UI disclosure/local controllable state; host-rendered content and duration, no Streamdown/plugins; auto-open once per streaming run preserves user collapse; opt-in Shimmer CSS; tokens.
  */
 import { createContext, useContext, useEffect, useMemo, useRef, type ComponentProps, type ReactNode } from 'react'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, cn } from '@hollis-labs/design-components'

@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | src/components/message.tsx | packages/elements/src/message.tsx | Actions and branching only; Base UI tooltips; native group; controlled branch; normalized children/count; no AI SDK or markdown deps; tokens |
 | src/components/shimmer.tsx, src/styles/keyframes.css | packages/elements/src/shimmer.tsx | motion/react → opt-in CSS; no module cache; token colors/spacing; reduced motion |
-| src/components/reasoning.tsx | packages/elements/src/reasoning.tsx | Base UI/local state; host-rendered content and elapsed seconds; no Streamdown/plugins; opt-in CSS; tokens |
+| src/components/reasoning.tsx | packages/elements/src/reasoning.tsx | Base UI/local state; host-rendered content and elapsed seconds; auto-open once per streaming run; no Streamdown/plugins; opt-in CSS; tokens |
 | src/components/chain-of-thought.tsx | packages/elements/src/chain-of-thought.tsx | Base UI/local state; shared disclosure root fixes header/panel linkage; tokens; bounded image slot |
 | src/components/sources.tsx | packages/elements/src/sources.tsx | Base UI root props; non-link provenance when href absent; merged classes; tokens |
 | src/components/plan.tsx | packages/elements/src/plan.tsx | Base UI render composition; token radius; span Shimmer avoids nested paragraphs |

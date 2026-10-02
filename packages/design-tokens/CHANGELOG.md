@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Strengthen `ring` in Graphite dark (`#6e8aa8` → `#96969c`), Hacker light
+  (`#006e8c` → `#4d5e69`) and P4 dark (`rgb(63 63 70 / 60%)` → `#83838b`).
+  Together with full-strength component focus rings, built-in themes reach
+  >=3:1 on the measured surrounding surfaces in both modes. Other `ring`
+  values are unchanged. No token is added; `ring-soft` remains retired.
+  Chat drag feedback, workflow selection/connection strokes and dashboard's
+  general outline-color mapping deliberately follow the stronger ring in those
+  same three pairs. Their before/after computed styles are recorded in the
+  repo's `docs/screenshots/focus-ring/` audit; styling polish is deferred.
+  Appearance-only change for the next minor core release, with no version bump
+  here. Native text-field click rings strengthen along with keyboard focus
+  (CW-20261002-0091).
+
 - Tailwind `dark:` utilities also match
   when no explicit mode marker is in scope, aligning first paint with the default
   dark palette. Explicit light scopes remain excluded unless a dark ancestor or

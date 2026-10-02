@@ -50,7 +50,7 @@ const META: Record<ColorToken, Omit<TokenMeta, 'key'>> = {
   /* Selection — §3.4. The contract name for shadcn's "accent" semantic. */
   selection: { label: 'Selection', category: 'selection', description: 'Neutral hover / focus surface on menus, lists, options, command palettes.', allowsAlpha: true },
   'selection-fg': { label: 'Selection foreground', category: 'selection', description: 'Text on `selection`.' },
-  ring: { label: 'Focus ring', category: 'selection', description: 'Focus ring.', allowsAlpha: true },
+  ring: { label: 'Focus ring', category: 'selection', description: 'Focus indicator; render at full strength against the surrounding surface.', allowsAlpha: true },
 
   /* Feedback — §3.5. Contract, not idiom. */
   danger: { label: 'Danger', category: 'feedback', description: 'Destructive action, error, failure.' },

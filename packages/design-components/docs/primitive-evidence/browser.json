@@ -1,0 +1,242 @@
+{
+  "themes": [
+    "nanite-default",
+    "dir-a",
+    "dir-b",
+    "dir-d",
+    "dir-e",
+    "dir-f",
+    "sysop-p4-white",
+    "sysop-green-phosphor",
+    "sysop-amber-phosphor",
+    "sysop-hi-contrast"
+  ],
+  "results": [
+    {
+      "theme": "nanite-default",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "nanite-default",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "light",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "dark",
+      "styles": {
+        "orientation": "horizontal",
+        "display": "flex",
+        "firstRadius": "6px",
+        "playLeftRadius": "0px",
+        "playRightRadius": "0px"
+      }
+    }
+  ],
+  "checks": [
+    "Play updates callback status",
+    "Enter and Space toggle Collapsible",
+    "No page errors"
+  ],
+  "errors": []
+}

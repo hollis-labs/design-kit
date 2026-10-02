@@ -123,7 +123,7 @@ non-Tailwind consumer ever turns up, that is a small task rather than a migratio
 |---|---|
 | shadcn primitives (`ui/`) | 26 files — button-group, collapsible, hover-card, table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner |
 | Components | 21 — `Pill` · `LiveDot` · `Callout` · `CopyableId` · `CopyButton` · `ConfirmDialog` · `DetailDialog`/`DetailSection` · `FormDialog` · `JsonViewer` · `JsonModal`/`PayloadActions`/`PayloadSummary` · `MetaList` · `Metric` · `ProgressBar` · `AppShell` · `DetailPageLayout` · `OverflowMenu` · `CollapsibleSection` · `Combobox` · `EmptyState` · `SearchInput` · `TransferList` |
-| Hooks | `useCopy` · `useArrowNav` |
+| Hooks | `useCopy` · `useArrowNav` · `useControllableState` (unreleased) |
 | Contracts | `ColumnDef`/`SortState`/`alignClass`/`compareBy` · `Tone`/`TONE_CLASSES` · `IconComponent` · the row-activation protocol |
 
 **The test every export passed: "would `kit-chat` take this unchanged?"** Anything
@@ -249,3 +249,18 @@ HoverCard popup behavior is checked by
 set `PROOF_OUTPUT` to a scratch directory and run the script with an optional
 `PLAYWRIGHT_MODULE` pointing to a separately installed Playwright `index.mjs`.
 Playwright is verification tooling; it is not a new package runtime dependency.
+
+### Controllable state (unreleased: ships with the next lockstep core release)
+
+`useControllableState({ value, defaultValue, onChange })` returns
+`[state, setState]`. `defaultValue` is required and used only to initialize
+uncontrolled state. A defined `value` keeps the host in control: the setter
+requests changes via `onChange`, and state follows the host's next value.
+Pass `null` for an empty controlled selection; `undefined` selects uncontrolled
+mode. Keep the mode fixed for the lifetime of the component.
+
+The stable setter accepts a value or a functional update. Uncontrolled updates
+in one event compose in order; controlled updates resolve against the current
+host value. `onChange` fires only when `Object.is(next, current)` is false,
+never merely because the host changes props. This hook contains no transport or
+store behavior. Published `0.3.0` does not export it yet.

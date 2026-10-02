@@ -1,5 +1,15 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- Add AI Elements Message actions/branching without message-layout or AI SDK dependencies;
+  controlled selection, wraparound navigation and preserved inactive drafts (CW-20261002-0044).
+- Add Shimmer with token-colored, opt-in `keyframes.css`, a static fallback and reduced-motion support;
+  replace upstream motion/react with CSS (CW-20261002-0044).
+- Create kit-chat's MIT LICENSE and append AI Elements attribution/full Apache-2.0 text.
+  This adds a LICENSE file to the published tarball; no version/range changes.
+
+
 ## 0.3.0 — 2026-10-02
 
 Co-released with the other core packages, alongside the first releases of kit-settings and

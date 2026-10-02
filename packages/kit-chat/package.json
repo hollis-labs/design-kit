@@ -43,7 +43,8 @@
       "import": "./dist/markdown/index.js"
     },
     "./markdown.css": "./src/styles/markdown.css",
-    "./source.css": "./src/styles/source.css"
+    "./source.css": "./src/styles/source.css",
+    "./keyframes.css": "./src/styles/keyframes.css"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",

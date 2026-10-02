@@ -57,6 +57,13 @@ export function Demo() {
           <HoverCardTrigger href="#destination" delay={100} closeDelay={100} className="w-fit text-primary underline">Preview destination</HoverCardTrigger>
           <HoverCardContent align="start">Supplementary destination preview. The same information is available below.</HoverCardContent>
         </HoverCard>
+        <HoverCard>
+          <HoverCardTrigger href="#destination" delay={100} closeDelay={100} className="w-fit text-primary underline">Preview gallery</HoverCardTrigger>
+          <HoverCardContent aria-hidden={false} align="start">
+            <p className="mb-3">Accessible preview controls</p>
+            <ButtonGroup aria-label="Preview pages"><Button variant="outline">Previous preview</Button><Button variant="outline">Next preview</Button></ButtonGroup>
+          </HoverCardContent>
+        </HoverCard>
       </section>
       <section id="destination" className="flex flex-col gap-3">
         <h2 className="text-lg font-medium">Destination and existing Callout</h2>

@@ -15,6 +15,17 @@ try {
   const errors = []
   page.on('pageerror', (error) => errors.push(error.message))
   await page.goto(baseURL)
+  // Regression: an explicit aria-hidden=false must expose preview controls.
+  const galleryTrigger = page.getByRole('link', { name: 'Preview gallery' })
+  await galleryTrigger.hover()
+  const accessiblePopup = page.locator('[data-slot=hover-card-content][aria-hidden=false]')
+  await accessiblePopup.waitFor({ state: 'visible' })
+  assert.equal(await accessiblePopup.getAttribute('aria-hidden'), 'false')
+  assert.equal(await page.getByRole('button', { name: 'Previous preview' }).isVisible(), true)
+  assert.equal(await page.getByRole('button', { name: 'Next preview' }).isVisible(), true)
+  await page.getByRole('button', { name: 'Next preview' }).focus()
+  assert.equal(await page.getByRole('button', { name: 'Next preview' }).evaluate((el) => document.activeElement === el), true)
+  await page.mouse.move(0, 0)
   const themes = await page.locator('#theme option').evaluateAll((items) => items.map((item) => item.value))
   const results = []
   for (const theme of themes) {
@@ -58,7 +69,7 @@ try {
     }
   }
   assert.deepEqual(errors, [])
-  const receipt = { results, errors, checks: ['link target preserved', 'hover open, pointer transfer, leave close', 'portal and supplementary aria-hidden', 'focus opens, Escape closes without stealing focus', 'no popup tab stop', 'token styles in every theme/mode'] }
+  const receipt = { results, errors, checks: ['explicit aria-hidden=false exposes focusable preview controls', 'link target preserved', 'hover open, pointer transfer, leave close', 'portal and supplementary aria-hidden', 'focus opens, Escape closes without stealing focus', 'no popup tab stop', 'token styles in every theme/mode'] }
   await writeFile(path.join(output, 'browser.json'), JSON.stringify(receipt, null, 2) + '\n')
   console.log(`HoverCard browser proof: PASS (${results.length} theme/mode renders, no page errors).`)
 } finally {

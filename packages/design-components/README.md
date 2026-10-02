@@ -233,8 +233,9 @@ with that published tarball.
 - `HoverCard`, `HoverCardTrigger`, `HoverCardContent`: Base UI PreviewCard with
   a link trigger, portal and positioned preview. Set `delay`/`closeDelay` on the
   trigger (upstream Radix used root `openDelay`/`closeDelay`). Popup content is
-  supplementary, not an interactive menu; put essential information at the link
-  destination. See [Base UI guidance](https://base-ui.com/react/components/preview-card).
+  supplementary by default (`aria-hidden="true"`) per Base UI guidance; pass
+  `aria-hidden={false}` on `HoverCardContent` when accessible content or controls
+  are needed. Put essential information at the link destination. See [Base UI guidance](https://base-ui.com/react/components/preview-card).
 - `Alert` is omitted: existing `Callout` already supplies `role="alert"`, title,
   rich children, configurable icon, tone and actions. Use `tone="neutral"` or
   `tone="danger"` for the upstream default/destructive cases; another notice

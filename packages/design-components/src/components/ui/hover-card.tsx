@@ -46,8 +46,8 @@ function HoverCardContent({
             "bg-popover text-popover-foreground z-50 w-64 origin-(--transform-origin) rounded-panel border border-border p-4 text-sm shadow-md outline-hidden transition-opacity duration-150 data-[starting-style]:opacity-0 data-[ending-style]:opacity-0 motion-reduce:transition-none",
             typeof className === "function" ? className(state) : className,
           )}
-          {...props}
           aria-hidden="true"
+          {...props}
         />
       </HoverCardPrimitive.Positioner>
     </HoverCardPrimitive.Portal>

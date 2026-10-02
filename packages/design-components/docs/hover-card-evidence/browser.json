@@ -203,6 +203,7 @@
   ],
   "errors": [],
   "checks": [
+    "explicit aria-hidden=false exposes focusable preview controls",
     "link target preserved",
     "hover open, pointer transfer, leave close",
     "portal and supplementary aria-hidden",

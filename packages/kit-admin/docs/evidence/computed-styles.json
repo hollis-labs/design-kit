@@ -1,0 +1,4327 @@
+[
+  {
+    "app": "nanite",
+    "section": "dashboard",
+    "width": 1280,
+    "image": "nanite-dashboard-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Preferences",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 98.46875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Deployment configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 191.890625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Example notifier (hypothetical plugin)",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268.5,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "NaniteDeclaration revision: nanite-example-1SettingsStatusDiagnosticsPreferencesDeployment",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "settings",
+    "width": 1280,
+    "image": "nanite-settings-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Preferences",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 98.46875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Deployment configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 191.890625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Example notifier (hypothetical plugin)",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268.5,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 16,
+          "height": 16,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not setstreamingpersisthidden",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not set-15153060",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not set(empty string)disabledexplicit",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "PreferencesNo changesDeveloper mode (required)Source: override — app overrideOverride remo",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 992,
+          "height": 702,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "PreferencesDeployment configurationExample notifier (hypothetical plugin)Scope: app / nani",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 814,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 31,
+      "clientHeight": 783,
+      "scrollHeight": 814
+    }
+  },
+  {
+    "app": "nanite",
+    "section": "status",
+    "width": 1280,
+    "image": "nanite-status-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Process healthObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRuntime",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "diagnostics",
+    "width": 1280,
+    "image": "nanite-diagnostics-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Embedding runtime state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 276.65625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Execution durationObservedObserved 2026-10-02T00:00:00Z · 30s agoRequested UTC window: 202",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 874,
+          "clientHeight": 783
+        },
+        {
+          "tag": "DIV",
+          "label": "Execution duration samples in UTC; values in millisecondsTime (UTC)Value (milliseconds)202",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 958,
+          "height": 127,
+          "overflowY": "auto",
+          "scrollHeight": 127,
+          "clientHeight": 127
+        }
+      ],
+      "messages": [
+        "Incomplete seriesThe response is truncated; these samples do not represent the complete requested window."
+      ]
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 91,
+      "clientHeight": 783,
+      "scrollHeight": 874
+    }
+  },
+  {
+    "app": "tachyon",
+    "section": "dashboard",
+    "width": 1280,
+    "image": "tachyon-dashboard-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Observation connections",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 183.703125,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "TachyonDeclaration revision: tachyon-example-1SettingsStatusDiagnosticsObservation connect",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tachyon",
+    "section": "settings",
+    "width": 1280,
+    "image": "tachyon-settings-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Observation connections",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 183.703125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove override for Nanite API URL",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 132.859375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove staged overrides",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 188.109375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "Observation connectionsNo changesNanite API URLRemove overrideSource: override — app overr",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 992,
+          "height": 685.5,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Observation connectionsScope: plugin / observe-opsObservation connectionsNo changesNanite ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 797,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 14,
+      "clientHeight": 783,
+      "scrollHeight": 797
+    }
+  },
+  {
+    "app": "tachyon",
+    "section": "status",
+    "width": 1280,
+    "image": "tachyon-status-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Plugin healthObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRuntimeu",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tachyon",
+    "section": "diagnostics",
+    "width": 1280,
+    "image": "tachyon-diagnostics-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Plugin state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 187.390625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Plugin stateObservedObserved 2026-10-02T00:00:00Z · 30s agoPlugin state dataCopy Plugin st",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "dashboard",
+    "width": 1280,
+    "image": "tether-dashboard-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Daemon desired configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 219.28125,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Tether split fixtureDeclaration revision: tether-fixture-1SettingsStatusDiagnosticsDaemon ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "settings",
+    "width": 1280,
+    "image": "tether-settings-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 992,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Daemon desired configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 219.28125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove override for Shutdown timeout",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 132.859375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "oklab(0.273934 0.00152507 -0.00525855 / 0.5)",
+          "borderRadius": "6px",
+          "width": 958,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove staged overrides",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 188.109375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "Daemon desired configurationNo changesShutdown timeoutRemove overrideSource: override — ap",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 992,
+          "height": 538.5,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Daemon desired configurationScope: app / tether-fixtureDaemon desired configurationNo chan",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "status",
+    "width": 1280,
+    "image": "tether-status-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Daemon reachabilityObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRu",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "diagnostics",
+    "width": 1280,
+    "image": "tether-diagnostics-1280.png",
+    "styles": {
+      "viewport": 1280,
+      "documentWidth": 1280,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 1280,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 820,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Observed socket state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 256.296875,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Observed socket stateObservedObserved 2026-10-02T00:00:00Z · 30s agoObserved socket state ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 1224,
+          "height": 782.5,
+          "overflowY": "auto",
+          "scrollHeight": 783,
+          "clientHeight": 783
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "setup",
+    "width": 1280,
+    "image": "nanite-setup-1280.png",
+    "text": "NANITE / SETTINGS\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nSetup edits the same Settings groups. Source, locks and pending application remain in canonical Settings.\n\nFixture source/locks/pending state are available through the canonical group links above. Secrets remain transient replacements.\n\nSetup wizard\n1. Preferences — Complete\n2. Deployment configuration — Complete\n3. Example notifier (hypothetical plugin) — Complete\n4. Review\n\nStep 1 of 4: Preferences\n\nPreferences\nNo changes\nDeveloper mode (required)\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\nDiscard changes\n\nConnectivity check: Not reported\n\nBack\nNext",
+    "inputs": [
+      {
+        "label": "_r_1_-0",
+        "disabled": false
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "refresh",
+    "width": 1280,
+    "image": "nanite-refresh-1280.png",
+    "text": "NANITE / SETTINGS\nPREVIOUS DECLARATIONS RETAINED\nExplicit fixture discovery failure. Content uses the last declaration; writes are suspended until discovery succeeds.\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nScope: app / nanite\n\nPreferences\nNo changes\nDeveloper mode (required)\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nDiscard changes\n\nThe app reports no restart required.",
+    "inputs": [
+      {
+        "label": "_r_0_-0",
+        "disabled": true
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "group",
+    "width": 1280,
+    "image": "nanite-group-1280.png",
+    "text": "NANITE / SETTINGS\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nScope: app / nanite\n\nSETTINGS READ FAILED\nExplicit fixture group failure. Previous snapshot retained; writes suspended.\nPreferences\nNo changes\nDeveloper mode (required)\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nDiscard changes\n\nThe app reports no restart required.",
+    "inputs": [
+      {
+        "label": "_r_0_-0",
+        "disabled": true
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "first",
+    "width": 1280,
+    "image": "nanite-first-1280.png",
+    "text": "ADMIN / SETTINGS\nADMIN UNAVAILABLE\nExplicit fixture discovery failure.",
+    "inputs": []
+  },
+  {
+    "app": "nanite",
+    "section": "dashboard",
+    "width": 390,
+    "image": "nanite-dashboard-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 108,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Preferences",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 98.46875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Deployment configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 191.890625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Example notifier (hypothetical plugin)",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268.5,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "NaniteDeclaration revision: nanite-example-1SettingsStatusDiagnosticsPreferencesDeployment",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "settings",
+    "width": 390,
+    "image": "nanite-settings-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 108,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Preferences",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 98.46875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Deployment configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 191.890625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Example notifier (hypothetical plugin)",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268.5,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 16,
+          "height": 16,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not setstreamingpersisthidden",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not set-15153060",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "SELECT",
+          "label": "Not set(empty string)disabledexplicit",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "PreferencesNo changesDeveloper mode (required)Source: override — app overrideOverride remo",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 302,
+          "height": 832.5,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "PreferencesDeployment configurationExample notifier (hypothetical plugin)Scope: app / nani",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 1024,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 270,
+      "clientHeight": 754,
+      "scrollHeight": 1024
+    }
+  },
+  {
+    "app": "nanite",
+    "section": "status",
+    "width": 390,
+    "image": "nanite-status-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Process healthObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRuntime",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "diagnostics",
+    "width": 390,
+    "image": "nanite-diagnostics-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Embedding runtime state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 276.65625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Execution durationObservedObserved 2026-10-02T00:00:00Z · 30s agoRequested UTC window: 202",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 1093,
+          "clientHeight": 754
+        },
+        {
+          "tag": "DIV",
+          "label": "Execution duration samples in UTC; values in millisecondsTime (UTC)Value (milliseconds)202",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 268,
+          "height": 187,
+          "overflowY": "auto",
+          "scrollHeight": 187,
+          "clientHeight": 187
+        }
+      ],
+      "messages": [
+        "Incomplete seriesThe response is truncated; these samples do not represent the complete requested window."
+      ]
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 339,
+      "clientHeight": 754,
+      "scrollHeight": 1093
+    }
+  },
+  {
+    "app": "tachyon",
+    "section": "dashboard",
+    "width": 390,
+    "image": "tachyon-dashboard-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Observation connections",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 183.703125,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "TachyonDeclaration revision: tachyon-example-1SettingsStatusDiagnosticsObservation connect",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tachyon",
+    "section": "settings",
+    "width": 390,
+    "image": "tachyon-settings-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Observation connections",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 183.703125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove override for Nanite API URL",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 132.859375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove staged overrides",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 188.109375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "Observation connectionsNo changesNanite API URLRemove overrideSource: override — app overr",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 302,
+          "height": 855,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Observation connectionsScope: plugin / observe-opsObservation connectionsNo changesNanite ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 967,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 213,
+      "clientHeight": 754,
+      "scrollHeight": 967
+    }
+  },
+  {
+    "app": "tachyon",
+    "section": "status",
+    "width": 390,
+    "image": "tachyon-status-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Plugin healthObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRuntimeu",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tachyon",
+    "section": "diagnostics",
+    "width": 390,
+    "image": "tachyon-diagnostics-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Plugin state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 187.390625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Plugin stateObservedObserved 2026-10-02T00:00:00Z · 30s agoPlugin state dataCopy Plugin st",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "dashboard",
+    "width": 390,
+    "image": "tether-dashboard-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Admin directory links",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 75.328125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 63.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 97.4375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Daemon desired configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 219.28125,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Tether split fixtureDeclaration revision: tether-fixture-1SettingsStatusDiagnosticsDaemon ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "settings",
+    "width": 390,
+    "image": "tether-settings-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "Settings groups",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 302,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Daemon desired configuration",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 219.28125,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove override for Shutdown timeout",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 132.859375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "INPUT",
+          "label": "",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "oklab(0.273934 0.00152507 -0.00525855 / 0.5)",
+          "borderRadius": "6px",
+          "width": 268,
+          "height": 32,
+          "overflowY": "clip"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Save changes",
+          "fontSize": "13px",
+          "color": "rgb(0, 0, 0)",
+          "backgroundColor": "rgb(228, 228, 231)",
+          "borderRadius": "6px",
+          "width": 112.671875,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Validate changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 133.140625,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Remove staged overrides",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 188.109375,
+          "height": 28,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Discard changes",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 129.625,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [
+        {
+          "tag": "FORM",
+          "label": "Daemon desired configurationNo changesShutdown timeoutRemove overrideSource: override — ap",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "10px",
+          "width": 302,
+          "height": 693.5,
+          "overflowY": "visible"
+        }
+      ],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Daemon desired configurationScope: app / tether-fixtureDaemon desired configurationNo chan",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 805,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": [],
+    "scroll": {
+      "scrollTop": 51,
+      "clientHeight": 754,
+      "scrollHeight": 805
+    }
+  },
+  {
+    "app": "tether",
+    "section": "status",
+    "width": 390,
+    "image": "tether-status-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Daemon reachabilityObservedObserved 2026-10-02T00:00:00Z · 30s agoReported healthunknownRu",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 754,
+          "overflowY": "auto",
+          "scrollHeight": 754,
+          "clientHeight": 754
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "tether",
+    "section": "diagnostics",
+    "width": 390,
+    "image": "tether-diagnostics-390.png",
+    "styles": {
+      "viewport": 390,
+      "documentWidth": 390,
+      "tokenControl": ".375rem",
+      "tokenPanel": ".625rem",
+      "root": {
+        "tag": "DIV",
+        "label": "Local admin fixturesnanitetachyontetherOpen setup fixtureNo command requested. This fixtur",
+        "fontSize": "16px",
+        "color": "rgb(244, 244, 245)",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "borderRadius": "0px",
+        "width": 390,
+        "height": 900,
+        "overflowY": "hidden"
+      },
+      "nav": [
+        {
+          "tag": "NAV",
+          "label": "Fixture apps",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 136.78125,
+          "height": 16.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "NAV",
+          "label": "",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "0px",
+          "width": 56,
+          "height": 791.5,
+          "overflowY": "visible"
+        }
+      ],
+      "controls": [
+        {
+          "tag": "BUTTON",
+          "label": "Open setup fixture",
+          "fontSize": "11px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 128.921875,
+          "height": 26.5,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Dashboard",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Settings",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Status",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Diagnostics",
+          "fontSize": "16px",
+          "color": "rgb(131, 131, 139)",
+          "backgroundColor": "rgb(24, 24, 27)",
+          "borderRadius": "6px",
+          "width": 36,
+          "height": 36,
+          "overflowY": "visible"
+        },
+        {
+          "tag": "BUTTON",
+          "label": "Copy Observed socket state data",
+          "fontSize": "13px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgb(9, 9, 11)",
+          "borderRadius": "6px",
+          "width": 256.296875,
+          "height": 28,
+          "overflowY": "visible"
+        }
+      ],
+      "panels": [],
+      "scrollOwners": [
+        {
+          "tag": "DIV",
+          "label": "Observed socket stateObservedObserved 2026-10-02T00:00:00Z · 30s agoObserved socket state ",
+          "fontSize": "16px",
+          "color": "rgb(244, 244, 245)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px",
+          "width": 334,
+          "height": 737.5,
+          "overflowY": "auto",
+          "scrollHeight": 738,
+          "clientHeight": 738
+        }
+      ],
+      "messages": []
+    },
+    "errors": []
+  },
+  {
+    "app": "nanite",
+    "section": "setup",
+    "width": 390,
+    "image": "nanite-setup-390.png",
+    "text": "NANITE / SETTINGS\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nSetup edits the same Settings groups. Source, locks and pending application remain in canonical Settings.\n\nFixture source/locks/pending state are available through the canonical group links above. Secrets remain transient replacements.\n\nSetup wizard\n1. Preferences — Complete\n2. Deployment configuration — Complete\n3. Example notifier (hypothetical plugin) — Complete\n4. Review\n\nStep 1 of 4: Preferences\n\nPreferences\nNo changes\nDeveloper mode (required)\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\nDiscard changes\n\nConnectivity check: Not reported\n\nBack\nNext",
+    "inputs": [
+      {
+        "label": "_r_1_-0",
+        "disabled": false
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "refresh",
+    "width": 390,
+    "image": "nanite-refresh-390.png",
+    "text": "NANITE / SETTINGS\nPREVIOUS DECLARATIONS RETAINED\nExplicit fixture discovery failure. Content uses the last declaration; writes are suspended until discovery succeeds.\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nScope: app / nanite\n\nPreferences\nNo changes\nDeveloper mode (required)\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nDiscard changes\n\nThe app reports no restart required.",
+    "inputs": [
+      {
+        "label": "_r_0_-0",
+        "disabled": true
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "group",
+    "width": 390,
+    "image": "nanite-group-390.png",
+    "text": "NANITE / SETTINGS\nPreferences\nDeployment configuration\nExample notifier (hypothetical plugin)\n\nScope: app / nanite\n\nSETTINGS READ FAILED\nExplicit fixture group failure. Previous snapshot retained; writes suspended.\nPreferences\nNo changes\nDeveloper mode (required)\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool stream behavior (required)\nNot set\nstreaming\npersist\nhidden\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nTool drawer retention (minutes; -1 keeps) (required)\nNot set\n-1\n5\n15\n30\n60\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nEmbedding mode (required)\nNot set\n(empty string)\ndisabled\nexplicit\n\nSource: override — app override\n\nOverride removal is unavailable in this context.\n\nApply state: Active\n\nDiscard changes\n\nThe app reports no restart required.",
+    "inputs": [
+      {
+        "label": "_r_0_-0",
+        "disabled": true
+      }
+    ]
+  },
+  {
+    "app": "nanite",
+    "section": "first",
+    "width": 390,
+    "image": "nanite-first-390.png",
+    "text": "ADMIN / SETTINGS\nADMIN UNAVAILABLE\nExplicit fixture discovery failure.",
+    "inputs": []
+  }
+]

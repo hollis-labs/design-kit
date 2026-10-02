@@ -24,7 +24,7 @@ SOFTWARE.
 Third-party source: shadcn/ui
 ===========================
 
-The ButtonGroup and Collapsible ports identified by shadcn/ui
+The ButtonGroup, Collapsible and HoverCard ports identified by shadcn/ui
 provenance headers derive from the pinned AI Elements copy of shadcn/ui.
 The following MIT notice applies to that source.
 

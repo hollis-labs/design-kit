@@ -55,6 +55,7 @@ const BLOCKING = [
   'packages/kit-observe',
   'packages/kit-admin',
   'packages/kit-voice',
+  'packages/kit-workflow',
   // Promoted from REPORT_ONLY by CW-20260910-0125, its documented exit condition.
   // It arrived as a pre-contract fork carrying 256 violations and reached 0 —
   // the base-classified files left with the extraction, the rest were migrated

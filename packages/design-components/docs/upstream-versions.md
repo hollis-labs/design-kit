@@ -19,6 +19,7 @@ Source paths below are MIT shadcn/ui copied through the AI Elements pin above:
 | `src/components/ui/button-group.tsx` | `packages/shadcn-ui/components/ui/button-group.tsx` | 2026-10-02 | Radix Slot to Base UI useRender; local cn/Separator; token radius; explicit orientation |
 | `src/components/ui/collapsible.tsx` | `packages/shadcn-ui/components/ui/collapsible.tsx` | 2026-10-02 | Radix to Base UI; Content wraps Panel; Base UI callback/render props |
 
+| `src/components/ui/hover-card.tsx` | `packages/shadcn-ui/components/ui/hover-card.tsx` | 2026-10-02 | Radix HoverCard to Base UI PreviewCard; Positioner/Popup; CSS transitions, token radius; trigger delay props |
 
 Other packages keep their own inventory and package-local licence using
 [the vendoring convention](vendoring.md).

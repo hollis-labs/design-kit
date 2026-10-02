@@ -1,5 +1,16 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- Add AI Elements Reasoning, ChainOfThought, Sources and Plan on the shared Base UI
+  Collapsible; keep content, citations and plan actions host-owned (CW-20261002-0044 B).
+- Fix upstream split disclosure roots in ChainOfThought so header/panel ARIA linkage
+  is preserved. Reasoning elapsed seconds are host-supplied; no markdown deps in main.
+- **Release prerequisite:** these components require the next, unreleased
+  design-components core release. Published design-components 0.3.0 lacks Collapsible.
+  Publish together in the next six-way core minor; no version/range changes here.
+
+
 ## 0.3.0 — 2026-10-02
 
 Co-released with the other core packages, alongside the first releases of kit-settings and

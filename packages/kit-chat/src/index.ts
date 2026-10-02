@@ -112,3 +112,12 @@ export type {
   ChatRole,
   ChatStreamStatus,
 } from './lib/types'
+
+export { Reasoning, ReasoningTrigger, ReasoningContent } from './components/reasoning'
+export type { ReasoningProps, ReasoningTriggerProps, ReasoningContentProps } from './components/reasoning'
+export { ChainOfThought, ChainOfThoughtHeader, ChainOfThoughtStep, ChainOfThoughtSearchResults, ChainOfThoughtSearchResult, ChainOfThoughtContent, ChainOfThoughtImage } from './components/chain-of-thought'
+export type { ChainOfThoughtProps, ChainOfThoughtHeaderProps, ChainOfThoughtStepProps, ChainOfThoughtSearchResultsProps, ChainOfThoughtSearchResultProps, ChainOfThoughtContentProps, ChainOfThoughtImageProps } from './components/chain-of-thought'
+export { Sources, SourcesTrigger, SourcesContent, Source } from './components/sources'
+export type { SourcesProps, SourcesTriggerProps, SourcesContentProps, SourceProps } from './components/sources'
+export { Plan, PlanHeader, PlanTitle, PlanDescription, PlanAction, PlanContent, PlanFooter, PlanTrigger } from './components/plan'
+export type { PlanProps, PlanHeaderProps, PlanTitleProps, PlanDescriptionProps, PlanActionProps, PlanContentProps, PlanFooterProps, PlanTriggerProps } from './components/plan'

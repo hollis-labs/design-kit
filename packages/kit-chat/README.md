@@ -431,3 +431,32 @@ module-level state lives, and a bundled copy of a stateful dependency fails sile
 `prepack` runs the build — not `prepare`, which runs during install and races workspace
 ordering, and not `prepublishOnly`, which does not run for `npm pack` and would let a
 tarball ship an empty `dist/`.
+
+## Reasoning, ChainOfThought, Sources and Plan (unreleased)
+
+These AI Elements ports require the **next design-components core release**:
+Collapsible is in workspace source but is absent from registry design-components
+0.3.0. Release this slice with design-components in the next six-package core
+minor; versions/ranges stay unchanged until that coordinated release.
+
+`Reasoning` provides controlled (`open`/`onOpenChange`) or local (`defaultOpen`)
+disclosure. Streaming starts open unless explicitly opted out with
+`defaultOpen={false}`, and the first completed stream closes after one second.
+Supply `duration` from the host; no local elapsed-time calculation is performed.
+`ReasoningContent` accepts host-rendered React content, so it imports no markdown
+or syntax renderer. `ReasoningTrigger` permits a custom `getThinkingMessage`.
+Its streaming label and streaming Plan text use the opt-in Shimmer stylesheet.
+
+`ChainOfThought` and its Header/Content/Step/SearchResults/SearchResult/Image
+slots present host-supplied steps and references. Header and Content share one
+Base UI disclosure root, including keyboard and aria-controls wiring. Open state
+is local or controlled; step `status` is purely presentational.
+
+`Sources`, `SourcesTrigger` and `SourcesContent` compose a disclosure list.
+`Source` with `href` renders an external anchor; without `href` it renders a span
+for tool-use provenance or other non-link children. It resolves no citations.
+
+`Plan` composes a Base UI Collapsible on a Card, with Header/Title/Description,
+Action/Trigger, Content and Footer slots. The host supplies steps/actions; no
+plan store, approval flow or executor is included. See
+[demo/chat-disclosures.tsx](demo/chat-disclosures.tsx) for all four surfaces.

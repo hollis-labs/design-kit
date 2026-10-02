@@ -2,7 +2,7 @@ import Ansi from 'ansi-to-react'
 import { createElement } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import { normalizeLineControls, sanitizeForDisplay, tailOf, toCopyText } from './terminal-text'
+import { normalizeLineControls, prepareForDisplay, sanitizeForDisplay, tailOf, toCopyText } from './terminal-text'
 
 const ESC = '\x1b'
 
@@ -168,11 +168,81 @@ describe('normalizeLineControls against the peer', () => {
       for (let n = Math.floor(next() * 40); n > 0; n -= 1) text += alphabet[Math.floor(next() * alphabet.length)]
       expect(withoutCarriageReturns(markup(normalizeLineControls(text))), JSON.stringify(text)).toBe(withoutCarriageReturns(markup(text)))
     }
-  })
+  }, 60_000)
 
   it('renders a run of carriage returns in well under a second where the peer alone takes seconds', () => {
     const start = performance.now()
     markup(normalizeLineControls(`a${'\r'.repeat(65_536)}b`))
     expect(performance.now() - start).toBeLessThan(1000)
+  })
+})
+
+describe('invariants on malformed and random input', () => {
+  // What copy and display promise, stated as properties and checked on seeded random inputs rather than on the cases someone
+  // thought of. The literals are the ones a review found leaking a raw ESC.
+  const CONTROL = new RegExp(String.raw`[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]`)
+  const ESC_NOT_SGR = new RegExp(String.raw`\x1b(?!\[[0-9;:]*m)`)
+  const generator = (seed: number) => () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0
+    return seed / 2 ** 32
+  }
+  const strings = (alphabet: string[], count: number, maxLength: number, seed: number) => {
+    const next = generator(seed)
+    return Array.from({ length: count }, () => {
+      let text = ''
+      for (let n = 1 + Math.floor(next() * maxLength); n > 0; n -= 1) text += alphabet[Math.floor(next() * alphabet.length)]
+      return text
+    })
+  }
+  // Short strings over the characters that build and break sequences, then a wider alphabet with the rest of the sequence
+  // introducers, private-mode characters, returns, backspaces and bidi controls.
+  const narrow = [ESC, '[', ']', '0', '1', ';', 'm', '\n', '\x07', '\\', '\u009b', '!', ' ', 'a']
+  const wide = [ESC, ESC, '[', ']', 'P', 'X', '^', '_', '?', ':', ';', '0', '3', '1', 'm', 'K', 'H', '\r', '\b', '\n', '\x07', '\\', '\u202e', '\u009b', ' ', 'a']
+
+  it.each([
+    ['an unfinished CSI before a newline', `a${ESC}[31\nb`],
+    ['a CSI with a stray BEL', `a${ESC}[31!\x07b`],
+    ['an escape before a complete colour sequence', `${ESC}[${ESC}[31mred`],
+  ])('leaves no escape in copy text for %s, and none but a complete colour sequence for display', (_label, input) => {
+    expect(toCopyText(input)).not.toMatch(CONTROL)
+    expect(sanitizeForDisplay(input)).not.toMatch(ESC_NOT_SGR)
+    expect(prepareForDisplay(input)).not.toMatch(ESC_NOT_SGR)
+  })
+
+  it('shows what a malformed sequence leaves as plain text', () => {
+    expect(toCopyText(`a${ESC}[31\nb`)).toBe('a[31\nb')
+    expect(toCopyText(`${ESC}[${ESC}[31mred`)).toBe('[red')
+    expect(sanitizeForDisplay(`${ESC}[${ESC}[31mred`)).toBe(`[${ESC}[31mred`)
+  })
+
+  it.each([
+    ['narrow', narrow, 1, 9],
+    ['wide', wide, 2, 14],
+  ] as const)('toCopyText never returns a control byte (%s alphabet, 60,000 seeded inputs)', (_label, alphabet, seed, maxLength) => {
+    for (const text of strings([...alphabet], 60_000, maxLength, seed * 1013)) {
+      expect(CONTROL.test(toCopyText(text)), JSON.stringify(text)).toBe(false)
+    }
+  }, 60_000)
+
+  it.each([
+    ['narrow', narrow, 3, 9],
+    ['wide', wide, 4, 14],
+  ] as const)('every escape that survives display begins a complete colour sequence (%s alphabet, 60,000 seeded inputs)', (_label, alphabet, seed, maxLength) => {
+    for (const text of strings([...alphabet], 60_000, maxLength, seed * 1013)) {
+      expect(ESC_NOT_SGR.test(sanitizeForDisplay(text)), JSON.stringify(text)).toBe(false)
+      expect(ESC_NOT_SGR.test(prepareForDisplay(text)), JSON.stringify(text)).toBe(false)
+    }
+  }, 60_000)
+
+  it('holds no backspace at the end either: a leftover one would be an invisible control byte in the DOM', () => {
+    expect(prepareForDisplay('\bx')).toBe('x')
+    expect(prepareForDisplay(`${ESC}]\b\r\r;${ESC}3\b`)).toBe('')
+  })
+
+  it('keeps that true after a backspace erases the end of a colour sequence', () => {
+    // sanitize keeps ESC[31m; the backspace then removes the m and would leave ESC[31, so prepareForDisplay sanitises again.
+    const input = `${ESC}[31m\bred`
+    expect(normalizeLineControls(sanitizeForDisplay(input))).toMatch(ESC_NOT_SGR)
+    expect(prepareForDisplay(input)).not.toMatch(ESC_NOT_SGR)
   })
 })

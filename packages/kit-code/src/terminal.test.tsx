@@ -380,3 +380,41 @@ describe('Terminal on hostile shapes, 100 lines inside the cap', () => {
     expect(container.querySelector('pre')!.textContent).toBe('100%\nad\nplain')
   })
 })
+
+describe('Terminal and malformed sequences', () => {
+  it.each([
+    ['an unfinished CSI before a newline', `a${ESC}[31\nb`],
+    ['a CSI with a stray BEL', `a${ESC}[31!\x07b`],
+    ['an escape before a complete colour sequence', `${ESC}[${ESC}[31mred`],
+    ['a backspace after a colour sequence', `${ESC}[31m\bred${ESC}[0m`],
+  ])('puts no escape or control byte in the DOM for %s', (_label, output) => {
+    const { container } = render(<Terminal output={output} />)
+    expect(container.textContent).not.toMatch(new RegExp(String.raw`[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]`))
+  })
+
+  it('puts no escape or control byte in the DOM for 2,000 seeded random inputs', () => {
+    const alphabet = [ESC, ESC, '[', ']', 'P', '?', ';', '0', '3', '1', 'm', 'K', '\r', '\b', '\n', '\x07', '\\', '\u009b', ' ', 'a']
+    let seed = 99
+    const next = () => {
+      seed = (seed * 1664525 + 1013904223) >>> 0
+      return seed / 2 ** 32
+    }
+    const control = new RegExp(String.raw`[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]`)
+    for (let i = 0; i < 2000; i += 1) {
+      let output = ''
+      for (let n = 1 + Math.floor(next() * 16); n > 0; n -= 1) output += alphabet[Math.floor(next() * alphabet.length)]
+      const { container, unmount } = render(<Terminal output={output} />)
+      expect(control.test(container.querySelector('pre')!.textContent!), JSON.stringify(output)).toBe(false)
+      unmount()
+    }
+  }, 60_000)
+
+  it('copies no control byte for malformed input', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    vi.stubGlobal('navigator', { clipboard: { writeText } })
+    render(<Terminal output={`a${ESC}[31\nb ${ESC}[${ESC}[31mred ${ESC}]8;;x`} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Copy terminal output' }))
+    await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1))
+    expect(writeText.mock.calls[0][0]).not.toMatch(new RegExp(String.raw`[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]`))
+  })
+})

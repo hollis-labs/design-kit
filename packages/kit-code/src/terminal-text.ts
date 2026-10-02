@@ -29,7 +29,8 @@
 //   CSI    ESC [ params intermediates final parameter bytes 0x30-0x3F, intermediates 0x20-0x2F, final 0x40-0x7E
 //   two    ESC + one byte 0x30-0x7E         two-byte escapes (save cursor, reset, index, ...); `[` and the string openers come first
 //   tail   ESC with an unfinished sequence at the very end of the text (output still streaming)
-//   other  a lone ESC that starts none of the above
+//   other  a lone ESC that starts none of the above, including an ESC before `[` or `]` whose sequence is malformed
+//          (display keeps an ESC only when it begins a complete SGR; copy keeps none)
 const OSC = String.raw`\][^\x07\x1b]{0,4096}(?:\x07|\x1b\\)?`
 const DEVICE = String.raw`[PX^_][^\x1b]{0,4096}(?:\x1b\\)?`
 const FE = String.raw`[0-Z\\-~]`
@@ -38,18 +39,24 @@ const UNFINISHED_AT_END = String.raw`(?:\[[0-?]*[ -/]*|\][^\x07\x1b]*|[PX^_][^\x
 // bidirectional embedding/override/isolate controls (U+202A-202E, U+2066-2069), which can reorder what the user reads.
 const CONTROLS = String.raw`[\x00-\x07\x0b\x0c\x0e-\x1a\x1c-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]`
 
-/** CSI with any final byte except `m`: SGR (colour and style) survives. */
+// What display keeps: `ESC [ digits ; : m`, a complete colour/style sequence, and nothing else that starts with ESC.
+const SGR_PARAMS = String.raw`[0-9;:]*m`
+
+/** Every complete CSI except a plain SGR, and every ESC that does not begin one: SGR (colour and style) survives, nothing else. */
 const DISPLAY = new RegExp(
-  String.raw`\x1b(?:${OSC}|${DEVICE}|\[[0-?]*[ -/]*[@-ln-~]|${FE}|${UNFINISHED_AT_END}|(?![\[\]]))|${CONTROLS}`,
+  String.raw`\x1b(?:${OSC}|${DEVICE}|\[(?!${SGR_PARAMS})[0-?]*[ -/]*[@-~]|${FE}|${UNFINISHED_AT_END}|(?!\[${SGR_PARAMS}))|${CONTROLS}`,
   'g',
 )
-/** CSI with any final byte: SGR goes too. */
+/** Every complete CSI, SGR included, and an unconditional fallback for any ESC left over: no control byte can survive. */
 const ALL = new RegExp(
-  String.raw`\x1b(?:${OSC}|${DEVICE}|\[[0-?]*[ -/]*[@-~]|${FE}|${UNFINISHED_AT_END}|(?![\[\]]))|${CONTROLS}`,
+  String.raw`\x1b(?:${OSC}|${DEVICE}|\[[0-?]*[ -/]*[@-~]|${FE}|${UNFINISHED_AT_END})?|${CONTROLS}`,
   'g',
 )
 
-/** Keep SGR colour and style, `\n \t \b \r` and text; drop every other control sequence and control byte. */
+/**
+ * Keep SGR colour and style, `\n \t \b \r` and text; drop every other control sequence and control byte. Every ESC left in the
+ * result begins a complete `ESC [ digits ; : m`, including after malformed input (`ESC [ 3 1 \n`, `ESC [ ESC [ 3 1 m`, ...).
+ */
 export function sanitizeForDisplay(text: string): string {
   return text.replace(DISPLAY, '')
 }
@@ -103,7 +110,19 @@ export function normalizeLineControls(text: string): string {
   return end === out.length ? out : out.slice(0, end)
 }
 
-/** The text a user would select: no control sequences at all, `\r\n` and `\r` as newlines, `\b` gone. */
+/**
+ * Everything the renderer needs done to untrusted text, in the order that keeps its guarantee: sanitise, normalise, sanitise
+ * again, then drop what backspaces left. Applying a backspace can erase the final `m` of a colour sequence and leave its ESC
+ * behind, and that ESC must not reach the DOM; a backspace with nothing before it to erase survives `normalizeLineControls` (it
+ * keeps exactly what the peer would) and is an invisible control character, so it goes too. Every step is linear, and the
+ * later ones run over text that is already clean apart from those cases. The result holds no control byte but `\t \n \r`
+ * and no ESC that does not begin a complete colour sequence.
+ */
+export function prepareForDisplay(text: string): string {
+  return sanitizeForDisplay(normalizeLineControls(sanitizeForDisplay(text))).replaceAll('\b', '')
+}
+
+/** The text a user would select: no control sequences or control bytes at all, `\r\n` and `\r` as newlines, `\b` gone. */
 export function toCopyText(text: string): string {
   return text.replace(ALL, '').replace(/\r\n?/g, '\n').replaceAll('\x08', '')
 }

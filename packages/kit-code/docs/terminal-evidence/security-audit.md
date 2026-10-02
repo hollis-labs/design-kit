@@ -79,9 +79,18 @@ built `Terminal`. At the 65,536-character window the slowest `Terminal` case is 
 
 Every regex is meant to be linear, and the evidence above is why that is not taken on trust: inside one sequence the character classes are disjoint (parameter bytes 0x30-0x3F, intermediates 0x20-0x2F, final 0x40-0x7E),
 there are no nested quantifiers and no overlapping alternatives, and OSC/device payloads are capped at 4,096 characters (so an unterminated OSC
-cannot swallow what follows). Measured in Node, `sanitizeForDisplay` on 1 MiB: unterminated CSI with a megabyte of parameters 5 ms; a megabyte of
-unfinished CSI starts 14 ms; a megabyte of OSC starts 5 ms; an unterminated OSC or DCS megabyte 2 ms; a megabyte of bare ESC 15 ms; 6 MiB of real colour
-changes 60 ms (copy text, 6 MiB: 25-150 ms). The tests (`terminal-text.test.ts`) run these shapes against a generous 2 s ceiling.
+cannot swallow what follows). Measured in Node, `sanitizeForDisplay` on 1 MiB (the first version of these patterns, before the stricter display fallback): unterminated CSI with a megabyte
+of parameters 5 ms; unfinished CSI starts 14 ms; OSC starts 5 ms; an unterminated OSC or DCS megabyte 2 ms; bare ESC 15 ms; 6 MiB of real colour changes 60 ms.
+Re-measured after the fix with `ansi-hostile-shapes.mjs` (sanitise plus copy text, both patterns, 1 MiB, 1 line and 100 lines): 5-86 ms for every shape, and 16x the
+input costs 15-19x the time (unfinished CSI starts: 4.6 ms at 64 KiB, 68-86 ms at 1 MiB). The tests (`terminal-text.test.ts`) run these shapes against a generous 2 s ceiling.
+
+## Invariants, checked as properties
+
+A review found that **malformed** sequences could leave a raw ESC behind (`ESC [ 3 1 \n`, `ESC [ 3 1 ! BEL`, `ESC [ ESC [ 3 1 m`): the fallback for a stray ESC excluded an ESC before `[` or `]`, so a sequence whose CSI/OSC alternative then failed to match kept its ESC. About 0.65% of 200,000 random short inputs leaked one. Fixed, and the guarantees are now stated as properties and tested on seeded random inputs, not only on the cases someone thought of (`terminal-text.test.ts`, "invariants on malformed and random input"; 60,000 inputs per property per alphabet, two alphabets, plus the three literals from the review):
+
+- `toCopyText(x)` never contains `[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]`. Copy has an unconditional fallback that removes any ESC left after the complete sequences.
+- `sanitizeForDisplay(x)` keeps an ESC **only** when it begins a complete `ESC [ digits ; : m`. Every other CSI, including one with private parameters or intermediates that ends in `m`, and every ESC that starts nothing complete, is removed.
+- `prepareForDisplay(x)` (what `Terminal` renders) holds the same ESC invariant and no backspace: applying a backspace can erase the final `m` of a colour sequence and leave its ESC, so it sanitises again after normalising, and a backspace with nothing to erase (which `normalizeLineControls` keeps, as the peer does) is dropped last. The `Terminal` tests also render 2,000 seeded random inputs and require no control byte in the DOM text.
 
 ## What is removed, and what is kept
 

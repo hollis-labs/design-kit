@@ -19,12 +19,7 @@ import { Button, cn } from "@hollis-labs/design-components";
 import * as AnsiModule from "ansi-to-react";
 import { CheckIcon, CopyIcon, TerminalIcon, Trash2Icon } from "lucide-react";
 import type { CodeBlockCopyButtonProps } from "./code-block";
-import {
-  normalizeLineControls,
-  sanitizeForDisplay,
-  tailOf,
-  toCopyText,
-} from "./terminal-text";
+import { prepareForDisplay, tailOf, toCopyText } from "./terminal-text";
 import { useClipboard } from "./use-clipboard";
 
 type AnsiProps = {
@@ -226,7 +221,7 @@ export const TerminalContent = ({
   const shown = useMemo(() => {
     const tail = tailOf(output, maxChars);
     return {
-      text: normalizeLineControls(sanitizeForDisplay(tail.text)),
+      text: prepareForDisplay(tail.text),
       truncated: tail.truncated,
     };
   }, [output, maxChars]);

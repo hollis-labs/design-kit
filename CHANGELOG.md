@@ -37,6 +37,9 @@ in its own change.
   Suggestions, Context, Question, Image, InlineCitation, OpenIn and expanded Artifact.
   Data, content and application actions remain host-owned. The range now requires
   the design-components release containing Collapsible and HoverCard.
+- **kit-observe:** StatCollection/demo headings use the defined control size and
+  semibold weight; Clock documentation covers correct sampling, strict future-time
+  warnings, receipt/source provenance and keeping observations off DOM elements.
 - **kit-settings:** optional readOnlyContext renders nonwritable fields as labelled
   text while retaining provenance/apply state and the existing default controls.
 

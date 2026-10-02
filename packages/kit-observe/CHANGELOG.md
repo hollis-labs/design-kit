@@ -1,6 +1,9 @@
 # @hollis-labs/kit-observe
 
-## Unreleased
+## 0.1.1 — 2026-10-02
+
+Requires design-components and design-tokens `^0.4.0`; the optional dashboard
+peer (charts only) is now `^0.4.0` to share the new core set.
 
 - Fix StatCollection and demo headings to use the existing `text-control`
   size and semibold weight instead of the undefined `text-heading` utility.

@@ -6,8 +6,6 @@
   ],
   "chartModules": [],
   "modules": [
-    "packages/kit-admin/demo/settings-only.tsx",
-    "packages/kit-admin/demo/settings-only.html",
     "packages/kit-admin/\u0000vite/modulepreload-polyfill.js",
     "packages/kit-admin/\u0000commonjsHelpers.js",
     "packages/kit-admin/\u0000/home/chrispian/dev/hollis-labs/worktrees/design-kit/CW-20261001-0512/node_modules/react/jsx-runtime.js?commonjs-module",
@@ -130,6 +128,8 @@
     "docs/examples/tachyon-admin-manifest.json",
     "packages/kit-settings/demo/fixtures.ts",
     "packages/kit-admin/demo/fixtures.ts",
-    "packages/kit-admin/demo/demo.css"
+    "packages/kit-admin/demo/demo.css",
+    "packages/kit-admin/demo/settings-only.tsx",
+    "packages/kit-admin/demo/settings-only.html"
   ]
 }

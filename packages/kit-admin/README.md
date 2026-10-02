@@ -88,7 +88,7 @@ A host using Tailwind v4 imports the theme and each composition's class sources:
 
 Set the host's theme and document shell reset as usual. Style evidence uses
 `sysop-p4-white` and includes dashboard CSS. Internal ranges are components and
-dashboard `^0.3.0`, settings and observe `^0.1.0`, tokens `^0.2.0`; React 19,
+dashboard `^0.3.0`, settings and observe `^0.1.0`, tokens `^0.3.0`; React 19,
 Tailwind 4, Base UI and lucide use the workspace's existing peers.
 
 ## Local fixture review

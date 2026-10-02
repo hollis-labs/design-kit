@@ -34,6 +34,12 @@
       ],
       "@hollis-labs/kit-dashboard/layout": [
         "../kit-dashboard/src/layout.ts"
+      ],
+      "@hollis-labs/kit-admin": [
+        "./src/index.ts"
+      ],
+      "@hollis-labs/kit-admin/charts": [
+        "./src/charts.tsx"
       ]
     }
   },

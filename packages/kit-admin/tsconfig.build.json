@@ -8,7 +8,8 @@
      * the published tarball. See the note in tsconfig.json — this is the fix for the
      * TS6059 class of defect, applied here from the first commit rather than found at
      * publish. Building this package therefore requires its siblings' `dist` to exist;
-     * the root `npm run build` satisfies that because `design-*` sorts before `kit-*`.
+     * design primitives build before kit-admin, and its package-local prebuild builds
+     * dashboard/settings/observe before declaration emit.
      */
     "paths": {
       "@/*": ["./src/*"]

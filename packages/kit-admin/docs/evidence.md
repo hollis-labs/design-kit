@@ -1,6 +1,6 @@
 # kit-admin fixture evidence — CW-20261001-0512
 
-Built against release main `bbd7ce5` (including radius correction `78199fd`).
+Built against aligned release main `d3e60f9` (including radius correction `78199fd`).
 This is local composition proof using authored example manifests and explicit
 fixture snapshots. It is not a live adapter, packed external-consumer, publishing
 or two-real-app proof. Approved spec text/examples are unchanged.

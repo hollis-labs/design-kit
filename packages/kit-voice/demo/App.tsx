@@ -12,6 +12,7 @@ import {
   SpeechInput,
 } from '../src'
 import type { SpeechInputError } from '../src'
+import { AudioSection } from './AudioSection'
 
 const panel = 'flex flex-col gap-3 rounded-panel border border-border bg-bg-elevated p-4'
 
@@ -96,7 +97,9 @@ export function App() {
           </MicSelector>
         </section>
 
-        <section className={panel} aria-labelledby="error-log">
+        <AudioSection panelClassName={panel} />
+
+      <section className={panel} aria-labelledby="error-log">
           <h2 id="error-log" className="text-label font-medium">onError log</h2>
           <ul className="text-control text-fg-secondary" data-testid="errors">
             {errors.length === 0 ? <li>No errors.</li> : errors.map((line, index) => <li key={index}>{line}</li>)}

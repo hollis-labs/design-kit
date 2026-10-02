@@ -1,5 +1,11 @@
 # @hollis-labs/design-app-runtime
 
+## 0.3.0 — 2026-10-02 — version alignment, no code change
+
+Released with the other core packages so that one number selects a compatible set.
+No source or behaviour changed; the published files differ from 0.2.0 only in `package.json`
+and this changelog.
+
 ## 0.2.0 — 2026-10-01
 
 Co-released with design-tokens, design-components, eslint-config-design, kit-chat and

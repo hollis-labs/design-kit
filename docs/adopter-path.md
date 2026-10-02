@@ -213,7 +213,8 @@ separates registry behavior from corrected source/tarball behavior.
 
 Record exact installed versions and whether each dependency came from the
 registry, a packed candidate, or a workspace link. A merged fix is not a
-published fix. Folio's single `design_kit_version` default targets 0.1.x;
-`^0.1.0` excludes 0.2.0, so the next kit minor requires a deliberate default bump.
+published fix. Folio's single `design_kit_version` input pins the six core packages with one number,
+which is why they release together; `^0.2.0` excludes 0.3.0, so each new minor requires a
+deliberate default bump.
 Consumer verification must follow the installed artifact rather than main's
 source or a green CI badge.

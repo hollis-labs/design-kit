@@ -2,9 +2,8 @@
 
 ## 0.3.0 — 2026-10-02
 
-Co-released with design-components and kit-dashboard, alongside the first releases of
-kit-settings and kit-observe. Requires `@hollis-labs/design-components` `^0.3.0`;
-design-tokens stays at `^0.2.0`.
+Co-released with the other core packages, alongside the first releases of kit-settings and
+kit-observe. Requires `@hollis-labs/design-components` and `@hollis-labs/design-tokens` `^0.3.0`.
 
 - Internal refactor: use design-components' token-aware `cn()` throughout cards, composer,
   stream and markdown, retiring the local stopgap. Existing typography cases stay verbatim

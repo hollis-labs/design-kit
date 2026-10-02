@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+ButtonGroup, Collapsible and HoverCard ship in the **next design-components
+release (unreleased)**. The published registry `0.3.0` does not contain these
+primitives; workspace `0.3.0` remains unchanged pending the coordinated release.
+
+- Add `HoverCard`/trigger/content on Base UI PreviewCard with trigger delays,
+  positioning, render composition and token styling. Preview content remains
+  supplementary and hidden from screen-reader navigation (CW-20261002-0043).
+
 - Reuse existing `Callout` for alerts; no redundant `Alert` port added.
 
 - Add MIT shadcn `ButtonGroup`, text and separator ports: independent control

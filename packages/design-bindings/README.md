@@ -74,6 +74,8 @@ Vite normally externalizes installed dependencies for SSR. Include this package
 with `ssr.noExternal` so Vite transpiles its source:
 
 ```ts
+import { defineConfig } from 'vite'
+
 export default defineConfig({
   // Keep the host's existing plugins and build configuration.
   ssr: { noExternal: ['@hollis-labs/design-bindings'] },

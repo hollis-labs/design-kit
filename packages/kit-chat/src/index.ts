@@ -132,3 +132,10 @@ export type { AttachmentData, AttachmentMediaCategory, AttachmentVariant, Attach
 export { AttachmentDropzone, PromptInputActionAddAttachments } from './components/attachment-dropzone'
 export type { AttachmentDropzoneProps, AttachmentRejection, PromptInputActionAddAttachmentsProps } from './components/attachment-dropzone'
 export { getMediaCategory, getAttachmentLabel } from './lib/attachment'
+
+export { Tool, ToolHeader, ToolContent, ToolInput, ToolOutput } from './components/tool'
+export type { ToolState, ToolProps, ToolHeaderProps, ToolContentProps, ToolInputProps, ToolOutputProps } from './components/tool'
+export { ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected } from './components/confirmation'
+export type { ConfirmationTitleProps, ConfirmationRequestProps, ConfirmationAcceptedProps, ConfirmationRejectedProps } from './components/confirmation'
+export { QueueItem, QueueItemIndicator, QueueItemContent, QueueItemDescription, QueueItemActions, QueueItemAction, QueueItemAttachment, QueueItemImage, QueueItemFile, QueueList, QueueSection, QueueSectionTrigger, QueueSectionLabel, QueueSectionContent, Queue } from './components/queue'
+export type { QueueMessagePart, QueueMessage, QueueTodo, QueueItemProps, QueueItemIndicatorProps, QueueItemContentProps, QueueItemDescriptionProps, QueueItemActionsProps, QueueItemActionProps, QueueItemAttachmentProps, QueueItemImageProps, QueueItemFileProps, QueueListProps, QueueSectionProps, QueueSectionTriggerProps, QueueSectionLabelProps, QueueSectionContentProps, QueueProps } from './components/queue'

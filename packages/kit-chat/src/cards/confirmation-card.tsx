@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react'
 import { Button, Pill, type IconComponent } from '@hollis-labs/design-components'
+import { ConfirmationCardContext } from '../lib/confirmation-context'
 import type { Tone } from '@hollis-labs/design-tokens'
 import { Envelope, EnvelopeBody, EnvelopeFooter, EnvelopeHeader } from './envelope'
 import {
@@ -137,65 +138,67 @@ export function ConfirmationCard({
   const chosen = priorActionId == null ? null : actions.find((a) => a.id === priorActionId)
 
   return (
-    <Envelope accent={live ? 'warning' : undefined} muted={!live} className={className}>
-      <EnvelopeHeader
-        icon={resolved ? resolved.icon : icon}
-        label={label}
-        tone={resolved ? resolved.tone : 'warning'}
-        meta={
-          resolved ? (
-            <Pill tone={resolved.tone}>
-              {chosen ? <>{resolved.text} · {chosen.label}</> : resolved.text}
-            </Pill>
-          ) : null
-        }
-      />
-      <EnvelopeBody title={title} description={description}>
-        {children}
-      </EnvelopeBody>
-
-      {state.kind === 'unrecognized' ? (
-        <EnvelopeBody className="pt-0">
-          <p className="text-xs text-warning">
-            {/*
-              * SAY THE VALUE. An operator who sees "unknown state" learns nothing;
-              * one who sees the status string can grep for it. This is the same
-              * reason the miss codes are not collapsed into "couldn't render".
-              */}
-            This build does not recognise the recorded status{' '}
-            <code className="font-mono">{state.status}</code>, so the card stays locked
-            rather than risk a second submission.
-          </p>
+    <ConfirmationCardContext.Provider value={{ state, priorActionId }}>
+      <Envelope accent={live ? 'warning' : undefined} muted={!live} className={className}>
+        <EnvelopeHeader
+          icon={resolved ? resolved.icon : icon}
+          label={label}
+          tone={resolved ? resolved.tone : 'warning'}
+          meta={
+            resolved ? (
+              <Pill tone={resolved.tone}>
+                {chosen ? <>{resolved.text} · {chosen.label}</> : resolved.text}
+              </Pill>
+            ) : null
+          }
+        />
+        <EnvelopeBody title={title} description={description}>
+          {children}
         </EnvelopeBody>
-      ) : null}
 
-      {live ? (
-        <EnvelopeFooter className="flex-wrap justify-end">
-          {actions.length === 0 ? (
-            <span className="mr-auto text-xs text-warning">
-              This card was given no actions, so there is nothing to answer.
-            </span>
-          ) : null}
-          {cancelable ? (
-            <Button variant="ghost" size="sm" disabled={disabled} onClick={decline}>
-              {cancelLabel}
-            </Button>
-          ) : null}
-          {actions.map((action) => (
-            <Button
-              key={action.id}
-              size="sm"
-              variant={
-                action.tone === 'danger' ? 'destructive' : action.primary ? 'default' : 'outline'
-              }
-              disabled={disabled}
-              onClick={() => choose(action)}
-            >
-              {action.label}
-            </Button>
-          ))}
-        </EnvelopeFooter>
-      ) : null}
-    </Envelope>
+        {state.kind === 'unrecognized' ? (
+          <EnvelopeBody className="pt-0">
+            <p className="text-xs text-warning">
+              {/*
+                * SAY THE VALUE. An operator who sees "unknown state" learns nothing;
+                * one who sees the status string can grep for it. This is the same
+                * reason the miss codes are not collapsed into "couldn't render".
+                */}
+              This build does not recognise the recorded status{' '}
+              <code className="font-mono">{state.status}</code>, so the card stays locked
+              rather than risk a second submission.
+            </p>
+          </EnvelopeBody>
+        ) : null}
+
+        {live ? (
+          <EnvelopeFooter className="flex-wrap justify-end">
+            {actions.length === 0 ? (
+              <span className="mr-auto text-xs text-warning">
+                This card was given no actions, so there is nothing to answer.
+              </span>
+            ) : null}
+            {cancelable ? (
+              <Button variant="ghost" size="sm" disabled={disabled} onClick={decline}>
+                {cancelLabel}
+              </Button>
+            ) : null}
+            {actions.map((action) => (
+              <Button
+                key={action.id}
+                size="sm"
+                variant={
+                  action.tone === 'danger' ? 'destructive' : action.primary ? 'default' : 'outline'
+                }
+                disabled={disabled}
+                onClick={() => choose(action)}
+              >
+                {action.label}
+              </Button>
+            ))}
+          </EnvelopeFooter>
+        ) : null}
+      </Envelope>
+    </ConfirmationCardContext.Provider>
   )
 }

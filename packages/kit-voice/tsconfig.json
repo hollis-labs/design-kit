@@ -15,5 +15,5 @@
       "@hollis-labs/design-tokens": ["../design-tokens/src/index.ts"]
     }
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+  "include": ["src", "demo", "vite.config.ts", "vitest.config.ts"]
 }

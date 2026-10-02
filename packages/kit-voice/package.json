@@ -42,7 +42,11 @@
     "build": "tsc -p tsconfig.build.json && vite build",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "demo": "vite --config demo/vite.config.ts",
+    "demo:build": "vite build --config demo/vite.config.ts"
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0",

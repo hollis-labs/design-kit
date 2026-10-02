@@ -49,7 +49,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "test": "vitest",
-    "test:run": "vitest run --passWithNoTests",
+    "test:run": "vitest run",
     "demo": "vite --config demo/vite.config.ts",
     "demo:build": "vite build --config demo/vite.config.ts"
   },

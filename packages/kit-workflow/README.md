@@ -114,5 +114,6 @@ Files carry pinned upstream source URLs and divergences. Card/cn come from the
 shared design-components package (its primitives use Base UI), with no new Radix
 implementation. Upstream's implicit CSS, raw appearance and SMIL motion were
 replaced; animated edges use resolved coordinates instead of looking up only the
-first left/right handles. See `LICENSE` for Hollis Labs MIT, Vercel Apache-2.0 and
-[shadcn/ui MIT](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md) notices.
+first left/right handles. See `LICENSE` for Hollis Labs MIT and the complete Vercel Apache-2.0 notice and
+terms. Node/Card use existing design-components exports; no shadcn-derived source
+is copied into this package.

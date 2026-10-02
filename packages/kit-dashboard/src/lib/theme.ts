@@ -41,6 +41,13 @@ export function persistTheme(
 
 export function applyTheme(theme: ThemeName, root: Pick<HTMLElement, 'setAttribute'> = document.documentElement): void {
   root.setAttribute('data-theme', theme)
+  // Setter-only adapters cannot report an existing preference: preserve them.
+  // Real roots can default the legacy dark palette without overwriting a mode.
+  if ('getAttribute' in root && typeof root.getAttribute === 'function'
+    && root.getAttribute('data-mode') === null
+    && !root.getAttribute('class')?.split(/\s+/).includes('light')) {
+    root.setAttribute('data-mode', 'dark')
+  }
 }
 
 export function getInitialTheme(): ThemeName {

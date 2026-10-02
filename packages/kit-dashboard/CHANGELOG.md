@@ -1,5 +1,13 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased
+
+- `applyTheme` defaults the four legacy
+  themes to `data-mode="dark"` when the root supports attribute reads and has no
+  explicit mode. Existing `data-mode` values and the `.light` spelling are
+  preserved. Setter-only adapters retain their previous behavior and public
+  parameter type. This runs only when called; it does not fix first paint.
+
 ## 0.3.0 — 2026-10-02
 
 Co-released with the other core packages, alongside the first releases of kit-settings and

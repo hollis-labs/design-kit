@@ -6,6 +6,7 @@ import {
   readStoredTheme,
   resolveTheme,
   THEME_STORAGE_KEY,
+  THEME_OPTIONS,
 } from '@/lib/theme'
 
 describe('theme helpers', () => {
@@ -32,6 +33,29 @@ describe('theme helpers', () => {
     applyTheme('p3-amber-phosphor', { setAttribute })
 
     expect(setAttribute).toHaveBeenCalledWith('data-theme', 'p3-amber-phosphor')
+    expect(setAttribute).toHaveBeenCalledTimes(1)
+  })
+
+  it.each(THEME_OPTIONS)('defaults $value to dark when the root has no mode', ({ value }) => {
+    const root = document.createElement('div')
+    applyTheme(value, root)
+    expect(root.getAttribute('data-theme')).toBe(value)
+    expect(root.getAttribute('data-mode')).toBe('dark')
+  })
+
+  it.each(['light', 'dark', ''])('preserves an explicitly supplied mode %j', mode => {
+    const root = document.createElement('div')
+    root.setAttribute('data-mode', mode)
+    applyTheme('p4-white', root)
+    expect(root.getAttribute('data-mode')).toBe(mode)
+  })
+
+  it('preserves the explicit light class spelling', () => {
+    const root = document.createElement('div')
+    root.className = 'host light'
+    applyTheme('hi-contrast', root)
+    expect(root.hasAttribute('data-mode')).toBe(false)
+    expect(root.className).toBe('host light')
   })
 
   it('resolves unknown values to the default theme', () => {

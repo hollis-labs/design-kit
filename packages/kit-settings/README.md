@@ -1,0 +1,46 @@
+# @hollis-labs/kit-settings
+
+Private `0.0.0`. Controlled, grouped forms for the approved [admin manifest scalar profile](../../docs/admin-manifest-contract.md). No fetching, transport, persistence or wire-type registry. Hosts project the manifest's `settings` array into `SettingsRenderer`; observations belong to kit-observe.
+
+```tsx
+import { SettingsRenderer } from '@hollis-labs/kit-settings'
+
+<SettingsRenderer
+  contractVersion={manifest.contract_version}
+  groups={manifest.settings}
+  states={states}
+  onDraftChange={(groupId, draft) => replaceHostDraft(groupId, draft)}
+  onSave={(groupId, changes) => submitThroughHost(groupId, changes)}
+  onValidate={(groupId, changes) => validateThroughHost(groupId, changes)}
+  onReset={(groupId, keys) => resetThroughHost(groupId, keys)}
+/>
+```
+
+`states[groupId]` contains a host-owned `values` snapshot projection, `draft`, optional `busy`, sanitized `validation`, `error` and `notice`. Missing state shows a waiting message. Only the host changes values, reports success or clears drafts. `SettingsGroupForm` renders a single already-version-checked group. `fieldExtra` and `groupFooter` slots leave provenance and restart presentation to CW-20261001-0506.
+
+A field draft is `{kind: 'value', value}` for typed scalars, `{kind: 'text', text}` for numeric editing, or `{kind: 'unset'}` for explicit override removal. Save emits `{set, unset}` **intent**, with no revision, endpoint or ETag. Untouched fields are omitted; equal nonsecret values do not enter `set`. False, zero and empty string retain their types. Defaults are annotations and never initialize controls. Native selects map options to typed enum members. Incomplete numeric text stays in the draft and blocks save; finite numbers and safe integers are supported. Unicode string length counts code points. `format` is an annotation, not a validator.
+
+“Discard changes” clears the draft through the host callback. “Remove override” stages an explicit unset only when `can_reset`, effective editability and `has_override` allow it. It never clears an inherited/default/env/file value. The host resolves and validates the resulting fallback; the renderer cannot infer it from schema defaults. Removal takes effect only after the host accepts a save and supplies a new snapshot. An optional `onReset(groupId, keys)` offers the explicit reset command for staged removals alone, including reset-only capabilities; mixed edits go through update. There is no reset-all action.
+
+Secret snapshots contain only `present`, matching `secret_present`, effective editability and override presence. Replacement inputs start blank with safe presence text. Untouched means keep; typing then clearing is a deliberate empty replacement (allowed only by the schema); removal is explicit. A secret snapshot containing `value` makes the group unavailable without displaying that value. The kit keeps no secret state or storage. The host must clear transient secret drafts on success, discard, unmount and context changes; never put drafts in URLs, persistent storage, logs or unsanitized errors.
+
+Unsupported contract versions prevent all settings rendering and writes. Unsupported schema assertions, nested/nullable schemas, invalid field declarations or contradictory permissions make only that group unavailable. Snapshot permissions may restrict editing but cannot grant it beyond the manifest. Locked fields retain their value and explanatory reason, have disabled inputs and no mutation actions. Guards also protect callbacks from forged drafts and programmatic submission. Local validation provides feedback; **backend validation is mandatory** and updates must revalidate atomically regardless of an earlier validate result.
+
+The host owns manifest validation/discovery (including endpoint/capability consistency), authentication, authorization, revision context, strong ETags/If-Match, transport, persistence, and backend validation. Reconcile 409/412 with a fresh manifest and snapshot without automatically overwriting drafts. After uncertain network outcomes, reread rather than retrying automatically. Never report an optimistic saved state. `SettingsValidation` is a presentation projection for sanitized JSON-pointer errors, not a replacement wire definition. Callers of exported `evaluateSettings` must first inspect the group, validate the snapshot, and respect its returned errors.
+
+## Consumer CSS
+
+```css
+@import "tailwindcss";
+@import "@hollis-labs/design-tokens/design-tokens.css";
+@import "@hollis-labs/design-components/source.css";
+@import "@hollis-labs/kit-settings/source.css";
+```
+
+All appearance names existing tokens. React 19, Tailwind 4 and base primitives are peers. Workspace typechecking reads sibling source; declaration builds use package names and require built siblings.
+
+## Demo and checks
+
+From the repository root, build dependencies with `npm run build`, then `npm run demo -w @hollis-labs/kit-settings` or `npm run demo:build -w @hollis-labs/kit-settings`. The demo imports both authored example manifests directly and supplies explicit illustrative snapshots, with local host callbacks and an optional rejected-save scenario. It makes no live app calls. Its secret mock stores presence only.
+
+Tests exercise supported/unsupported schema behavior, validation, permissions, controlled callbacks, secret keep/replace/remove and accessible error associations. See [browser evidence](docs/verification.md) for the desktop/narrow computed-style, keyboard and read-only negative checks. No app dogfood, provenance/restart UX, publishing or packed-consumer release gate is part of this task.

@@ -1,16 +1,21 @@
 # @hollis-labs/kit-observe
 
-Private **0.0.0**, unpublished. Five controlled, read-only compositions for the
+Five controlled, read-only compositions for the
 approved [observation spec](../../docs/kit-observe-spec.md) and
 [admin manifest contract](../../docs/admin-manifest-contract.md). This package
 renders presentation inputs; hosts normalize and validate wire responses.
 
-**Publishing is blocked on the next kit-dashboard minor release.**
-`TimestampSampleChart` merged in design-kit PR #43 but is not in registry 0.2.0.
-The workspace link makes it available here and would conceal that consumer
-failure. Before publishing kit-observe, ship the coordinated dashboard release
-and update every applicable internal range together. No release or npm credential
-operation is part of this task.
+## Install
+
+```sh
+npm install @hollis-labs/kit-observe @hollis-labs/design-components @hollis-labs/design-tokens
+```
+
+`@hollis-labs/kit-dashboard` `^0.3.0` is an **optional peer**, needed only for the `/charts`
+entry (`SampleSeriesView`, which uses the dashboard's `TimestampSampleChart`, first released in
+kit-dashboard 0.3.0). The root entry never imports it, so a host that renders only status, stats and
+diagnostics does not need kit-dashboard or its chart engine. If you use `/charts` without it
+installed, the import fails at build time; install it.
 
 ## Exports
 
@@ -154,7 +159,7 @@ computed token styles, status/diagnostic semantics, copy, keyboard schema detail
 resource-local failures and a false-healthy negative control. Feature tests cover
 these presentation distinctions and unchanged field/value delegation to the
 shared chart. Run the repository five-check gate, including design-rules, before
-review. Packed-tarball verification waits for a publishing decision.
+review.
 
 This package half does not cover Tachyon or any other application integration,
 backend transport/validation, persisted history, activity/log/distribution/trace

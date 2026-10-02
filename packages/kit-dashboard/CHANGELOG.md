@@ -1,12 +1,18 @@
 # @hollis-labs/kit-dashboard
 
-## Unreleased
+## 0.3.0 — 2026-10-02
+
+Co-released with design-components and kit-chat, alongside the first releases of kit-settings
+and kit-observe. Requires `@hollis-labs/design-components` `^0.3.0`; design-tokens and
+design-app-runtime stay at `^0.2.0`.
 
 - Add `TimestampSampleChart` to `/charts` for exact UTC gauge and cumulative-counter
   samples, visible null gaps, real zero values, and an accessible data table.
-  Existing `TimeSeriesChart` keeps its day-summing behavior. No release in this
-  change; this additive API ships in the next minor with internal ranges updated
-  together. kit-observe cannot publish until that dashboard release is available.
+  Existing `TimeSeriesChart` keeps its day-summing behavior. Additive: nothing existing
+  changes. kit-observe's `SampleSeriesView` is built on it.
+- Small Buttons inside the dashboard (`xs`, `sm`, `icon-xs`, `icon-sm`) render the 6px control
+  radius instead of 9px under the dashboard theme, through design-components 0.3.0. See that
+  package's changelog for the full list of what changes and what does not.
 
 ## 0.2.0 — 2026-10-01
 

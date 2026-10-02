@@ -7,6 +7,54 @@ package also carries its own `CHANGELOG.md` for anything specific to it.
 
 ---
 
+## 0.3.0 — 2026-10-02 — three packages move, two are released for the first time
+
+`design-components`, `kit-dashboard` and `kit-chat` move to `0.3.0` together.
+`kit-settings` and `kit-observe` are published for the first time, at `0.1.0`.
+Not in this release, because nothing in them changed: `design-tokens` (`0.2.0`),
+`design-app-runtime` (`0.2.0`), `design-bindings` (`0.1.0`) and `eslint-config-design`
+(`0.2.0`, which gained documentation only; that ships with its next change).
+
+**Upgrade the set together.** `kit-dashboard`, `kit-chat`, `kit-settings` and `kit-observe`
+now require `@hollis-labs/design-components` `^0.3.0`, and a caret range on a `0.x` package
+does not reach the next minor, so a `0.2` `design-components` will not resolve against them.
+
+**Behaviour change to read before upgrading: small controls are squarer.**
+`design-components`' `cn()` did not know the contract's `rounded-control` / `rounded-panel`
+names, so a class a component declared was kept beside the base `rounded-lg` and the base won.
+`cn()` now registers them, and the declared radius applies.
+
+- **Changes** (`rounded-control`, the 6px control radius, now applies): `Button` sizes `xs`,
+  `sm`, `icon-xs` and `icon-sm`, and any caller passing `rounded-control` to a primitive. Before:
+  8px under the contract CSS, 9px under `kit-dashboard`'s theme. After: 6px in both. Where it
+  shows in the kits: the dashboard gallery and Operations buttons, `kit-account` access actions,
+  `kit-chat` card actions and the composer's Send and Stop, and `kit-observe` retry and copy actions.
+- **Does not change:** `Button` `default`, `lg` and the bare `icon` size (still 8px, 9px under the
+  dashboard theme); surfaces using the panel radius (10px) and a card given the control radius (6px); grouped small Buttons; native small
+  Select and ThemePicker; and `kit-settings`, whose explicit override already rendered 6px.
+- Evidence: 92 paired before/after captures, 240 changed elements, all of them carrying a radius
+  alias class and landing on the declared radius (one deliberately constructed
+  `rounded-panel rounded-lg` case proves the last argument wins). See
+  [`radius-aliases.md`](https://github.com/hollis-labs/design-kit/blob/main/packages/design-components/docs/radius-aliases.md).
+
+**What is new**
+
+- **`kit-dashboard`**: `TimestampSampleChart` on `/charts`, for exact UTC gauge and cumulative
+  counter samples with visible gaps for missing samples. The existing day-summing
+  `TimeSeriesChart` is unchanged.
+- **`kit-settings`** (first release): controlled, schema-driven settings forms for the approved
+  admin manifest scalar profile, with provenance and restart-required handling, explicit
+  host-owned apply intent, and a setup wizard. No fetching, transport or storage.
+- **`kit-observe`** (first release): controlled health, stats, exact sample series and diagnostics
+  for the same manifest. `@hollis-labs/kit-dashboard` is an *optional* peer, needed only for the
+  `/charts` entry.
+- **`kit-chat`**: an internal refactor onto the shared `cn()`; the visible radius change above is
+  the only user-facing effect.
+
+Both new packages require Tailwind v4 as a peer. Each package's `CHANGELOG.md` has its own entry.
+
+---
+
 ## 0.2.0 — 2026-10-01 — six packages
 
 `design-tokens`, `design-components`, `design-app-runtime`, `eslint-config-design`,

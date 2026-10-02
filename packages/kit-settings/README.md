@@ -1,6 +1,18 @@
 # @hollis-labs/kit-settings
 
-Private `0.0.0`. Controlled, grouped forms for the approved [admin manifest scalar profile](../../docs/admin-manifest-contract.md). No fetching, transport, persistence or wire-type registry. Hosts project the manifest's `settings` array into `SettingsRenderer`; observations belong to kit-observe.
+Controlled, grouped forms for the approved [admin manifest scalar profile](../../docs/admin-manifest-contract.md). No fetching, transport, persistence or wire-type registry. Hosts project the manifest's `settings` array into `SettingsRenderer`; observations belong to kit-observe.
+
+## Install
+
+```sh
+npm install @hollis-labs/kit-settings @hollis-labs/design-components @hollis-labs/design-tokens
+```
+
+`design-components` and `design-tokens` are dependencies; install them directly as well so your
+own CSS imports (below) resolve under strict package managers. Required peers: `react` and
+`react-dom` 19, `tailwindcss` 4, and `@base-ui/react` and `lucide-react` (used by the base
+primitives). npm 7+ installs a missing required peer, but your CSS build still needs the imports
+shown under *Consumer CSS*.
 
 ```tsx
 import { SettingsRenderer } from '@hollis-labs/kit-settings'
@@ -43,7 +55,7 @@ All appearance names existing tokens. React 19, Tailwind 4 and base primitives a
 
 From the repository root, build dependencies with `npm run build`, then `npm run demo -w @hollis-labs/kit-settings` or `npm run demo:build -w @hollis-labs/kit-settings`. The demo imports both authored example manifests directly and supplies explicit illustrative snapshots, with local host callbacks and an optional rejected-save scenario. It makes no live app calls. Its secret mock stores presence only.
 
-Tests exercise supported/unsupported schema behavior, validation, permissions, controlled callbacks, secret keep/replace/remove and accessible error associations. See [browser evidence](docs/verification.md) for the desktop/narrow computed-style, keyboard and read-only negative checks. No app dogfood, backend restart semantics, publishing or packed-consumer release gate is part of this package verification.
+Tests exercise supported/unsupported schema behavior, validation, permissions, controlled callbacks, secret keep/replace/remove and accessible error associations. See [browser evidence](docs/verification.md) for the desktop/narrow computed-style, keyboard and read-only negative checks. No app integration or backend restart semantics are part of this package; the host owns both.
 
 ## Provenance and explicit apply / restart
 

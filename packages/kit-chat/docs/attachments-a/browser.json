@@ -18,10 +18,12 @@
   "screenshots": 20,
   "keyboardOpenEscapeFocus": true,
   "clickOpen": true,
+  "tapOpen": true,
   "realPickerImage": true,
   "hostRemovalRevokes": true,
   "localFileDrop": true,
   "disabledIntake": true,
+  "disabledFileDropCancelled": true,
   "chatInputTriggerPreserved": true,
   "pageErrors": []
 }

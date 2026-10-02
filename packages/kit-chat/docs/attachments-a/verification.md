@@ -8,8 +8,8 @@ was a local workflow demo capture supplied through the real native file input;
 no remote asset or screenshot-capture component was added.
 
 `browser.json` records Chromium checks for real file selection/image previews,
-local file drop and drag feedback, host removal/URL revocation, disabled intake,
-unchanged ChatInput @ trigger, real Popover keyboard Enter opening, click opening,
+local file drop and drag feedback (including cancelling disabled file drops), host removal/URL revocation, disabled intake,
+unchanged ChatInput @ trigger, real Popover keyboard Enter opening, click/touch-tap opening,
 Escape closing and focus return. Twenty screenshots capture the open preview in
 all ten themes, light and dark. The list names `border-border` explicitly.
 

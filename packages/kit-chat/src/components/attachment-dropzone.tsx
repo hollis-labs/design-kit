@@ -61,8 +61,9 @@ export function AttachmentDropzone({ children, className, onFilesSelect, onFiles
       data-dragging={dragging && !disabled ? '' : undefined}
       onDragOver={event => {
         onDragOver?.(event)
-        if (disabled || event.defaultPrevented || !Array.from(event.dataTransfer.types).includes('Files')) return
-        event.preventDefault(); event.dataTransfer.dropEffect = 'copy'; setDragging(true)
+        if (event.defaultPrevented || !Array.from(event.dataTransfer.types).includes('Files')) return
+        event.preventDefault(); event.dataTransfer.dropEffect = disabled ? 'none' : 'copy'
+        if (!disabled) setDragging(true)
       }}
       onDragLeave={event => {
         onDragLeave?.(event)
@@ -70,8 +71,9 @@ export function AttachmentDropzone({ children, className, onFilesSelect, onFiles
       }}
       onDrop={event => {
         onDrop?.(event); setDragging(false)
-        if (disabled || event.defaultPrevented || !event.dataTransfer.files.length) return
-        event.preventDefault(); select(Array.from(event.dataTransfer.files))
+        if (event.defaultPrevented || !event.dataTransfer.files.length) return
+        event.preventDefault()
+        if (!disabled) select(Array.from(event.dataTransfer.files))
       }}>
       <input ref={input} type="file" className="sr-only" tabIndex={-1} aria-label={inputLabel}
         accept={accept} multiple={multiple} disabled={disabled}

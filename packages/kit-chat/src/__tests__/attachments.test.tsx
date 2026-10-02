@@ -1,6 +1,6 @@
 import { getAttachmentLabel, getMediaCategory } from '../lib/attachment'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, createEvent, fireEvent, render, screen } from '@testing-library/react'
 import { Attachment, AttachmentEmpty, AttachmentInfo, AttachmentPreview, AttachmentRemove, Attachments } from '../components/attachments'
 import { AttachmentDropzone, PromptInputActionAddAttachments } from '../components/attachment-dropzone'
 
@@ -28,6 +28,7 @@ describe('host-owned attachment presentation', () => {
       <AttachmentPreview fallbackIcon={<span>Document</span>} /><AttachmentInfo /><AttachmentRemove />
     </Attachment></Attachments>)
     expect(getMediaCategory(data)).toBe('source')
+    expect(screen.getByRole('group', { name: 'Release notes' })).toBeTruthy()
     expect(screen.getByText('Release notes')).toBeTruthy()
     expect(screen.getByText('Document')).toBeTruthy()
     expect(screen.queryByRole('button')).toBeNull()
@@ -87,7 +88,9 @@ describe('local picker and drop target', () => {
   it('disabled target and zero capacity reject intake; single picker reports extras', () => {
     const select = vi.fn(), reject = vi.fn(), incoming = [file('a.txt'), file('b.txt')]
     const { rerender } = render(<AttachmentDropzone data-testid="zone" onFilesSelect={select} disabled><PromptInputActionAddAttachments /></AttachmentDropzone>)
-    fireEvent.drop(screen.getByTestId('zone'), { dataTransfer: { files: incoming } })
+    const drop = createEvent.drop(screen.getByTestId('zone'), { dataTransfer: { files: incoming } })
+    fireEvent(screen.getByTestId('zone'), drop)
+    expect(drop.defaultPrevented).toBe(true)
     expect(select).not.toHaveBeenCalled(); expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(true)
     rerender(<AttachmentDropzone onFilesSelect={select} onFilesReject={reject} maxFiles={0} />)
     fireEvent.change(screen.getByLabelText('Choose attachments'), { target: { files: incoming } })

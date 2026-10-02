@@ -170,6 +170,7 @@ export const Attachment = ({
           ],
           className
         )}
+        role="group"
         aria-label={getAttachmentLabel(data)}
         {...props}
       >

@@ -3,8 +3,8 @@
  * Upstream: packages/elements/src/attachments.tsx
  * Source: https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/attachments.tsx
  * Version: ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
- * Divergences: Own presentational data; shared Button/cn; token radius/scale;
- * previews use Base UI Popover for keyboard/touch; host controls data and URLs.
+ * Divergences: Own presentational data; classification/label helpers extracted;
+ * no AI SDK types, upload contract or state.
  */
 /** Host-owned presentation; no AI SDK or upload/wire contract. */
 export type AttachmentData =

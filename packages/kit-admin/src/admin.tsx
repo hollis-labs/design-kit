@@ -55,7 +55,7 @@ function SettingsPage({ props, manifest }: { props: AdminContentProps; manifest:
       {settings[selected.id]?.phase === 'loading' ? <Notice>{settings[selected.id]?.state ? 'Refreshing settings snapshot; writes suspended.' : 'Waiting for a settings snapshot.'}</Notice> : null}
       <fieldset disabled={!readReady(settings[selected.id]) || !actions} className="min-w-0 border-0 p-0">
         <SettingsProvenanceRenderer key={`${props.contextKey}:${manifest.app.id}:${manifest.revision}:${selected.id}`}
-          contractVersion={manifest.contract_version} groups={[selected]} states={states} onDraftChange={change}
+          contractVersion={manifest.contract_version} groups={[selected]} states={states} onDraftChange={change} readOnlyContext={!actions}
           onSave={readReady(settings[selected.id]) && actions?.onSave ? actions.onSave : undefined}
           onReset={readReady(settings[selected.id]) && actions?.onReset ? actions.onReset : undefined}
           onValidate={readReady(settings[selected.id]) && actions?.onValidate ? actions.onValidate : undefined}

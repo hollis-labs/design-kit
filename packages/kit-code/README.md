@@ -87,8 +87,10 @@ root: `StackTraceHeader` is its native trigger, direct `StackTraceActions` or
 `actions` are siblings, and `StackTraceExpandButton` is a decorative indicator.
 Do not put additional interactive controls inside trigger content.
 `onFilePathClick(path, line?, column?)` delegates navigation entirely to the host.
-Unknown/malformed frames and lines over 1,000 characters remain text without
-regex matching; `showInternalFrames={false}` only filters
+Frame parsing uses linear delimiter scans and bounded digit checks; it never
+backtracks across function/path delimiters. Unknown/malformed frames and lines
+over 1,000 characters remain text rather than navigable file paths;
+`showInternalFrames={false}` only filters
 recognized internal paths. Test progress measures passed plus failed tests,
 clamped to the finite positive total; skipped tests remain in the summary.
 

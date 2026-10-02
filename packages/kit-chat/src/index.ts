@@ -143,6 +143,9 @@ export type { ConfirmationTitleProps, ConfirmationRequestProps, ConfirmationAcce
 export { QueueItem, QueueItemIndicator, QueueItemContent, QueueItemDescription, QueueItemActions, QueueItemAction, QueueItemAttachment, QueueItemImage, QueueItemFile, QueueList, QueueSection, QueueSectionTrigger, QueueSectionLabel, QueueSectionContent, Queue } from './components/queue'
 export type { QueueMessagePart, QueueMessage, QueueTodo, QueueItemProps, QueueItemIndicatorProps, QueueItemContentProps, QueueItemDescriptionProps, QueueItemActionsProps, QueueItemActionProps, QueueItemAttachmentProps, QueueItemImageProps, QueueItemFileProps, QueueListProps, QueueSectionProps, QueueSectionTriggerProps, QueueSectionLabelProps, QueueSectionContentProps, QueueProps } from './components/queue'
 
+export { OpenIn, OpenInTrigger, OpenInContent, OpenInItem, OpenInGroup, OpenInLabel, OpenInSeparator } from './components/open-in'
+export type { OpenInProvider, OpenInProps, OpenInTriggerProps, OpenInContentProps, OpenInItemProps, OpenInGroupProps, OpenInLabelProps, OpenInSeparatorProps } from './components/open-in'
+
 export { Suggestions, Suggestion } from './components/suggestion'
 export type { SuggestionsProps, SuggestionProps } from './components/suggestion'
 export { Context, ContextTrigger, ContextContent, ContextContentHeader, ContextContentBody, ContextContentFooter, ContextInputUsage, ContextOutputUsage, ContextReasoningUsage, ContextCacheUsage } from './components/context'

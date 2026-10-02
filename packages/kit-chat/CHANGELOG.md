@@ -7,6 +7,12 @@
 - Bound/focus the native host-content scrolling region; no renderer, MIME detection, fetching, download implementation or new dependency.
 - Integrated kit-chat needs next design-components release (unreleased) for its other Collapsible/HoverCard exports; this slice uses published Button/Tooltip only.
 
+## Unreleased — OpenIn (CW-20261002-0049 PR B)
+
+- Add host-supplied HTTP(S) destinations and decorative ReactNode icons on Base UI Menu.
+- Reject unsupported/invalid hrefs as disabled non-link rows; explicit native activation opens a new tab with noopener noreferrer.
+- No default providers, query construction, bundled brands, fetching or new dependencies.
+
 ## Unreleased — suggestion, context and question (CW-20261002-0045)
 
 - Add host suggestion actions in a focusable native scrolling region.

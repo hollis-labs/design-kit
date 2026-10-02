@@ -1,6 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react'
-import { ACCENT_BORDER_L_CLASSES, ACCENT_TEXT_CLASSES, type Accent } from '@hollis-labs/design-components'
-import { cn } from '../lib/cn'
+import { cn, ACCENT_BORDER_L_CLASSES, ACCENT_TEXT_CLASSES, type Accent } from '@hollis-labs/design-components'
 import type { IconComponent } from '@hollis-labs/design-components'
 
 /**

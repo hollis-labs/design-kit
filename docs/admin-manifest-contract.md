@@ -401,3 +401,25 @@ This PR contains documentation/examples only and supplies no conformance suite.
 7. Confirm caller/context mapping (app operator versus per-user/project settings)
    with the app auth owners before exposing scoped manifests. No new role system
    or unauthenticated access is approved here.
+
+## 8. Implementation notes
+
+These clarifications record the shipped behavior of `go-envelopes/admin`
+(`UpdateResult` in `admin/validation.go`) and its `admin/adminhttp` binding at
+commit `e426da17b661b8c8616acdd015dbc963ed471ba5`.
+
+The “new ETag” on update/reset success is the ETag of the resulting snapshot.
+A truly unchanged snapshot, including an identical update that is a no-op,
+keeps its ETag. Changes to source, override, permission or apply metadata
+invalidate it even when the desired value is unchanged.
+
+Response `restart_required` and `apply_targets` describe this command only.
+`restart_required` is true iff a changed desired value requires restart,
+including a conservative restart need caused by this change; `apply_targets`
+names the unique affected IDs. Outstanding pending restarts from earlier saves
+remain in each snapshot value's `apply_state: "pending_restart"`, rather than
+the response aggregate. A no-op after a pending change returns `changed_keys: []`,
+`restart_required: false` and `apply_targets: []`, while its snapshot still shows
+`pending_restart`. Clients must not clear outstanding pending state because
+the latest command reports no restart work. `restart_required: true` with empty
+`apply_targets` is invalid; an app can always name itself as an affected target.

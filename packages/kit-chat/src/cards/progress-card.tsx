@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { CheckCircle, Circle, Loader2 } from 'lucide-react'
-import { cn } from '../lib/cn'
+import { cn } from '@hollis-labs/design-components'
 import { Envelope, EnvelopeBody, EnvelopeHeader } from './envelope'
 
 /**

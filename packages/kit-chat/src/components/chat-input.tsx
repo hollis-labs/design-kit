@@ -2,6 +2,7 @@ import { useCallback, useImperativeHandle, useLayoutEffect, useMemo, useRef, use
 import type { KeyboardEvent, ReactNode, Ref } from 'react'
 import { ArrowUp, Square } from 'lucide-react'
 import {
+  cn,
   Button,
   Command,
   CommandEmpty,
@@ -10,7 +11,6 @@ import {
   CommandList,
   Textarea,
 } from '@hollis-labs/design-components'
-import { cn } from '../lib/cn'
 import {
   applyReference,
   detectSuggestion,

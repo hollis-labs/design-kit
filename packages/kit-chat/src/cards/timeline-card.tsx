@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { Clock } from 'lucide-react'
-import { cn } from '../lib/cn'
+import { cn } from '@hollis-labs/design-components'
 import { Envelope, EnvelopeBody, EnvelopeHeader } from './envelope'
 
 /**

@@ -1,7 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { ArrowDown, ArrowUp, Table as TableIcon } from 'lucide-react'
-import { Button } from '@hollis-labs/design-components'
-import { cn } from '../lib/cn'
+import { cn, Button } from '@hollis-labs/design-components'
 import { Envelope, EnvelopeBody, EnvelopeFooter, EnvelopeHeader } from './envelope'
 import { acceptsInput, classifyPriorResponse, type CardResponder } from '../lib/response'
 

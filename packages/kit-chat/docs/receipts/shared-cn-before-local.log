@@ -1,0 +1,14 @@
+
+> @hollis-labs/kit-chat@0.2.0 test:run
+> vitest run src/__tests__/cn.test.ts
+
+
+ RUN  v2.1.9 /home/chrispian/dev/hollis-labs/worktrees/design-kit/CW-20261002-0014/packages/kit-chat
+
+ ✓ src/__tests__/cn.test.ts (6 tests) 10ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  01:20:50
+   Duration  1.19s (transform 147ms, setup 0ms, collect 171ms, tests 10ms, environment 427ms, prepare 106ms)
+

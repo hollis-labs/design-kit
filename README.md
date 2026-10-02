@@ -29,6 +29,7 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-chat` | chat input + stream, and the interactive card set |
 | `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished |
 | `packages/kit-settings` | controlled schema-driven settings forms; private `0.0.0`, unpublished |
+| `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; private `0.0.0`, unpublished |
 | `packages/eslint-config-design` | the gate |
 
 Six packages are **released at `0.2.0`** — `design-tokens`, `design-components`,

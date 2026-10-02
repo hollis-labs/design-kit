@@ -110,6 +110,45 @@ describe("StackTrace", () => {
     expect(screen.queryByRole("button")).toBeNull();
     expect(performance.now() - started).toBeLessThan(2000);
   });
+  it.each([
+    ["spaces", (n: number) => "at " + " ".repeat(n) + "("],
+    ["open delimiters", (n: number) => "at " + " (".repeat(n) + "broken)"],
+    ["colon coordinates", (n: number) => "at f (/x" + ":1".repeat(n) + ":nope)"],
+    ["closing delimiters", (n: number) => "at f (/x:1:2" + ")".repeat(n)],
+  ])("finishes 100 fuzzed %s frames and retains unknown text", (_name, shape) => {
+    // Vary lengths below the cap, including the independently reproduced 989-char line.
+    const frames = Array.from({ length: 100 }, (_, i) => shape(i === 99 ? 985 : 200 + i * 7));
+    const started = performance.now();
+    const { container } = render(
+      <StackTrace trace={["Error: malformed", ...frames].join("\n")} defaultOpen onFilePathClick={vi.fn()}>
+        <StackTraceContent><StackTraceFrames /></StackTraceContent>
+      </StackTrace>,
+    );
+    expect(performance.now() - started).toBeLessThan(2000);
+    for (const frame of frames) expect(container.textContent).toContain(frame);
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+  it.each([
+    ["at run (/src/main.ts:12:4)", "run", "/src/main.ts", 12, 4, false],
+    ["at /src/main.ts:0:2", null, "/src/main.ts", 0, 2, false],
+    ["at process (node:internal/task_queues:95:5)", "process", "node:internal/task_queues", 95, 5, true],
+    ["at dependency (/app/node_modules/pkg/index.js:1:2)", "dependency", "/app/node_modules/pkg/index.js", 1, 2, true],
+    ["at C:\\x\\y.ts:1:2", null, "C:\\x\\y.ts", 1, 2, false],
+  ])("preserves normal frame equivalence: %s", (frame, fn, path, line, column, internal) => {
+    const navigate = vi.fn();
+    const view = (showInternalFrames: boolean) => (
+      <StackTrace trace={frame} defaultOpen onFilePathClick={navigate}>
+        <StackTraceContent><StackTraceFrames showInternalFrames={showInternalFrames} /></StackTraceContent>
+      </StackTrace>
+    );
+    const { container, rerender } = render(view(true));
+    expect(container.textContent).toBe(frame);
+    if (fn) expect(container.textContent).toContain(`${fn} (`);
+    fireEvent.click(screen.getByRole("button", { name: `${path}:${line}:${column}` }));
+    expect(navigate).toHaveBeenCalledWith(path, line, column);
+    rerender(view(false));
+    expect(screen.queryByRole("button") === null).toBe(internal);
+  });
   const trace =
     "Error: broken\n    at run (C:\\src\\main.ts:12:4)\nunknown frame <img src=x>\n    at huge (/src/x.ts:99999999999999999999:2)";
   it("retains unknown frames as text and delegates valid coordinates to the host", () => {

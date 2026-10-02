@@ -1,5 +1,13 @@
 # @hollis-labs/kit-observe
 
+## Unreleased
+
+- Fix StatCollection and demo headings to use the existing `text-control`
+  size and semibold weight instead of the undefined `text-heading` utility.
+  The browser check verifies the StatCollection heading computes to 13px / 600.
+- Document controlled clock sampling, strict future-time warnings, timestamp
+  provenance and keeping observation objects off DOM elements.
+
 ## 0.1.0 — 2026-10-02 — first release
 
 First published release. Requires `@hollis-labs/design-components` and

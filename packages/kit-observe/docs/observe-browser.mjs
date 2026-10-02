@@ -28,6 +28,12 @@ try {
     }
     assert.equal(unknownHealthy, 0, 'Unknown health must never render healthy')
     assert.equal(await unknown.getByText('unknown', { exact: true }).count(), 2)
+    const statHeading = page.getByRole('region', { name: 'Manifest stats', exact: true }).getByRole('heading', { level: 2 })
+    const statHeadingStyle = await statHeading.evaluate(heading => {
+      const style = getComputedStyle(heading)
+      return { fontSize: style.fontSize, fontWeight: style.fontWeight }
+    })
+    assert.deepEqual(statHeadingStyle, { fontSize: '13px', fontWeight: '600' }, 'StatCollection heading must use the control size and semibold weight')
     const zero = page.getByRole('region', { name: 'Real zero', exact: true })
     assert.equal(await zero.getByText('0', { exact: true }).count(), 1)
     assert.equal(await zero.getByText('count · cumulative counter').count(), 1)
@@ -120,7 +126,7 @@ try {
     assert.deepEqual(remoteSchemas, [])
     results.push({ width, unknownNeverHealthy: true, zeroMissingPendingDistinct: true, perResourceFreshness: true,
       loadingRefreshStaleFailureUnsupportedPaused: true, hostRetry: true, emptyVersusUnsupportedSeries: true,
-      diagnosticPlainTextCopyAndKeyboardSchema: true, hostValidationVisible: true, statusAria: true, styles,
+      diagnosticPlainTextCopyAndKeyboardSchema: true, hostValidationVisible: true, statusAria: true, statHeadingStyle, styles,
       pageErrors: errors, remoteSchemaRequests: remoteSchemas })
     await context.close()
   }

@@ -93,6 +93,20 @@ check labels/statuses/messages. Unknown or unfamiliar runtime status stays
 unknown; a 200/unhealthy response is evidence, while a first-fetch error has no
 health result. No repair or workflow actions are provided.
 
+## Clock
+
+`nowMs` is the host's controlled clock. Sample it at render/read time, or
+re-sample whenever new data arrives. Never use a cached tick that can predate
+the `observedAt` you pass: `nowMs - Date.parse(observedAt)` must be non-negative.
+A negative age shows the warning pill “Observation time unavailable” and
+“Check observation clock”. This is intended for genuinely skewed clocks or
+future-dated sources; the kit applies no skew tolerance.
+
+A client-stamped receipt time and a host-stamped source time have different
+provenance. Keep that provenance explicit in your adapter; do not infer which
+you hold by comparing timestamp values. Pass the observation object only to
+kit components, never forward it to a DOM element.
+
 ## Scalar stats
 
 `StatCollection` takes `label` and `rows` of

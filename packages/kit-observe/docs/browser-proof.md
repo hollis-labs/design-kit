@@ -72,3 +72,13 @@ changing values. Existing workspace tests remain unchanged. The five-check gate
 includes the new package at zero through the explicitly authorized enrollment.
 No packed-tarball check or release is part of private 0.0.0; publishing must wait
 for a dashboard minor with the new chart surface and coordinated range updates.
+
+## StatCollection heading fix (CW-20261002-0082)
+
+The updated existing browser check passes at 1440px and 390px: StatCollection's
+h2 computes to **13px / 600** (`text-control font-semibold`). The undefined
+`text-heading` utility previously left it inheriting body size and weight.
+The same run passes the existing observation, diagnostic, keyboard and layout
+checks with no page errors or remote-schema requests. See the
+[heading-fix receipt](receipts/heading-fix-browser.json). This run uses the
+workspace demo; it does not claim packed-artifact or consumer integration proof.

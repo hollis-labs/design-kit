@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Reuse existing `Callout` for alerts; no redundant `Alert` port added.
+
+- Add MIT shadcn `ButtonGroup`, text and separator ports: independent control
+  grouping, vertical/horizontal layouts, Base UI render composition and token radius.
+- Add `Collapsible`/trigger/content on Base UI, retaining host-controlled and
+  uncontrolled open state, disabled behavior and render composition.
+- Append the shadcn MIT notice to the package LICENSE with the first primitive
+  source ports; this changes the shipped tarball attribution (CW-20261002-0043).
+
 - Document AI Elements source provenance, origin-specific MIT/Apache-2.0 attribution,
   port checklist and upstream-version inventory (CW-20261002-0043).
 

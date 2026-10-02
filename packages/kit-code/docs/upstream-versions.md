@@ -10,5 +10,7 @@ Ports follow the shared design-components vendoring convention.
 | StackTrace | packages/elements/src/stack-trace.tsx | same pinned version | 2026-10-02 | One disclosure root; sibling copy action; retained unknown frames; host path callback; safe coordinates; contract tokens |
 | TestResults | packages/elements/src/test-results.tsx | same pinned version | 2026-10-02 | Base UI suites; finite bounded progress; zero duration; named statuses; contract tokens |
 
+| Terminal | packages/elements/src/terminal.tsx | same pinned version | 2026-10-02 | Opt-in `/terminal` on the optional ansi-to-react peer; contract tokens, ANSI roles as utilities; untrusted-output handling (no links, no inline colours, control sequences other than colour removed, bounded to the last `maxChars`); copy is the visible text; named status/labelled actions, `role="log"` focusable region, reduced-motion cursor |
+
 All source ports are Vercel Apache-2.0; full terms are in LICENSE. The structural
-highlight adapter and clipboard helper are original Hollis Labs MIT code.
+highlight adapter, clipboard helper and `terminal-text.ts` are original Hollis Labs MIT code.

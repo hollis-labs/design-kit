@@ -20,6 +20,7 @@ import json from "shiki/langs/json.mjs";
 import bash from "shiki/langs/bash.mjs";
 import "./demo.css";
 import { InspectionDemo } from "./InspectionDemo";
+import { TerminalDemo } from "./TerminalDemo";
 const query = new URLSearchParams(window.location.search);
 export function Demo() {
   const [theme, setTheme] = useState(query.get("theme") ?? DEFAULT_THEME_ID);
@@ -80,7 +81,9 @@ export function Demo() {
         <p role="status" className="text-sm text-fg-muted">
           {status}
         </p>
-        {query.get("view") === "inspection" ? (
+        {query.get("view") === "terminal" ? (
+          <TerminalDemo />
+        ) : query.get("view") === "inspection" ? (
           <InspectionDemo />
         ) : (
           <>

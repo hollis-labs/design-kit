@@ -35,6 +35,10 @@
     "./highlight": {
       "types": "./dist/src/highlight.d.ts",
       "import": "./dist/highlight.js"
+    },
+    "./terminal": {
+      "types": "./dist/src/terminal.d.ts",
+      "import": "./dist/terminal.js"
     }
   },
   "main": "./dist/index.js",

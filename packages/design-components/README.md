@@ -249,3 +249,11 @@ HoverCard popup behavior is checked by
 set `PROOF_OUTPUT` to a scratch directory and run the script with an optional
 `PLAYWRIGHT_MODULE` pointing to a separately installed Playwright `index.mjs`.
 Playwright is verification tooling; it is not a new package runtime dependency.
+
+### Inherited primitive attribution
+
+[The provenance audit](docs/primitive-provenance.md) verifies the 23 earlier
+shadcn-derived primitives inherited through sysop-ui. Their file headers and the
+package LICENSE now retain the shadcn MIT notice alongside the newer ports.
+This attribution correction ships with the next lockstep release; published
+tarballs and the workspace version are unchanged.

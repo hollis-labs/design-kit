@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Correct shadcn MIT attribution for the 23 earlier ui primitives inherited
+  through sysop-ui: verified file-level provenance, source headers and package
+  LICENSE scope. Comments/docs/notice only; ships with the next lockstep release
+  (CW-20261002-0053).
+
 ButtonGroup, Collapsible and HoverCard ship in the **next design-components
 release (unreleased)**. The published registry `0.3.0` does not contain these
 primitives; workspace `0.3.0` remains unchanged pending the coordinated release.

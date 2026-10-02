@@ -60,6 +60,7 @@ const BLOCKING = [
   'packages/design-bindings',
   'packages/kit-chat',
   'packages/kit-account',
+  'packages/kit-settings',
   'packages/eslint-config-design',
   // Promoted from REPORT_ONLY by CW-20260910-0125, its documented exit condition.
   // The two inherited react-refresh errors were in src/components/json-payload.tsx,

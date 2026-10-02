@@ -127,6 +127,12 @@ export type { TextShimmerProps } from './components/shimmer'
 export { MessageActions, MessageAction, MessageBranch, MessageBranchContent, MessageBranchSelector, MessageBranchPrevious, MessageBranchNext, MessageBranchPage } from './components/message'
 export type { MessageActionsProps, MessageActionProps, MessageBranchProps, MessageBranchContentProps, MessageBranchSelectorProps, MessageBranchPreviousProps, MessageBranchNextProps, MessageBranchPageProps } from './components/message'
 
+export { Attachments, Attachment, AttachmentPreview, AttachmentInfo, AttachmentRemove, AttachmentEmpty, AttachmentHoverCard, AttachmentHoverCardTrigger, AttachmentHoverCardContent } from './components/attachments'
+export type { AttachmentData, AttachmentMediaCategory, AttachmentVariant, AttachmentsProps, AttachmentProps, AttachmentPreviewProps, AttachmentInfoProps, AttachmentRemoveProps, AttachmentEmptyProps, AttachmentHoverCardProps, AttachmentHoverCardTriggerProps, AttachmentHoverCardContentProps } from './components/attachments'
+export { AttachmentDropzone, PromptInputActionAddAttachments } from './components/attachment-dropzone'
+export type { AttachmentDropzoneProps, AttachmentRejection, PromptInputActionAddAttachmentsProps } from './components/attachment-dropzone'
+export { getMediaCategory, getAttachmentLabel } from './lib/attachment'
+
 export { Tool, ToolHeader, ToolContent, ToolInput, ToolOutput } from './components/tool'
 export type { ToolState, ToolProps, ToolHeaderProps, ToolContentProps, ToolInputProps, ToolOutputProps } from './components/tool'
 export { ConfirmationTitle, ConfirmationRequest, ConfirmationAccepted, ConfirmationRejected } from './components/confirmation'

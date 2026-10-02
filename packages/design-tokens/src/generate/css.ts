@@ -74,8 +74,11 @@ const v = (name: string) => `--${VALUE_PREFIX}-${name}`
 export function emitContractCss(): string {
   const out: string[] = [BANNER, '']
 
-  out.push('/* Explicit mode follows the app preference, independently of the OS. */')
-  out.push('@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *, .dark, .dark *));')
+  out.push('/* Dark is the default; explicit mode follows the app, independently of the OS. */')
+  // Keep the existing any-dark-ancestor arms, including dark islands in light.
+  // The fallback excludes every explicit mode subtree, so a light root wins.
+  // All arms stay inside :where(), giving the mode selector zero specificity.
+  out.push('@custom-variant dark (&:where([data-mode="dark"], [data-mode="dark"] *, .dark, .dark *, :not([data-mode], [data-mode] *, .light, .light *, .dark, .dark *)));')
   out.push('')
   out.push('@theme inline {')
   out.push('  /* Fonts — §3.9 */')

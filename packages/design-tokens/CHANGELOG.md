@@ -1,5 +1,13 @@
 # @hollis-labs/design-tokens
 
+## Unreleased
+
+- Tailwind `dark:` utilities also match
+  when no explicit mode marker is in scope, aligning first paint with the default
+  dark palette. Explicit light scopes remain excluded unless a dark ancestor or
+  island already matches the existing variant. Mode matching stays inside
+  zero-specificity `:where()`, independent of the OS. No token values change.
+
 ## 0.3.0 — 2026-10-02 — version alignment, no code change
 
 Released with the other core packages so that one number selects a compatible set.

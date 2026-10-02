@@ -1,11 +1,16 @@
 import { clsx, type ClassValue } from 'clsx'
 import { extendTailwindMerge } from 'tailwind-merge'
-import { TEXT_TOKENS } from '@hollis-labs/design-tokens'
+import { RADIUS_TOKENS, TEXT_TOKENS } from '@hollis-labs/design-tokens'
 
 // Unknown text-* names otherwise fall into the color group: text-info would
 // erase text-caption and leave a Pill at its inherited font size.
 const merge = extendTailwindMerge({
-  extend: { classGroups: { 'font-size': [{ text: [...TEXT_TOKENS] }] } },
+  extend: {
+    // Tailwind's radius theme feeds the existing rounded/corner groups, so
+    // contract names conflict with known steps and keep last-argument semantics.
+    theme: { radius: [...RADIUS_TOKENS] },
+    classGroups: { 'font-size': [{ text: [...TEXT_TOKENS] }] },
+  },
 })
 
 /**

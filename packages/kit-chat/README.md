@@ -666,3 +666,53 @@ and asset rights of nodes they supply.
 
 OpenIn uses published Button/DropdownMenu primitives without new dependencies.
 See [demo/open-in.tsx](demo/open-in.tsx) and [verification](docs/open-in-b/verification.md).
+
+## Suggestions, Context and Question (unreleased)
+
+`Suggestions` is a labelled, keyboard-focusable horizontal overflow region.
+`Suggestion` is a button that emits its `suggestion` string to `onClick`; it does
+not send a message. Disabled buttons are inert. The host owns the next action.
+
+`Context` accepts `usedTokens`, `maxTokens`, our optional `ContextUsage` numeric
+fields (inputTokens/outputTokens/reasoningTokens/cachedInputTokens), and optional
+`ContextCost` USD fields (totalUSD/inputUSD/outputUSD/reasoningUSD/cacheUSD).
+No model ID, pricing catalog, AI SDK type or tokenlens is used. Costs come from the
+host; totals are not calculated or inferred from missing parts. Missing, negative
+and nonfinite data render **Unknown**. Known zero renders 0 or $0.00. Capacity must
+be finite and positive; invalid capacity or usage produces no progress element.
+Known capacity percentage/progress clamps to 0–100%; raw used/max counts remain
+visible when usage exceeds capacity. Overflowing arithmetic is unknown.
+
+Compose ContextTrigger/Content/Header/Body/Footer and Input/Output/Reasoning/Cache
+Usage slots. All support host content. Preview is an accessible Base UI **Popover**
+activated by keyboard/click/touch, with Escape and focus return, rather than a
+hover-only card. No HoverCard or new dependency is imported.
+
+`Question` is a presentation form with native radio (single) or checkbox (multiple)
+options. Single radios use native arrow-key semantics and do not deselect when
+clicked again. It accepts controlled `value`/`onValueChange` or an uncontrolled
+`defaultValue`, with `{selectedValues, text}`. Compose Prompt/Description/Options/
+Option/Input/Actions/Submit; label option groups and the text input. A Question
+must not be nested inside another form. `selectionMode` defaults to single.
+`requireText` defaults to false: a choice or trimmed text permits submission;
+true requires nonblank text even when a choice exists. Input supports host
+`maxLength` and other textarea constraints. `disabled` or host `pending` locks
+controls/submission. Async `onSubmit(response, event)` locks synchronously against
+duplicate submissions until it settles and preserves the draft. Rejections show a
+retry alert and emit `onSubmitError`; no persisted completion is invented.
+
+Free text stays in ephemeral React state (or the host-controlled value), is
+rendered only through React text/textarea escaping, and is trimmed with the
+built-in string operation before the submit callback. The component performs no
+network requests, persistence, logging, HTML parsing or dynamic regular expressions
+on user input. Callbacks receive the host's data; server validation, authorization,
+transport, storage, content policy and input-length policy belong to the host.
+This is not a Tangent wire protocol or a replacement ConfirmationCard.
+
+All direct Button/Textarea/Popover/cn imports are published in design-components
+0.3.0. The existing Collapsible/HoverCard-based exports in current main still **need next
+design-components release (unreleased)**. No dependency/manifest/lock changes.
+See `demo/context-question.tsx` and `docs/context-question-c/` for unit/Chromium,
+light/dark theme and packed ChatStream-without-streamdown evidence. As with other
+popover slices, unit tests cover inner Context presentation without opening the
+Base UI popup in jsdom; Chromium proves real open/focus/Escape behavior.

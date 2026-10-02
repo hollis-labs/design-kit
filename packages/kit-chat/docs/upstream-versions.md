@@ -7,6 +7,9 @@
 | Local source | Upstream source | Divergences |
 | --- | --- | --- |
 | src/components/open-in.tsx | packages/elements/src/open-in-chat.tsx | Base UI menu; required host href/label/icon catalog; reject non-HTTP(S) destinations; native explicit new-tab links; no defaults/query construction/brand exports; tokens |
+| src/components/suggestion.tsx | packages/elements/src/suggestion.tsx | Shared Button/cn; native focusable scrolling; token radius; host callback |
+| src/components/context.tsx | packages/elements/src/context.tsx | Own numeric usage/cost props, no ai/tokenlens/catalog/network; unknown stays unknown; guarded native progress; Base UI Popover keyboard/touch |
+| src/components/question.tsx | packages/elements/src/question.tsx | Shared Button/Textarea/cn; native radio/checkboxes; host text policy; async submission lock/error callback; no transport/persistence |
 | src/components/model-selector.tsx | packages/elements/src/model-selector.tsx | Shared Base UI Dialog/Command, token styles; consumer ReactNode logo slot without brands/hotlinks; semantic title inside popup |
 | src/components/attachments.tsx, src/lib/attachment.ts | packages/elements/src/attachments.tsx | Own data; shared Button/cn; Base UI Popover instead of hover-only preview; visible removal; tokens |
 | src/components/attachment-dropzone.tsx | packages/elements/src/prompt-input.tsx (attachment sections only) | Local picker/dropzone emits files/rejections; host list and URL lifetime; no stores/global listeners/screenshots/composer logic; extension matching; tokens |

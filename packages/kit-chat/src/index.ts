@@ -146,6 +146,13 @@ export type { QueueMessagePart, QueueMessage, QueueTodo, QueueItemProps, QueueIt
 export { OpenIn, OpenInTrigger, OpenInContent, OpenInItem, OpenInGroup, OpenInLabel, OpenInSeparator } from './components/open-in'
 export type { OpenInProvider, OpenInProps, OpenInTriggerProps, OpenInContentProps, OpenInItemProps, OpenInGroupProps, OpenInLabelProps, OpenInSeparatorProps } from './components/open-in'
 
+export { Suggestions, Suggestion } from './components/suggestion'
+export type { SuggestionsProps, SuggestionProps } from './components/suggestion'
+export { Context, ContextTrigger, ContextContent, ContextContentHeader, ContextContentBody, ContextContentFooter, ContextInputUsage, ContextOutputUsage, ContextReasoningUsage, ContextCacheUsage } from './components/context'
+export type { ContextProps, ContextUsage, ContextCost, ContextTriggerProps, ContextContentProps, ContextContentHeaderProps, ContextContentBodyProps, ContextContentFooterProps, ContextInputUsageProps, ContextOutputUsageProps, ContextReasoningUsageProps, ContextCacheUsageProps } from './components/context'
+export { Question, QuestionPrompt, QuestionDescription, QuestionOptions, QuestionOption, QuestionInput, QuestionActions, QuestionSubmit } from './components/question'
+export type { QuestionValue, QuestionResponse, QuestionSelectionMode, QuestionProps, QuestionPromptProps, QuestionDescriptionProps, QuestionOptionsProps, QuestionOptionProps, QuestionInputProps, QuestionActionsProps, QuestionSubmitProps } from './components/question'
+
 export { Image } from './components/image'
 export type { ImageProps } from './components/image'
 export { InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationCarousel, InlineCitationCarouselContent, InlineCitationCarouselItem, InlineCitationCarouselHeader, InlineCitationCarouselIndex, InlineCitationCarouselPrev, InlineCitationCarouselNext, InlineCitationSource, InlineCitationQuote } from './components/inline-citation'

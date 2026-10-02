@@ -24,8 +24,9 @@ SOFTWARE.
 AI Elements (Vercel) — Apache-2.0
 
 The ports in src/components/{message,shimmer,reasoning,chain-of-thought,sources,
-plan,tool,confirmation,queue}.tsx and the derived src/styles/keyframes.css
-originate from AI Elements. Their upstream
+plan,tool,confirmation,queue,attachments,attachment-dropzone}.tsx,
+src/lib/attachment.ts, and the derived src/styles/keyframes.css originate from
+AI Elements. Their upstream
 terms and attribution follow; the Hollis Labs MIT terms above do not replace them.
 Modified files identify their upstream revision and divergences in source headers.
 

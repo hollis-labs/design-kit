@@ -490,6 +490,58 @@ No component import installs keyframes. Reduced-motion users see static text;
 [the upstream inventory](docs/upstream-versions.md) for provenance. The shipped
 `LICENSE` retains Hollis Labs MIT terms and AI Elements Apache-2.0 attribution.
 
+## Attachments and local file intake (unreleased)
+
+`Attachments` supplies `grid`, `inline` or `list` layout; compose `Attachment` with
+`AttachmentPreview`, `AttachmentInfo`, `AttachmentRemove`, and `AttachmentEmpty`.
+`AttachmentData` is our own file/source-document presentation union (`id`, optional
+`filename`/`mediaType`, file `url`, source `title`); it carries no AI SDK/wire type.
+The host owns the list, object URL lifetime, validation on the server and uploads.
+`onRemove` requests removal; the component never mutates the host list.
+
+`AttachmentDropzone` wraps a local region, including an existing `ChatInput`.
+Place `PromptInputActionAddAttachments` in its toolbar to open the native picker.
+`onFilesSelect(File[])` reports accepted files; `onFilesReject` reports each rejected
+file and `accept`, `max_file_size` or `max_files`. `accept` supports MIME patterns
+and filename extensions; `multiple`, `attachmentCount`, `maxFiles`, `maxFileSize`
+(bytes), and `disabled` control intake. The picker resets after every selection.
+Drops stay local; ordinary text drops are left alone. Disabled file drops are
+cancelled to avoid browser navigation, without emitting intake events. There are no document event
+listeners, fetching, attachment stores, screenshot capture or composer trigger changes.
+
+```tsx
+<AttachmentDropzone onFilesSelect={addFiles} onFilesReject={reportRejected}
+  accept="image/*,.txt" maxFiles={6} attachmentCount={attachments.length}>
+  <Attachments variant="list">
+    {attachments.map(data => <Attachment key={data.id} data={data}
+      onRemove={() => remove(data.id)}>
+      <AttachmentPreview /><AttachmentInfo /><AttachmentRemove />
+    </Attachment>)}
+  </Attachments>
+  <ChatInput value={draft} onValueChange={setDraft} onSubmit={submit}
+    toolbarStart={<PromptInputActionAddAttachments />} />
+</AttachmentDropzone>
+```
+
+For expanded preview, the upstream names `AttachmentHoverCard`,
+`AttachmentHoverCardTrigger`, and `AttachmentHoverCardContent` are retained, but
+compose an accessible Base UI **Popover**: click/touch or keyboard activation opens
+it, Escape closes it, and focus returns to its trigger. Use `render={<Button />}`
+instead of Radix `asChild`; removal buttons belong outside the preview trigger.
+These previews are not hover-only. Removal controls are always visible.
+For attachment-only submission, supply your own host submit button in
+`ChatInput.toolbarEnd` and set `showSubmitButton={false}`; the built-in ChatInput
+submit intentionally depends on text. The dropzone never submits a message.
+Caller-supplied media URLs are rendered by browser media elements; the host decides
+which URLs are appropriate and revokes blob URLs when removed or on unmount.
+
+Only existing published design-components 0.3.0 exports are used (Button, Popover,
+PopoverTrigger, PopoverContent, cn); no new dependency or optional peer is added.
+See `demo/attachments.tsx` for a host-owned list/URL lifecycle example. Browser
+evidence is in `docs/attachments-a/`; unit tests exercise presentation/intake
+without opening a portal (open Base UI Positioner/Popup hangs jsdom in this environment).
+Real preview opening/focus/Escape is verified separately in Chromium.
+
 ## Tool, Confirmation content and Queue (unreleased)
 
 This slice **needs the next design-components release**: Collapsible is present in

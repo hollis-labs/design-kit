@@ -1,5 +1,12 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — attachments (CW-20261002-0045)
+
+- Host-controlled Attachments grid/inline/list, media previews, metadata and removal events; own presentation types.
+- Local AttachmentDropzone/native picker reports File[] and per-file rejections; no stores, uploads, screenshots or composer trigger takeover.
+- Upstream preview names backed by accessible Base UI Popover; existing published primitives only, no new dependencies.
+- Pinned provenance, full existing Apache terms extended to these ports, tests, host demo and browser evidence.
+
 ## Unreleased
 
 - Add AI Elements Tool with host-mapped ToolState and JsonViewer/host-rendered content,

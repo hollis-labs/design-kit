@@ -70,3 +70,32 @@ Each group state may additionally supply `apply: {restartRequired, applyTargets}
 When restart is required and targets are nonempty unique IDs, an explicit “Apply / restart” button calls `onApply(groupId, targets)` only; busy/applying disables it. Empty/missing targets explain that the app did not say what to restart and offer no action. Invalid projections offer no action. Missing callbacks explain that the host has not provided an apply action. Projection and per-field state are displayed independently: disagreement remains visible instead of being reconciled in the kit.
 
 The kit holds no restart state, fetches nothing and performs no restart. Calling apply cannot clear `pending_restart`; neither can showing an error. Only host-supplied verified snapshots/projections change the displayed state. The host must reread after failed/uncertain apply and preserve pending status until the backend verifies application, including across no-op saves. Draft/secret lifecycle remains host-owned. Live screen-reader speech and real app/backend apply behavior have not been verified here.
+
+## Controlled setup wizard (package only)
+
+`SettingsWizard` uses the same settings groups, snapshot/draft projections and `inspectSettingsGroup` / `evaluateSettings` validation. It adds no manifest fields. Ordering is static and schema-derived: one step per group, stable required-group-first partition, required fields first inside each group, then review. Manifest order/property order remain stable within each partition. Dynamic completion comes from current snapshots + drafts and never reshuffles steps. Read-only settings render labeled text context, not inputs; secret replacements follow the existing write-only rules.
+
+```tsx
+<SettingsWizard
+  contractVersion={manifest.contract_version}
+  groups={manifest.settings}
+  states={states}
+  step={hostStep}
+  onStepChange={setHostStep}
+  onDraftChange={replaceHostDraft}
+  checks={hostCheckResults}
+  onCheck={requestHostCheck}
+  results={hostSaveResults}
+  onComplete={submitOrderedGroupIntents}
+/>
+```
+
+`step` is zero-based, with `groups.length` selecting review. The host owns step and drafts; resume is supplying those props again. The kit has no storage, timers, completion flags or automatic navigation. Persist only nonsecret state through a host-approved policy; transient secret drafts must never enter persistent storage or URLs. Context/schema changes require host reconciliation of the step and drafts.
+
+Checks are presentation results per group (one group per step): `{status: 'idle' | 'running' | 'ok' | 'failed', message?, blocking}`. A missing report shows “Not reported”; idle shows “Not checked.” Only an explicit host `ok` shows OK. A host-required (`blocking: true`) check requires OK before Next/final submit; optional failed/running checks do not block. Unsupported check status/flags fail closed. `onCheck(groupId)` requests work from the host, which owns networking, authorization, stale-result invalidation and cancellation. No connectivity endpoint or fetch exists in the kit. Check/save messages must be sanitized plain text and must never contain supplied secret values.
+
+Final `onComplete(plan)` emits one ordered array of `{groupId, changes}` in step order, containing only groups with nonempty evaluated changes. Each `changes` is the existing `SettingsChanges` shape. An empty array is valid when no writes are needed. This is a local intent, **not a multi-group wire request or an atomic transaction**. Backend validation, per-group revisions/If-Match, authorization and partial failures remain host-owned.
+
+Review redacts secrets as “will be replaced” and shows host outcomes per group: `{status: 'saving' | 'saved' | 'failed', message?}`. Missing results show “Not reported,” never “Saved.” Neither failed nor saved reports mutate drafts in the kit. The host updates snapshots and clears drafts for accepted groups; a later explicit user submit naturally sends the remaining evaluated groups. Saving/busy disables submission. There is no automatic retry or overwrite after conflict; the host rereads/reconciles 409/412 and supplies fresh props. A resumed review step still checks every group's local validation and required checks before allowing submit.
+
+A custom host presentation plan is deferred until a real consumer needs different grouping. The host can already select which groups it passes. No Tachyon onboarding/app code is included. The demo renders both authored manifests with explicitly simulated host connectivity/save outcomes, partial failure, and a host-controlled resume action. See [wizard verification](docs/wizard-verification.md); live screen-reader speech and real backend/network behavior are outside this verification.

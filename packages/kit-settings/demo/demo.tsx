@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { SettingsProvenanceRenderer } from '../src'
 import type { SettingsChanges, SettingsProvenanceState } from '../src'
 import { demoFallbacks, initialStates, nanite, tachyon } from './fixtures'
+import { WizardDemo } from './wizard-demo'
 
 export function Demo() {
   const [states, setStates] = useState(initialStates)
@@ -43,11 +44,14 @@ export function Demo() {
     <label className="flex items-center gap-2"><input type="checkbox" className="size-4 accent-primary" checked={conservative} onChange={e => setConservative(e.target.checked)} />Show conservative restart without targets</label>
     <p role="status">Host save count: {saved}</p>
     <p role="status">Host apply count: {applies}</p>
+    <section aria-label="Settings forms" className="flex min-w-0 flex-col gap-6">
     {[nanite, tachyon].map(manifest => <section key={manifest.app.id} aria-labelledby={manifest.app.id} className="flex min-w-0 flex-col gap-4">
       <h2 id={manifest.app.id} className="text-control font-semibold">{manifest.app.label} example</h2>
       <SettingsProvenanceRenderer contractVersion={manifest.contract_version} groups={manifest.settings} states={displayStates} onApply={apply}
         onDraftChange={(id, draft) => patch(id, { draft, validation: undefined, error: undefined, notice: undefined })}
         onSave={save} onReset={(id, keys) => save(id, { set: {}, unset: keys })} onValidate={id => patch(id, { validation: { valid: true, errors: [] }, notice: 'Demo host validation accepted. Real updates must revalidate.' })} />
     </section>)}
+    </section>
+    <WizardDemo />
   </main>
 }

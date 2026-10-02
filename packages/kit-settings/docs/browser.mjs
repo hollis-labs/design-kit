@@ -9,11 +9,12 @@ try {
     const errors = []
     page.on('pageerror', e => errors.push(e.message))
     await page.goto(process.env.FIXTURE_URL || 'http://127.0.0.1:18755')
-    const preferences = page.getByRole('form', { name: 'Preferences', exact: true })
-    const deployment = page.getByRole('form', { name: 'Deployment configuration', exact: true })
-    const connections = page.getByRole('form', { name: 'Observation connections', exact: true })
-    const secretForm = page.getByRole('form', { name: 'Example notifier (hypothetical plugin)', exact: true })
-    const input = page.getByLabel('Nanite API URL', { exact: true })
+    const forms = page.getByRole('region', { name: 'Settings forms', exact: true })
+    const preferences = forms.getByRole('form', { name: 'Preferences', exact: true })
+    const deployment = forms.getByRole('form', { name: 'Deployment configuration', exact: true })
+    const connections = forms.getByRole('form', { name: 'Observation connections', exact: true })
+    const secretForm = forms.getByRole('form', { name: 'Example notifier (hypothetical plugin)', exact: true })
+    const input = forms.getByLabel('Nanite API URL', { exact: true })
     const select = preferences.getByRole('combobox', { name: 'Tool stream behavior (required)' })
     const styles = await input.evaluate(el => {
       const c = getComputedStyle(el), root = getComputedStyle(document.documentElement)
@@ -64,7 +65,7 @@ try {
     await page.keyboard.press('Enter')
     assert.equal(await input.inputValue(), 'http://127.0.0.1:8090')
     assert.equal(await connections.getByRole('button', { name: 'Remove override for Nanite API URL' }).count(), 0)
-    const token = page.getByLabel('API token (required)', { exact: true })
+    const token = forms.getByLabel('API token (required)', { exact: true })
     assert.equal(await token.inputValue(), '')
     assert.equal(await token.getAttribute('type'), 'password')
     await secretForm.getByText(/Secret is set/).waitFor()
@@ -73,7 +74,7 @@ try {
     await secretForm.getByRole('button', { name: 'Save changes', exact: true }).click()
     assert.equal(await token.inputValue(), '')
     // Read-only negative: real user input is rejected; forced DOM events cannot cause a save.
-    const locked = page.getByLabel('Listen address (required)', { exact: true })
+    const locked = forms.getByLabel('Listen address (required)', { exact: true })
     assert.equal(await locked.isDisabled(), true)
     const before = await locked.inputValue()
     let rejected = false

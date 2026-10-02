@@ -1,0 +1,83 @@
+{
+  "fixture": "packages/kit-settings/demo/wizard-demo.tsx",
+  "engine": "153.0.8010.12",
+  "scope": "Actual keyboard actions and browser semantics; no live screen-reader speech or real app/backend connectivity.",
+  "results": [
+    {
+      "width": 1280,
+      "style": {
+        "font": "13px",
+        "radius": "6px"
+      },
+      "panelRadius": "10px",
+      "readonlyContextFont": "13px",
+      "orderBefore": [
+        "1. Preferences — Complete",
+        "2. Deployment configuration — Complete",
+        "3. Example notifier (hypothetical plugin) — Needs attention",
+        "4. Review"
+      ],
+      "orderAfter": [
+        "1. Preferences — Needs attention",
+        "2. Deployment configuration — Complete",
+        "3. Example notifier (hypothetical plugin) — Needs attention",
+        "4. Review"
+      ],
+      "staticOrder": true,
+      "invalidRequiredNextBlocked": true,
+      "unreportedCheckNeverOK": true,
+      "failedBlockingCheckBlocksNext": true,
+      "secretReviewRedacted": true,
+      "hostResumePreservesDraft": true,
+      "partialSavedFailedTruthful": true,
+      "manualRetry": true,
+      "successfulSecretClearedByHost": true,
+      "keyboardOnlyCompletionBothManifests": true,
+      "bounds": {
+        "scroll": 1280,
+        "viewport": 1280
+      },
+      "pageErrors": [],
+      "networkChecks": [],
+      "accessibility": "- region \"Nanite wizard\":\n  - heading \"Nanite setup\" [level=3]\n  - region \"Setup wizard\":\n    - heading \"Setup wizard\" [level=2]\n    - list \"Setup steps\":\n      - listitem: 1. Preferences — Complete\n      - listitem: 2. Deployment configuration — Complete\n      - listitem: 3. Example notifier (hypothetical plugin) — Complete\n      - listitem: 4. Review\n    - status: \"Step 3 of 4: Example notifier (hypothetical plugin)\"\n    - form \"Example notifier (hypothetical plugin)\":\n      - heading \"Example notifier (hypothetical plugin)\" [level=2]\n      - status: No changes\n      - text: API token (required)\n      - textbox \"API token (required)\"\n      - paragraph: Secret is set. Leave untouched to keep it.\n      - button \"Discard changes\" [disabled]\n    - status: \"Connectivity check: OK\"\n    - paragraph: Demo host check passed.\n    - button \"Request connectivity check\"\n    - button \"Back\"\n    - button \"Next\""
+    },
+    {
+      "width": 390,
+      "style": {
+        "font": "13px",
+        "radius": "6px"
+      },
+      "panelRadius": "10px",
+      "readonlyContextFont": "13px",
+      "orderBefore": [
+        "1. Preferences — Complete",
+        "2. Deployment configuration — Complete",
+        "3. Example notifier (hypothetical plugin) — Needs attention",
+        "4. Review"
+      ],
+      "orderAfter": [
+        "1. Preferences — Needs attention",
+        "2. Deployment configuration — Complete",
+        "3. Example notifier (hypothetical plugin) — Needs attention",
+        "4. Review"
+      ],
+      "staticOrder": true,
+      "invalidRequiredNextBlocked": true,
+      "unreportedCheckNeverOK": true,
+      "failedBlockingCheckBlocksNext": true,
+      "secretReviewRedacted": true,
+      "hostResumePreservesDraft": true,
+      "partialSavedFailedTruthful": true,
+      "manualRetry": true,
+      "successfulSecretClearedByHost": true,
+      "keyboardOnlyCompletionBothManifests": true,
+      "bounds": {
+        "scroll": 390,
+        "viewport": 390
+      },
+      "pageErrors": [],
+      "networkChecks": [],
+      "accessibility": "- region \"Nanite wizard\":\n  - heading \"Nanite setup\" [level=3]\n  - region \"Setup wizard\":\n    - heading \"Setup wizard\" [level=2]\n    - list \"Setup steps\":\n      - listitem: 1. Preferences — Complete\n      - listitem: 2. Deployment configuration — Complete\n      - listitem: 3. Example notifier (hypothetical plugin) — Complete\n      - listitem: 4. Review\n    - status: \"Step 3 of 4: Example notifier (hypothetical plugin)\"\n    - form \"Example notifier (hypothetical plugin)\":\n      - heading \"Example notifier (hypothetical plugin)\" [level=2]\n      - status: No changes\n      - text: API token (required)\n      - textbox \"API token (required)\"\n      - paragraph: Secret is set. Leave untouched to keep it.\n      - button \"Discard changes\" [disabled]\n    - status: \"Connectivity check: OK\"\n    - paragraph: Demo host check passed.\n    - button \"Request connectivity check\"\n    - button \"Back\"\n    - button \"Next\""
+    }
+  ]
+}

@@ -83,6 +83,12 @@ test('the default theme is reachable before any attribute is set', () => {
   const css = readFileSync(join(pkgRoot, 'css', 'themes.css'), 'utf8')
   assert.ok(css.includes(':root:not([data-theme]) {'))
   assert.ok(!css.includes(':root.light {'), 'unscoped :root.light would outrank other themes')
+  // First-paint palette and dark: utilities must agree without a mode marker.
+  // Keep explicit dark islands and exclude explicit light scopes from fallback.
+  const variant = emitContractCss().match(/@custom-variant dark \((.*)\);/)[1]
+  assert.ok(variant.startsWith('&:where(') && variant.endsWith(')'), 'mode matching must add zero specificity')
+  assert.ok(variant.includes('[data-mode="dark"] *') && variant.includes('.dark *'), 'explicit dark descendants remain supported')
+  assert.ok(variant.includes(':not([data-mode], [data-mode] *, .light, .light *'), 'default dark must exclude explicit mode scopes')
 })
 
 test('fonts are declared outside every theme block', () => {

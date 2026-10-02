@@ -123,7 +123,7 @@ non-Tailwind consumer ever turns up, that is a small task rather than a migratio
 |---|---|
 | shadcn primitives (`ui/`) | 26 files — button-group, collapsible, hover-card, table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner |
 | Components | 21 — `Pill` · `LiveDot` · `Callout` · `CopyableId` · `CopyButton` · `ConfirmDialog` · `DetailDialog`/`DetailSection` · `FormDialog` · `JsonViewer` · `JsonModal`/`PayloadActions`/`PayloadSummary` · `MetaList` · `Metric` · `ProgressBar` · `AppShell` · `DetailPageLayout` · `OverflowMenu` · `CollapsibleSection` · `Combobox` · `EmptyState` · `SearchInput` · `TransferList` |
-| Hooks | `useCopy` · `useArrowNav` · `useControllableState` (unreleased) |
+| Hooks | `useCopy` · `useArrowNav` · `useControllableState` (0.4.0) |
 | Contracts | `ColumnDef`/`SortState`/`alignClass`/`compareBy` · `Tone`/`TONE_CLASSES` · `IconComponent` · the row-activation protocol |
 
 **The test every export passed: "would `kit-chat` take this unchanged?"** Anything
@@ -248,7 +248,7 @@ set `PROOF_OUTPUT` to a scratch directory and run the script with an optional
 `PLAYWRIGHT_MODULE` pointing to a separately installed Playwright `index.mjs`.
 Playwright is verification tooling; it is not a new package runtime dependency.
 
-### Controllable state (unreleased: ships with the next lockstep core release)
+### Controllable state (0.4.0)
 
 `useControllableState({ value, defaultValue, onChange })` returns
 `[state, setState]`. `defaultValue` is required and used only to initialize

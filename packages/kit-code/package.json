@@ -31,7 +31,11 @@
       "types": "./dist/src/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./source.css": "./src/styles/source.css"
+    "./source.css": "./src/styles/source.css",
+    "./highlight": {
+      "types": "./dist/src/highlight.d.ts",
+      "import": "./dist/highlight.js"
+    }
   },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -42,7 +46,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "test": "vitest",
-    "test:run": "vitest run --passWithNoTests"
+    "test:run": "vitest run",
+    "demo": "vite --config demo/vite.config.ts",
+    "demo:build": "vite build --config demo/vite.config.ts"
   },
   "peerDependencies": {
     "tailwindcss": "^4.0.0",

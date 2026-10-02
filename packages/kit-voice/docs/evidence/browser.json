@@ -1,0 +1,210 @@
+{
+  "browser": "153.0.8010.12",
+  "checks": [
+    {
+      "name": "secure context on the served origin",
+      "pass": true
+    },
+    {
+      "name": "Web Speech mode is chosen where the browser has it",
+      "pass": true
+    },
+    {
+      "name": "the Web Speech button is enabled",
+      "pass": true
+    },
+    {
+      "name": "fallback mode when Web Speech is absent",
+      "pass": true
+    },
+    {
+      "name": "fallback button without onAudioRecorded is disabled and says why",
+      "pass": true
+    },
+    {
+      "name": "fallback button with onAudioRecorded is enabled",
+      "pass": true
+    },
+    {
+      "name": "listening state shows after the microphone opens",
+      "pass": true
+    },
+    {
+      "name": "onAudioRecorded received a non-empty Blob typed by the recorder",
+      "pass": true,
+      "detail": "Received 14556 bytes of audio/webm;codecs=opus."
+    },
+    {
+      "name": "getUserMedia was called once for one recording",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "no microphone track is left live after stopping",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "name": "the button recovers",
+      "pass": true
+    },
+    {
+      "name": "denied: MicSelector asked once while open (no re-prompt loop)",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "denied: reopening is the retry (second ask)",
+      "pass": true,
+      "detail": 2
+    },
+    {
+      "name": "denied: SpeechInput reports permission-denied through onError, once",
+      "pass": true
+    },
+    {
+      "name": "real popover opens and lists the fake microphones",
+      "pass": true,
+      "detail": [
+        "Fake Default Audio Input",
+        "Fake Audio Input 1",
+        "Fake Audio Input 2"
+      ]
+    },
+    {
+      "name": "popover width follows the trigger (--anchor-width)",
+      "pass": true,
+      "detail": {
+        "trigger": 288,
+        "popup": 288
+      }
+    },
+    {
+      "name": "search matches the device label (keywords)",
+      "pass": true,
+      "detail": {
+        "query": "fake audio input 2",
+        "filtered": 1,
+        "total": 3
+      }
+    },
+    {
+      "name": "selecting closes the popover",
+      "pass": true
+    },
+    {
+      "name": "the trigger shows the selected device",
+      "pass": true,
+      "detail": {
+        "chosen": "Fake Audio Input 1",
+        "shown": "Fake Audio Input 1"
+      }
+    },
+    {
+      "name": "opening asked getUserMedia once",
+      "pass": true,
+      "detail": 1
+    },
+    {
+      "name": "the insecure origin is really insecure",
+      "pass": true,
+      "detail": {
+        "isSecureContext": false,
+        "hasMediaDevices": false
+      }
+    },
+    {
+      "name": "insecure: SpeechInput is disabled with data-unavailable=\"insecure-context\"",
+      "pass": true
+    },
+    {
+      "name": "insecure: MicSelector opens and shows its empty state without throwing",
+      "pass": true
+    },
+    {
+      "name": "voice dialog opens, named by its title",
+      "pass": true
+    },
+    {
+      "name": "three voices listed",
+      "pass": true,
+      "detail": [
+        "Aria\n•\n🇺🇸\n•\n32\nWarm and conversational",
+        "Oliver\n•\n🇬🇧\n•\n45\nMeasured, newsreader",
+        "Mei\n•\n🇨🇳\n•\n28\nBright and quick"
+      ]
+    },
+    {
+      "name": "gender and accent are announced by name (role=img + aria-label)",
+      "pass": true
+    },
+    {
+      "name": "search narrows to the match (keywords)",
+      "pass": true
+    },
+    {
+      "name": "preview marks itself playing without selecting the row or closing the dialog",
+      "pass": true
+    },
+    {
+      "name": "Escape closes it and chooses nothing",
+      "pass": true
+    },
+    {
+      "name": "choosing a voice closes the dialog and sets the value",
+      "pass": true
+    },
+    {
+      "name": "at 1.0s the active segment is \"input\"",
+      "pass": true,
+      "detail": [
+        "input"
+      ]
+    },
+    {
+      "name": "the active segment follows the controlled time",
+      "pass": true,
+      "detail": [
+        "arrives"
+      ]
+    },
+    {
+      "name": "clicking a segment seeks the host clock to its start",
+      "pass": true,
+      "detail": "3.0s"
+    },
+    {
+      "name": "no uncaught page errors or console errors in any scenario",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "observed": {
+    "environment": {
+      "isSecureContext": true,
+      "hasSpeechRecognition": true,
+      "hasMediaRecorder": true,
+      "recorderTypeWebm": true
+    },
+    "webSpeechAfterClick": {
+      "ariaPressed": "false",
+      "errorLog": [
+        "web-speech: no-audio-input — Speech recognition failed: audio-capture"
+      ],
+      "note": "recognition cannot run here (no speech service); this is what the component reported, not a pass or fail of recognition"
+    },
+    "recording": {
+      "received": "Received 14556 bytes of audio/webm;codecs=opus."
+    },
+    "devices": [
+      "Fake Default Audio Input",
+      "Fake Audio Input 1",
+      "Fake Audio Input 2"
+    ],
+    "insecure": {
+      "isSecureContext": false,
+      "hasMediaDevices": false
+    }
+  },
+  "pageErrors": []
+}

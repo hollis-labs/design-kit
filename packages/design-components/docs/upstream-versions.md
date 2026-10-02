@@ -23,3 +23,12 @@ Source paths below are MIT shadcn/ui copied through the AI Elements pin above:
 
 Other packages keep their own inventory and package-local licence using
 [the vendoring convention](vendoring.md).
+
+## Earlier sysop-ui primitives: retrospective attribution
+
+[The file-level provenance audit](primitive-provenance.md) records the 23 earlier
+shadcn-derived primitives inherited through sysop-ui, using shadcn/ui base-nova
+reference `36139f6200d9c2684ef7695fce5f3d9787378e26` (2026-05-14).
+This is a comparison reference, not a newly adopted pin or an assertion of the
+original generator revision. The audit adds notices and LICENSE coverage only;
+it ships with the next lockstep release.

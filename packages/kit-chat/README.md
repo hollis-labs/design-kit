@@ -432,6 +432,36 @@ module-level state lives, and a bundled copy of a stateful dependency fails sile
 ordering, and not `prepublishOnly`, which does not run for `npm pack` and would let a
 tarball ship an empty `dist/`.
 
+## Reasoning, ChainOfThought, Sources and Plan (unreleased)
+
+These AI Elements ports require the **next design-components core release**:
+Collapsible is in workspace source but is absent from registry design-components
+0.3.0. Release this slice with design-components in the next six-package core
+minor; versions/ranges stay unchanged until that coordinated release.
+
+`Reasoning` provides controlled (`open`/`onOpenChange`) or local (`defaultOpen`)
+disclosure. Streaming opens once per run, allowing user collapse during streaming, unless
+explicitly opted out with
+`defaultOpen={false}`, and the first completed stream closes after one second.
+Supply `duration` from the host; no local elapsed-time calculation is performed.
+`ReasoningContent` accepts host-rendered React content, so it imports no markdown
+or syntax renderer. `ReasoningTrigger` permits a custom `getThinkingMessage`.
+Its streaming label and streaming Plan text use the opt-in Shimmer stylesheet.
+
+`ChainOfThought` and its Header/Content/Step/SearchResults/SearchResult/Image
+slots present host-supplied steps and references. Header and Content share one
+Base UI disclosure root, including keyboard and aria-controls wiring. Open state
+is local or controlled; step `status` is purely presentational.
+
+`Sources`, `SourcesTrigger` and `SourcesContent` compose a disclosure list.
+`Source` with `href` renders an external anchor; without `href` it renders a span
+for tool-use provenance or other non-link children. It resolves no citations.
+
+`Plan` composes a Base UI Collapsible on a Card, with Header/Title/Description,
+Action/Trigger, Content and Footer slots. The host supplies steps/actions; no
+plan store, approval flow or executor is included. See
+[demo/chat-disclosures.tsx](demo/chat-disclosures.tsx) for all four surfaces.
+
 ## Message extras and Shimmer
 
 `MessageActions` / `MessageAction` provide host-owned action buttons with optional
@@ -511,3 +541,40 @@ See `demo/attachments.tsx` for a host-owned list/URL lifecycle example. Browser
 evidence is in `docs/attachments-a/`; unit tests exercise presentation/intake
 without opening a portal (open Base UI Positioner/Popup hangs jsdom in this environment).
 Real preview opening/focus/Escape is verified separately in Chromium.
+
+## Tool, Confirmation content and Queue (unreleased)
+
+This slice **needs the next design-components release**: Collapsible is present in
+workspace source, but absent from published design-components 0.3.0. Release with
+the next coordinated six-package core minor; versions/ranges are unchanged here.
+
+`Tool`, `ToolHeader`, `ToolContent`, `ToolInput` and `ToolOutput` present a tool
+lifecycle. Map host state to our `ToolState`: pending, running,
+awaiting-confirmation, confirmed, completed, denied or error. Supply `toolName`
+(and optional `title`); no SDK part or wire-kind name is accepted. The host owns
+execution and input/output. Input/output use JsonViewer, accept React elements,
+or accept arbitrary host-rendered content through children. Falsy JSON results
+(false, zero, empty string, null) remain visible. `errorText` is host-supplied.
+
+`ConfirmationTitle`, `ConfirmationRequest`, `ConfirmationAccepted` and
+`ConfirmationRejected` are **content slots inside the existing ConfirmationCard**.
+They throw a clear error outside that card, including Title. Title renders a
+phrasing-content span and can be composed in the card title or body. There is no new
+Confirmation root, action row, responder or approval type. All existing card
+props, submission payloads, busy state and persisted-state locks remain intact.
+Request is shown while the card is open. Accepted/Rejected require a host-selected
+`actionId` and show their host-supplied children only when priorStatus classifies
+as submitted and priorActionId equals that opaque ID. They never interpret action
+names: a host may map any ID to either presentation. Dismissal, failure, pending
+and unrecognized statuses do not imply acceptance or rejection. The card's
+existing resolved status remains visible; do not place interactive controls in
+these content slots.
+
+`Queue` composes Section/Trigger/Label/Content, a bounded, keyboard-focusable
+native `QueueList`, and Item/Indicator/Content/Description/Actions/Action/Attachment/
+Image/File slots. Completion is presentational; hosts own list data and action
+handlers. Action buttons remain visible and use a token-sized target for touch and keyboard
+users. Supply an
+accessible label to icon-only actions and a useful QueueList label. Filename width
+and image sizing use the token scale. No queue store, executor or transport is added.
+See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).

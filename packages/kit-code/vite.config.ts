@@ -30,6 +30,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
+        highlight: path.resolve(__dirname, 'src/highlight.ts'),
       },
       formats: ['es'],
     },

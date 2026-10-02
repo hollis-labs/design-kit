@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Correct shadcn MIT attribution for the 23 earlier ui primitives inherited
+  through sysop-ui: verified file-level provenance, source headers and package
+  LICENSE scope. Comments/docs/notice only; ships with the next lockstep release
+  (CW-20261002-0053).
+
 - Add shared `useControllableState({ value, defaultValue, onChange })` with a stable
   setter, functional updates and change-only callbacks; ships with the next
   lockstep core release (CW-20261002-0052).

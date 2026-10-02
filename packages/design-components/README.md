@@ -264,3 +264,11 @@ in one event compose in order; controlled updates resolve against the current
 host value. `onChange` fires only when `Object.is(next, current)` is false,
 never merely because the host changes props. This hook contains no transport or
 store behavior. Published `0.3.0` does not export it yet.
+
+### Inherited primitive attribution
+
+[The provenance audit](docs/primitive-provenance.md) verifies the 23 earlier
+shadcn-derived primitives inherited through sysop-ui. Their file headers and the
+package LICENSE now retain the shadcn MIT notice alongside the newer ports.
+This attribution correction ships with the next lockstep release; published
+tarballs and the workspace version are unchanged.

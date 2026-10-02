@@ -1,5 +1,20 @@
 # @hollis-labs/design-components
 
+## Unreleased
+
+- Register contract radius tokens in `cn()`'s existing radius groups. Named
+  `rounded-control`/`rounded-panel` now replace competing steps in argument order,
+  including modified/corner utilities. Known steps and explicit token-variable
+  overrides continue to work.
+- **Visible rendering change:** ungrouped Button `xs`, `sm`, `icon-xs` and
+  `icon-sm`, plus caller control overrides, change from accidental 8px (contract
+  CSS) or 9px (dashboard theme) to the intended 6px. Existing panel-only surfaces
+  and kit-settings' token-variable workaround are unchanged. This includes
+  kit-observe retry/copy actions, kit-chat card actions and composer Send/Stop.
+  Option A approved 2026-10-02; [computed evidence](docs/radius-aliases.md).
+- No release here. Ship in the next design-components **minor**, with internal
+  dependency ranges raised together. Kit-chat uses the shared `cn()` after #48.
+
 ## 0.2.0 — 2026-10-01
 
 Co-released with design-tokens, design-app-runtime, eslint-config-design, kit-chat and

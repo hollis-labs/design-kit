@@ -95,3 +95,13 @@ method declines. Tab reaches the following visible host action. All existing
 keyboard, pointer, accessibility, mobile and reduced-motion checks still pass
 with no page errors. The script captured 21 theme/mode/mobile views in scratch;
 the component's appearance is unchanged from the captures above.
+
+The [packed consumer receipt](focus-consumer.json) identifies source 354e003,
+after the additive OpenIn/main merge. Built local design-components/design-tokens
+tarballs and the packed kit-chat candidate were installed as ordinary packages.
+The ChatStream-only production build and Chromium render pass with the four
+documented CSS imports, no Streamdown, no workspace links and no page errors.
+Packed LICENSE is byte-identical to source. Required peers are supplied explicitly;
+`--legacy-peer-deps` keeps the optional markdown peer absent for this check.
+The [built main-entry graph](focus-root-graph.json) also has no heavy optional-peer
+imports. This still needs the next design-components release, not registry 0.3.0.

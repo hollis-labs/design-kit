@@ -1,5 +1,11 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — OpenIn (CW-20261002-0049 PR B)
+
+- Add host-supplied HTTP(S) destinations and decorative ReactNode icons on Base UI Menu.
+- Reject unsupported/invalid hrefs as disabled non-link rows; explicit native activation opens a new tab with noopener noreferrer.
+- No default providers, query construction, bundled brands, fetching or new dependencies.
+
 ## Unreleased — model selector (CW-20261002-0045)
 
 - Add ModelSelector Dialog/Command compositions with host-owned catalog, filtering and selection.

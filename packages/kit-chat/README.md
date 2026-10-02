@@ -621,3 +621,36 @@ components that use Collapsible retain their separate next-release prerequisite.
 See `demo/model-selector.tsx` and `docs/model-selector-b/`. Unit tests use the real
 Command as a popup stand-in to avoid the known Base UI open portal/jsdom hang;
 Chromium verifies the real dialog, filtering, keyboard/touch selection and focus.
+
+## OpenIn (unreleased)
+
+`OpenIn` receives a required host catalog of `{ id, label, href, icon?: ReactNode }`.
+Supply unique stable IDs, nonempty labels, explicit absolute HTTP(S) URLs, and
+noninteractive consumer-owned icon nodes. There are no default providers or brand
+exports. Empty catalogs disable the trigger. Unsupported schemes and invalid or
+relative URLs remain visible as disabled, non-link rows.
+
+```tsx
+<OpenIn providers={[
+  { id: 'host', label: 'Open host document', href: hostApprovedHref, icon: hostIcon },
+]} />
+```
+
+For composition, use `OpenInTrigger`, `OpenInContent`, `OpenInItem`, `OpenInGroup`,
+`OpenInLabel` and `OpenInSeparator` inside the root. Group labels belong inside
+`OpenInGroup`. The default trigger says “Open in”; provide trigger children to
+change it. Base UI owns menu focus and Escape. Disabled rows remain keyboard-discoverable
+but cannot activate.
+
+Upstream OpenIn constructs provider URLs containing the full prompt. This port
+has no query prop, content serialization, URL construction, provider registry or
+preloading. Each valid row exposes exactly the host-supplied href, which only
+leaves the page on link activation, in a new tab with `rel="noopener noreferrer"`.
+The host owns destination approval, URL encoding, any content already embedded
+in the URL, and consent to send it. The kit does not append chat content or send
+a referrer. Consumer icons render as decorative nodes beside their labels; the
+kit bundles no brand marks and fetches no icon assets. Hosts own the behavior
+and asset rights of nodes they supply.
+
+OpenIn uses published Button/DropdownMenu primitives without new dependencies.
+See [demo/open-in.tsx](demo/open-in.tsx) and [verification](docs/open-in-b/verification.md).

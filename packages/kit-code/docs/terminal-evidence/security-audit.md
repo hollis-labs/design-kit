@@ -42,12 +42,15 @@ Rendering builds one DOM element per styled run. Cost is linear in input and lar
 
 | input | 96 KiB, peer alone | 6 MiB, peer alone | 6 MiB through `Terminal` |
 |---|---|---|---|
-| colour change every 6 characters | 0.13-0.49 s | 11-23 s | 0.12-0.23 s |
-| a realistic coloured log | 0.11-0.23 s | 3.9-7.2 s | 0.09-0.19 s |
-| `a\r` repeated (carriage returns) | 9-19 ms | 1.2-2.9 s | 14-41 ms |
-| `a\b` repeated (backspaces) | 1 ms | 39-76 ms | 2-3 ms |
+| colour change every 6 characters | 0.39-0.49 s | 18.7-23.4 s | 0.15-0.23 s |
+| a realistic coloured log | 0.18-0.23 s | 3.9-7.2 s | 0.09-0.19 s |
+| `a\r` repeated (carriage returns) | 10-19 ms | 2.1-2.9 s | 14-41 ms |
+| `a\b` repeated (backspaces) | 1 ms | 43-76 ms | 2-3 ms |
+| plain text | 0 ms | 8-12 ms | 2 ms |
 
-In real Chromium (`browser.json`): loading 6 MB of colour changes into `Terminal` renders in 0.18 s (10,923 spans), and 40,000 lines in 0.12 s.
+At 96 KiB the two are comparable (a 96 KiB input is already over the 64 KiB window, so `Terminal` renders its last two thirds); the point is the right-hand column, which stays flat as the input grows (1.5 MiB through `Terminal`: 0.01-0.22 s).
+
+In real Chromium 153 (`browser.json`): loading 6 MB of colour changes into `Terminal` renders in 0.27 s (10,923 spans), and 40,000 lines in 0.17 s.
 `Terminal` renders only the last `maxChars` (default 65,536) characters, starting on a line boundary, with a visible note; the whole output
 stays with the host and Copy takes all of it. Copy is computed when pressed, so streaming a long output is not re-scanned on every chunk.
 

@@ -1,0 +1,583 @@
+{
+  "harnessSha256": {
+    "run.py": "cb389c37fdc3652be4c9711d5777d18560054f06cc226f8c86e89270252bb604",
+    "pack.py": "fe6fa7f914f2726a62a17b7528cefa913c40396a9a7016d7ff472c868354825d",
+    "verify.mjs": "370ff898fc702c00000eb5741f987edbbe259a1607ca282d8384c21bf48f1ddc",
+    "report.py": "4d4bdbcc3f66907f97f7a703ceefba2e126a66e940460fb0c0c0e2cddd805cbd",
+    "main.jsx": "83b59db2700c076fa1663794ac07b69c099f84d080f2ac5783534cd3620e9f59",
+    "vite.config.mjs": "0f8735da1e68b99d3cffaf42104738eb8637d92c997a901e7eb8e2442baa0bf0",
+    "base.css": "466fe6bbea452f4b25da54f80d469f791605354d4fba412cadb68b1a04446cc8",
+    "dashboard.css": "1ba9b7fd41635c2f60a6fa68d8bdaa8c1879bb9e551be545b35c83246670e184",
+    "index.html": "33ca7c16b75d93fc257208593cd108e23464928ef2b0a4a34f1aee36a5d9d662"
+  },
+  "sourceCommit": "f6ce16ed492077e9e78e00385418ab6ced7dfc5e",
+  "task": "CW-20261001-0659",
+  "started": "20261002T012416Z",
+  "tarballDirectory": "/home/chrispian/.cache/design-kit-tmp/0014-packed",
+  "run": "/home/chrispian/.cache/design-kit-tmp/release-verify/runs/20261002T012416Z",
+  "artifacts": [
+    {
+      "package": "design-tokens",
+      "sha256": "6ba6ca4f4259ebdf02e2eec1e08114b7601acb7c855012a80a2df9124e09503e",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-tokens-0.2.0.tgz"
+    },
+    {
+      "package": "design-components",
+      "sha256": "bd9d8880d323c051fd20b8342dea04db5b4cd6e59a4c151fa57fbd0c77891267",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-components-0.2.0.tgz"
+    },
+    {
+      "package": "design-app-runtime",
+      "sha256": "3395c52705b05b00d08765638049d530c1cb98d4aa0e553421341084097d3e3a",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-app-runtime-0.2.0.tgz"
+    },
+    {
+      "package": "eslint-config-design",
+      "sha256": "e344df9f7001f65d450c5bd9a637ea249afd6c9ea0393adabb4ce5a37225f1f9",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-eslint-config-design-0.2.0.tgz"
+    },
+    {
+      "package": "kit-chat",
+      "sha256": "ee29a9069f6ee0f2163f950221cadcc5fa64bc209b091cb758e8ff14f195e913",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-kit-chat-0.2.0.tgz"
+    },
+    {
+      "package": "kit-dashboard",
+      "sha256": "44e0a94406ed7a9c9b3353b97c6d94b0ec5fe89b300a9cdc24d46e8a662d16de",
+      "path": "/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-kit-dashboard-0.2.0.tgz"
+    }
+  ],
+  "checks": {
+    "7": {
+      "pass": true,
+      "installedVersions": {
+        "@hollis-labs/design-tokens": "0.2.0",
+        "@hollis-labs/design-components": "0.2.0",
+        "@hollis-labs/design-app-runtime": "0.2.0",
+        "@hollis-labs/eslint-config-design": "0.2.0",
+        "@hollis-labs/kit-chat": "0.2.0",
+        "@hollis-labs/kit-dashboard": "0.2.0",
+        "@hollis-labs/design-bindings": "0.1.0"
+      },
+      "workspaceLinks": [],
+      "packages": {
+        "@hollis-labs/design-app-runtime": [
+          {
+            "trail": "root/@hollis-labs/design-app-runtime",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-app-runtime-0.2.0.tgz"
+          }
+        ],
+        "@hollis-labs/design-bindings": [
+          {
+            "trail": "root/@hollis-labs/design-bindings",
+            "version": "0.1.0",
+            "resolved": "https://registry.npmjs.org/@hollis-labs/design-bindings/-/design-bindings-0.1.0.tgz"
+          }
+        ],
+        "@hollis-labs/design-components": [
+          {
+            "trail": "root/@hollis-labs/design-components",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-components-0.2.0.tgz"
+          }
+        ],
+        "@hollis-labs/design-tokens": [
+          {
+            "trail": "root/@hollis-labs/design-tokens",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-design-tokens-0.2.0.tgz"
+          }
+        ],
+        "@hollis-labs/eslint-config-design": [
+          {
+            "trail": "root/@hollis-labs/eslint-config-design",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-eslint-config-design-0.2.0.tgz"
+          }
+        ],
+        "@hollis-labs/kit-chat": [
+          {
+            "trail": "root/@hollis-labs/kit-chat",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-kit-chat-0.2.0.tgz"
+          }
+        ],
+        "@hollis-labs/kit-dashboard": [
+          {
+            "trail": "root/@hollis-labs/kit-dashboard",
+            "version": "0.2.0",
+            "resolved": "file:/home/chrispian/.cache/design-kit-tmp/0014-packed/hollis-labs-kit-dashboard-0.2.0.tgz"
+          }
+        ]
+      },
+      "physicalInstallPaths": {
+        "@hollis-labs/design-app-runtime": [
+          "node_modules/@hollis-labs/design-app-runtime"
+        ],
+        "@hollis-labs/design-bindings": [
+          "node_modules/@hollis-labs/design-bindings"
+        ],
+        "@hollis-labs/design-components": [
+          "node_modules/@hollis-labs/design-components"
+        ],
+        "@hollis-labs/design-tokens": [
+          "node_modules/@hollis-labs/design-tokens"
+        ],
+        "@hollis-labs/eslint-config-design": [
+          "node_modules/@hollis-labs/eslint-config-design"
+        ],
+        "@hollis-labs/kit-chat": [
+          "node_modules/@hollis-labs/kit-chat"
+        ],
+        "@hollis-labs/kit-dashboard": [
+          "node_modules/@hollis-labs/kit-dashboard"
+        ]
+      },
+      "problems": [],
+      "duplicates": {},
+      "peerWarnings": []
+    },
+    "1": {
+      "pass": true,
+      "events": [],
+      "pages": [
+        "base",
+        "dashboard",
+        "short",
+        "chat",
+        "negative/base"
+      ]
+    },
+    "2": {
+      "pass": true,
+      "button": {
+        "color": "rgb(255, 255, 255)",
+        "background": "rgb(60, 90, 120)",
+        "fontSize": "13px",
+        "paddingTop": "0px",
+        "scrollbarWidth": "auto",
+        "display": "inline-flex",
+        "width": "123.641px",
+        "height": "28px",
+        "animation": "none"
+      },
+      "pills": {
+        "neutral": {
+          "color": "rgb(96, 96, 102)",
+          "background": "rgb(255, 255, 255)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "auto",
+          "display": "inline-flex",
+          "width": "63.6875px",
+          "height": "21px",
+          "animation": "none"
+        },
+        "success": {
+          "color": "rgb(66, 84, 65)",
+          "background": "oklab(0.424683 -0.0307065 0.0227287 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "auto",
+          "display": "inline-flex",
+          "width": "64.1562px",
+          "height": "21px",
+          "animation": "none"
+        },
+        "danger": {
+          "color": "rgb(141, 43, 39)",
+          "background": "oklab(0.438243 0.119353 0.0595767 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "auto",
+          "display": "inline-flex",
+          "width": "59.875px",
+          "height": "21px",
+          "animation": "none"
+        },
+        "warning": {
+          "color": "rgb(105, 72, 45)",
+          "background": "oklab(0.431765 0.0307792 0.052242 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "auto",
+          "display": "inline-flex",
+          "width": "66.2969px",
+          "height": "21px",
+          "animation": "none"
+        },
+        "info": {
+          "color": "rgb(55, 81, 108)",
+          "background": "oklab(0.425968 -0.0187222 -0.0518631 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "auto",
+          "display": "inline-flex",
+          "width": "40.0625px",
+          "height": "21px",
+          "animation": "none"
+        }
+      }
+    },
+    "3": {
+      "pass": true,
+      "states": [
+        {
+          "theme": "nanite-default",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(244, 245, 246)"
+        },
+        {
+          "theme": "nanite-default",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(12, 13, 14)"
+        },
+        {
+          "theme": "dir-a",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(247, 247, 246)"
+        },
+        {
+          "theme": "dir-a",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(14, 14, 16)"
+        },
+        {
+          "theme": "dir-b",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(245, 241, 234)"
+        },
+        {
+          "theme": "dir-b",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(20, 17, 14)"
+        },
+        {
+          "theme": "dir-d",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(245, 240, 250)"
+        },
+        {
+          "theme": "dir-d",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(14, 10, 28)"
+        },
+        {
+          "theme": "dir-e",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(244, 241, 232)"
+        },
+        {
+          "theme": "dir-e",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(5, 10, 20)"
+        },
+        {
+          "theme": "dir-f",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(237, 237, 237)"
+        },
+        {
+          "theme": "dir-f",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(12, 12, 12)"
+        },
+        {
+          "theme": "sysop-p4-white",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(250, 250, 250)"
+        },
+        {
+          "theme": "sysop-p4-white",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(9, 9, 11)"
+        },
+        {
+          "theme": "sysop-green-phosphor",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(244, 250, 245)"
+        },
+        {
+          "theme": "sysop-green-phosphor",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(10, 10, 10)"
+        },
+        {
+          "theme": "sysop-amber-phosphor",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(255, 251, 239)"
+        },
+        {
+          "theme": "sysop-amber-phosphor",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(10, 10, 10)"
+        },
+        {
+          "theme": "sysop-hi-contrast",
+          "mode": "light",
+          "scheme": "light",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "theme": "sysop-hi-contrast",
+          "mode": "dark",
+          "scheme": "dark",
+          "background": "rgb(0, 0, 0)"
+        }
+      ]
+    },
+    "4": {
+      "pass": true,
+      "legacy": "p3-amber-phosphor",
+      "compact": {
+        "color": "rgb(255, 176, 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "fontSize": "13px",
+        "paddingTop": "6px",
+        "scrollbarWidth": "none",
+        "display": "table-cell",
+        "width": "1196.34px",
+        "height": "35px",
+        "animation": "none"
+      },
+      "comfortable": {
+        "color": "rgb(255, 176, 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "fontSize": "13px",
+        "paddingTop": "12px",
+        "scrollbarWidth": "none",
+        "display": "table-cell",
+        "width": "1196.34px",
+        "height": "47px",
+        "animation": "none"
+      },
+      "density": "comfortable",
+      "opened": "row-0",
+      "next": "row-1",
+      "prev": "row-0",
+      "opt": {
+        "color": "rgb(255, 176, 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "fontSize": "16px",
+        "paddingTop": "0px",
+        "scrollbarWidth": "thin",
+        "display": "block",
+        "width": "1280px",
+        "height": "60px",
+        "animation": "none"
+      },
+      "normal": {
+        "color": "rgb(255, 176, 0)",
+        "background": "rgba(0, 0, 0, 0)",
+        "fontSize": "16px",
+        "paddingTop": "0px",
+        "scrollbarWidth": "none",
+        "display": "block",
+        "width": "1280px",
+        "height": "60px",
+        "animation": "none"
+      },
+      "pills": {
+        "success": {
+          "color": "rgb(255, 208, 96)",
+          "background": "oklab(0.877732 0.00891694 0.138764 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "none",
+          "display": "inline-flex",
+          "width": "59.6562px",
+          "height": "22px",
+          "animation": "none"
+        },
+        "info": {
+          "color": "rgb(255, 176, 0)",
+          "background": "oklab(0.812423 0.0401273 0.165604 / 0.1)",
+          "fontSize": "10px",
+          "paddingTop": "2px",
+          "scrollbarWidth": "none",
+          "display": "inline-flex",
+          "width": "40.0938px",
+          "height": "22px",
+          "animation": "none"
+        }
+      }
+    },
+    "5": {
+      "pass": true,
+      "jumpHidden": true,
+      "typography": [
+        {
+          "width": 1280,
+          "composer": {
+            "color": "rgb(255, 255, 255)",
+            "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.263529)",
+            "fontSize": "13px",
+            "paddingTop": "4px",
+            "scrollbarWidth": "auto",
+            "display": "flex",
+            "width": "1214px",
+            "height": "64px",
+            "animation": "none"
+          },
+          "bubble": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(18, 18, 18)",
+            "fontSize": "13px",
+            "paddingTop": "8px",
+            "scrollbarWidth": "auto",
+            "display": "block",
+            "width": "246.625px",
+            "height": "58.25px",
+            "animation": "none"
+          }
+        },
+        {
+          "width": 390,
+          "composer": {
+            "color": "rgb(255, 255, 255)",
+            "background": "oklab(0.999994 0.0000455678 0.0000200868 / 0.263529)",
+            "fontSize": "13px",
+            "paddingTop": "4px",
+            "scrollbarWidth": "auto",
+            "display": "flex",
+            "width": "324px",
+            "height": "64px",
+            "animation": "none"
+          },
+          "bubble": {
+            "color": "rgb(255, 255, 255)",
+            "background": "rgb(18, 18, 18)",
+            "fontSize": "13px",
+            "paddingTop": "8px",
+            "scrollbarWidth": "auto",
+            "display": "block",
+            "width": "246.625px",
+            "height": "58.25px",
+            "animation": "none"
+          }
+        }
+      ],
+      "anchorBefore": 74.75,
+      "anchorAfter": 75.25,
+      "delta": 0.5,
+      "scrollBefore": {
+        "top": 300,
+        "height": 2048
+      },
+      "scrollAfter": {
+        "top": 1018,
+        "height": 2767
+      },
+      "longJump": true,
+      "atEnd": 0
+    },
+    "6": {
+      "pass": true,
+      "fallback": "dir-a",
+      "persisted": "dir-e",
+      "unknown": "dir-a",
+      "blocked": "dir-a",
+      "ratchetExports": [
+        "DESIGN_RULES",
+        "buildBaseline",
+        "compare",
+        "countByRule",
+        "formatReport",
+        "parseBaseline",
+        "serializeBaseline"
+      ],
+      "missing": {
+        "code": 2,
+        "stdout": "",
+        "stderr": "error: no files were linted for path \"/home/chrispian/.cache/design-kit-tmp/release-verify/runs/20261002T012416Z/node-fixture/does-not-exist\".\n       Check that the path exists relative to --root, that cwd is correct,\n       and that your ESLint config is not ignoring everything under it.\n"
+      },
+      "baseline": {
+        "code": 0,
+        "stdout": "eslint-design ratchet \u2014 src\n\n  rule                                  baseline current   delta\n  --------------------------------------------------------------\n  no-color-literal                             0       0        \n  no-raw-palette-utility                       0       0        \n  no-arbitrary-scale                           0       0        \n  no-undefined-token                           0       0        \n  no-idiom-shadowing-contract                  0       0        \n  require-disable-reason                       0       0        \n\n  \u2713 Ratchet holds \u2014 no new violations.\n\n  Baseline written to /home/chrispian/.cache/design-kit-tmp/release-verify/runs/20261002T012416Z/node-fixture/baseline.json\n",
+        "stderr": ""
+      },
+      "clean": {
+        "code": 0,
+        "stdout": "eslint-design ratchet \u2014 src\n\n  rule                                  baseline current   delta\n  --------------------------------------------------------------\n  no-color-literal                             0       0        \n  no-raw-palette-utility                       0       0        \n  no-arbitrary-scale                           0       0        \n  no-undefined-token                           0       0        \n  no-idiom-shadowing-contract                  0       0        \n  require-disable-reason                       0       0        \n\n  \u2713 Ratchet holds \u2014 no new violations.\n\n",
+        "stderr": ""
+      },
+      "violation": {
+        "code": 1,
+        "stdout": "eslint-design ratchet \u2014 src\n\n  rule                                  baseline current   delta\n  --------------------------------------------------------------\n  no-color-literal                             0       0        \n  no-raw-palette-utility                       0       0        \n  no-arbitrary-scale                           0       1      +1\n  no-undefined-token                           0       0        \n  no-idiom-shadowing-contract                  0       0        \n  require-disable-reason                       0       0        \n\n  \u2717 RATCHET FAILED \u2014 new violations introduced:\n    design/no-arbitrary-scale: +1\n\n  To fix: remove the new violations, then re-run.\n  To accept as debt: run with --update to advance the baseline.\n\n",
+        "stderr": ""
+      }
+    },
+    "8": {
+      "pass": true,
+      "positive": {
+        "outer": [
+          "8px",
+          "8px"
+        ],
+        "inner": [
+          "6px",
+          "6px"
+        ],
+        "animation": "ping",
+        "scrollbar": "none"
+      },
+      "negative": {
+        "outer": [
+          "0px",
+          "6px"
+        ],
+        "inner": [
+          "0px",
+          "6px"
+        ],
+        "animation": "none",
+        "scrollbar": "auto"
+      },
+      "positiveProbePass": true,
+      "negativeProbePass": false,
+      "removedImport": "@hollis-labs/design-components/source.css"
+    }
+  },
+  "packProvenance": {
+    "sourceCommit": "f6ce16ed492077e9e78e00385418ab6ced7dfc5e",
+    "checkout": "/home/chrispian/dev/hollis-labs/worktrees/design-kit/CW-20261002-0014",
+    "trackedDiff": "",
+    "status": ""
+  },
+  "packLogs": {
+    "install": "/home/chrispian/.cache/design-kit-tmp/0014-packed/install.log",
+    "build": "/home/chrispian/.cache/design-kit-tmp/0014-packed/build.log",
+    "pack": "/home/chrispian/.cache/design-kit-tmp/0014-packed/pack.log"
+  },
+  "environment": {
+    "node": "v24.21.0",
+    "chromium": "153.0.8010.12",
+    "playwright": "1.61.1",
+    "viewportWidths": [
+      1280,
+      390
+    ],
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "passed": true
+}

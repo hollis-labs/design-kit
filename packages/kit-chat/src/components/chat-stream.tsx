@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react'
 import { MessageScroller } from '@shadcn/react/message-scroller'
 import { LoaderCircle } from 'lucide-react'
-import { Button } from '@hollis-labs/design-components'
-import { cn } from '../lib/cn'
+import { cn, Button } from '@hollis-labs/design-components'
 import type {
   ChatCardItem,
   ChatItem,

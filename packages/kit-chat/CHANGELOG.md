@@ -1,5 +1,12 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- Internal refactor, no behaviour change: use design-components' token-aware
+  `cn()` throughout cards, composer, stream and markdown, retiring the local
+  stopgap. Existing typography cases stay verbatim against the shared helper.
+  Ships with the next kit-chat release; no separate publish.
+
 ## 0.2.0 — 2026-10-01
 
 Co-released with design-tokens, design-components, design-app-runtime, eslint-config-design

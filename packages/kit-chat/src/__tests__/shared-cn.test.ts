@@ -1,8 +1,10 @@
+// These six cases are preserved from the retired local cn tests. Their eventual
+// home is design-components' tests after the radius decision in PR #47.
 import { describe, expect, it } from 'vitest'
 import { TEXT_TOKENS } from '@hollis-labs/design-tokens'
-import { cn } from '../lib/cn'
+import { cn } from '@hollis-labs/design-components'
 
-describe('contract typography merging', () => {
+describe('shared cn behaviour kit-chat relies on', () => {
   it.each(TEXT_TOKENS)('keeps text-%s alongside a foreground color', (token) => {
     expect(cn(`text-${token}`, 'text-fg')).toBe(`text-${token} text-fg`)
     expect(cn('text-fg', `text-${token}`)).toBe(`text-fg text-${token}`)

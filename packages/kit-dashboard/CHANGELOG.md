@@ -2,9 +2,9 @@
 
 ## 0.3.0 — 2026-10-02
 
-Co-released with design-components and kit-chat, alongside the first releases of kit-settings
-and kit-observe. Requires `@hollis-labs/design-components` `^0.3.0`; design-tokens and
-design-app-runtime stay at `^0.2.0`.
+Co-released with the other core packages, alongside the first releases of kit-settings and
+kit-observe. Requires `@hollis-labs/design-components`, `@hollis-labs/design-tokens` and
+`@hollis-labs/design-app-runtime` `^0.3.0`.
 
 - Add `TimestampSampleChart` to `/charts` for exact UTC gauge and cumulative-counter
   samples, visible null gaps, real zero values, and an accessible data table.

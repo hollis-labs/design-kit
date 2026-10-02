@@ -15,5 +15,7 @@ Read-only checkout: `~/.cache/ai-elements-shared/upstream`. No `NOTICE` file at 
 
 | `src/audio-player/index.tsx` | `packages/elements/src/audio-player.tsx` | 2026-10-02 | `ai` `SpeechResult` removed (`src` or `blob`, object URL created and revoked); `data` no longer spread onto `<audio>`; Radix `asChild` to `buttonVariants()` classes on the media elements and `ButtonGroupText` `render`; `--media-*` on the contract variables; `--media-control-padding: 0px` (unitless `0` is invalid in media-chrome's `calc()`); time range `min-w-40` |
 
-No original (non-vendored) source in this package.
+`src/index.ts` is an original Hollis Labs MIT aggregation barrel exporting the
+ports above; it is not copied from an upstream file and is outside the Apache
+source scope in LICENSE.
 Not taken: `persona.tsx` (Rive, hotlinked `.riv` assets, no licence for them).

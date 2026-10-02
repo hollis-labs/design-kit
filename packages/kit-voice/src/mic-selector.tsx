@@ -4,7 +4,8 @@
  * Source:   https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/mic-selector.tsx
  * Version:  ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
  * Divergences:
- *  - Radix -> Base UI: Popover from design-components, PopoverTrigger asChild -> render, useControllableState -> local helper
+ *  - Radix -> Base UI: Popover from design-components, PopoverTrigger asChild -> render, Radix useControllableState -> design-components'
+ *    (its parameters are named value/defaultValue/onChange, not prop/defaultProp)
  *  - useAudioDevices moved to ./use-audio-devices.ts (react-refresh: a file exports components or helpers, not both);
  *    it no longer re-prompts getUserMedia in a loop after permission is denied (loadDevices is stable and single-flight;
  *    MicSelector asks once per open), no longer throws without navigator.mediaDevices (insecure context), no console.error
@@ -23,6 +24,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  useControllableState,
 } from "@hollis-labs/design-components";
 import { ChevronsUpDownIcon } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
@@ -34,7 +36,6 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { useControllableState } from "./lib/use-controllable-state";
 import { useAudioDevices } from "./use-audio-devices";
 
 const deviceIdRegex = /\(([\da-fA-F]{4}:[\da-fA-F]{4})\)$/;
@@ -77,14 +78,14 @@ export const MicSelector = ({
   ...props
 }: MicSelectorProps) => {
   const [value, onValueChange] = useControllableState<string | undefined>({
-    defaultProp: defaultValue,
+    defaultValue,
     onChange: controlledOnValueChange,
-    prop: controlledValue,
+    value: controlledValue,
   });
   const [open, onOpenChange] = useControllableState({
-    defaultProp: defaultOpen,
+    defaultValue: defaultOpen,
     onChange: controlledOnOpenChange,
-    prop: controlledOpen,
+    value: controlledOpen,
   });
   const { devices, hasPermission, loadDevices } = useAudioDevices();
 

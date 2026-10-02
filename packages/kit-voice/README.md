@@ -23,8 +23,12 @@ states what diverged (and `docs/upstream-versions.md`). Each lands in its own ch
 Not taken: AI Elements' `Persona`. It needs Rive and `.riv` files hotlinked from
 Vercel's storage, and no licence for those assets is granted by the repository.
 
-What is available now imports only `Button`, `Command*`, `Popover*` and `cn` from
-`design-components`, all present in its `0.3.0` release.
+**Compatibility.** kit-voice needs the next `design-components` release (unreleased). It
+imports `useControllableState`, which the workspace `design-components` exports but the
+published `0.3.0` does not (and `AudioPlayer`, when it lands, imports `ButtonGroup`, also
+unreleased). Workspace linking hides this; a consumer on registry `0.3.0` would fail to
+resolve it. The `^0.3.0` range in `package.json` is the sibling convention and is raised
+together with that release by whoever cuts it; nothing here publishes.
 
 ## Secure context: the microphone needs HTTPS or localhost
 

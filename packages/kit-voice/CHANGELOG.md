@@ -11,5 +11,7 @@
 - Add `MicSelector` (and its `MicSelector*` parts) and `useAudioDevices`. Asks for the
   microphone once per open instead of looping after a denial, and does not throw without
   `navigator.mediaDevices`.
-- Local `useControllableState` (internal) in place of Radix's.
+- Radix's `useControllableState` is replaced by the one `design-components` now exports.
+  **kit-voice therefore needs the next `design-components` release (unreleased); the
+  published `0.3.0` does not export it.**
 - Add `test:run`, a fixtures demo (`npm run demo`) and Chromium evidence under `docs/evidence`.

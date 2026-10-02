@@ -3,7 +3,8 @@
  *
  * Vendored from AI Elements (Apache-2.0) and ported to Base UI and the token contract;
  * see README.md and docs/upstream-versions.md. The main entry carries no heavy
- * dependency. `useControllableState` is internal.
+ * dependency. Needs the next design-components release (unreleased): it imports its
+ * `useControllableState`.
  */
 export {
   MicSelector,

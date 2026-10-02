@@ -6,6 +6,7 @@ import type { Field, SettingsChanges, SettingsDraft, SettingsEdit, SettingsGroup
 
 export interface SettingsGroupFormProps extends SettingsState {
   readonly group: SettingsGroup
+  readonly unavailable?: string
   readonly onDraftChange: (draft: SettingsDraft) => void
   /** Intent only: host must revalidate on the backend and submit its revision/ETag. */
   readonly onSave?: (changes: SettingsChanges) => void
@@ -17,10 +18,10 @@ export interface SettingsGroupFormProps extends SettingsState {
 }
 const controlClass = 'text-control md:text-(length:--text-control) text-fg rounded-(--radius-control)'
 
-export function SettingsGroupForm({ group, values, draft, busy = false, validation, error, notice, onDraftChange, onSave, onValidate, onReset, fieldExtra, footer }: SettingsGroupFormProps) {
+export function SettingsGroupForm({ group, values, draft, busy = false, validation, error, notice, onDraftChange, onSave, onValidate, onReset, fieldExtra, footer, unavailable: hostUnavailable }: SettingsGroupFormProps) {
   const id = useId()
   const profile = inspectSettingsGroup(group)
-  const unavailable = typeof profile === 'string' ? profile : !profile.canRead ? 'Reading this group is unavailable.' : snapshotProblem(profile, values)
+  const unavailable = typeof profile === 'string' ? profile : !profile.canRead ? 'Reading this group is unavailable.' : snapshotProblem(profile, values) || hostUnavailable
   if (typeof profile === 'string' || unavailable) return <section aria-labelledby={`${id}-title`} className="flex min-w-0 flex-col gap-2 rounded-panel border border-border bg-bg-elevated p-4">
     <h2 id={`${id}-title`} className="text-control font-semibold text-fg">{group.label}</h2>
     <p role="alert" className="text-control text-danger">{unavailable}</p>
@@ -95,6 +96,7 @@ export function SettingsGroupForm({ group, values, draft, busy = false, validati
 }
 
 export interface SettingsRendererProps {
+  readonly groupUnavailable?: Readonly<Record<string, string | undefined>>
   readonly contractVersion: number
   readonly groups: readonly SettingsGroup[]
   readonly states: Readonly<Record<string, SettingsState | undefined>>
@@ -106,12 +108,12 @@ export interface SettingsRendererProps {
   readonly groupFooter?: (groupId: string) => ReactNode
 }
 /** Render only the manifest's settings array. Observations belong to kit-observe. */
-export function SettingsRenderer({ contractVersion, groups, states, onDraftChange, onSave, onValidate, onReset, fieldExtra, groupFooter }: SettingsRendererProps) {
+export function SettingsRenderer({ contractVersion, groups, states, onDraftChange, onSave, onValidate, onReset, fieldExtra, groupFooter, groupUnavailable }: SettingsRendererProps) {
   if (contractVersion !== 1) return <p role="alert" className="text-control text-danger">Unsupported admin contract version. Settings cannot be displayed or changed.</p>
   if (new Set(groups.map(g => g.id)).size !== groups.length) return <p role="alert" className="text-control text-danger">Duplicate settings groups. Settings cannot be changed.</p>
   return <div className="flex min-w-0 flex-col gap-4">{groups.map(group => {
     const state = states[group.id]
-    return state ? <SettingsGroupForm key={group.id} group={group} {...state} onDraftChange={draft => onDraftChange(group.id, draft)} onSave={onSave ? changes => onSave(group.id, changes) : undefined} onValidate={onValidate ? changes => onValidate(group.id, changes) : undefined} onReset={onReset ? keys => onReset(group.id, keys) : undefined} fieldExtra={fieldExtra ? key => fieldExtra(group.id, key) : undefined} footer={groupFooter?.(group.id)} />
+    return state ? <SettingsGroupForm key={group.id} group={group} {...state} unavailable={groupUnavailable?.[group.id]} onDraftChange={draft => onDraftChange(group.id, draft)} onSave={onSave ? changes => onSave(group.id, changes) : undefined} onValidate={onValidate ? changes => onValidate(group.id, changes) : undefined} onReset={onReset ? keys => onReset(group.id, keys) : undefined} fieldExtra={fieldExtra ? key => fieldExtra(group.id, key) : undefined} footer={groupFooter?.(group.id)} />
       : <section key={group.id} className="rounded-panel border border-border bg-bg-elevated p-4"><h2 className="text-control font-semibold text-fg">{group.label}</h2><p role="status" className="text-control text-fg-muted">Waiting for a settings snapshot.</p></section>
   })}</div>
 }

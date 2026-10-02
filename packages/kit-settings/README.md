@@ -16,7 +16,7 @@ import { SettingsRenderer } from '@hollis-labs/kit-settings'
 />
 ```
 
-`states[groupId]` contains a host-owned `values` snapshot projection, `draft`, optional `busy`, sanitized `validation`, `error` and `notice`. Missing state shows a waiting message. Only the host changes values, reports success or clears drafts. `SettingsGroupForm` renders a single already-version-checked group. `fieldExtra` and `groupFooter` slots leave provenance and restart presentation to CW-20261001-0506.
+`states[groupId]` contains a host-owned `values` snapshot projection, `draft`, optional `busy`, sanitized `validation`, `error` and `notice`. Missing state shows a waiting message. Only the host changes values, reports success or clears drafts. `SettingsGroupForm` renders a single already-version-checked group. `fieldExtra` and `groupFooter` slots also support the opt-in provenance renderer below.
 
 A field draft is `{kind: 'value', value}` for typed scalars, `{kind: 'text', text}` for numeric editing, or `{kind: 'unset'}` for explicit override removal. Save emits `{set, unset}` **intent**, with no revision, endpoint or ETag. Untouched fields are omitted; equal nonsecret values do not enter `set`. False, zero and empty string retain their types. Defaults are annotations and never initialize controls. Native selects map options to typed enum members. Incomplete numeric text stays in the draft and blocks save; finite numbers and safe integers are supported. Unicode string length counts code points. `format` is an annotation, not a validator.
 
@@ -43,4 +43,30 @@ All appearance names existing tokens. React 19, Tailwind 4 and base primitives a
 
 From the repository root, build dependencies with `npm run build`, then `npm run demo -w @hollis-labs/kit-settings` or `npm run demo:build -w @hollis-labs/kit-settings`. The demo imports both authored example manifests directly and supplies explicit illustrative snapshots, with local host callbacks and an optional rejected-save scenario. It makes no live app calls. Its secret mock stores presence only.
 
-Tests exercise supported/unsupported schema behavior, validation, permissions, controlled callbacks, secret keep/replace/remove and accessible error associations. See [browser evidence](docs/verification.md) for the desktop/narrow computed-style, keyboard and read-only negative checks. No app dogfood, provenance/restart UX, publishing or packed-consumer release gate is part of this task.
+Tests exercise supported/unsupported schema behavior, validation, permissions, controlled callbacks, secret keep/replace/remove and accessible error associations. See [browser evidence](docs/verification.md) for the desktop/narrow computed-style, keyboard and read-only negative checks. No app dogfood, backend restart semantics, publishing or packed-consumer release gate is part of this package verification.
+
+## Provenance and explicit apply / restart
+
+Use `SettingsProvenanceRenderer` instead of `SettingsRenderer` to opt into the full read metadata. It composes the same forms via their field/footer slots; the original forms remain usable with scalar snapshot projections.
+
+```tsx
+<SettingsProvenanceRenderer
+  contractVersion={manifest.contract_version}
+  groups={manifest.settings}
+  states={statesWithMetadata}
+  onDraftChange={replaceHostDraft}
+  onSave={submitThroughHost}
+  onReset={resetThroughHost}
+  onApply={(groupId, targets) => applyThroughHost(groupId, targets)}
+/>
+```
+
+Each value supplies `source: {kind, label}` iff present and `apply_state: 'active' | 'pending_restart' | 'unknown'`. Absent values have no source. Source kinds are `default`, `env`, `file` and `override`; labels must be safe plain text. Secrets show the same source/presence/apply metadata with a blank replacement control, never a stored value. A missing/unknown source, unknown apply state or contradictory restart declaration makes that group unavailable with an explanation. The renderer does not substitute default provenance or treat unknown as active.
+
+Declarations supply `restart_required` and `apply_target`. The field shows the restart-required indicator independently of snapshot apply state. Existing “Remove override” staging is the reset affordance: override provenance explains that the host resolves the fallback, which may be env/file/inherited rather than default. No second resolver or new reset behavior is introduced.
+
+Each group state may additionally supply `apply: {restartRequired, applyTargets}`, `applying` and sanitized `applyError`. This is an explicit **host-owned reconciled presentation projection**, not a wire type. The host obtains it from current backend state/update/reset responses and establishes it for initial loads. Conservative backend restarts can involve fields with no declared target; the component never derives targets from declarations, invents targets or calls a helper implicitly.
+
+When restart is required and targets are nonempty unique IDs, an explicit “Apply / restart” button calls `onApply(groupId, targets)` only; busy/applying disables it. Empty/missing targets explain that the app did not say what to restart and offer no action. Invalid projections offer no action. Missing callbacks explain that the host has not provided an apply action. Projection and per-field state are displayed independently: disagreement remains visible instead of being reconciled in the kit.
+
+The kit holds no restart state, fetches nothing and performs no restart. Calling apply cannot clear `pending_restart`; neither can showing an error. Only host-supplied verified snapshots/projections change the displayed state. The host must reread after failed/uncertain apply and preserve pending status until the backend verifies application, including across no-op saves. Draft/secret lifecycle remains host-owned. Live screen-reader speech and real app/backend apply behavior have not been verified here.

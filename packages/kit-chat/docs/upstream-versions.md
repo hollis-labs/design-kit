@@ -6,6 +6,7 @@
 
 | Local source | Upstream source | Divergences |
 | --- | --- | --- |
+| src/components/model-selector.tsx | packages/elements/src/model-selector.tsx | Shared Base UI Dialog/Command, token styles; consumer ReactNode logo slot without brands/hotlinks; semantic title inside popup |
 | src/components/attachments.tsx, src/lib/attachment.ts | packages/elements/src/attachments.tsx | Own data; shared Button/cn; Base UI Popover instead of hover-only preview; visible removal; tokens |
 | src/components/attachment-dropzone.tsx | packages/elements/src/prompt-input.tsx (attachment sections only) | Local picker/dropzone emits files/rejections; host list and URL lifetime; no stores/global listeners/screenshots/composer logic; extension matching; tokens |
 | src/components/message.tsx | packages/elements/src/message.tsx | Actions and branching only; Base UI tooltips; native group; controlled branch; normalized children/count; no AI SDK or markdown deps; tokens |

@@ -590,3 +590,46 @@ The `InlineCitationCarousel` family is a small pager: optional controlled `index
 The interactive body uses `aria-hidden={false}` to override the supplementary HoverCard default. Keyboard focus on the trigger opens the preview; Tab enters its controls, Shift+Tab from the first returns to the trigger, and Tab from the last continues to the following host control. Escape returns focus to the trigger. HoverCard open state/callbacks still belong to Base UI/the host. This needs the next design-components release (unreleased); published 0.3.0 lacks HoverCard. No dependency, manifest or lockfile changes.
 
 See [the demo](demo/image-citation.tsx) and [verification](docs/image-citation/verification.md). No application migration or transport changes are included.
+
+## Model selector (unreleased)
+
+Compose `ModelSelector` + `ModelSelectorTrigger` + `ModelSelectorContent` with
+Input/List/Empty/Group/Item/Shortcut/Separator/Name. `ModelSelectorDialog` is a
+controlled dialog convenience; the host supplies its opening control. Titles and
+optional descriptions live inside the popup. `searchLabel` supplies the search
+input's accessible name (default "Search models"), since Command owns its label.
+Base UI owns dialog focus/Escape;
+Command supplies filtering and keyboard selection. `onSelect` reports the host's
+item value; the host owns the catalog, selected model, persistence and execution.
+Use item `keywords` for additional search terms and `disabled` for unavailable models.
+
+```tsx
+<ModelSelector open={open} onOpenChange={setOpen}>
+  <ModelSelectorTrigger render={<Button />}>Choose model</ModelSelectorTrigger>
+  <ModelSelectorContent title="Choose a model" showCloseButton={false}>
+    <ModelSelectorInput aria-label="Search models" />
+    <ModelSelectorList><ModelSelectorEmpty>No matching models</ModelSelectorEmpty>
+      <ModelSelectorItem value="local" onSelect={value => { select(value); setOpen(false) }}>
+        <ModelSelectorLogo provider="local">{hostLogo}</ModelSelectorLogo>
+        <ModelSelectorName>Local model</ModelSelectorName>
+      </ModelSelectorItem>
+    </ModelSelectorList>
+  </ModelSelectorContent>
+</ModelSelector>
+```
+
+`ModelSelectorLogo` is a **consumer ReactNode slot**, shared in approach with OpenIn.
+It renders children only: no bundled brand marks, provider registry, generated URL,
+fetching or theme inversion. `provider` is optional metadata (`data-provider`) and
+never selects an asset. An empty slot stays empty. The consumer supplies authorized
+assets and their theme appearance. Decorative logos beside a model name omit `label`;
+a standalone informative logo supplies `label`. Use `ModelSelectorLogoGroup` to
+compose multiple slots. Consumer logos should be noninteractive.
+
+All imports used by this slice (Dialog/Content/Title/Description/Trigger, Command
+and its list primitives, cn) exist in published design-components 0.3.0. No new
+dependency or unreleased primitive is required by ModelSelector itself. Other chat
+components that use Collapsible retain their separate next-release prerequisite.
+See `demo/model-selector.tsx` and `docs/model-selector-b/`. Unit tests use the real
+Command as a popup stand-in to avoid the known Base UI open portal/jsdom hang;
+Chromium verifies the real dialog, filtering, keyboard/touch selection and focus.

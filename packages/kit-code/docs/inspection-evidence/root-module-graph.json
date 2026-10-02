@@ -1,0 +1,14 @@
+{
+  "entry": "dist/index.js",
+  "inputs": [
+    "dist/use-clipboard.js",
+    "dist/code-block.js",
+    "dist/snippet.js",
+    "dist/file-tree.js",
+    "dist/stack-trace.js",
+    "dist/test-results.js",
+    "dist/index.js"
+  ],
+  "optionalPeerMatches": [],
+  "bytes": 30135
+}

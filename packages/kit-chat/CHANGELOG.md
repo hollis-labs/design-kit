@@ -5,6 +5,12 @@
 - Image uses host-owned `src`, required `alt`, and optional `mediaType` metadata; no AI SDK/generated-file or base64 assumptions.
 - InlineCitation retains the upstream composition names with a controlled local pager (index, previous/next, wraparound), exposed interactive HoverCard content and keyboard focus handoffs. No embla or new dependency. Needs the next design-components release (unreleased), which supplies HoverCard.
 
+## Unreleased — model selector (CW-20261002-0045)
+
+- Add ModelSelector Dialog/Command compositions with host-owned catalog, filtering and selection.
+- Replace upstream brand-logo hotlinks with consumer ReactNode slots; bundle no marks or new dependencies.
+- Keep titles/descriptions inside the real popup, with Command unit tests and Chromium dialog evidence.
+
 ## Unreleased — attachments (CW-20261002-0045)
 
 - Host-controlled Attachments grid/inline/list, media previews, metadata and removal events; own presentation types.

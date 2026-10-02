@@ -33,6 +33,10 @@
       "types": "./dist/src/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./audio-player": {
+      "types": "./dist/src/audio-player/index.d.ts",
+      "import": "./dist/audio-player/index.js"
+    },
     "./source.css": "./src/styles/source.css"
   },
   "main": "./dist/index.js",

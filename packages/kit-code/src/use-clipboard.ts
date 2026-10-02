@@ -6,10 +6,13 @@ export function useClipboard(
     onCopy,
     onError,
     timeout = 2000,
+    getText,
   }: {
     onCopy?: () => void;
     onError?: (error: Error) => void;
     timeout?: number;
+    /** What is written, computed at copy time; `code` still identifies the source for the "copied" feedback. */
+    getText?: () => string;
   },
 ) {
   const [copiedSource, setCopiedSource] = useState<string | null>(null);
@@ -29,7 +32,7 @@ export function useClipboard(
     try {
       if (!globalThis.navigator?.clipboard?.writeText)
         throw new Error("Clipboard API not available");
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(getText ? getText() : code);
       if (mounted.current) {
         setCopiedSource(code);
         clearTimeout(timer.current);
@@ -43,6 +46,6 @@ export function useClipboard(
     } finally {
       busy.current = false;
     }
-  }, [code, onCopy, onError, timeout]);
+  }, [code, getText, onCopy, onError, timeout]);
   return { copied: copiedSource === code, copy };
 }

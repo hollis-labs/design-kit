@@ -31,6 +31,8 @@ export default defineConfig({
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
         highlight: path.resolve(__dirname, 'src/highlight.ts'),
+        // Opt-in: the only module that imports ansi-to-react. Nothing in the main entry may reach it.
+        terminal: path.resolve(__dirname, 'src/terminal.tsx'),
       },
       formats: ['es'],
     },

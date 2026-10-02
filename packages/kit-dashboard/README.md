@@ -89,7 +89,7 @@ Optional domains live behind explicit subpaths:
 | `@hollis-labs/kit-dashboard/layout` | Page skeletons such as `ListPageLayout`, `DetailPageLayout`, `TabStrip` |
 | `@hollis-labs/kit-dashboard/data` | `DataTable`, `RowActionMenu`, filter-bar pieces |
 | `@hollis-labs/kit-dashboard/widgets` | Lightweight SVG/markup widgets that do not use `recharts` |
-| `@hollis-labs/kit-dashboard/charts` | `TimeSeriesChart` and any future charting components backed by `recharts` |
+| `@hollis-labs/kit-dashboard/charts` | `TimeSeriesChart` and `TimestampSampleChart` backed by `recharts` |
 
 Recommended rule:
 
@@ -468,3 +468,44 @@ palette design. The [pre-migration value comparison](../../docs/screenshots/them
 and [before/after proofs](../../docs/screenshots/theme-migration/palette/README.md)
 show the changes for visual review. `SettingsNotice` now uses base danger/info
 feedback colors; `SettingsStatusPill` retains doing/done lifecycle tones.
+
+## Exact timestamp samples (unreleased)
+
+`TimestampSampleChart` is an additive `/charts` export for one gauge or cumulative
+counter series. It uses the existing Recharts dependency. It never sums by day,
+fills missing values, joins across nulls, smooths, or derives rates. A finite zero
+is plotted; even all-zero samples are observations. An always-visible UTC data
+table includes “No sample” rows and supplies the text alternative. Animation is
+disabled for all users, including reduced-motion users.
+
+```tsx
+import { TimestampSampleChart } from '@hollis-labs/kit-dashboard/charts'
+
+<TimestampSampleChart
+  label="Execution duration"
+  unit="milliseconds"
+  kind="gauge"
+  points={[
+    { t: '2026-10-01T00:00:00Z', value: 0 },
+    { t: '2026-10-01T00:01:00Z', value: null },
+    { t: '2026-10-01T00:02:00Z', value: 12 },
+  ]}
+/>
+```
+
+Hosts provide finite numbers or null, ascending unique valid UTC timestamps,
+and the declared unit (`count`, `bytes`, `seconds`, `milliseconds`, `ratio`, or
+`percent`) and kind (`gauge` or `counter`). Ratio and percent remain different
+scales; counter resets are plotted as provided. The horizontal axis uses exact
+timestamp spacing; ticks show UTC time and the table shows full UTC timestamps.
+The vertical axis includes zero. The host owns fetching, requested-window bounds,
+freshness and truncation notices. No samples is distinct from a null sample.
+
+The existing `TimeSeriesChart` continues to sum events into zero-filled calendar-day
+buckets. Choose it for event aggregates; choose the new surface for samples.
+Heavy chart exports remain confined to `/charts`.
+
+This surface is not in published 0.2.0. It ships in the next coordinated minor;
+kit-observe cannot publish until that dashboard release is available. The demo
+fixture is `/samples.html` under `npm run demo`. Geometry evidence and its
+negative controls are described in [the sample proof](docs/sample-chart-proof.md).

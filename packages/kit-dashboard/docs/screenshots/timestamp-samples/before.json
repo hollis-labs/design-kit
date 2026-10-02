@@ -1,0 +1,110 @@
+[
+  {
+    "width": 1440,
+    "reducedMotion": "reduce",
+    "checks": {
+      "gap": true,
+      "zero": true,
+      "gauge": true
+    },
+    "geometry": {
+      "dots": [
+        {
+          "x": 65,
+          "y": 81,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 391,
+          "y": 5,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 1043,
+          "y": 157,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 1369,
+          "y": 43,
+          "fill": "rgb(228, 228, 231)"
+        }
+      ],
+      "path": "M65,81L391,5M1043,157L1369,43",
+      "zeroY": 157,
+      "plot": {
+        "x": 65,
+        "y": 5,
+        "width": 1304,
+        "height": 152
+      },
+      "stroke": "rgb(228, 228, 231)",
+      "primary": "rgb(228, 228, 231)",
+      "caption": "Execution duration — milliseconds, gauge",
+      "rows": [
+        "2026-10-01T00:00:00Z2",
+        "2026-10-01T01:00:00Z4",
+        "2026-10-01T02:00:00ZNo sample",
+        "2026-10-01T03:00:00Z0",
+        "2026-10-01T04:00:00Z3"
+      ],
+      "hiddenChartTabStops": 0,
+      "overflow": false
+    },
+    "expectedFailure": null
+  },
+  {
+    "width": 390,
+    "reducedMotion": "reduce",
+    "checks": {
+      "gap": true,
+      "zero": true,
+      "gauge": true
+    },
+    "geometry": {
+      "dots": [
+        {
+          "x": 65,
+          "y": 81,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 128.5,
+          "y": 5,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 255.5,
+          "y": 157,
+          "fill": "rgb(228, 228, 231)"
+        },
+        {
+          "x": 319,
+          "y": 43,
+          "fill": "rgb(228, 228, 231)"
+        }
+      ],
+      "path": "M65,81L128.5,5M255.5,157L319,43",
+      "zeroY": 157,
+      "plot": {
+        "x": 65,
+        "y": 5,
+        "width": 254,
+        "height": 152
+      },
+      "stroke": "rgb(228, 228, 231)",
+      "primary": "rgb(228, 228, 231)",
+      "caption": "Execution duration — milliseconds, gauge",
+      "rows": [
+        "2026-10-01T00:00:00Z2",
+        "2026-10-01T01:00:00Z4",
+        "2026-10-01T02:00:00ZNo sample",
+        "2026-10-01T03:00:00Z0",
+        "2026-10-01T04:00:00Z3"
+      ],
+      "hiddenChartTabStops": 0,
+      "overflow": false
+    },
+    "expectedFailure": null
+  }
+]

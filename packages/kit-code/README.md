@@ -68,6 +68,7 @@ FileTree, StackTrace, TestSuite, Commit and AgentTool use Collapsible; FileTree 
 use the shared controlled-state helper. Each **needs next design-components release (unreleased)**.
 This private workspace is not a claim of
 compatibility with registry design-components 0.3.0. Nothing publishes here.
+
 ## Terminal
 
 `@hollis-labs/kit-code/terminal` is opt-in: install `ansi-to-react@^6.2.6` (BSD-3-Clause; its `anser`,

@@ -145,3 +145,8 @@ export type { QueueMessagePart, QueueMessage, QueueTodo, QueueItemProps, QueueIt
 
 export { OpenIn, OpenInTrigger, OpenInContent, OpenInItem, OpenInGroup, OpenInLabel, OpenInSeparator } from './components/open-in'
 export type { OpenInProvider, OpenInProps, OpenInTriggerProps, OpenInContentProps, OpenInItemProps, OpenInGroupProps, OpenInLabelProps, OpenInSeparatorProps } from './components/open-in'
+
+export { Image } from './components/image'
+export type { ImageProps } from './components/image'
+export { InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationCarousel, InlineCitationCarouselContent, InlineCitationCarouselItem, InlineCitationCarouselHeader, InlineCitationCarouselIndex, InlineCitationCarouselPrev, InlineCitationCarouselNext, InlineCitationSource, InlineCitationQuote } from './components/inline-citation'
+export type { InlineCitationProps, InlineCitationTextProps, InlineCitationCardProps, InlineCitationCardTriggerProps, InlineCitationCardBodyProps, InlineCitationCarouselProps, InlineCitationCarouselContentProps, InlineCitationCarouselItemProps, InlineCitationCarouselHeaderProps, InlineCitationCarouselIndexProps, InlineCitationCarouselPrevProps, InlineCitationCarouselNextProps, InlineCitationSourceProps, InlineCitationQuoteProps } from './components/inline-citation'

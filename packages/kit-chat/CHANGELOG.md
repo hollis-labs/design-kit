@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add AI Elements Tool with host-mapped ToolState and JsonViewer/host-rendered content,
+  preserving falsy outputs; no AI SDK or code-renderer dependency (CW-20261002-0044 C).
+- Reconcile Confirmation content slots under ConfirmationCard's sole envelope/responder;
+  unchanged card props/locks/actions, opaque host-selected action IDs, host-supplied messages.
+- Add presentational Queue slots with bounded native list scrolling, Base UI disclosure,
+  and always-visible host action buttons for keyboard/touch.
+- Needs the next design-components release (unreleased) for Collapsible; publish with
+  the next coordinated core minor. No version/range/dependency/manifest changes.
 - Add AI Elements Reasoning, ChainOfThought, Sources and Plan on the shared Base UI
   Collapsible; keep content, citations and plan actions host-owned (CW-20261002-0044 B).
 - Fix upstream split disclosure roots in ChainOfThought so header/panel ARIA linkage

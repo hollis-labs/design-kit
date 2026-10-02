@@ -110,7 +110,9 @@ read-only flags and reduced motion. The repository's five gates remain required.
 
 ## Provenance
 
-Files carry pinned upstream source URLs and divergences. Card/cn come from the
+Files carry pinned upstream source URLs and divergences;
+[the upstream inventory](docs/upstream-versions.md) records all nine derived files,
+including both edge variants. Card/cn come from the
 shared design-components package (its primitives use Base UI), with no new Radix
 implementation. Upstream's implicit CSS, raw appearance and SMIL motion were
 replaced; animated edges use resolved coordinates instead of looking up only the

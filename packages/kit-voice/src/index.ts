@@ -1,8 +1,9 @@
 /**
  * `@hollis-labs/kit-voice` — voice input and output components.
  *
- * Vendored from AI Elements (Apache-2.0) and ported to Base UI and the token contract;
- * see README.md and docs/upstream-versions.md. The main entry carries no heavy
+ * Original Hollis Labs (MIT) aggregation barrel exporting AI Elements ports
+ * (Apache-2.0), adapted to Base UI and the token contract. See README.md and
+ * docs/upstream-versions.md. The main entry carries no heavy
  * dependency; `AudioPlayer` and its media-chrome peer live behind the separate
  * `@hollis-labs/kit-voice/audio-player` entry and are never imported from here. Needs the next
  * design-components release (unreleased): it imports its `useControllableState`.

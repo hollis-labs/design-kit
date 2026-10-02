@@ -6,6 +6,7 @@
 
 | Local source | Upstream source | Divergences |
 | --- | --- | --- |
+| src/components/artifact.tsx | packages/elements/src/artifact.tsx | Expanded viewer beside compact ArtifactCard; shared Base UI Button/Tooltip render composition; required nonempty labels, native buttons, bounded focusable content; host lifecycle/rendering; tokens |
 | src/components/open-in.tsx | packages/elements/src/open-in-chat.tsx | Base UI menu; required host href/label/icon catalog; reject non-HTTP(S) destinations; native explicit new-tab links; no defaults/query construction/brand exports; tokens |
 | src/components/suggestion.tsx | packages/elements/src/suggestion.tsx | Shared Button/cn; native focusable scrolling; token radius; host callback |
 | src/components/context.tsx | packages/elements/src/context.tsx | Own numeric usage/cost props, no ai/tokenlens/catalog/network; unknown stays unknown; guarded native progress; Base UI Popover keyboard/touch |
@@ -24,7 +25,7 @@
 | src/components/plan.tsx | packages/elements/src/plan.tsx | Base UI render composition; token radius; span Shimmer avoids nested paragraphs |
 
 | src/components/image.tsx | packages/elements/src/image.tsx | Own native src/alt/mediaType props; no AI SDK/base64 conversion; token radius |
-| src/components/inline-citation.tsx | packages/elements/src/inline-citation.tsx | Base UI interactive HoverCard, keyboard portal handoff, host labels/text, controlled local pager/wraparound; no embla; tokens |
+| src/components/inline-citation.tsx | packages/elements/src/inline-citation.tsx | Base UI interactive HoverCard, visible tabbability and verified keyboard portal handoff, host labels/text, controlled local pager/wraparound; no embla; tokens |
 
 The package-root LICENSE ships the original Hollis Labs MIT text and upstream
 Vercel attribution/full Apache-2.0 text. The pin contains no upstream NOTICE.

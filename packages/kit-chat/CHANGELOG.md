@@ -1,5 +1,12 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — expanded Artifact (CW-20261002-0049 PR C)
+
+- Add the expanded Artifact/header/title/description/close/actions/content shell beside compact ArtifactCard, retaining upstream component names.
+- Require nonempty action labels independent of tooltips; native non-submitting buttons report host callbacks, with no internal viewer lifecycle.
+- Bound/focus the native host-content scrolling region; no renderer, MIME detection, fetching, download implementation or new dependency.
+- Integrated kit-chat needs next design-components release (unreleased) for its other Collapsible/HoverCard exports; this slice uses published Button/Tooltip only.
+
 ## Unreleased — OpenIn (CW-20261002-0049 PR B)
 
 - Add host-supplied HTTP(S) destinations and decorative ReactNode icons on Base UI Menu.

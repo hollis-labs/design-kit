@@ -3,11 +3,12 @@
  * Upstream: packages/elements/src/inline-citation.tsx
  * Source: https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/inline-citation.tsx
  * Version: ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
- * Divergences: Base UI HoverCard render trigger; accessible interactive body; host trigger label; controlled local pager instead of embla; tokens.
+ * Divergences: Base UI HoverCard render trigger; accessible interactive body with visible tabbability and verified focus handoffs; host trigger label; controlled local pager instead of embla; tokens.
  */
 import { Children, createContext, isValidElement, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { ComponentProps, Ref, RefObject } from 'react'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { focusable, focusFirst } from '../lib/citation-focus'
 import { Button, HoverCard, HoverCardContent, HoverCardTrigger, cn } from '@hollis-labs/design-components'
 
 export type InlineCitationProps = ComponentProps<'span'>
@@ -36,10 +37,6 @@ function assignRef<T>(ref: Ref<T> | undefined, value: T | null) {
   if (typeof ref === 'function') ref(value)
   else if (ref) ref.current = value
 }
-function focusable(container: HTMLElement) {
-  return Array.from(container.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])'))
-    .filter((element) => !element.closest('[hidden], [inert]') && element.tabIndex >= 0)
-}
 export function InlineCitationCard({ actionsRef, ...props }: InlineCitationCardProps) {
   const trigger = useRef<HTMLElement>(null)
   const body = useRef<HTMLDivElement>(null)
@@ -61,8 +58,7 @@ export function InlineCitationCardTrigger({ className, children, onKeyDown, ref,
     onKeyDown={(event) => {
       onKeyDown?.(event)
       if (!event.defaultPrevented && event.key === 'Tab' && !event.shiftKey && citation.body.current) {
-        const first = focusable(citation.body.current)[0]
-        if (first) { event.preventDefault(); first.focus() }
+        if (focusFirst(focusable(citation.body.current))) event.preventDefault()
       }
     }}
     className={(state) => cn('ml-1 inline-flex items-center rounded-control border border-border bg-surface px-2 py-0.5 text-caption font-medium text-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', typeof className === 'function' ? className(state) : className)}>{children ?? 'Sources'}</HoverCardTrigger>
@@ -83,12 +79,14 @@ export function InlineCitationCardBody({ className, onKeyDown, onBlur, ref, ...p
       if (event.key === 'Escape') citation.trigger.current?.focus()
       if (event.key !== 'Tab') return
       const controls = focusable(event.currentTarget)
-      if (event.shiftKey && event.target === controls[0]) { event.preventDefault(); citation.trigger.current?.focus() }
+      if (event.shiftKey && event.target === controls[0] && citation.trigger.current) {
+        if (focusFirst([citation.trigger.current])) event.preventDefault()
+      }
       else if (!event.shiftKey && event.target === controls.at(-1) && citation.trigger.current) {
         // Portals are appended to body. Continue from the trigger's place in the host's tab order.
         const hostControls = focusable(event.currentTarget.ownerDocument.body).filter((element) => !event.currentTarget.contains(element))
-        const next = hostControls[hostControls.indexOf(citation.trigger.current) + 1]
-        if (next) { event.preventDefault(); next.focus() }
+        const triggerIndex = hostControls.indexOf(citation.trigger.current)
+        if (triggerIndex >= 0 && focusFirst(hostControls.slice(triggerIndex + 1))) event.preventDefault()
       }
     }} className={(state) => cn('w-80 max-w-full p-0', typeof className === 'function' ? className(state) : className)} />
 }

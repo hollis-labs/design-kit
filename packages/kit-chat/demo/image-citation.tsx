@@ -7,7 +7,7 @@ export function ImageCitationDemo() {
   const [index, setIndex] = useState(0)
   return <main className="mx-auto max-w-3xl space-y-4 bg-bg p-4 text-fg">
     <h1 className="text-heading font-semibold">Image and inline citations</h1>
-    <Image src={illustration} alt="Host illustration example" mediaType="image/svg+xml" />
+    <Image src={illustration} alt="Host illustration example" mediaType="image/svg+xml" className="dark:invert" />
     <p className="text-control"><InlineCitation><InlineCitationText>The host supplies the evidence.</InlineCitationText><InlineCitationCard><InlineCitationCardTrigger>2 sources</InlineCitationCardTrigger><InlineCitationCardBody>
       <InlineCitationCarousel index={index} onIndexChange={setIndex}>
         <InlineCitationCarouselHeader><InlineCitationCarouselPrev /><InlineCitationCarouselIndex /><InlineCitationCarouselNext /></InlineCitationCarouselHeader>

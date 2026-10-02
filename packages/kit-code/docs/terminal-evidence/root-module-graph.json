@@ -1,0 +1,16 @@
+{
+  "entry": "dist/index.js",
+  "inputs": [
+    "dist/agent.js",
+    "dist/code-block.js",
+    "dist/commit.js",
+    "dist/file-tree.js",
+    "dist/index.js",
+    "dist/snippet.js",
+    "dist/stack-trace.js",
+    "dist/test-results.js",
+    "dist/use-clipboard.js"
+  ],
+  "optionalPeerMatches": [],
+  "bytes": 44503
+}

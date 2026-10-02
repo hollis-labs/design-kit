@@ -6,6 +6,7 @@
 
 | Local source | Upstream source | Divergences |
 | --- | --- | --- |
+| src/components/open-in.tsx | packages/elements/src/open-in-chat.tsx | Base UI menu; required host href/label/icon catalog; reject non-HTTP(S) destinations; native explicit new-tab links; no defaults/query construction/brand exports; tokens |
 | src/components/suggestion.tsx | packages/elements/src/suggestion.tsx | Shared Button/cn; native focusable scrolling; token radius; host callback |
 | src/components/context.tsx | packages/elements/src/context.tsx | Own numeric usage/cost props, no ai/tokenlens/catalog/network; unknown stays unknown; guarded native progress; Base UI Popover keyboard/touch |
 | src/components/question.tsx | packages/elements/src/question.tsx | Shared Button/Textarea/cn; native radio/checkboxes; host text policy; async submission lock/error callback; no transport/persistence |

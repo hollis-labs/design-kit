@@ -17,14 +17,14 @@ states what diverged (and `docs/upstream-versions.md`). Each lands in its own ch
 |---|---|---|
 | `SpeechInput` | browser APIs only | **available** |
 | `MicSelector` (+ `MicSelector*` parts) and `useAudioDevices` | browser APIs only | **available** |
-| `VoiceSelector`, `Transcription` | browser APIs only | planned |
+| `VoiceSelector` (+ its parts), `Transcription` | browser APIs only | **available** |
 | `AudioPlayer` | `media-chrome`, behind `@hollis-labs/kit-voice/audio-player` | planned. Imports `ButtonGroup`: **needs the next `design-components` release (unreleased)** |
 
 Not taken: AI Elements' `Persona`. It needs Rive and `.riv` files hotlinked from
 Vercel's storage, and no licence for those assets is granted by the repository.
 
 **Compatibility.** kit-voice needs the next `design-components` release (unreleased). It
-imports `useControllableState`, which the workspace `design-components` exports but the
+imports `useControllableState` (used by `MicSelector`, `VoiceSelector` and `Transcription`), which the workspace `design-components` exports but the
 published `0.3.0` does not (and `AudioPlayer`, when it lands, imports `ButtonGroup`, also
 unreleased). Workspace linking hides this; a consumer on registry `0.3.0` would fail to
 resolve it. The `^0.3.0` range in `package.json` is the sibling convention and is raised
@@ -122,6 +122,70 @@ A Popover + Command combobox over the user's microphones. The parts are upstream
 - Picking a microphone does not bind it to `SpeechInput`: Web Speech cannot be pointed at a
   device, and the fallback uses the browser's default. The id is yours to use in your own
   `getUserMedia` call.
+
+## VoiceSelector
+
+A dialog of voices: `VoiceSelector` (root, owns `value` and `open`), `VoiceSelectorTrigger`,
+`VoiceSelectorContent`, then `Input`, `List`, `Empty`, `Group`, `Item`, `Separator`, `Shortcut`
+and the row parts `Name`, `Gender`, `Accent`, `Age`, `Description`, `Attributes`, `Bullet` and
+`Preview`. `VoiceSelectorDialog` is the same thing as one `CommandDialog` if you manage the
+trigger yourself.
+
+```tsx
+function Rows() {
+  const { setOpen, setValue } = useVoiceSelector()          // inside <VoiceSelector>
+  return voices.map((voice) => (
+    <VoiceSelectorItem key={voice.id} value={voice.id} keywords={[voice.name]}
+      onSelect={() => { setValue(voice.id); setOpen(false) }}>
+      <VoiceSelectorName>{voice.name}</VoiceSelectorName>
+      <VoiceSelectorAttributes>
+        <VoiceSelectorGender value={voice.gender} /><VoiceSelectorBullet />
+        <VoiceSelectorAccent value={voice.accent} />
+      </VoiceSelectorAttributes>
+      <VoiceSelectorPreview playing={playing === voice.id} onPlay={() => preview(voice.id)} />
+    </VoiceSelectorItem>
+  ))
+}
+```
+
+- **An item does not choose by itself.** Upstream's `VoiceSelectorItem` is a plain `CommandItem`:
+  wire `onSelect` through `useVoiceSelector()` as above (and pass `keywords`, as for
+  `MicSelector`: search matches `value` and `keywords`, not the visible text).
+- `onOpenChange` is `(open: boolean) => void`, called for every change including the context's
+  `setOpen`, so a controlled `open` closes when the host acts on it. (Base UI's own
+  `(open, eventDetails)` form is not passed through.)
+- `VoiceSelectorContent`'s `title` is the dialog's accessible name (visually hidden).
+- `VoiceSelectorPreview` only reports `onPlay`; what a preview plays is the host's. It stops its
+  click from reaching the row, so previewing does not choose the voice.
+- `VoiceSelectorGender` and `VoiceSelectorAccent` are announced by their value (`role="img"` and
+  `aria-label`) when they show the default icon or flag; pass children to show your own.
+- **Accents render as flag emoji, so what the user sees is up to their OS**: Windows draws
+  the two-letter region code instead of a flag, and a machine with no emoji font draws empty boxes
+  (that is what this repo's headless-Chromium screenshots show). Pass children for an icon of
+  your own. An accent not in the table renders nothing.
+- **Known limitation, from upstream:** a `VoiceSelectorPreview` button sits inside a
+  `role="option"` row, nested interactive content that the ARIA listbox pattern does not allow.
+  It works with mouse, touch and Tab; screen-reader behaviour inside the listbox is not verified.
+
+## Transcription
+
+A timed transcript that follows a clock and seeks on click. **The host owns the clock.**
+
+```tsx
+<Transcription segments={segments} currentTime={playerTime} onSeek={(t) => player.seek(t)}>
+  {(segment, index) => <TranscriptionSegment key={index} segment={segment} index={index} />}
+</Transcription>
+```
+
+- `segments` are `{ text, startSecond, endSecond }`: the fields upstream reads from the AI SDK's
+  transcription result, so those segments pass straight in without `ai` being a dependency.
+  Blank segments are skipped.
+- Feed `currentTime` from your player's time updates and the active segment (`data-active`,
+  `text-primary`) follows it; earlier segments are muted. A segment is active from its start up to,
+  not including, its end.
+- `onSeek(startSecond)` is called on every click on a segment, including the one already active.
+  Without `onSeek` (and without a segment `onClick`) segments are plain `<span>`s, not tab stops.
+  Left uncontrolled, `currentTime` starts at 0 and follows the last segment clicked.
 
 ## Why its own package
 

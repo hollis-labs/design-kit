@@ -10,8 +10,80 @@ import {
   MicSelectorTrigger,
   MicSelectorValue,
   SpeechInput,
+  Transcription,
+  TranscriptionSegment,
+  useVoiceSelector,
+  VoiceSelector,
+  VoiceSelectorAccent,
+  VoiceSelectorAge,
+  VoiceSelectorAttributes,
+  VoiceSelectorBullet,
+  VoiceSelectorContent,
+  VoiceSelectorDescription,
+  VoiceSelectorEmpty,
+  VoiceSelectorGender,
+  VoiceSelectorInput,
+  VoiceSelectorItem,
+  VoiceSelectorList,
+  VoiceSelectorName,
+  VoiceSelectorPreview,
+  VoiceSelectorTrigger,
 } from '../src'
+import type { TranscriptionSegmentData } from '../src'
 import type { SpeechInputError } from '../src'
+
+const VOICES = [
+  { id: 'aria', name: 'Aria', gender: 'female', accent: 'american', age: '32', description: 'Warm and conversational' },
+  { id: 'oliver', name: 'Oliver', gender: 'male', accent: 'british', age: '45', description: 'Measured, newsreader' },
+  { id: 'mei', name: 'Mei', gender: 'non-binary', accent: 'chinese', age: '28', description: 'Bright and quick' },
+] as const
+
+const SEGMENTS: TranscriptionSegmentData[] = [
+  { text: 'Voice', startSecond: 0, endSecond: 0.8 },
+  { text: 'input', startSecond: 0.8, endSecond: 1.6 },
+  { text: 'arrives', startSecond: 1.6, endSecond: 2.6 },
+  { text: 'as', startSecond: 2.6, endSecond: 3 },
+  { text: 'text', startSecond: 3, endSecond: 4 },
+]
+
+// Rows are wired through the context: choosing a voice sets it and closes the dialog.
+function VoiceRows({ previewing, onPreview }: { previewing: string | undefined; onPreview: (id: string) => void }) {
+  const { setOpen, setValue } = useVoiceSelector()
+  return (
+    <>
+      <VoiceSelectorInput placeholder="Search voices..." />
+      <VoiceSelectorList>
+        <VoiceSelectorEmpty>No voices found.</VoiceSelectorEmpty>
+        {VOICES.map((voice) => (
+          <VoiceSelectorItem
+            key={voice.id}
+            keywords={[voice.name, voice.description]}
+            onSelect={() => {
+              setValue(voice.id)
+              setOpen(false)
+            }}
+            value={voice.id}
+          >
+            <VoiceSelectorName>{voice.name}</VoiceSelectorName>
+            <VoiceSelectorAttributes>
+              <VoiceSelectorGender value={voice.gender} />
+              <VoiceSelectorBullet />
+              <VoiceSelectorAccent value={voice.accent} />
+              <VoiceSelectorBullet />
+              <VoiceSelectorAge>{voice.age}</VoiceSelectorAge>
+            </VoiceSelectorAttributes>
+            <VoiceSelectorDescription>{voice.description}</VoiceSelectorDescription>
+            <VoiceSelectorPreview
+              data-testid={`preview-${voice.id}`}
+              onPlay={() => onPreview(voice.id)}
+              playing={previewing === voice.id}
+            />
+          </VoiceSelectorItem>
+        ))}
+      </VoiceSelectorList>
+    </>
+  )
+}
 
 const panel = 'flex flex-col gap-3 rounded-panel border border-border bg-bg-elevated p-4'
 
@@ -22,6 +94,9 @@ export function App() {
   const [recorded, setRecorded] = useState('')
   const [errors, setErrors] = useState<string[]>([])
   const [mic, setMic] = useState<string | undefined>()
+  const [voice, setVoice] = useState<string | undefined>()
+  const [previewing, setPreviewing] = useState<string | undefined>()
+  const [time, setTime] = useState(1)
   const onError = (source: string) => (error: SpeechInputError) =>
     setErrors((current) => [...current, `${source}: ${error.code} — ${error.message}`])
 
@@ -94,6 +169,48 @@ export function App() {
               </MicSelectorList>
             </MicSelectorContent>
           </MicSelector>
+        </section>
+
+        <section className={panel} aria-labelledby="voice-selector">
+          <h2 id="voice-selector" className="text-label font-medium">VoiceSelector</h2>
+          <p className="text-control text-fg-muted">
+            A dialog of voices. The host decides what a preview does; here it only marks the row playing.
+          </p>
+          <div className="flex items-center gap-3">
+            <VoiceSelector onValueChange={setVoice} value={voice}>
+              <VoiceSelectorTrigger className="rounded-control border border-border px-3 py-1.5 text-control" data-testid="voice-trigger">
+                {VOICES.find((v) => v.id === voice)?.name ?? 'Choose a voice'}
+              </VoiceSelectorTrigger>
+              <VoiceSelectorContent title="Choose a voice">
+                <VoiceRows onPreview={(id) => setPreviewing((current) => (current === id ? undefined : id))} previewing={previewing} />
+              </VoiceSelectorContent>
+            </VoiceSelector>
+            <output className="text-control text-fg-secondary" data-testid="voice-value">{voice ?? 'none'}</output>
+          </div>
+        </section>
+
+        <section className={panel} aria-labelledby="transcription">
+          <h2 id="transcription" className="text-label font-medium">Transcription</h2>
+          <p className="text-control text-fg-muted">
+            The host owns the clock: the slider stands in for a player's time updates, and a click seeks it.
+          </p>
+          <label className="flex items-center gap-3 text-control">
+            <span>Time</span>
+            <input
+              aria-label="Playback time"
+              data-testid="time"
+              max={4}
+              min={0}
+              onChange={(event) => setTime(Number(event.target.value))}
+              step={0.1}
+              type="range"
+              value={time}
+            />
+            <output data-testid="time-value">{time.toFixed(1)}s</output>
+          </label>
+          <Transcription currentTime={time} onSeek={setTime} segments={SEGMENTS}>
+            {(segment, index) => <TranscriptionSegment index={index} key={segment.startSecond} segment={segment} />}
+          </Transcription>
         </section>
 
         <section className={panel} aria-labelledby="error-log">

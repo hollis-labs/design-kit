@@ -215,12 +215,10 @@ per-file provenance, a [version inventory](docs/upstream-versions.md), and upstr
 licence reference texts. Each source-taking PR carries the applicable attribution
 and licence in the receiving package’s shipped `LICENSE`.
 
-### Added primitives — next design-components release (unreleased)
+### Added primitives — design-components 0.4.0
 
-ButtonGroup, Collapsible and HoverCard are workspace additions for the **next
-design-components release (unreleased)**. They are absent from registry `0.3.0`;
-keeping the workspace version at `0.3.0` does not make these imports compatible
-with that published tarball.
+ButtonGroup, Collapsible and HoverCard are added in **design-components 0.4.0**.
+Registry `0.3.0` does not contain them; consumers need `^0.4.0`.
 
 - `ButtonGroup`, `ButtonGroupText`, `ButtonGroupSeparator`: labelled independent
   controls in horizontal/vertical layout. Base UI 1.8.0 has no ButtonGroup export;
@@ -263,7 +261,7 @@ The stable setter accepts a value or a functional update. Uncontrolled updates
 in one event compose in order; controlled updates resolve against the current
 host value. `onChange` fires only when `Object.is(next, current)` is false,
 never merely because the host changes props. This hook contains no transport or
-store behavior. Published `0.3.0` does not export it yet.
+store behavior. It is exported in `0.4.0`; registry `0.3.0` does not contain it.
 
 ### Inherited primitive attribution
 

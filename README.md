@@ -19,27 +19,26 @@ available just relocates the drift somewhere harder to see.
 
 ## Packages
 
-| Package | What |
-|---|---|
-| `packages/design-tokens` | the contract (names + types) + default values |
-| `packages/design-components` | idiom-free base |
-| `packages/design-app-runtime` | api client, hooks, router, storage, toast, status |
-| `packages/design-bindings` | the binding contract — "this schema renders as these components" |
-| `packages/kit-dashboard` | the dashboard idiom — forked whole from `@hollis-labs/sysop-ui` 0.9.0 |
-| `packages/kit-chat` | chat input + stream, and the interactive card set |
-| `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished |
-| `packages/kit-settings` | controlled schema-driven settings forms, provenance and a setup wizard; released at `0.1.0` |
-| `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; released at `0.1.0` |
-| `packages/kit-admin` | controlled admin directory, settings/setup, status and diagnostics; private `0.0.0`, unpublished |
-| `packages/kit-voice` | voice input and output components (speech input, microphone and voice selection, transcript, audio playback); private `0.0.0`, unpublished |
-| `packages/kit-workflow` | opt-in controlled workflow canvas; private `0.0.0`, unpublished |
-| `packages/kit-code` | code and developer presentation; private `0.0.0`, unpublished |
-| `packages/eslint-config-design` | the gate |
+| Package | What | License |
+|---|---|---|
+| `packages/design-tokens` | the contract (names + types) + default values | MIT |
+| `packages/design-components` | idiom-free base | MIT |
+| `packages/design-app-runtime` | api client, hooks, router, storage, toast, status | MIT |
+| `packages/design-bindings` | the binding contract — "this schema renders as these components" | MIT |
+| `packages/kit-dashboard` | the dashboard idiom — forked whole from `@hollis-labs/sysop-ui` 0.9.0 | MIT |
+| `packages/kit-chat` | chat input + stream, and the interactive card set | MIT AND Apache-2.0 |
+| `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished | MIT |
+| `packages/kit-settings` | controlled schema-driven settings forms, provenance and a setup wizard; release version `0.2.0` | MIT |
+| `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; release version `0.1.1` | MIT |
+| `packages/kit-admin` | controlled admin directory, settings/setup, status and diagnostics; private `0.0.0`, unpublished | MIT |
+| `packages/kit-voice` | voice input and output components (speech input, microphone and voice selection, transcript, audio playback); private `0.0.0`, unpublished | MIT AND Apache-2.0 |
+| `packages/kit-workflow` | opt-in controlled workflow canvas; private `0.0.0`, unpublished | MIT AND Apache-2.0 |
+| `packages/kit-code` | code and developer presentation; private `0.0.0`, unpublished | MIT AND Apache-2.0 |
+| `packages/eslint-config-design` | the gate | MIT |
 
 Current releases: the six core packages (`design-tokens`, `design-components`,
-`design-app-runtime`, `kit-dashboard`, `kit-chat` and `eslint-config-design`) at **`0.3.0`**,
-released together at one number; `design-bindings` at `0.1.0`; and the first releases of
-`kit-settings` and `kit-observe` at `0.1.0`. `kit-account` is private. See
+`design-app-runtime`, `kit-dashboard`, `kit-chat` and `eslint-config-design`) at **`0.4.0`**,
+released together at one number; `design-bindings` at `0.1.0`; `kit-settings` at `0.2.0`; and `kit-observe` at `0.1.1`. `kit-account` is private. See
 [`CHANGELOG.md`](./CHANGELOG.md).
 `kit-chat` was an empty stub when the first six published, so it was excluded rather than
 holding five finished packages for it, and shipped separately — CW-20260912-0042.

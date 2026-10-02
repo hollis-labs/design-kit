@@ -1,5 +1,9 @@
 # @hollis-labs/design-app-runtime
 
+## 0.4.0 — 2026-10-02 — version alignment, no code change
+
+Co-released with the other core packages. No source or behavior change.
+
 ## 0.3.0 — 2026-10-02 — version alignment, no code change
 
 Released with the other core packages so that one number selects a compatible set.

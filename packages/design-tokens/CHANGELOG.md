@@ -1,6 +1,6 @@
 # @hollis-labs/design-tokens
 
-## Unreleased
+## 0.4.0 — 2026-10-02
 
 - Tailwind `dark:` utilities also match
   when no explicit mode marker is in scope, aligning first paint with the default

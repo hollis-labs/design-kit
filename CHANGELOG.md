@@ -10,6 +10,44 @@ anything specific to it.
 
 ---
 
+## 0.4.0 — 2026-10-02 — six core packages, independent settings and observe updates
+
+The six core packages move together to `0.4.0`. design-app-runtime and
+eslint-config-design take the number with no code change. kit-settings prepares
+`0.2.0` for the additive readOnlyContext feature on its 0.x line; kit-observe
+prepares `0.1.1`. design-bindings remains `0.1.0`. kit-account, kit-admin,
+kit-code, kit-voice and kit-workflow remain private `0.0.0` and are not published.
+
+**Upgrade the set together.** All workspace core ranges, including private kits,
+move to `^0.4.0`; a `^0.3.0` range excludes the next 0.x minor and would install
+registry copies. kit-observe's optional dashboard peer and kit-admin's settings
+range also move to compatible versions. Folio adoption follows registry publication
+in its own change.
+
+- **design-tokens:** Tailwind `dark:` utilities match the default dark palette when
+  no explicit mode marker is present, fixing first paint; explicit light scope
+  behavior and zero-specificity matching remain intact.
+- **design-components:** add ButtonGroup, Collapsible, HoverCard and the shared
+  useControllableState hook; correct inherited shadcn MIT attribution. HoverCard
+  is supplementary by default, with an opt-in accessible-content override.
+- **kit-dashboard:** restore keyboard Button/menu focus rings under theme.css,
+  retain quiet pointer focus and increase unsorted DataTable glyph contrast.
+- **kit-chat:** add Message actions/branching, CSS Shimmer, Reasoning, ChainOfThought,
+  Sources, Plan, Tool, Confirmation content, Queue, Attachments/intake, ModelSelector,
+  Suggestions, Context, Question, Image, InlineCitation, OpenIn and expanded Artifact.
+  Data, content and application actions remain host-owned. The range now requires
+  the design-components release containing Collapsible and HoverCard.
+- **kit-settings:** optional readOnlyContext renders nonwritable fields as labelled
+  text while retaining provenance/apply state and the existing default controls.
+
+**License metadata:** kit-chat's license expression is now `MIT AND Apache-2.0`,
+matching its shipped MIT notice, AI Elements attribution and full Apache terms.
+The private kit-code, kit-voice and kit-workflow fields use the same expression.
+All other package license fields remain `MIT`; design-components' shadcn sources
+carry MIT notices.
+
+---
+
 ## 0.3.0 — 2026-10-02 — the six core packages move together; two packages are released for the first time
 
 The six core packages move to `0.3.0`. Three have changes: `design-components`, `kit-dashboard`

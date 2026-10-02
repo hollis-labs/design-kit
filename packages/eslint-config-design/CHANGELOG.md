@@ -1,5 +1,10 @@
 # @hollis-labs/eslint-config-design
 
+## 0.4.0 — 2026-10-02 — version alignment, no code change
+
+Co-released with the other core packages. No source or behavior change. The
+design-tokens peer range is now `^0.4.0`.
+
 ## 0.3.0 — 2026-10-02 — version alignment, no code change
 
 Released with the other core packages so that one number selects a compatible set. The `@hollis-labs/design-tokens` peer is now `^0.3.0`. The package documentation gains a section

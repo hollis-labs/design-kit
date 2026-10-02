@@ -1,6 +1,8 @@
 # @hollis-labs/kit-dashboard
 
-## Unreleased
+## 0.4.0 — 2026-10-02
+
+Requires design-components, design-tokens and design-app-runtime `^0.4.0`.
 
 - Restore keyboard focus rings for Buttons rendered under `theme.css`, including
   kit-observe Retry/Copy controls. Suppress rings only for pointer focus and give

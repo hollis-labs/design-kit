@@ -5,3 +5,7 @@ export type { SettingsScalar, SettingsGroup, SettingsValue, SettingsValues, Sett
 export { SettingsProvenanceRenderer } from './provenance'
 export { settingsMetadataProblem } from './provenance-model'
 export type { SettingsMetadataValue, SettingsApplyProjection, SettingsProvenanceState, SettingsProvenanceRendererProps } from './provenance-model'
+export { SettingsWizard } from './wizard'
+export type { SettingsWizardProps } from './wizard'
+export { settingsWizardGroups, settingsWizardEvaluation } from './wizard-model'
+export type { SettingsWizardIntent, SettingsWizardCheck, SettingsWizardResult } from './wizard-model'

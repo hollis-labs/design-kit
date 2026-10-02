@@ -7,6 +7,8 @@ import type { Field, SettingsChanges, SettingsDraft, SettingsEdit, SettingsGroup
 export interface SettingsGroupFormProps extends SettingsState {
   readonly group: SettingsGroup
   readonly unavailable?: string
+  readonly requiredFirst?: boolean
+  readonly readOnlyContext?: boolean
   readonly onDraftChange: (draft: SettingsDraft) => void
   /** Intent only: host must revalidate on the backend and submit its revision/ETag. */
   readonly onSave?: (changes: SettingsChanges) => void
@@ -18,7 +20,7 @@ export interface SettingsGroupFormProps extends SettingsState {
 }
 const controlClass = 'text-control md:text-(length:--text-control) text-fg rounded-(--radius-control)'
 
-export function SettingsGroupForm({ group, values, draft, busy = false, validation, error, notice, onDraftChange, onSave, onValidate, onReset, fieldExtra, footer, unavailable: hostUnavailable }: SettingsGroupFormProps) {
+export function SettingsGroupForm({ group, values, draft, busy = false, validation, error, notice, onDraftChange, onSave, onValidate, onReset, fieldExtra, footer, unavailable: hostUnavailable, requiredFirst = false, readOnlyContext = false }: SettingsGroupFormProps) {
   const id = useId()
   const profile = inspectSettingsGroup(group)
   const unavailable = typeof profile === 'string' ? profile : !profile.canRead ? 'Reading this group is unavailable.' : snapshotProblem(profile, values) || hostUnavailable
@@ -26,6 +28,7 @@ export function SettingsGroupForm({ group, values, draft, busy = false, validati
     <h2 id={`${id}-title`} className="text-control font-semibold text-fg">{group.label}</h2>
     <p role="alert" className="text-control text-danger">{unavailable}</p>
   </section>
+  const fields = requiredFirst ? [...profile.fields.filter(f => f.required), ...profile.fields.filter(f => !f.required)] : profile.fields
   const evaluated = evaluateSettings(profile, values, draft)
   const hasChanges = Object.keys(evaluated.changes.set).length > 0 || evaluated.changes.unset.length > 0
   const canValidate = !busy && profile.canValidate && hasChanges && evaluated.errors.length === 0
@@ -49,7 +52,7 @@ export function SettingsGroupForm({ group, values, draft, busy = false, validati
       <h2 id={`${id}-title`} className="text-control font-semibold text-fg">{group.label}</h2>
       <span role="status" className="text-label text-fg-muted">{busy ? 'Working…' : evaluated.dirty ? 'Unsaved changes' : 'No changes'}</span>
     </div>
-    {profile.fields.map((f, index) => {
+    {fields.map((f, index) => {
       const v = values[f.key], edit = Object.hasOwn(draft, f.key) ? draft[f.key] : undefined
       const fieldId = `${id}-${index}`, helpId = `${fieldId}-help`, errorsId = `${fieldId}-errors`
       const fieldErrors = errors.filter(e => e.path === settingsPath(f.key))
@@ -61,8 +64,8 @@ export function SettingsGroupForm({ group, values, draft, busy = false, validati
       const title = f.schema.title ?? f.key
       const a11y = { id: fieldId, disabled, 'aria-describedby': `${helpId}${fieldErrors.length ? ' ' + errorsId : ''}`, 'aria-invalid': fieldErrors.length > 0 || undefined, 'aria-required': f.required || undefined }
       return <div key={f.key} className="flex min-w-0 flex-col gap-1">
-        <label htmlFor={fieldId} className="text-label font-medium text-fg-secondary">{title}{f.required ? ' (required)' : ''}</label>
-        {f.schema.enum ? <select {...a11y} className="h-8 w-full min-w-0 rounded-control border border-input bg-bg px-2 text-control text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50" value={removed || value === undefined ? '' : String(f.schema.enum.indexOf(value))} onChange={event => {
+        <label id={`${fieldId}-label`} htmlFor={fieldId} className="text-label font-medium text-fg-secondary">{title}{f.required ? ' (required)' : ''}</label>
+        {readOnlyContext && !writable ? <output id={fieldId} aria-labelledby={`${fieldId}-label`} aria-describedby={helpId} className="text-control text-fg">{f.secret ? v.secret_present ? 'Secret is set' : 'Secret is not set' : v.present ? String(v.value) : 'Not set'}</output> : f.schema.enum ? <select {...a11y} className="h-8 w-full min-w-0 rounded-control border border-input bg-bg px-2 text-control text-fg outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50" value={removed || value === undefined ? '' : String(f.schema.enum.indexOf(value))} onChange={event => {
           const selected = f.schema.enum?.[Number(event.target.value)]
           if (event.target.value !== '' && selected !== undefined) write(f, { kind: 'value', value: selected })
         }}>

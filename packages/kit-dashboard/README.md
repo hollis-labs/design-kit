@@ -102,7 +102,7 @@ Recommended rule:
 
 ## Consuming the kit
 
-**Published at `0.1.0`.** `@hollis-labs/kit-dashboard` is a workspace package inside
+**Release version `0.4.0`.** `@hollis-labs/kit-dashboard` is a workspace package inside
 `hollis-labs/design-kit`, released alongside the other five — see the repo's
 [`CHANGELOG.md`](https://github.com/hollis-labs/design-kit/blob/main/CHANGELOG.md).
 

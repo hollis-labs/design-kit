@@ -1,68 +1,43 @@
 # @hollis-labs/kit-chat
 
-## Unreleased — expanded Artifact (CW-20261002-0049 PR C)
+## 0.4.0 — 2026-10-02
 
-- Add the expanded Artifact/header/title/description/close/actions/content shell beside compact ArtifactCard, retaining upstream component names.
-- Require nonempty action labels independent of tooltips; native non-submitting buttons report host callbacks, with no internal viewer lifecycle.
-- Bound/focus the native host-content scrolling region; no renderer, MIME detection, fetching, download implementation or new dependency.
-- Integrated kit-chat needs next design-components release (unreleased) for its other Collapsible/HoverCard exports; this slice uses published Button/Tooltip only.
+Co-released with the other core packages. Requires design-components and
+design-tokens `^0.4.0`: the new Collapsible/HoverCard compositions are absent
+from design-components 0.3.0, and `^0.3.0` cannot select the new minor.
+The package license expression is now **`MIT AND Apache-2.0`**. The tarball
+includes Hollis Labs' MIT notice, AI Elements attribution and full Apache-2.0 terms.
 
-## Unreleased — OpenIn (CW-20261002-0049 PR B)
+- Add AI Elements Message actions/branching with controlled selection, wraparound
+  navigation and retained inactive drafts; Shimmer uses opt-in CSS animation,
+  token colors, a static fallback and reduced-motion support. The new public
+  `./keyframes.css` export is opt-in via `@hollis-labs/kit-chat/keyframes.css`.
+- Add Reasoning, ChainOfThought, Sources and Plan on Base UI Collapsible; keep
+  rendered content, citations, elapsed seconds and plan actions host-owned.
+  ChainOfThought header/panel linkage and user collapse during streaming are preserved.
+- Add Tool with host-mapped ToolState and JsonViewer/host-rendered content,
+  including falsy outputs. Reconcile Confirmation content under ConfirmationCard's
+  existing envelope/responder, locks, opaque host action IDs and host messages.
+- Add Queue slots with bounded native scrolling, Base UI disclosure and
+  always-visible host action buttons for keyboard/touch.
+- Add host-controlled Attachments grid/inline/list, previews, metadata and removal;
+  AttachmentDropzone/native picker reports files and rejections without owning
+  uploads, stores or composer triggers.
+- Add ModelSelector Dialog/Command compositions with host-owned catalog/filtering
+  and ReactNode logo slots, without brand hotlinks or bundled marks.
+- Add Suggestions/Suggestion actions, Context for host numeric usage/cost and
+  guarded capacity, and Question with native radio/checkboxes, optional required
+  text, controlled/uncontrolled drafts and a synchronous pending-submit guard.
+- Add Image with host `src`, required `alt` and optional mediaType; InlineCitation
+  compositions use a local pager and accessible HoverCard with keyboard focus handoffs.
+- Add OpenIn with host-supplied HTTP(S) destinations and decorative icon slots;
+  invalid destinations are disabled, and native activation uses noopener/noreferrer.
+- Add expanded Artifact/header/title/description/close/actions/content beside
+  ArtifactCard, with labelled non-submitting actions and a bounded host-content region.
 
-- Add host-supplied HTTP(S) destinations and decorative ReactNode icons on Base UI Menu.
-- Reject unsupported/invalid hrefs as disabled non-link rows; explicit native activation opens a new tab with noopener noreferrer.
-- No default providers, query construction, bundled brands, fetching or new dependencies.
-
-## Unreleased — suggestion, context and question (CW-20261002-0045)
-
-- Add host suggestion actions in a focusable native scrolling region.
-- Context accepts host numeric usage/cost only; invalid or absent values stay Unknown, guarded capacity is clamped, and Base UI Popover supports keyboard/touch.
-- Question uses native radio/checkboxes, controlled/uncontrolled drafts, optional required-text policy and synchronous pending-submit guard; host owns all persistence/network behavior.
-- Pinned provenance/license, behavior tests, demo and browser evidence; no dependencies added.
-
-## Unreleased — Image + InlineCitation (CW-20261002-0049 A)
-
-- Image uses host-owned `src`, required `alt`, and optional `mediaType` metadata; no AI SDK/generated-file or base64 assumptions.
-- InlineCitation retains the upstream composition names with a controlled local pager (index, previous/next, wraparound), exposed interactive HoverCard content and keyboard focus handoffs. No embla or new dependency. Needs the next design-components release (unreleased), which supplies HoverCard.
-
-## Unreleased — model selector (CW-20261002-0045)
-
-- Add ModelSelector Dialog/Command compositions with host-owned catalog, filtering and selection.
-- Replace upstream brand-logo hotlinks with consumer ReactNode slots; bundle no marks or new dependencies.
-- Keep titles/descriptions inside the real popup, with Command unit tests and Chromium dialog evidence.
-
-## Unreleased — attachments (CW-20261002-0045)
-
-- Host-controlled Attachments grid/inline/list, media previews, metadata and removal events; own presentation types.
-- Local AttachmentDropzone/native picker reports File[] and per-file rejections; no stores, uploads, screenshots or composer trigger takeover.
-- Upstream preview names backed by accessible Base UI Popover; existing published primitives only, no new dependencies.
-- Pinned provenance, full existing Apache terms extended to these ports, tests, host demo and browser evidence.
-
-## Unreleased
-
-- Add AI Elements Tool with host-mapped ToolState and JsonViewer/host-rendered content,
-  preserving falsy outputs; no AI SDK or code-renderer dependency (CW-20261002-0044 C).
-- Reconcile Confirmation content slots under ConfirmationCard's sole envelope/responder;
-  unchanged card props/locks/actions, opaque host-selected action IDs, host-supplied messages.
-- Add presentational Queue slots with bounded native list scrolling, Base UI disclosure,
-  and always-visible host action buttons for keyboard/touch.
-- Needs the next design-components release (unreleased) for Collapsible; publish with
-  the next coordinated core minor. No version/range/dependency/manifest changes.
-- Add AI Elements Reasoning, ChainOfThought, Sources and Plan on the shared Base UI
-  Collapsible; keep content, citations and plan actions host-owned (CW-20261002-0044 B).
-- Fix upstream split disclosure roots in ChainOfThought so header/panel ARIA linkage
-  is preserved. Reasoning elapsed seconds are host-supplied; no markdown deps in main.
-- **Release prerequisite:** these components require the next, unreleased
-  design-components core release. Published design-components 0.3.0 lacks Collapsible.
-  Publish together in the next six-way core minor; no version/range changes here.
-
-- Add AI Elements Message actions/branching without message-layout or AI SDK dependencies;
-  controlled selection, wraparound navigation and preserved inactive drafts (CW-20261002-0044).
-- Add Shimmer with token-colored, opt-in `keyframes.css`, a static fallback and reduced-motion support;
-  replace upstream motion/react with CSS (CW-20261002-0044).
-- Create kit-chat's MIT LICENSE and append AI Elements attribution/full Apache-2.0 text.
-  This adds a LICENSE file to the published tarball; no version/range changes.
-
+These source ports retain pinned upstream provenance and host-owned data/actions.
+No AI SDK, Markdown renderer, motion/embla library or transport dependency is added
+to the main entry.
 
 ## 0.3.0 — 2026-10-02
 

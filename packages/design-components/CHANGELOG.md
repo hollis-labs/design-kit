@@ -1,6 +1,6 @@
 # @hollis-labs/design-components
 
-## Unreleased
+## 0.4.0 — 2026-10-02
 
 - Use full-strength focus rings, including destructive and invalid controls,
   with design-tokens' stronger `ring` values (CW-20261002-0091). Destructive
@@ -10,20 +10,18 @@
 
 - Correct shadcn MIT attribution for the 23 earlier ui primitives inherited
   through sysop-ui: verified file-level provenance, source headers and package
-  LICENSE scope. Comments/docs/notice only; ships with the next lockstep release
-  (CW-20261002-0053).
+  LICENSE scope. Comments/docs/notice only (CW-20261002-0053).
 
 - Add shared `useControllableState({ value, defaultValue, onChange })` with a stable
-  setter, functional updates and change-only callbacks; ships with the next
-  lockstep core release (CW-20261002-0052).
+  setter, functional updates and change-only callbacks (CW-20261002-0052).
 
-ButtonGroup, Collapsible and HoverCard ship in the **next design-components
-release (unreleased)**. The published registry `0.3.0` does not contain these
-primitives; workspace `0.3.0` remains unchanged pending the coordinated release.
+ButtonGroup, Collapsible and HoverCard are added in `0.4.0`; registry `0.3.0`
+does not contain these primitives. Requires design-tokens `^0.4.0`.
 
 - Add `HoverCard`/trigger/content on Base UI PreviewCard with trigger delays,
   positioning, render composition and token styling. Preview content remains
-  supplementary and hidden from screen-reader navigation (CW-20261002-0043).
+  supplementary and hidden from screen-reader navigation by default; interactive
+  consumers may opt into accessible content with `aria-hidden={false}` (CW-20261002-0043).
 
 - Reuse existing `Callout` for alerts; no redundant `Alert` port added.
 

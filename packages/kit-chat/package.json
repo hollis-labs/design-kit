@@ -1,6 +1,6 @@
 {
   "name": "@hollis-labs/kit-chat",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -14,7 +14,7 @@
     "streaming",
     "composer"
   ],
-  "license": "MIT",
+  "license": "MIT AND Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hollis-labs/design-kit.git",
@@ -72,8 +72,8 @@
   },
   "dependencies": {
     "@hollis-labs/design-bindings": "^0.1.0",
-    "@hollis-labs/design-components": "^0.3.0",
-    "@hollis-labs/design-tokens": "^0.3.0",
+    "@hollis-labs/design-components": "^0.4.0",
+    "@hollis-labs/design-tokens": "^0.4.0",
     "@shadcn/react": "^0.3.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.5.0"

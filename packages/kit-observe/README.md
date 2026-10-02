@@ -11,7 +11,7 @@ renders presentation inputs; hosts normalize and validate wire responses.
 npm install @hollis-labs/kit-observe @hollis-labs/design-components @hollis-labs/design-tokens
 ```
 
-`@hollis-labs/kit-dashboard` `^0.3.0` is an **optional peer**, needed only for the `/charts`
+`@hollis-labs/kit-dashboard` `^0.4.0` is an **optional peer**, needed only for the `/charts`
 entry (`SampleSeriesView`, which uses the dashboard's `TimestampSampleChart`, first released in
 kit-dashboard 0.3.0). The root entry never imports it, so a host that renders only status, stats and
 diagnostics does not need kit-dashboard or its chart engine. If you use `/charts` without it

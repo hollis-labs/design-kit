@@ -123,7 +123,7 @@ non-Tailwind consumer ever turns up, that is a small task rather than a migratio
 |---|---|
 | shadcn primitives (`ui/`) | 26 files — button-group, collapsible, hover-card, table, button, badge, card, checkbox, input, textarea, label, dialog, alert-dialog, dropdown-menu, popover, command, input-group, scroll-area, select, separator, sheet, switch, tabs, tooltip, skeleton, sonner |
 | Components | 21 — `Pill` · `LiveDot` · `Callout` · `CopyableId` · `CopyButton` · `ConfirmDialog` · `DetailDialog`/`DetailSection` · `FormDialog` · `JsonViewer` · `JsonModal`/`PayloadActions`/`PayloadSummary` · `MetaList` · `Metric` · `ProgressBar` · `AppShell` · `DetailPageLayout` · `OverflowMenu` · `CollapsibleSection` · `Combobox` · `EmptyState` · `SearchInput` · `TransferList` |
-| Hooks | `useCopy` · `useArrowNav` · `useControllableState` (unreleased) |
+| Hooks | `useCopy` · `useArrowNav` · `useControllableState` (0.4.0) |
 | Contracts | `ColumnDef`/`SortState`/`alignClass`/`compareBy` · `Tone`/`TONE_CLASSES` · `IconComponent` · the row-activation protocol |
 
 **The test every export passed: "would `kit-chat` take this unchanged?"** Anything
@@ -215,12 +215,10 @@ per-file provenance, a [version inventory](docs/upstream-versions.md), and upstr
 licence reference texts. Each source-taking PR carries the applicable attribution
 and licence in the receiving package’s shipped `LICENSE`.
 
-### Added primitives — next design-components release (unreleased)
+### Added primitives — design-components 0.4.0
 
-ButtonGroup, Collapsible and HoverCard are workspace additions for the **next
-design-components release (unreleased)**. They are absent from registry `0.3.0`;
-keeping the workspace version at `0.3.0` does not make these imports compatible
-with that published tarball.
+ButtonGroup, Collapsible and HoverCard are added in **design-components 0.4.0**.
+Registry `0.3.0` does not contain them; consumers need `^0.4.0`.
 
 - `ButtonGroup`, `ButtonGroupText`, `ButtonGroupSeparator`: labelled independent
   controls in horizontal/vertical layout. Base UI 1.8.0 has no ButtonGroup export;
@@ -250,7 +248,7 @@ set `PROOF_OUTPUT` to a scratch directory and run the script with an optional
 `PLAYWRIGHT_MODULE` pointing to a separately installed Playwright `index.mjs`.
 Playwright is verification tooling; it is not a new package runtime dependency.
 
-### Controllable state (unreleased: ships with the next lockstep core release)
+### Controllable state (0.4.0)
 
 `useControllableState({ value, defaultValue, onChange })` returns
 `[state, setState]`. `defaultValue` is required and used only to initialize
@@ -263,7 +261,7 @@ The stable setter accepts a value or a functional update. Uncontrolled updates
 in one event compose in order; controlled updates resolve against the current
 host value. `onChange` fires only when `Object.is(next, current)` is false,
 never merely because the host changes props. This hook contains no transport or
-store behavior. Published `0.3.0` does not export it yet.
+store behavior. It is exported in `0.4.0`; registry `0.3.0` does not contain it.
 
 ### Inherited primitive attribution
 

@@ -10,6 +10,52 @@ anything specific to it.
 
 ---
 
+## 0.4.0 — 2026-10-02 — six core packages, independent settings and observe updates
+
+The six core packages move together to `0.4.0`. design-app-runtime and
+eslint-config-design take the number with no code change. kit-settings `0.2.0`
+adds readOnlyContext on its 0.x line; kit-observe `0.1.1` fixes heading typography
+and documents controlled clock handling. design-bindings remains `0.1.0`. kit-account, kit-admin,
+kit-code, kit-voice and kit-workflow remain private `0.0.0` and are not published.
+
+**Upgrade the set together.** All workspace core ranges, including private kits,
+move to `^0.4.0`; a `^0.3.0` range excludes the next 0.x minor and would install
+registry copies. kit-observe's optional dashboard peer and kit-admin's settings
+range also move to compatible versions. Folio adoption follows registry publication
+in its own change.
+
+- **design-tokens:** Tailwind `dark:` utilities match the default dark palette when
+  no explicit mode marker is present, fixing first paint; explicit light scope
+  behavior and zero-specificity matching remain intact. Strengthen the existing
+  ring values for Graphite dark, Hacker light and P4 dark; no token is added and
+  ring-soft remains retired. Decorative strokes follow the stronger ring in those
+  three combinations.
+- **design-components:** add ButtonGroup, Collapsible, HoverCard and the shared
+  useControllableState hook; correct inherited shadcn MIT attribution. HoverCard
+  is supplementary by default, with an opt-in accessible-content override. Replace
+  ring-ring/50 with full-strength ring-ring on ten controls, including destructive
+  and invalid focus states; native text-field click focus strengthens too.
+- **kit-dashboard:** restore keyboard Button/menu focus rings under theme.css,
+  retain quiet pointer focus and increase unsorted DataTable glyph contrast.
+- **kit-chat:** add Message actions/branching, CSS Shimmer, Reasoning, ChainOfThought,
+  Sources, Plan, Tool, Confirmation content, Queue, Attachments/intake, ModelSelector,
+  Suggestions, Context, Question, Image, InlineCitation, OpenIn and expanded Artifact.
+  Data, content and application actions remain host-owned. The range now requires
+  the design-components release containing Collapsible and HoverCard.
+- **kit-observe:** StatCollection/demo headings use the defined control size and
+  semibold weight; Clock documentation covers correct sampling, strict future-time
+  warnings, receipt/source provenance and keeping observations off DOM elements.
+- **kit-settings:** optional readOnlyContext renders nonwritable fields as labelled
+  text while retaining provenance/apply state and the existing default controls.
+
+**License metadata:** kit-chat's license expression is now `MIT AND Apache-2.0`,
+matching its shipped MIT notice, AI Elements attribution and full Apache terms.
+The private kit-code, kit-voice and kit-workflow fields use the same expression.
+All other package license fields remain `MIT`; design-components' shadcn sources
+carry MIT notices.
+
+---
+
 ## 0.3.0 — 2026-10-02 — the six core packages move together; two packages are released for the first time
 
 The six core packages move to `0.3.0`. Three have changes: `design-components`, `kit-dashboard`

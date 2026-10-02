@@ -432,12 +432,11 @@ module-level state lives, and a bundled copy of a stateful dependency fails sile
 ordering, and not `prepublishOnly`, which does not run for `npm pack` and would let a
 tarball ship an empty `dist/`.
 
-## Reasoning, ChainOfThought, Sources and Plan (unreleased)
+## Reasoning, ChainOfThought, Sources and Plan (0.4.0)
 
-These AI Elements ports require the **next design-components core release**:
-Collapsible is in workspace source but is absent from registry design-components
-0.3.0. Release this slice with design-components in the next six-package core
-minor; versions/ranges stay unchanged until that coordinated release.
+These AI Elements ports require **design-components ^0.4.0**, which adds
+Collapsible. Registry design-components 0.3.0 does not contain it; upgrade the
+six core packages together.
 
 `Reasoning` provides controlled (`open`/`onOpenChange`) or local (`defaultOpen`)
 disclosure. Streaming opens once per run, allowing user collapse during streaming, unless
@@ -490,7 +489,7 @@ No component import installs keyframes. Reduced-motion users see static text;
 [the upstream inventory](docs/upstream-versions.md) for provenance. The shipped
 `LICENSE` retains Hollis Labs MIT terms and AI Elements Apache-2.0 attribution.
 
-## Attachments and local file intake (unreleased)
+## Attachments and local file intake (0.4.0)
 
 `Attachments` supplies `grid`, `inline` or `list` layout; compose `Attachment` with
 `AttachmentPreview`, `AttachmentInfo`, `AttachmentRemove`, and `AttachmentEmpty`.
@@ -542,11 +541,10 @@ evidence is in `docs/attachments-a/`; unit tests exercise presentation/intake
 without opening a portal (open Base UI Positioner/Popup hangs jsdom in this environment).
 Real preview opening/focus/Escape is verified separately in Chromium.
 
-## Tool, Confirmation content and Queue (unreleased)
+## Tool, Confirmation content and Queue (0.4.0)
 
-This slice **needs the next design-components release**: Collapsible is present in
-workspace source, but absent from published design-components 0.3.0. Release with
-the next coordinated six-package core minor; versions/ranges are unchanged here.
+This slice requires **design-components ^0.4.0** for Collapsible, which is
+absent from registry 0.3.0. Upgrade the coordinated six-package core set together.
 
 `Tool`, `ToolHeader`, `ToolContent`, `ToolInput` and `ToolOutput` present a tool
 lifecycle. Map host state to our `ToolState`: pending, running,
@@ -579,7 +577,7 @@ accessible label to icon-only actions and a useful QueueList label. Filename wid
 and image sizing use the token scale. No queue store, executor or transport is added.
 See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).
 
-## Image and InlineCitation (unreleased)
+## Image and InlineCitation (0.4.0)
 
 `Image` renders a native image from required host-owned `src` and `alt`, plus optional `mediaType` metadata and standard image props. An empty `alt` marks a decorative image. The host creates and releases Blob URLs, chooses data/network URLs and handles errors; the kit does no base64 conversion, MIME detection, fetching or generated-file interpretation.
 
@@ -587,11 +585,11 @@ See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).
 
 The `InlineCitationCarousel` family is a small pager: optional controlled `index` and `onIndexChange`, or `defaultIndex` for local selection; previous/next wrap around. Use one `InlineCitationCarouselContent` with one `InlineCitationCarouselItem` per page, plus Header, Index, Prev and Next slots. Empty/single-page navigation is disabled; invalid indexes and shrinking lists are normalized; inactive pages remain mounted but hidden. A controlled host must accept the requested index to change the displayed page. Click handlers can prevent navigation.
 
-The interactive body uses `aria-hidden={false}` to override the supplementary HoverCard default. Keyboard focus on the trigger opens the preview; Tab enters its controls, Shift+Tab from the first returns to the trigger, and Tab from the last tries following visible, enabled host controls in DOM order. CSS-hidden, zero-area, hidden/inert and negative-tabindex controls are excluded; a failed focus attempt falls through to the next candidate. Tab is prevented only after focus actually moves. Escape returns focus to the trigger. HoverCard open state/callbacks still belong to Base UI/the host. This needs the next design-components release (unreleased); published 0.3.0 lacks HoverCard. No dependency, manifest or lockfile changes.
+The interactive body uses `aria-hidden={false}` to override the supplementary HoverCard default. Keyboard focus on the trigger opens the preview; Tab enters its controls, Shift+Tab from the first returns to the trigger, and Tab from the last tries following visible, enabled host controls in DOM order. CSS-hidden, zero-area, hidden/inert and negative-tabindex controls are excluded; a failed focus attempt falls through to the next candidate. Tab is prevented only after focus actually moves. Escape returns focus to the trigger. HoverCard open state/callbacks still belong to Base UI/the host. This requires design-components ^0.4.0 for HoverCard, which registry 0.3.0 lacks.
 
 See [the demo](demo/image-citation.tsx) and [verification](docs/image-citation/verification.md). No application migration or transport changes are included.
 
-## Model selector (unreleased)
+## Model selector (0.4.0)
 
 Compose `ModelSelector` + `ModelSelectorTrigger` + `ModelSelectorContent` with
 Input/List/Empty/Group/Item/Shortcut/Separator/Name. `ModelSelectorDialog` is a
@@ -634,7 +632,7 @@ See `demo/model-selector.tsx` and `docs/model-selector-b/`. Unit tests use the r
 Command as a popup stand-in to avoid the known Base UI open portal/jsdom hang;
 Chromium verifies the real dialog, filtering, keyboard/touch selection and focus.
 
-## OpenIn (unreleased)
+## OpenIn (0.4.0)
 
 `OpenIn` receives a required host catalog of `{ id, label, href, icon?: ReactNode }`.
 Supply unique stable IDs, nonempty labels, explicit absolute HTTP(S) URLs, and
@@ -667,7 +665,7 @@ and asset rights of nodes they supply.
 OpenIn uses published Button/DropdownMenu primitives without new dependencies.
 See [demo/open-in.tsx](demo/open-in.tsx) and [verification](docs/open-in-b/verification.md).
 
-## Suggestions, Context and Question (unreleased)
+## Suggestions, Context and Question (0.4.0)
 
 `Suggestions` is a labelled, keyboard-focusable horizontal overflow region.
 `Suggestion` is a button that emits its `suggestion` string to `onClick`; it does
@@ -710,14 +708,14 @@ transport, storage, content policy and input-length policy belong to the host.
 This is not a Tangent wire protocol or a replacement ConfirmationCard.
 
 All direct Button/Textarea/Popover/cn imports are published in design-components
-0.3.0. The existing Collapsible/HoverCard-based exports in current main still **need next
-design-components release (unreleased)**. No dependency/manifest/lock changes.
+0.3.0. The integrated kit requires **design-components ^0.4.0** for its
+Collapsible/HoverCard-based exports.
 See `demo/context-question.tsx` and `docs/context-question-c/` for unit/Chromium,
 light/dark theme and packed ChatStream-without-streamdown evidence. As with other
 popover slices, unit tests cover inner Context presentation without opening the
 Base UI popup in jsdom; Chromium proves real open/focus/Escape behavior.
 
-## Expanded Artifact (unreleased)
+## Expanded Artifact (0.4.0)
 
 `Artifact` is the expanded viewer shell beside the compact transcript
 `ArtifactCard`. The card remains its existing Envelope presentation with
@@ -759,7 +757,7 @@ paragraph slots, so the host chooses heading/region structure. No MIME detection
 fetching, HTML insertion, editor/renderer dependency or automatic download is
 included. Host React children keep their own behavior and asset/URL policies.
 
-Only published Button/Tooltip/cn exports are used by this slice; the integrated
-kit-chat package still **needs next design-components release (unreleased)** for
-its Collapsible/HoverCard exports. See [demo/artifact.tsx](demo/artifact.tsx) and
+Only Button/Tooltip/cn exports available in 0.3.0 are used by this slice; the
+integrated kit-chat package requires **design-components ^0.4.0** for its
+Collapsible/HoverCard exports. See [demo/artifact.tsx](demo/artifact.tsx) and
 [verification](docs/artifact-c/verification.md).

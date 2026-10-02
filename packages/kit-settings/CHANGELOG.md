@@ -1,11 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 — 2026-10-02
 
 - Add optional `readOnlyContext` to SettingsRenderer and SettingsProvenanceRenderer
   for labelled text output of nonwritable fields. Omitting it preserves the
   existing control presentation. Provenance and apply state stay visible.
-  This is an additive change for the next release; published 0.1.0 is unchanged.
+  This additive feature takes a minor version on the 0.x line. Requires
+  design-components and design-tokens `^0.4.0` to share the new core set.
 
 ## 0.1.0 — 2026-10-02 — first release
 

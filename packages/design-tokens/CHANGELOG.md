@@ -1,6 +1,6 @@
 # @hollis-labs/design-tokens
 
-## Unreleased
+## 0.4.0 — 2026-10-02
 
 - Strengthen `ring` in Graphite dark (`#6e8aa8` → `#96969c`), Hacker light
   (`#006e8c` → `#4d5e69`) and P4 dark (`rgb(63 63 70 / 60%)` → `#83838b`).
@@ -11,15 +11,15 @@
   general outline-color mapping deliberately follow the stronger ring in those
   same three pairs. Their before/after computed styles are recorded in the
   repo's `docs/screenshots/focus-ring/` audit; styling polish is deferred.
-  Appearance-only change for the next minor core release, with no version bump
-  here. Native text-field click rings strengthen along with keyboard focus
+  Native text-field click rings strengthen along with keyboard focus
   (CW-20261002-0091).
 
 - Tailwind `dark:` utilities also match
   when no explicit mode marker is in scope, aligning first paint with the default
   dark palette. Explicit light scopes remain excluded unless a dark ancestor or
   island already matches the existing variant. Mode matching stays inside
-  zero-specificity `:where()`, independent of the OS. No token values change.
+  zero-specificity `:where()`, independent of the OS. The dark-variant change
+  itself changes no token values.
 
 ## 0.3.0 — 2026-10-02 — version alignment, no code change
 

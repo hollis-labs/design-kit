@@ -13,5 +13,7 @@ Read-only checkout: `~/.cache/ai-elements-shared/upstream`. No `NOTICE` file at 
 | `src/voice-selector-context.ts` | `packages/elements/src/voice-selector.tsx` (context, `useVoiceSelector`) | 2026-10-02 | own file (react-refresh) |
 | `src/transcription.tsx` | `packages/elements/src/transcription.tsx` | 2026-10-02 | `ai` type to local `TranscriptionSegmentData`; Radix hook to design-components'; clicking records the time when uncontrolled and always calls `onSeek` (upstream's `onTimeUpdate` was never called); `onTimeUpdate` removed from the context; a non-interactive segment is a `<span>` |
 
+| `src/audio-player/index.tsx` | `packages/elements/src/audio-player.tsx` | 2026-10-02 | `ai` `SpeechResult` removed (`src` or `blob`, object URL created and revoked); `data` no longer spread onto `<audio>`; Radix `asChild` to `buttonVariants()` classes on the media elements and `ButtonGroupText` `render`; `--media-*` on the contract variables; `--media-control-padding: 0px` (unitless `0` is invalid in media-chrome's `calc()`); time range `min-w-40` |
+
 No original (non-vendored) source in this package.
 Not taken: `persona.tsx` (Rive, hotlinked `.riv` assets, no licence for them).

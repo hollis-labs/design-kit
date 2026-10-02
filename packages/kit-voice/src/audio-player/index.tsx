@@ -12,6 +12,10 @@
  *    the text parts use design-components' ButtonGroupText through its `render` prop
  *  - the `--media-*` custom properties use the contract's variables for scale as well as colour (`--text-caption`, `--radius-control`,
  *    a spacing multiple) where upstream had `10px`, `1rem` and `--radius-md`
+ *  - `--media-control-padding` is `0px`, not `0`: a unitless zero is invalid inside media-chrome's calc(), so upstream's declaration was dropped and the
+ *    time range collapsed to zero height (the seek bar could barely be clicked; found by clicking it in a real browser)
+ *  - the time range has `min-w-40` by default: media-chrome's 100px minimum, less the ButtonGroupText's padding and the range's own gaps, left
+ *    a seek bar about 50px wide. `className` overrides it (e.g. `min-w-64`)
  *  - empty `cn("", className)` calls removed
  * Needs the optional peer `media-chrome` (>=4.17.2) and, from design-components, ButtonGroup: the next release (unreleased).
  */
@@ -58,7 +62,10 @@ export const AudioPlayer = ({
         "--media-button-icon-width": "calc(var(--spacing) * 4)",
         "--media-control-background": "transparent",
         "--media-control-hover-background": "var(--color-accent)",
-        "--media-control-padding": "0",
+        // "0px", not upstream's "0": media-chrome uses this inside calc() with lengths, where a
+        // unitless zero is invalid, and the declaration was dropped. The time range's height
+        // collapsed to nothing, so clicking the seek bar mostly missed it.
+        "--media-control-padding": "0px",
         "--media-font": "var(--font-sans)",
         "--media-font-size": "var(--text-caption)",
         "--media-icon-color": "currentColor",
@@ -238,7 +245,7 @@ export const AudioPlayerTimeRange = ({
     className="bg-transparent"
     render={
       <MediaTimeRange
-        className={className}
+        className={cn("min-w-40", className)}
         data-slot="audio-player-time-range"
         {...props}
       />

@@ -18,15 +18,15 @@ states what diverged (and `docs/upstream-versions.md`). Each lands in its own ch
 | `SpeechInput` | browser APIs only | **available** |
 | `MicSelector` (+ `MicSelector*` parts) and `useAudioDevices` | browser APIs only | **available** |
 | `VoiceSelector` (+ its parts), `Transcription` | browser APIs only | **available** |
-| `AudioPlayer` | `media-chrome`, behind `@hollis-labs/kit-voice/audio-player` | planned. Imports `ButtonGroup`: **needs the next `design-components` release (unreleased)** |
+| `AudioPlayer` (+ its controls) | `media-chrome` (optional peer), behind `@hollis-labs/kit-voice/audio-player` | **available**. Imports `ButtonGroup`: **needs the next `design-components` release (unreleased)** |
 
 Not taken: AI Elements' `Persona`. It needs Rive and `.riv` files hotlinked from
 Vercel's storage, and no licence for those assets is granted by the repository.
 
 **Compatibility.** kit-voice needs the next `design-components` release (unreleased). It
 imports `useControllableState` (used by `MicSelector`, `VoiceSelector` and `Transcription`), which the workspace `design-components` exports but the
-published `0.3.0` does not (and `AudioPlayer`, when it lands, imports `ButtonGroup`, also
-unreleased). Workspace linking hides this; a consumer on registry `0.3.0` would fail to
+published `0.3.0` does not, and `AudioPlayer` imports `ButtonGroup` and `ButtonGroupText`,
+also unreleased. Workspace linking hides this; a consumer on registry `0.3.0` would fail to
 resolve it. The `^0.3.0` range in `package.json` is the sibling convention and is raised
 together with that release by whoever cuts it; nothing here publishes.
 
@@ -187,12 +187,70 @@ A timed transcript that follows a clock and seeks on click. **The host owns the 
   Without `onSeek` (and without a segment `onClick`) segments are plain `<span>`s, not tab stops.
   Left uncontrolled, `currentTime` starts at 0 and follows the last segment clicked.
 
+## AudioPlayer
+
+Controls over an `<audio>` element, built on [media-chrome](https://github.com/muxinc/media-chrome).
+It lives behind its own subpath so a host that plays no audio never loads it:
+
+```bash
+npm install media-chrome        # optional peer, ^4.17.2
+```
+
+```tsx
+import {
+  AudioPlayer, AudioPlayerElement, AudioPlayerControlBar, AudioPlayerPlayButton,
+  AudioPlayerSeekBackwardButton, AudioPlayerSeekForwardButton, AudioPlayerTimeDisplay,
+  AudioPlayerTimeRange, AudioPlayerDurationDisplay, AudioPlayerMuteButton, AudioPlayerVolumeRange,
+} from '@hollis-labs/kit-voice/audio-player'
+
+<AudioPlayer>
+  <AudioPlayerElement src={url} />            {/* or blob={recording} */}
+  <AudioPlayerControlBar>
+    <AudioPlayerPlayButton />
+    <AudioPlayerSeekBackwardButton seekOffset={10} />
+    <AudioPlayerSeekForwardButton seekOffset={10} />
+    <AudioPlayerTimeDisplay />
+    <AudioPlayerTimeRange />
+    <AudioPlayerDurationDisplay />
+    <AudioPlayerMuteButton />
+    <AudioPlayerVolumeRange />
+  </AudioPlayerControlBar>
+</AudioPlayer>
+```
+
+- **`media-chrome` is a peer, and it must be the host's single copy.** It registers custom
+  elements in the global registry, so a second bundled copy either throws "already defined" or
+  quietly uses the wrong class. Without it installed, importing `/audio-player` fails to resolve;
+  the main entry (`@hollis-labs/kit-voice`) never imports it.
+- **The audio is the host's.** `AudioPlayerElement` takes `src` (a URL) or `blob` (a `Blob`: a
+  recording, a fetched speech response). A `blob` is played through an object URL the element
+  creates and revokes when the `Blob` changes or it unmounts. There is no AI SDK type here and no
+  fetching. Captions, if there are any, are `<track>` children of `AudioPlayerElement`.
+- **Pairing with `Transcription`:** read the audio element's `timeupdate` into `currentTime` and
+  seek it from `onSeek` (`ref` is forwarded; the demo's `AudioSection` does exactly this):
+
+  ```tsx
+  const audio = useRef<HTMLAudioElement>(null)
+  const [time, setTime] = useState(0)
+  <AudioPlayerElement ref={audio} src={url} onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)} />
+  <Transcription segments={segments} currentTime={time}
+    onSeek={(t) => { if (audio.current) audio.current.currentTime = t }}>…</Transcription>
+  ```
+- The play and seek buttons carry the outline icon-button classes directly (no Base UI `Button`
+  wrapper, which would add a role, tabindex and key handler to elements that already have them);
+  the time and range parts are `ButtonGroupText`. The `--media-*` custom properties on
+  `AudioPlayer` map to the contract's variables and can be overridden with `style`.
+- **The time range is `min-w-40` by default**; media-chrome's own minimum, less the group's padding,
+  leaves a seek bar about 50px wide. Pass `className="min-w-64"` for more.
+- Not covered by the jsdom tests: media-chrome's elements are not registered under jsdom, so
+  playback, seeking, volume and mute are checked in real Chromium (`docs/evidence/verify-browser.mjs`).
+
 ## Why its own package
 
 `kit-chat` is a published core package versioned in lockstep with five others; voice is
 a different concern with its own release cadence. The main entry carries no heavy
 dependency. `media-chrome` is an **optional peer** reached only through the
-`/audio-player` subpath (not built yet), the same shape as `kit-chat/markdown`: it registers
+`/audio-player` subpath, the same shape as `kit-chat/markdown`: it registers
 custom elements in the global registry, so it must be the host's single copy, and a host
 that does not play audio pays nothing.
 
@@ -224,7 +282,9 @@ npm run demo -w @hollis-labs/kit-voice           # fixtures; ?theme=sysop-p4-whi
   popover is covered in a real browser instead.
 - `docs/evidence/verify-browser.mjs` drives headless Chromium with fake microphones
   (`--use-fake-device-for-media-stream`) over the built demo: the MediaRecorder fallback, the
-  real popover, the no-re-prompt-loop, the insecure-context path. Its output and
+  real popover, the no-re-prompt-loop, the insecure-context path, the voice dialog, and the
+  AudioPlayer playing a local Blob (play, pause, seek buttons, time range, volume, mute, and the
+  paired transcription following and seeking it). Its output and
   light/dark screenshots for two themes are committed beside it. **Not verified anywhere:**
   Web Speech *recognition* itself (no speech service in headless Chromium), Safari and
   Firefox.

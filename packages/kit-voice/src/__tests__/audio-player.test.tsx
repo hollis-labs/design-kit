@@ -34,6 +34,8 @@ describe('AudioPlayer structure', () => {
     expect(controller.style.getPropertyValue('--media-tooltip-border-radius')).toBe('var(--radius-control)')
     expect(controller.style.getPropertyValue('--media-range-bar-color')).toBe('var(--color-primary)')
     expect(controller.style.getPropertyValue('--media-button-icon-width')).toBe('calc(var(--spacing) * 4)')
+    // A unitless 0 is invalid inside media-chrome's calc(); it collapsed the time range to zero height.
+    expect(controller.style.getPropertyValue('--media-control-padding')).toBe('0px')
     expect(controller.style.color).toBe('red') // host style merges, it does not replace
   })
 
@@ -126,8 +128,16 @@ describe('AudioPlayer controls', () => {
       expect(element.classList.contains('bg-transparent')).toBe(true)
       expect(element.classList.contains('bg-muted')).toBe(false)
     }
+    expect(slot(container, 'audio-player-time-range').classList.contains('min-w-40')).toBe(true) // a seek bar you can hit
     expect(slot(container, 'audio-player-time-display').classList.contains('tabular-nums')).toBe(true)
     expect(slot(container, 'audio-player-duration-display').classList.contains('tabular-nums')).toBe(true)
+  })
+
+  it('lets the host widen the time range', () => {
+    const { container } = render(<AudioPlayerTimeRange className="min-w-64" />)
+    const range = slot(container, 'audio-player-time-range')
+    expect(range.classList.contains('min-w-64')).toBe(true)
+    expect(range.classList.contains('min-w-40')).toBe(false)
   })
 
   it('passes props through to the media element', () => {

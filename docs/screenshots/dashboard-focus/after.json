@@ -1,0 +1,1671 @@
+{
+  "phase": "after",
+  "browser": "headless Chromium",
+  "results": [
+    {
+      "theme": "p4-white",
+      "width": 390,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(251, 117, 136)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            131,
+            131,
+            139
+          ],
+          "background": [
+            9,
+            9,
+            11
+          ],
+          "ratio": 5.291
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            212,
+            212,
+            216
+          ],
+          "background": [
+            9,
+            9,
+            11
+          ],
+          "ratio": 13.461
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(63, 63, 70, 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(63, 63, 70, 0.6)",
+          "outlineWidth": "1px",
+          "background": "rgb(24, 24, 27)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(63, 63, 70, 0.6)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(244, 244, 245)",
+          "outlineWidth": "3px",
+          "background": "rgb(24, 24, 27)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(244, 244, 245)",
+          "outlineWidth": "3px",
+          "background": "rgb(24, 24, 27)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "p4-white",
+      "width": 1440,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(251, 117, 136)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.370321 0.00325234 -0.0114229 / 0.3) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(63, 63, 70, 0.6)",
+            "outlineWidth": "1px",
+            "background": "rgb(9, 9, 11)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgba(63, 63, 70, 0.6)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(244, 244, 245)",
+            "outlineWidth": "3px",
+            "background": "rgb(24, 24, 27)",
+            "color": "rgb(244, 244, 245)",
+            "border": "rgb(39, 39, 42)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            131,
+            131,
+            139
+          ],
+          "background": [
+            9,
+            9,
+            11
+          ],
+          "ratio": 5.291
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            212,
+            212,
+            216
+          ],
+          "background": [
+            9,
+            9,
+            11
+          ],
+          "ratio": 13.461
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(63, 63, 70, 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(63, 63, 70, 0.6)",
+          "outlineWidth": "1px",
+          "background": "rgb(24, 24, 27)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(63, 63, 70, 0.6)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(244, 244, 245)",
+          "outlineWidth": "3px",
+          "background": "rgb(24, 24, 27)",
+          "color": "rgb(244, 244, 245)",
+          "border": "rgba(39, 39, 42, 0.8)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(244, 244, 245)",
+          "outlineWidth": "3px",
+          "background": "rgb(24, 24, 27)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "p1-green-phosphor",
+      "width": 390,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 184, 77)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            53,
+            149,
+            93
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 5.287
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            102,
+            255,
+            170
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 15.508
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(102, 255, 170, 0.58) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(102, 255, 170, 0.58)",
+          "outlineWidth": "1px",
+          "background": "rgb(18, 26, 20)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(102, 255, 170, 0.58)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(0, 255, 102)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 26, 20)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(0, 255, 102)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 26, 20)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "p1-green-phosphor",
+      "width": 1440,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 184, 77)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.89702 -0.160865 0.0726043 / 0.290196) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(102, 255, 170, 0.58)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgba(102, 255, 170, 0.58)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(0, 255, 102)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 26, 20)",
+            "color": "rgb(0, 255, 102)",
+            "border": "rgb(38, 74, 47)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            53,
+            149,
+            93
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 5.287
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            102,
+            255,
+            170
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 15.508
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(102, 255, 170, 0.58) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(102, 255, 170, 0.58)",
+          "outlineWidth": "1px",
+          "background": "rgb(18, 26, 20)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(102, 255, 170, 0.58)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(0, 255, 102)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 26, 20)",
+          "color": "rgb(0, 255, 102)",
+          "border": "rgba(82, 153, 101, 0.7)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(0, 255, 102)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 26, 20)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "p3-amber-phosphor",
+      "width": 390,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 118, 69)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            170,
+            123,
+            30
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 5.243
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            255,
+            208,
+            96
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 13.617
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 208, 96, 0.56) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 208, 96, 0.56)",
+          "outlineWidth": "1px",
+          "background": "rgb(28, 22, 14)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 208, 96, 0.56)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 176, 0)",
+          "outlineWidth": "3px",
+          "background": "rgb(28, 22, 14)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 176, 0)",
+          "outlineWidth": "3px",
+          "background": "rgb(28, 22, 14)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "p3-amber-phosphor",
+      "width": 1440,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 118, 69)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.877732 0.00891694 0.138764 / 0.280392) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 208, 96, 0.56)",
+            "outlineWidth": "1px",
+            "background": "rgb(10, 10, 10)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgba(255, 208, 96, 0.56)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 176, 0)",
+            "outlineWidth": "3px",
+            "background": "rgb(28, 22, 14)",
+            "color": "rgb(255, 176, 0)",
+            "border": "rgb(86, 65, 26)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            170,
+            123,
+            30
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 5.243
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            255,
+            208,
+            96
+          ],
+          "background": [
+            10,
+            10,
+            10
+          ],
+          "ratio": 13.617
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 208, 96, 0.56) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 208, 96, 0.56)",
+          "outlineWidth": "1px",
+          "background": "rgb(28, 22, 14)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 208, 96, 0.56)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 176, 0)",
+          "outlineWidth": "3px",
+          "background": "rgb(28, 22, 14)",
+          "color": "rgb(255, 176, 0)",
+          "border": "rgba(160, 122, 52, 0.74)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 176, 0)",
+          "outlineWidth": "3px",
+          "background": "rgb(28, 22, 14)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "hi-contrast",
+      "width": 390,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 100, 91)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            208,
+            208,
+            208
+          ],
+          "background": [
+            0,
+            0,
+            0
+          ],
+          "ratio": 13.615
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            0,
+            0,
+            0
+          ],
+          "ratio": 21
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 0, 0.84) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 255, 0, 0.84)",
+          "outlineWidth": "1px",
+          "background": "rgb(18, 18, 18)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 255, 0, 0.84)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 255, 255)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 18, 18)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 255, 255)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 18, 18)",
+          "highlighted": true
+        }
+      }
+    },
+    {
+      "theme": "hi-contrast",
+      "width": 1440,
+      "buttons": [
+        {
+          "name": "Refresh",
+          "keyboard": {
+            "text": "Refresh",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Refresh",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Actions",
+          "keyboard": {
+            "text": "Actions",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Actions",
+            "focusVisible": false,
+            "focused": false,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Retry Diagnostics",
+          "keyboard": {
+            "text": "Retry Diagnostics",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 100, 91)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Retry Diagnostics",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        },
+        {
+          "name": "Copy Diagnostics data",
+          "keyboard": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": true,
+            "focused": true,
+            "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.967983 -0.0713198 0.198578 / 0.419608) 0px 0px 0px 3px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+            "outlineStyle": "none",
+            "outlineColor": "rgba(255, 255, 0, 0.84)",
+            "outlineWidth": "1px",
+            "background": "rgb(0, 0, 0)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgba(255, 255, 0, 0.84)",
+            "highlighted": false
+          },
+          "mouse": {
+            "text": "Copy Diagnostics data",
+            "focusVisible": false,
+            "focused": true,
+            "shadow": "none",
+            "outlineStyle": "none",
+            "outlineColor": "rgb(255, 255, 255)",
+            "outlineWidth": "3px",
+            "background": "rgb(18, 18, 18)",
+            "color": "rgb(255, 255, 255)",
+            "border": "rgb(255, 255, 255)",
+            "highlighted": false
+          }
+        }
+      ],
+      "glyphs": [
+        {
+          "state": "unsorted",
+          "text": "⇕",
+          "className": "text-text-subtle",
+          "foreground": [
+            208,
+            208,
+            208
+          ],
+          "background": [
+            0,
+            0,
+            0
+          ],
+          "ratio": 13.615
+        },
+        {
+          "state": "sorted",
+          "text": "↑",
+          "className": "text-text-muted",
+          "foreground": [
+            255,
+            255,
+            255
+          ],
+          "background": [
+            0,
+            0,
+            0
+          ],
+          "ratio": 21
+        }
+      ],
+      "menu": {
+        "keyboard": {
+          "text": "Inspect",
+          "focusVisible": true,
+          "focused": true,
+          "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(255, 255, 0, 0.84) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 255, 0, 0.84)",
+          "outlineWidth": "1px",
+          "background": "rgb(18, 18, 18)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": true
+        },
+        "unfocused": {
+          "text": "Export",
+          "focusVisible": false,
+          "focused": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgba(255, 255, 0, 0.84)",
+          "outlineWidth": "3px",
+          "background": "rgba(0, 0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": false
+        },
+        "pointer": {
+          "text": "Inspect",
+          "focusVisible": false,
+          "focused": true,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 255, 255)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 18, 18)",
+          "color": "rgb(255, 255, 255)",
+          "border": "rgba(255, 255, 255, 0.88)",
+          "highlighted": true
+        },
+        "mouseClick": {
+          "text": "Inspect",
+          "focused": true,
+          "focusVisible": false,
+          "shadow": "none",
+          "outlineStyle": "none",
+          "outlineColor": "rgb(255, 255, 255)",
+          "outlineWidth": "3px",
+          "background": "rgb(18, 18, 18)",
+          "highlighted": true
+        }
+      }
+    }
+  ],
+  "errors": []
+}

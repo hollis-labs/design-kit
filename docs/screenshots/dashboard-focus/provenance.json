@@ -1,0 +1,63 @@
+{
+  "baseline": "64a75fe",
+  "candidateBase": "64a75fe",
+  "method": "npm run build then npm pack --ignore-scripts; file tarball install in isolated consumer; Vite production build + headless Chromium",
+  "browserExecutable": "chromium_headless_shell-1243",
+  "packages": {
+    "before": [
+      {
+        "file": "hollis-labs-design-app-runtime-0.3.0.tgz",
+        "sha256": "0493ea73672a28e9193a84db3bf5de2737a0ef30b1acffbc3868c9433c0aefe9",
+        "bytes": 37778
+      },
+      {
+        "file": "hollis-labs-design-components-0.3.0.tgz",
+        "sha256": "40c0ede210990bf6b830837fcc57c205004a42d26af517b1d0eb33ffae689dc1",
+        "bytes": 126460
+      },
+      {
+        "file": "hollis-labs-design-tokens-0.3.0.tgz",
+        "sha256": "d9f29c733dd577a8483c1fbc44fc567e2b9f62ccb313dccb3e8aa715e5e69ba0",
+        "bytes": 82593
+      },
+      {
+        "file": "hollis-labs-kit-dashboard-0.3.0.tgz",
+        "sha256": "85f4bc3ccd90cde19d232b1a9c573cb03e8da39ead6203603150ba96b542facb",
+        "bytes": 101958
+      },
+      {
+        "file": "hollis-labs-kit-observe-0.1.0.tgz",
+        "sha256": "1ca30eb53732f82aaf7f53b43f42040a293859ac927d6d42dd03b9d4e07da559",
+        "bytes": 14433
+      }
+    ],
+    "after": [
+      {
+        "file": "hollis-labs-design-app-runtime-0.3.0.tgz",
+        "sha256": "0493ea73672a28e9193a84db3bf5de2737a0ef30b1acffbc3868c9433c0aefe9",
+        "bytes": 37778
+      },
+      {
+        "file": "hollis-labs-design-components-0.3.0.tgz",
+        "sha256": "40c0ede210990bf6b830837fcc57c205004a42d26af517b1d0eb33ffae689dc1",
+        "bytes": 126460
+      },
+      {
+        "file": "hollis-labs-design-tokens-0.3.0.tgz",
+        "sha256": "d9f29c733dd577a8483c1fbc44fc567e2b9f62ccb313dccb3e8aa715e5e69ba0",
+        "bytes": 82593
+      },
+      {
+        "file": "hollis-labs-kit-dashboard-0.3.0.tgz",
+        "sha256": "99426ef9383674830c6ba207811e2f6f42255a3a58a858f4f5a786c8a5c3781d",
+        "bytes": 102232
+      },
+      {
+        "file": "hollis-labs-kit-observe-0.1.0.tgz",
+        "sha256": "1ca30eb53732f82aaf7f53b43f42040a293859ac927d6d42dd03b9d4e07da559",
+        "bytes": 14433
+      }
+    ]
+  },
+  "sourceChanges": "diff --git a/packages/kit-dashboard/src/components/data-table/data-table.tsx b/packages/kit-dashboard/src/components/data-table/data-table.tsx\nindex b36e3e2..6603746 100644\n--- a/packages/kit-dashboard/src/components/data-table/data-table.tsx\n+++ b/packages/kit-dashboard/src/components/data-table/data-table.tsx\n@@ -186,7 +186,7 @@ export function DataTable<T>({\n                       onClick={() => handleSortClick(column.key)}\n                     >\n                       {column.header}\n-                      <span className={isSorted ? 'text-text-muted' : 'text-text-subtle/50'}>\n+                      <span className={isSorted ? 'text-text-muted' : 'text-text-subtle'}>\n                         {isSorted ? (sort?.dir === 'asc' ? '\u2191' : '\u2193') : '\u21d5'}\n                       </span>\n                     </button>\ndiff --git a/packages/kit-dashboard/src/styles/theme.css b/packages/kit-dashboard/src/styles/theme.css\nindex e29c139..6ae9388 100644\n--- a/packages/kit-dashboard/src/styles/theme.css\n+++ b/packages/kit-dashboard/src/styles/theme.css\n@@ -324,13 +324,18 @@\n     letter-spacing: 0;\n   }\n \n-  /* Kill focus rings on interactive elements */\n-  button:focus,\n-  button:focus-visible,\n-  [role=\"menuitem\"]:focus,\n+  /* Keep pointer focus quiet without cancelling keyboard focus indicators.\n+   * Tailwind's focus-visible Button ring is a box-shadow. */\n+  button:focus:not(:focus-visible),\n+  [role=\"menuitem\"]:focus:not(:focus-visible) {\n+    outline: none;\n+    box-shadow: none;\n+  }\n+\n+  /* Base UI menu items highlight their background on keyboard navigation,\n+   * but outline-hidden supplies no visible outline outside forced colors. */\n   [role=\"menuitem\"]:focus-visible {\n-    outline: none !important;\n-    box-shadow: none !important;\n+    @apply ring-2 ring-ring;\n   }\n \n }\n"
+}

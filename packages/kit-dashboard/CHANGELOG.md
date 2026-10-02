@@ -1,5 +1,15 @@
 # @hollis-labs/kit-dashboard
 
+## Unreleased
+
+- Restore keyboard focus rings for Buttons rendered under `theme.css`, including
+  kit-observe Retry/Copy controls. Suppress rings only for pointer focus and give
+  keyboard-focused menu items a token-based ring alongside their existing highlight.
+- Increase unsorted DataTable glyph contrast by using `text-text-subtle` without
+  half opacity. Sorted glyphs retain the stronger `text-text-muted` color and
+  directional arrows. Packed-consumer evidence is in
+  [`dashboard-focus`](../../docs/screenshots/dashboard-focus/README.md).
+
 ## 0.3.0 — 2026-10-02
 
 Co-released with the other core packages, alongside the first releases of kit-settings and

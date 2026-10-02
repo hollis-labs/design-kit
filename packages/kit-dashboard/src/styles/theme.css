@@ -324,13 +324,18 @@
     letter-spacing: 0;
   }
 
-  /* Kill focus rings on interactive elements */
-  button:focus,
-  button:focus-visible,
-  [role="menuitem"]:focus,
+  /* Keep pointer focus quiet without cancelling keyboard focus indicators.
+   * Tailwind's focus-visible Button ring is a box-shadow. */
+  button:focus:not(:focus-visible),
+  [role="menuitem"]:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Base UI menu items highlight their background on keyboard navigation,
+   * but outline-hidden supplies no visible outline outside forced colors. */
   [role="menuitem"]:focus-visible {
-    outline: none !important;
-    box-shadow: none !important;
+    @apply ring-2 ring-ring;
   }
 
 }

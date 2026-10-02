@@ -40,8 +40,8 @@ describe('MicSelector permission prompt', () => {
 
 import { fireEvent, renderHook, screen, waitFor } from '@testing-library/react'
 import { beforeAll } from 'vitest'
+import { Command } from '@hollis-labs/design-components'
 import {
-  MicSelectorContent,
   MicSelectorEmpty,
   MicSelectorInput,
   MicSelectorItem,
@@ -77,7 +77,7 @@ function Harness(props: {
       <MicSelectorTrigger>
         <MicSelectorValue />
       </MicSelectorTrigger>
-      <MicSelectorContent>
+      <Command>
         <MicSelectorInput />
         <MicSelectorList>
           {(devices) => (
@@ -91,7 +91,7 @@ function Harness(props: {
             </>
           )}
         </MicSelectorList>
-      </MicSelectorContent>
+      </Command>
     </MicSelector>
   )
 }
@@ -165,11 +165,14 @@ describe('useAudioDevices', () => {
   })
 })
 
-// WIP, NOT YET RUNNING: rendering Base UI Popover content (design-components' PopoverContent)
-// hangs the jsdom worker, even in isolation and with getAnimations/matchMedia/PointerEvent shims,
-// so this group is skipped. Plan: cover the same behaviour with a mocked Popover in jsdom and the
-// real Popover (open, --anchor-width, selection) in headless Chromium. cmdk alone renders fine.
-describe.skip('MicSelector', () => {
+// WHY THESE TESTS RENDER `Command` WHERE THE APP USES `MicSelectorContent`, AND WHAT COVERS THE REST.
+// An open Base UI popup (Portal + Positioner + Popup) hangs the jsdom worker. Measured by bisecting
+// with raw @base-ui/react/popover and no kit code: an open root with a trigger renders, a closed
+// keepMounted popup renders, an open popup does not. So `Command` stands in for `MicSelectorContent`
+// (which is only PopoverContent + Command wired to the context's value). The context, list, item,
+// label, value and search are the real components. The real popover (opens on click, sized by
+// --anchor-width, selection) is verified in headless Chromium; see the PR body.
+describe('MicSelector', () => {
   let restore: (() => void) | undefined
   afterEach(() => {
     cleanup()

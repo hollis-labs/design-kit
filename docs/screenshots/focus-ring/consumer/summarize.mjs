@@ -53,6 +53,9 @@ for(const cell of cells){
  matrix.push(`| ${theme} | ${mode} | ${['Button','Input','Select','Checkbox','Tabs'].map(pair).join(' | ')} | ${Math.min(...b.map(r=>contrast(r))).toFixed(3)} → ${Math.min(...a.map(r=>contrast(r))).toFixed(3)} | ${worst.name} / ${worst.surface} |`);
  for(const name of names){const worst=a.filter(r=>r.name===name).sort((x,y)=>contrast(x)-contrast(y))[0];detailed.push(`| ${cell} | ${name} | ${min(b,name).toFixed(3)} | ${contrast(worst).toFixed(3)} | ${worst.surface} |`);}
 }
+const compact=['theme,mode,control,surround,before_contrast,after_contrast'];
+for(const row of focusRows){const old=baseline.get(id(row));compact.push([row.theme,row.mode,row.name,row.surface,contrast(old).toFixed(6),contrast(row).toFixed(6)].join(','));}
+writeFileSync(`${dir}/contrast.csv`,compact.join('\n')+'\n');
 writeFileSync(`${dir}/matrix.md`,matrix.join('\n')+'\n');writeFileSync(`${dir}/controls.md`,detailed.join('\n')+'\n');
 const summary={status:failures.length?'FAIL':'PASS',minimumContrast:Math.min(...focusRows.map(r=>contrast(r))),themeModes:cells,controls:names,surfaces:[...new Set(after.rows.map(r=>r.surface))],pointerPaintDifferences:failures.filter(v=>v.startsWith('pointer painting')),unpaintedPointerOutlineDifferences:pointerDifferences,nativeClickDifferences,decorativeDifferences,failures};
 writeFileSync(`${dir}/verification.json`,JSON.stringify(summary,null,2)+'\n');

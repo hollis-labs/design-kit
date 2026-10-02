@@ -1,7 +1,7 @@
 {
   "task": "CW-20261002-0091",
   "baseline": "ca8e087946737726a13a292406b8ae6192c24c1b",
-  "candidate": "working tree diff for CW-20261002-0091 (no version bump)",
+  "candidate": "aacd285ebb5073d7c5979552b28abeb70a6f9555 (implementation; no version bump)",
   "packedVersions": "core 0.3.0, kit-observe 0.1.0, private kit-workflow 0.0.0",
   "tarballSha256": {
     "before": {
@@ -31,5 +31,32 @@
     "tailwind": "4.2.2",
     "base-ui": "1.3.0",
     "xyflow": "12.10.1"
+  },
+  "rawReceipts": {
+    "before": {
+      "path": "/home/chrispian/dev/agent-os/workspaces/drafts/CW-20261002-0091/before.json",
+      "sha256": "71a6ff676152290f834ed182a23064741992c846e140aee0ca1f63a8943c823b",
+      "sizeBytes": 8471842,
+      "regenerateCommand": "node capture.mjs before \"$TMPDIR/focus-evidence\" http://127.0.0.1:4179",
+      "consumerDirectory": "docs/screenshots/focus-ring/consumer",
+      "sourceRevision": "ca8e087946737726a13a292406b8ae6192c24c1b"
+    },
+    "after": {
+      "path": "/home/chrispian/dev/agent-os/workspaces/drafts/CW-20261002-0091/after.json",
+      "sha256": "1afd020cf2b228229c9ee3ae50544e404f1d2e171135acedb6920d8dd797b366",
+      "sizeBytes": 8315986,
+      "regenerateCommand": "node capture.mjs after \"$TMPDIR/focus-evidence\" http://127.0.0.1:4180",
+      "consumerDirectory": "docs/screenshots/focus-ring/consumer",
+      "sourceRevision": "aacd285ebb5073d7c5979552b28abeb70a6f9555"
+    }
+  },
+  "regenerateSummaryCommand": "node docs/screenshots/focus-ring/consumer/summarize.mjs \"$TMPDIR/focus-evidence\"",
+  "regeneratePrerequisites": "Build, pack, install and serve baseline and candidate separately using README.md. The capture output directory must contain both phase receipts for summarize.mjs.",
+  "compactContrast": {
+    "path": "contrast.csv",
+    "sizeBytes": 274543,
+    "sha256": "0a0fb42524c6eb77fc988edd9f70e49627bc7f7377c19b0dc1e56989cda0af96",
+    "rows": 4508,
+    "precision": "six decimal places; exact minimum remains in verification.json"
   }
 }

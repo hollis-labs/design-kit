@@ -57,8 +57,12 @@ The tested surrounds are page, elevated, surface, hover, active, selection and
 popover (`bg-popover`, the menu/popover elevated alias). Tabs' list surface and
 other intervening ancestors are composited as they actually render.
 
-The [before](before.json) and [after](after.json) receipts include computed ring,
-outline, border, fill and text styles for keyboard focus and pointer click.
+The raw before/after receipts include computed ring, outline, border, fill and
+text styles for keyboard focus and pointer click. They are archived outside Git
+at `/home/chrispian/dev/agent-os/workspaces/drafts/CW-20261002-0091/`;
+[provenance](provenance.json) records their SHA-256, byte sizes and regeneration
+commands. The committed [compact contrast receipt](contrast.csv) retains every
+theme, mode, control, surround and before/after ratio (six decimal places).
 Native :focus-visible behavior is retained: clicked text inputs, textareas,
 grouped inputs and the native ThemePicker can draw the same indicator as Tab.
 Their click indicators strengthen too. For controls where a click does not

@@ -32,7 +32,7 @@
     {
       "name": "onAudioRecorded received a non-empty Blob typed by the recorder",
       "pass": true,
-      "detail": "Received 11686 bytes of audio/webm;codecs=opus."
+      "detail": "Received 14556 bytes of audio/webm;codecs=opus."
     },
     {
       "name": "getUserMedia was called once for one recording",
@@ -122,6 +122,58 @@
       "pass": true
     },
     {
+      "name": "voice dialog opens, named by its title",
+      "pass": true
+    },
+    {
+      "name": "three voices listed",
+      "pass": true,
+      "detail": [
+        "Aria\n•\n🇺🇸\n•\n32\nWarm and conversational",
+        "Oliver\n•\n🇬🇧\n•\n45\nMeasured, newsreader",
+        "Mei\n•\n🇨🇳\n•\n28\nBright and quick"
+      ]
+    },
+    {
+      "name": "gender and accent are announced by name (role=img + aria-label)",
+      "pass": true
+    },
+    {
+      "name": "search narrows to the match (keywords)",
+      "pass": true
+    },
+    {
+      "name": "preview marks itself playing without selecting the row or closing the dialog",
+      "pass": true
+    },
+    {
+      "name": "Escape closes it and chooses nothing",
+      "pass": true
+    },
+    {
+      "name": "choosing a voice closes the dialog and sets the value",
+      "pass": true
+    },
+    {
+      "name": "at 1.0s the active segment is \"input\"",
+      "pass": true,
+      "detail": [
+        "input"
+      ]
+    },
+    {
+      "name": "the active segment follows the controlled time",
+      "pass": true,
+      "detail": [
+        "arrives"
+      ]
+    },
+    {
+      "name": "clicking a segment seeks the host clock to its start",
+      "pass": true,
+      "detail": "3.0s"
+    },
+    {
       "name": "no uncaught page errors or console errors in any scenario",
       "pass": true,
       "detail": []
@@ -142,7 +194,7 @@
       "note": "recognition cannot run here (no speech service); this is what the component reported, not a pass or fail of recognition"
     },
     "recording": {
-      "received": "Received 11686 bytes of audio/webm;codecs=opus."
+      "received": "Received 14556 bytes of audio/webm;codecs=opus."
     },
     "devices": [
       "Fake Default Audio Input",

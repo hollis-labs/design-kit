@@ -143,6 +143,13 @@ export type { ConfirmationTitleProps, ConfirmationRequestProps, ConfirmationAcce
 export { QueueItem, QueueItemIndicator, QueueItemContent, QueueItemDescription, QueueItemActions, QueueItemAction, QueueItemAttachment, QueueItemImage, QueueItemFile, QueueList, QueueSection, QueueSectionTrigger, QueueSectionLabel, QueueSectionContent, Queue } from './components/queue'
 export type { QueueMessagePart, QueueMessage, QueueTodo, QueueItemProps, QueueItemIndicatorProps, QueueItemContentProps, QueueItemDescriptionProps, QueueItemActionsProps, QueueItemActionProps, QueueItemAttachmentProps, QueueItemImageProps, QueueItemFileProps, QueueListProps, QueueSectionProps, QueueSectionTriggerProps, QueueSectionLabelProps, QueueSectionContentProps, QueueProps } from './components/queue'
 
+export { Suggestions, Suggestion } from './components/suggestion'
+export type { SuggestionsProps, SuggestionProps } from './components/suggestion'
+export { Context, ContextTrigger, ContextContent, ContextContentHeader, ContextContentBody, ContextContentFooter, ContextInputUsage, ContextOutputUsage, ContextReasoningUsage, ContextCacheUsage } from './components/context'
+export type { ContextProps, ContextUsage, ContextCost, ContextTriggerProps, ContextContentProps, ContextContentHeaderProps, ContextContentBodyProps, ContextContentFooterProps, ContextInputUsageProps, ContextOutputUsageProps, ContextReasoningUsageProps, ContextCacheUsageProps } from './components/context'
+export { Question, QuestionPrompt, QuestionDescription, QuestionOptions, QuestionOption, QuestionInput, QuestionActions, QuestionSubmit } from './components/question'
+export type { QuestionValue, QuestionResponse, QuestionSelectionMode, QuestionProps, QuestionPromptProps, QuestionDescriptionProps, QuestionOptionsProps, QuestionOptionProps, QuestionInputProps, QuestionActionsProps, QuestionSubmitProps } from './components/question'
+
 export { Image } from './components/image'
 export type { ImageProps } from './components/image'
 export { InlineCitation, InlineCitationText, InlineCitationCard, InlineCitationCardTrigger, InlineCitationCardBody, InlineCitationCarousel, InlineCitationCarouselContent, InlineCitationCarouselItem, InlineCitationCarouselHeader, InlineCitationCarouselIndex, InlineCitationCarouselPrev, InlineCitationCarouselNext, InlineCitationSource, InlineCitationQuote } from './components/inline-citation'

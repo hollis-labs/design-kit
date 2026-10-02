@@ -1,5 +1,12 @@
 # @hollis-labs/kit-chat
 
+## Unreleased — suggestion, context and question (CW-20261002-0045)
+
+- Add host suggestion actions in a focusable native scrolling region.
+- Context accepts host numeric usage/cost only; invalid or absent values stay Unknown, guarded capacity is clamped, and Base UI Popover supports keyboard/touch.
+- Question uses native radio/checkboxes, controlled/uncontrolled drafts, optional required-text policy and synchronous pending-submit guard; host owns all persistence/network behavior.
+- Pinned provenance/license, behavior tests, demo and browser evidence; no dependencies added.
+
 ## Unreleased — Image + InlineCitation (CW-20261002-0049 A)
 
 - Image uses host-owned `src`, required `alt`, and optional `mediaType` metadata; no AI SDK/generated-file or base64 assumptions.

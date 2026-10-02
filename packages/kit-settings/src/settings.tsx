@@ -99,6 +99,8 @@ export function SettingsGroupForm({ group, values, draft, busy = false, validati
 }
 
 export interface SettingsRendererProps {
+  /** Optional text presentation for nonwritable fields; omitted preserves existing controls. */
+  readonly readOnlyContext?: boolean
   readonly groupUnavailable?: Readonly<Record<string, string | undefined>>
   readonly contractVersion: number
   readonly groups: readonly SettingsGroup[]
@@ -111,12 +113,12 @@ export interface SettingsRendererProps {
   readonly groupFooter?: (groupId: string) => ReactNode
 }
 /** Render only the manifest's settings array. Observations belong to kit-observe. */
-export function SettingsRenderer({ contractVersion, groups, states, onDraftChange, onSave, onValidate, onReset, fieldExtra, groupFooter, groupUnavailable }: SettingsRendererProps) {
+export function SettingsRenderer({ contractVersion, groups, states, onDraftChange, onSave, onValidate, onReset, fieldExtra, groupFooter, groupUnavailable, readOnlyContext }: SettingsRendererProps) {
   if (contractVersion !== 1) return <p role="alert" className="text-control text-danger">Unsupported admin contract version. Settings cannot be displayed or changed.</p>
   if (new Set(groups.map(g => g.id)).size !== groups.length) return <p role="alert" className="text-control text-danger">Duplicate settings groups. Settings cannot be changed.</p>
   return <div className="flex min-w-0 flex-col gap-4">{groups.map(group => {
     const state = states[group.id]
-    return state ? <SettingsGroupForm key={group.id} group={group} {...state} unavailable={groupUnavailable?.[group.id]} onDraftChange={draft => onDraftChange(group.id, draft)} onSave={onSave ? changes => onSave(group.id, changes) : undefined} onValidate={onValidate ? changes => onValidate(group.id, changes) : undefined} onReset={onReset ? keys => onReset(group.id, keys) : undefined} fieldExtra={fieldExtra ? key => fieldExtra(group.id, key) : undefined} footer={groupFooter?.(group.id)} />
+    return state ? <SettingsGroupForm key={group.id} group={group} {...state} readOnlyContext={readOnlyContext} unavailable={groupUnavailable?.[group.id]} onDraftChange={draft => onDraftChange(group.id, draft)} onSave={onSave ? changes => onSave(group.id, changes) : undefined} onValidate={onValidate ? changes => onValidate(group.id, changes) : undefined} onReset={onReset ? keys => onReset(group.id, keys) : undefined} fieldExtra={fieldExtra ? key => fieldExtra(group.id, key) : undefined} footer={groupFooter?.(group.id)} />
       : <section key={group.id} className="rounded-panel border border-border bg-bg-elevated p-4"><h2 className="text-control font-semibold text-fg">{group.label}</h2><p role="status" className="text-control text-fg-muted">Waiting for a settings snapshot.</p></section>
   })}</div>
 }

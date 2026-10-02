@@ -86,3 +86,25 @@ it('does not interpret unknown as active and shows required projection independe
   expect(screen.getByText('The app requires a restart; no field reports pending restart.')).toBeTruthy()
   expect(screen.getByRole('button', { name: 'Apply / restart' })).toBeTruthy()
 })
+
+it('opt-in text presentation keeps locked values labelled and preserves metadata', () => {
+  const id = 'preferences'
+  const locked = { id, label: 'Preferences', schema: { type: 'object', additionalProperties: false,
+    properties: { retention: { type: 'integer', title: 'Retention', enum: [5, 15], readOnly: true } } },
+    fields: { retention: { editable: false, secret: false, restart_required: false, read_only_reason: 'Read-only preference' } },
+    capabilities: { can_read: true, can_validate: false, can_update: false, can_reset: false } }
+  const state: SettingsProvenanceState = { draft: {}, values: { retention: { present: true, value: 15,
+    editable: false, has_override: true, read_only_reason: 'Read-only preference',
+    source: { kind: 'override', label: 'Persisted application preference' }, apply_state: 'unknown' } } }
+  const common = { contractVersion: 1, groups: [locked], states: { [id]: state }, onDraftChange: vi.fn() }
+  const { rerender, container } = render(<SettingsProvenanceRenderer {...common} />)
+  expect(screen.getByLabelText('Retention').tagName).toBe('SELECT')
+  rerender(<SettingsProvenanceRenderer {...common} readOnlyContext />)
+  expect(screen.getByLabelText('Retention').tagName).toBe('OUTPUT')
+  expect(screen.getByLabelText('Retention').textContent).toBe('15')
+  expect(container.querySelector('input, select, textarea')).toBeNull()
+  expect(screen.getByText('Source: override — Persisted application preference')).toBeTruthy()
+  expect(screen.getByText('Apply state: Unknown')).toBeTruthy()
+  rerender(<SettingsProvenanceRenderer {...common} readOnlyContext={false} />)
+  expect(screen.getByLabelText('Retention').tagName).toBe('SELECT')
+})

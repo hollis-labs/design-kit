@@ -1,2 +1,7 @@
-/** Canvas primitives land in the feature slice (CW-20261002-0047). */
-export {}
+export * from './components/canvas'
+export * from './components/node'
+export * from './components/edge'
+export * from './components/connection'
+export * from './components/controls'
+export * from './components/panel'
+export * from './components/toolbar'

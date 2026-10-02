@@ -186,7 +186,7 @@ export function DataTable<T>({
                       onClick={() => handleSortClick(column.key)}
                     >
                       {column.header}
-                      <span className={isSorted ? 'text-text-muted' : 'text-text-subtle/50'}>
+                      <span className={isSorted ? 'text-text-muted' : 'text-text-subtle'}>
                         {isSorted ? (sort?.dir === 'asc' ? '↑' : '↓') : '⇕'}
                       </span>
                     </button>

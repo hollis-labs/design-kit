@@ -19,7 +19,13 @@ export function InlineCitationText({ className, ...props }: InlineCitationTextPr
   return <span className={cn('transition-colors group-hover:bg-surface', className)} {...props} />
 }
 export type InlineCitationCardProps = ComponentProps<typeof HoverCard>
-interface CitationFocus { trigger: RefObject<HTMLElement | null>; body: RefObject<HTMLDivElement | null>; close: () => void }
+interface CitationFocus {
+  trigger: RefObject<HTMLElement | null>
+  body: RefObject<HTMLDivElement | null>
+  setTrigger: (node: HTMLElement | null) => void
+  setBody: (node: HTMLDivElement | null) => void
+  close: () => void
+}
 const Citation = createContext<CitationFocus | null>(null)
 function useCitation() {
   const value = useContext(Citation)
@@ -39,14 +45,18 @@ export function InlineCitationCard({ actionsRef, ...props }: InlineCitationCardP
   const body = useRef<HTMLDivElement>(null)
   const internalActions = useRef<{ close: () => void; unmount: () => void }>(null)
   const actions = actionsRef ?? internalActions
-  const value = useMemo(() => ({ trigger, body, close: () => actions.current?.close() }), [actions])
+  const value = useMemo(() => ({ trigger, body,
+    setTrigger: (node: HTMLElement | null) => { trigger.current = node },
+    setBody: (node: HTMLDivElement | null) => { body.current = node },
+    close: () => actions.current?.close(),
+  }), [actions])
   return <Citation.Provider value={value}><HoverCard {...props} actionsRef={actions} /></Citation.Provider>
 }
 export type InlineCitationCardTriggerProps = ComponentProps<typeof HoverCardTrigger>
 /** Supply a human-readable citation label; no URL parsing or inferred destination. */
 export function InlineCitationCardTrigger({ className, children, onKeyDown, ref, ...props }: InlineCitationCardTriggerProps) {
   const citation = useCitation()
-  const mergeRef = useCallback((node: HTMLAnchorElement | null) => { citation.trigger.current = node; assignRef(ref, node) }, [citation, ref])
+  const mergeRef = useCallback((node: HTMLAnchorElement | null) => { citation.setTrigger(node); assignRef(ref, node) }, [citation, ref])
   return <HoverCardTrigger delay={0} closeDelay={0} render={<button type="button" />} {...props} ref={mergeRef}
     onKeyDown={(event) => {
       onKeyDown?.(event)
@@ -61,7 +71,7 @@ export type InlineCitationCardBodyProps = Omit<ComponentProps<typeof HoverCardCo
 /** This popup contains interactive controls, so it must be exposed to assistive technology. */
 export function InlineCitationCardBody({ className, onKeyDown, onBlur, ref, ...props }: InlineCitationCardBodyProps) {
   const citation = useCitation()
-  const mergeRef = useCallback((node: HTMLDivElement | null) => { citation.body.current = node; assignRef(ref, node) }, [citation, ref])
+  const mergeRef = useCallback((node: HTMLDivElement | null) => { citation.setBody(node); assignRef(ref, node) }, [citation, ref])
   return <HoverCardContent {...props} ref={mergeRef} aria-hidden={false}
     onBlur={(event) => {
       onBlur?.(event)

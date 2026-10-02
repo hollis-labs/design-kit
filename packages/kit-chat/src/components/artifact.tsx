@@ -39,7 +39,7 @@ export function ArtifactHeader({ className, ...props }: ArtifactHeaderProps) {
   return (
     <div
       className={cn(
-        "flex min-w-0 flex-wrap items-start justify-between gap-3 border-b border-border bg-surface-raised px-4 py-3",
+        "flex min-w-0 flex-wrap items-start justify-between gap-3 border-b border-border bg-surface-hover px-4 py-3",
         className,
       )}
       {...props}
@@ -107,6 +107,8 @@ export function ArtifactClose({
   return (
     <Button
       {...props}
+      render={<button />}
+      nativeButton
       type="button"
       aria-label={requireLabel(label)}
       size={size}
@@ -142,6 +144,8 @@ export function ArtifactAction({
   const button = (
     <Button
       {...props}
+      render={<button />}
+      nativeButton
       type="button"
       aria-label={requireLabel(label)}
       aria-describedby={description}

@@ -52,21 +52,34 @@ describe("expanded Artifact shell", () => {
     const action = vi.fn(),
       close = vi.fn(),
       submit = vi.fn();
+    // An untyped host's spread cannot turn action/close into navigation links.
+    const renderOverride = {
+      render: <a href="#override">Host rendering</a>,
+      nativeButton: false,
+    };
     render(
       <form onSubmit={submit}>
         <Artifact data-testid="viewer">
           <ArtifactActions>
             <ArtifactAction
+              {...renderOverride}
               label="Save document"
               icon={DownloadIcon}
               onClick={action}
             />
-            <ArtifactClose onClick={close} />
+            <ArtifactClose {...renderOverride} onClick={close} />
           </ArtifactActions>
           <ArtifactContent>Still present</ArtifactContent>
         </Artifact>
       </form>,
     );
+    expect(screen.getByRole("button", { name: "Save document" }).tagName).toBe(
+      "BUTTON",
+    );
+    expect(screen.getByRole("button", { name: "Close artifact" }).tagName).toBe(
+      "BUTTON",
+    );
+    expect(screen.queryByRole("link")).toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Save document" }));
     fireEvent.click(screen.getByRole("button", { name: "Close artifact" }));
     expect(action).toHaveBeenCalledTimes(1);

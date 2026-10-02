@@ -746,7 +746,8 @@ text; icon-only controls keep that accessible name. `icon` accepts a Lucide icon
 component; children can supply other host-rendered content. `ArtifactClose` has
 the default label “Close artifact”, overridable with a nonempty `label`. All
 controls are native non-submitting buttons; `disabled` remains inert. Button
-render overrides are excluded so controls remain buttons. Tooltips use Base UI
+render overrides are excluded and native buttons are enforced after the prop
+spread, so controls remain buttons. Tooltips use Base UI
 render composition without nested buttons. An open tooltip is linked as a
 description; its optional hint never replaces the required action label. Clicks only report host callbacks;
 Close does not internally unmount or alter the viewer.

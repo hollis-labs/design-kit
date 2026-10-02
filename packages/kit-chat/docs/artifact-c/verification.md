@@ -11,6 +11,7 @@ package LICENSE retains full Apache terms once with attribution extended.
 
 Four Vitest tests verify compact/expanded coexistence and inert React text,
 action/close host callbacks without form submission or implicit viewer unmount,
+native buttons enforced even for untyped host rendering overrides,
 required nonempty labels independently of tooltips, disabled action inertness,
 no nested buttons, and a labelled focusable content region with host overrides.
 No popup is opened in jsdom; no test is skipped. The real Tooltip is verified in

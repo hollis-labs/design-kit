@@ -36,3 +36,52 @@ export type {
   SpeechInputProps,
 } from './speech-input'
 export { useAudioDevices } from './use-audio-devices'
+export { Transcription, TranscriptionSegment } from './transcription'
+export type {
+  TranscriptionProps,
+  TranscriptionSegmentData,
+  TranscriptionSegmentProps,
+} from './transcription'
+export {
+  VoiceSelector,
+  VoiceSelectorAccent,
+  VoiceSelectorAge,
+  VoiceSelectorAttributes,
+  VoiceSelectorBullet,
+  VoiceSelectorContent,
+  VoiceSelectorDescription,
+  VoiceSelectorDialog,
+  VoiceSelectorEmpty,
+  VoiceSelectorGender,
+  VoiceSelectorGroup,
+  VoiceSelectorInput,
+  VoiceSelectorItem,
+  VoiceSelectorList,
+  VoiceSelectorName,
+  VoiceSelectorPreview,
+  VoiceSelectorSeparator,
+  VoiceSelectorShortcut,
+  VoiceSelectorTrigger,
+} from './voice-selector'
+export type {
+  VoiceSelectorAccentProps,
+  VoiceSelectorAgeProps,
+  VoiceSelectorAttributesProps,
+  VoiceSelectorBulletProps,
+  VoiceSelectorContentProps,
+  VoiceSelectorDescriptionProps,
+  VoiceSelectorDialogProps,
+  VoiceSelectorEmptyProps,
+  VoiceSelectorGenderProps,
+  VoiceSelectorGroupProps,
+  VoiceSelectorInputProps,
+  VoiceSelectorItemProps,
+  VoiceSelectorListProps,
+  VoiceSelectorNameProps,
+  VoiceSelectorPreviewProps,
+  VoiceSelectorProps,
+  VoiceSelectorSeparatorProps,
+  VoiceSelectorShortcutProps,
+  VoiceSelectorTriggerProps,
+} from './voice-selector'
+export { useVoiceSelector } from './voice-selector-context'

@@ -42,6 +42,8 @@ export const ModelSelectorTrigger = (props: ModelSelectorTriggerProps) => (
 export type ModelSelectorContentProps = Omit<ComponentProps<typeof DialogContent>, "title"> & {
   title?: ReactNode;
   description?: ReactNode;
+  /** Accessible name supplied to Command's search input. */
+  searchLabel?: string;
 };
 
 export const ModelSelectorContent = ({
@@ -49,6 +51,7 @@ export const ModelSelectorContent = ({
   children,
   title = "Model Selector",
   description,
+  searchLabel = "Search models",
   ...props
 }: ModelSelectorContentProps) => (
   <DialogContent
@@ -61,7 +64,7 @@ export const ModelSelectorContent = ({
   >
     <DialogTitle className="sr-only">{title}</DialogTitle>
     {description && <DialogDescription className="sr-only">{description}</DialogDescription>}
-    <Command className="**:data-[slot=command-input-wrapper]:h-auto">
+    <Command label={searchLabel} className="rounded-panel! **:data-[slot=command-input-wrapper]:h-auto">
       {children}
     </Command>
   </DialogContent>
@@ -71,12 +74,14 @@ export type ModelSelectorDialogProps = Omit<ModelSelectorProps, 'children'> & {
   children: ReactNode;
   title?: ReactNode;
   description?: ReactNode;
+  /** Accessible name supplied to Command's search input. */
+  searchLabel?: string;
   className?: string;
   showCloseButton?: boolean;
 };
 /** Dialog title/description live inside the real popup, and Command supplies list semantics. */
-export const ModelSelectorDialog = ({ title, description, className, showCloseButton = false, children, ...props }: ModelSelectorDialogProps) => (
-  <ModelSelector {...props}><ModelSelectorContent title={title} description={description}
+export const ModelSelectorDialog = ({ title, description, searchLabel, className, showCloseButton = false, children, ...props }: ModelSelectorDialogProps) => (
+  <ModelSelector {...props}><ModelSelectorContent title={title} description={description} searchLabel={searchLabel}
     className={className} showCloseButton={showCloseButton}>{children}</ModelSelectorContent></ModelSelector>
 );
 

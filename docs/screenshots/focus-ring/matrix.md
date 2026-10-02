@@ -1,0 +1,30 @@
+| Theme | Mode | Button | Input | Select | Checkbox | Tabs | Worst indicator (all controls) | Worst case after |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| nanite-default | dark | 2.980 → 6.754 | 2.980 → 6.754 | 2.980 → 6.754 | 2.980 → 6.754 | 14.769 → 14.769 | 1.390 → 6.754 | Button / bg-surface-active |
+| nanite-default | light | 2.922 → 10.333 | 2.922 → 10.333 | 2.922 → 10.333 | 2.922 → 10.333 | 17.592 → 17.592 | 1.382 → 10.333 | Button / bg-surface-active |
+| dir-a | dark | 1.638 → 3.170 | 1.638 → 3.170 | 1.638 → 3.170 | 1.638 → 3.170 | 4.947 → 6.023 | 1.432 → 3.170 | Button / bg-surface-active |
+| dir-a | light | 1.977 → 4.541 | 1.977 → 4.541 | 1.977 → 4.541 | 1.977 → 4.541 | 7.177 → 7.177 | 1.347 → 4.541 | Button / bg-surface-active |
+| dir-b | dark | 1.917 → 3.426 | 1.917 → 3.426 | 1.917 → 3.426 | 1.917 → 3.426 | 6.043 → 6.043 | 1.435 → 3.426 | Button / bg-surface-active |
+| dir-b | light | 1.844 → 3.908 | 1.844 → 3.908 | 1.844 → 3.908 | 1.844 → 3.908 | 6.404 → 6.404 | 1.349 → 3.908 | Button / bg-surface-active |
+| dir-d | dark | 2.713 → 6.501 | 2.713 → 6.501 | 2.713 → 6.501 | 2.713 → 6.501 | 11.688 → 11.688 | 1.433 → 6.501 | Button / bg-surface-active |
+| dir-d | light | 1.814 → 3.212 | 1.814 → 3.212 | 1.814 → 3.212 | 1.814 → 3.212 | 6.702 → 6.702 | 1.363 → 3.212 | Button / bg-surface-active |
+| dir-e | dark | 2.926 → 6.956 | 2.926 → 6.956 | 2.926 → 6.956 | 2.926 → 6.956 | 11.793 → 11.793 | 1.401 → 6.956 | Button / bg-surface-active |
+| dir-e | light | 1.715 → 3.251 | 1.715 → 3.251 | 1.715 → 3.251 | 1.715 → 3.251 | 5.523 → 6.388 | 1.341 → 3.251 | Button / bg-surface-active |
+| dir-f | dark | 4.265 → 11.726 | 4.265 → 11.726 | 4.265 → 11.726 | 4.265 → 11.726 | 18.096 → 18.096 | 1.420 → 11.726 | Button / bg-surface-active |
+| dir-f | light | 3.095 → 9.549 | 3.095 → 9.549 | 3.095 → 9.549 | 3.095 → 9.549 | 18.642 → 18.642 | 1.312 → 9.549 | Button / bg-surface-active |
+| sysop-p4-white | dark | 1.030 → 3.061 | 1.030 → 3.061 | 1.030 → 3.061 | 1.030 → 3.061 | 1.339 → 4.711 | 1.030 → 3.061 | Button / bg-surface-active |
+| sysop-p4-white | light | 2.751 → 10.078 | 2.751 → 10.078 | 2.751 → 10.078 | 2.751 → 10.078 | 14.895 → 14.895 | 1.399 → 10.078 | Button / bg-surface-active |
+| sysop-green-phosphor | dark | 2.137 → 4.149 | 2.137 → 4.149 | 2.137 → 4.149 | 2.137 → 4.149 | 5.412 → 5.412 | 1.482 → 4.149 | Button / bg-surface-active |
+| sysop-green-phosphor | light | 2.103 → 5.253 | 2.103 → 5.253 | 2.103 → 5.253 | 2.103 → 5.253 | 7.521 → 7.521 | 1.335 → 5.253 | Button / bg-surface-active |
+| sysop-amber-phosphor | dark | 1.988 → 3.819 | 1.988 → 3.819 | 1.988 → 3.819 | 1.988 → 3.819 | 4.694 → 4.694 | 1.324 → 3.819 | Button / bg-surface-active |
+| sysop-amber-phosphor | light | 2.055 → 4.919 | 2.055 → 4.919 | 2.055 → 4.919 | 2.055 → 4.919 | 7.091 → 7.091 | 1.339 → 4.919 | Button / bg-surface-active |
+| sysop-hi-contrast | dark | 3.192 → 7.876 | 3.192 → 7.876 | 3.192 → 7.876 | 3.192 → 7.876 | 12.367 → 12.367 | 1.250 → 7.876 | Button / bg-surface-active |
+| sysop-hi-contrast | light | 2.351 → 7.020 | 2.351 → 7.020 | 2.351 → 7.020 | 2.351 → 7.020 | 9.535 → 9.535 | 1.457 → 7.020 | Button / bg-surface-active |
+| p4-white | dark | 1.030 → 3.061 | 1.030 → 3.061 | 1.030 → 3.061 | 1.030 → 3.061 | 1.339 → 4.711 | 1.030 → 3.061 | Button / bg-surface-active |
+| p4-white | light | 2.751 → 10.078 | 2.751 → 10.078 | 2.751 → 10.078 | 2.751 → 10.078 | 14.895 → 14.895 | 1.399 → 10.078 | Button / bg-surface-active |
+| p1-green-phosphor | dark | 2.137 → 4.149 | 2.137 → 4.149 | 2.137 → 4.149 | 2.137 → 4.149 | 5.412 → 5.412 | 1.482 → 4.149 | Button / bg-surface-active |
+| p1-green-phosphor | light | 2.103 → 5.253 | 2.103 → 5.253 | 2.103 → 5.253 | 2.103 → 5.253 | 7.521 → 7.521 | 1.335 → 5.253 | Button / bg-surface-active |
+| p3-amber-phosphor | dark | 1.988 → 3.819 | 1.988 → 3.819 | 1.988 → 3.819 | 1.988 → 3.819 | 4.694 → 4.694 | 1.324 → 3.819 | Button / bg-surface-active |
+| p3-amber-phosphor | light | 2.055 → 4.919 | 2.055 → 4.919 | 2.055 → 4.919 | 2.055 → 4.919 | 7.091 → 7.091 | 1.339 → 4.919 | Button / bg-surface-active |
+| hi-contrast | dark | 3.192 → 7.876 | 3.192 → 7.876 | 3.192 → 7.876 | 3.192 → 7.876 | 12.367 → 12.367 | 1.250 → 7.876 | Button / bg-surface-active |
+| hi-contrast | light | 2.351 → 7.020 | 2.351 → 7.020 | 2.351 → 7.020 | 2.351 → 7.020 | 9.535 → 9.535 | 1.457 → 7.020 | Button / bg-surface-active |

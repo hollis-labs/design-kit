@@ -1,0 +1,31 @@
+CW-20261002-0091 candidate gate (2026-10-02)
+Baseline: ca8e087946737726a13a292406b8ae6192c24c1b
+No version bump, token addition, retirement-map change, or merge.
+
+npm run build: PASS (final source; all workspaces)
+npm run typecheck: PASS (final source; all workspaces)
+npm run lint: PASS (all workspaces)
+npm run test:run: PASS (all workspaces; 60 Vitest files / 765 tests,
+  plus Node contract and eslint rule suites)
+Final restored retirement contract rerun: PASS (85 token + 137 eslint tests)
+Final component rerun: PASS (build/typecheck/lint; 11 files / 173 tests)
+node .github/scripts/lint-gate.mjs: PASS (0 errors)
+node .github/scripts/design-rules-gate.mjs: PASS (0 violations)
+git diff --check: PASS
+
+Packed browser verification commands (see README for build/install/serve):
+node capture.mjs before <evidence-directory> http://127.0.0.1:4179
+node capture.mjs after <evidence-directory> http://127.0.0.1:4180
+node summarize.mjs <evidence-directory>
+PASS: 28 theme/mode cells × 23 indicators × 7 surrounds; minimum 3.060829:1.
+0 painted pointer differences; decorative changes only in 3 canonical pairs
+(and the p4-white alias). Exact comparisons: verification.json.
+
+Unchanged #87 packed consumer rerun:
+node capture.mjs after <scratch-directory> http://127.0.0.1:4181
+PASS: 8 theme/viewport cases, 32 keyboard/pointer button comparisons,
+menu keyboard/pointer checks, sort glyph contrast. See dashboard-after.json.
+
+Full-source rebuild preceded final pack/install to prevent stale dist evidence.
+Tarball SHA-256 values: provenance.json. Receipts use Chromium headless shell
+1243 with Playwright 1.61.1. Cross-browser/custom host themes are not certified.

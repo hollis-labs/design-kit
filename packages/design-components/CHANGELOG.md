@@ -2,6 +2,12 @@
 
 ## 0.4.0 — 2026-10-02
 
+- Use full-strength focus rings, including destructive and invalid controls,
+  with design-tokens' stronger `ring` values (CW-20261002-0091). Destructive
+  Buttons now use the focus token instead of a tinted danger ring; fills,
+  pointer hover and feedback borders retain their existing roles. Native
+  text-field click focus strengthens too; no modality tracking is introduced.
+
 - Correct shadcn MIT attribution for the 23 earlier ui primitives inherited
   through sysop-ui: verified file-level provenance, source headers and package
   LICENSE scope. Comments/docs/notice only (CW-20261002-0053).

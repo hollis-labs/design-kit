@@ -34,7 +34,7 @@
   --hl-brand-fg: #ffffff;
   --hl-selection: rgba(255, 255, 255, 0.08);
   --hl-selection-fg: #f4f4f5;
-  --hl-ring: #6e8aa8;
+  --hl-ring: #96969c;
   --hl-danger: #dfadab;
   --hl-danger-hover: #e2b6b4;
   --hl-danger-muted: color-mix(in srgb, #dfadab 10%, transparent);

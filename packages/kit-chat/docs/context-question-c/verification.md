@@ -30,7 +30,7 @@ are written under TMPDIR. The script includes a local host-controlled submission
 completion button; no transport/server is involved. No dependency was added.
 
 Direct Button/Textarea/Popover/cn exports were checked in a registry 0.3.0 tarball;
-see published-primitives.json. Existing Collapsible-based kit-chat exports still
+see published-primitives.json. Existing Collapsible/HoverCard-based kit-chat exports still
 **need next design-components release (unreleased)**. The isolated ChatStream-only
 consumer uses packed kit-chat + packed workspace design-components and registry
 0.3.0 tokens, without workspace links or streamdown. Its plain React message main

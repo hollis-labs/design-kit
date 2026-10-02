@@ -10,7 +10,7 @@ import {
   setSpeechGlobals,
 } from './fakes'
 
-const button = () => screen.getByRole('button', { name: 'Voice input' })
+const button = () => screen.getByRole('button', { name: 'Voice input' }) as HTMLButtonElement
 const recognizer = () => FakeSpeechRecognition.instances[0]
 
 describe('SpeechInput with Web Speech', () => {

@@ -117,8 +117,11 @@ export class FakeMediaRecorder extends EventTarget {
     this.state = 'recording'
   })
 
-  constructor(public stream: MediaStream) {
+  stream: MediaStream
+
+  constructor(stream: MediaStream) {
     super()
+    this.stream = stream
     FakeMediaRecorder.instances.push(this)
   }
 

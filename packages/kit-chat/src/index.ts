@@ -112,3 +112,8 @@ export type {
   ChatRole,
   ChatStreamStatus,
 } from './lib/types'
+
+export { Shimmer } from './components/shimmer'
+export type { TextShimmerProps } from './components/shimmer'
+export { MessageActions, MessageAction, MessageBranch, MessageBranchContent, MessageBranchSelector, MessageBranchPrevious, MessageBranchNext, MessageBranchPage } from './components/message'
+export type { MessageActionsProps, MessageActionProps, MessageBranchProps, MessageBranchContentProps, MessageBranchSelectorProps, MessageBranchPreviousProps, MessageBranchNextProps, MessageBranchPageProps } from './components/message'

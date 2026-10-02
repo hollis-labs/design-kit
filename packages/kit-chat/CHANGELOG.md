@@ -10,7 +10,8 @@ includes Hollis Labs' MIT notice, AI Elements attribution and full Apache-2.0 te
 
 - Add AI Elements Message actions/branching with controlled selection, wraparound
   navigation and retained inactive drafts; Shimmer uses opt-in CSS animation,
-  token colors, a static fallback and reduced-motion support.
+  token colors, a static fallback and reduced-motion support. The new public
+  `./keyframes.css` export is opt-in via `@hollis-labs/kit-chat/keyframes.css`.
 - Add Reasoning, ChainOfThought, Sources and Plan on Base UI Collapsible; keep
   rendered content, citations, elapsed seconds and plan actions host-owned.
   ChainOfThought header/panel linkage and user collapse during streaming are preserved.

@@ -13,9 +13,9 @@ anything specific to it.
 ## 0.4.0 — 2026-10-02 — six core packages, independent settings and observe updates
 
 The six core packages move together to `0.4.0`. design-app-runtime and
-eslint-config-design take the number with no code change. kit-settings prepares
-`0.2.0` for the additive readOnlyContext feature on its 0.x line; kit-observe
-prepares `0.1.1`. design-bindings remains `0.1.0`. kit-account, kit-admin,
+eslint-config-design take the number with no code change. kit-settings `0.2.0`
+adds readOnlyContext on its 0.x line; kit-observe `0.1.1` fixes heading typography
+and documents controlled clock handling. design-bindings remains `0.1.0`. kit-account, kit-admin,
 kit-code, kit-voice and kit-workflow remain private `0.0.0` and are not published.
 
 **Upgrade the set together.** All workspace core ranges, including private kits,

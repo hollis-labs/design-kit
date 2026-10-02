@@ -32,7 +32,7 @@ export function App() {
   const diagnostic = manifest.diagnostics[0]
   return <main className="mx-auto flex max-w-5xl flex-col gap-6 p-4 text-fg">
     <header className="flex flex-col gap-3">
-      <h1 className="text-heading">kit-observe manifest demo</h1>
+      <h1 className="text-control font-semibold">kit-observe manifest demo</h1>
       <p className="text-control text-fg-secondary">Illustrative declarations with controlled fixture responses. No live endpoint, polling or history promise.</p>
       <div className="flex flex-wrap items-center gap-3">
         <label className="text-control">App <select aria-label="App" value={app} onChange={event => setApp(event.target.value as typeof app)} className="rounded border border-border bg-surface p-2 text-control text-fg">
@@ -45,7 +45,7 @@ export function App() {
       </div>
     </header>
     <section className="flex flex-col gap-3" aria-label="Manifest status">
-      <h2 className="text-heading">{manifest.app.label} status</h2>
+      <h2 className="text-control font-semibold">{manifest.app.label} status</h2>
       {manifest.health.map(resource => <HealthSummary key={resource.id} label={resource.label} status="degraded"
         checks={[{ id: 'runtime', label: 'Runtime', status: 'unknown', message: 'Fixture has no confirmed runtime evidence.' }, { id: 'dependency', label: 'Dependency', status: 'unhealthy', message: 'A returned unhealthy result is distinct from a failed request.' }]}
         observation={observation(resource.stale_after_ms)} />)}
@@ -53,7 +53,7 @@ export function App() {
         unit: resource.unit as ObservationUnit, kind: resource.kind as ObservationKind, observation: observation(resource.stale_after_ms) }))} />
     </section>
     <section aria-label="Manifest diagnostics" className="flex min-w-0 flex-col gap-3">
-      <h2 className="text-heading">Diagnostics</h2>
+      <h2 className="text-control font-semibold">Diagnostics</h2>
       {manifest.series.length ? manifest.series.map(resource => <SampleSeriesView key={resource.id} label={resource.label} points={points}
         unit={resource.unit as ObservationUnit} kind={resource.kind as ObservationKind}
         requested={{ from: '2026-10-01T23:00:00Z', to: '2026-10-02T00:00:00Z', limit: 4 }}
@@ -64,7 +64,7 @@ export function App() {
         validation={{ state: 'valid' }} observation={observation(diagnostic.stale_after_ms)} />
     </section>
     <section aria-label="State distinctions" className="flex min-w-0 flex-col gap-3">
-      <h2 className="text-heading">Independent resource states</h2>
+      <h2 className="text-control font-semibold">Independent resource states</h2>
       <HealthSummary label="Unknown health control" status="unknown" checks={[{ id: 'pending', label: 'Workload', status: 'unknown' }]} observation={stable} />
       <StatCollection label="Missing, zero and pending" rows={[
         { id: 'zero', label: 'Real zero', value: 0, unit: 'count', kind: 'counter', observation: stable },

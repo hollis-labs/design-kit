@@ -13,7 +13,7 @@ const events = [{ at: '2026-10-01T00:00:00Z', value: 2 }, { at: '2026-10-01T01:0
 const series = [{ key: 'events', label: 'Events', color: 'var(--color-primary)', value: (item: typeof events[number]) => item.value }]
 createRoot(document.getElementById('root')!).render(
   <main className="h-full overflow-auto bg-surface p-4 text-fg">
-    <h1 className="mb-4 text-heading">Timestamp samples — controlled fixture</h1>
+    <h1 className="mb-4 text-control font-semibold">Timestamp samples — controlled fixture</h1>
     <section data-testid="samples" className="mb-4 rounded border border-border-subtle bg-surface p-4">
       <TimestampSampleChart label="Execution duration" points={points} unit="milliseconds" kind="gauge" />
     </section>

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add shared `useControllableState({ value, defaultValue, onChange })` with a stable
+  setter, functional updates and change-only callbacks; ships with the next
+  lockstep core release (CW-20261002-0052).
+
 ButtonGroup, Collapsible and HoverCard ship in the **next design-components
 release (unreleased)**. The published registry `0.3.0` does not contain these
 primitives; workspace `0.3.0` remains unchanged pending the coordinated release.

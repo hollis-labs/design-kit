@@ -104,3 +104,6 @@ export { ModeToggle } from './components/mode-toggle'
 export type { ModeToggleProps } from './components/mode-toggle'
 export { ThemePicker } from './components/theme-picker'
 export type { ThemePickerProps } from './components/theme-picker'
+
+export { useControllableState } from './hooks/use-controllable-state'
+export type { UseControllableStateParams, SetControllableState } from './hooks/use-controllable-state'

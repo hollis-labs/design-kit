@@ -27,11 +27,15 @@ export type ReasoningProps = Omit<ComponentProps<typeof Collapsible>, 'onOpenCha
 export function Reasoning({ className, isStreaming = false, open, defaultOpen, onOpenChange, duration, ...props }: ReasoningProps) {
   const [isOpen, setIsOpen] = useControllableOpen(open, defaultOpen ?? isStreaming, onOpenChange)
   const streamed = useRef(isStreaming)
+  const wasStreaming = useRef(false)
   const autoClosed = useRef(false)
   useEffect(() => {
+    // Open once per streaming run; later user/host collapse must remain authoritative.
+    const started = isStreaming && !wasStreaming.current
+    wasStreaming.current = isStreaming
     if (isStreaming) {
       streamed.current = true
-      if (defaultOpen !== false && !isOpen) setIsOpen(true)
+      if (started && defaultOpen !== false && !isOpen) setIsOpen(true)
       return
     }
     if (!streamed.current || !isOpen || autoClosed.current) return

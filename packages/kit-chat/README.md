@@ -440,7 +440,8 @@ Collapsible is in workspace source but is absent from registry design-components
 minor; versions/ranges stay unchanged until that coordinated release.
 
 `Reasoning` provides controlled (`open`/`onOpenChange`) or local (`defaultOpen`)
-disclosure. Streaming starts open unless explicitly opted out with
+disclosure. Streaming opens once per run, allowing user collapse during streaming, unless
+explicitly opted out with
 `defaultOpen={false}`, and the first completed stream closes after one second.
 Supply `duration` from the host; no local elapsed-time calculation is performed.
 `ReasoningContent` accepts host-rendered React content, so it imports no markdown

@@ -18,7 +18,8 @@
   when no explicit mode marker is in scope, aligning first paint with the default
   dark palette. Explicit light scopes remain excluded unless a dark ancestor or
   island already matches the existing variant. Mode matching stays inside
-  zero-specificity `:where()`, independent of the OS. No token values change.
+  zero-specificity `:where()`, independent of the OS. The dark-variant change
+  itself changes no token values.
 
 ## 0.3.0 — 2026-10-02 — version alignment, no code change
 

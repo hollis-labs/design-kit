@@ -125,7 +125,7 @@ export const QueueItemAction = ({
 }: QueueItemActionProps) => (
   <Button
     className={cn(
-      "size-auto rounded-panel p-1 text-fg-muted hover:bg-surface-hover hover:text-fg",
+      "size-8 rounded-panel p-1 text-fg-muted hover:bg-surface-hover hover:text-fg",
       className
     )}
     size="icon"

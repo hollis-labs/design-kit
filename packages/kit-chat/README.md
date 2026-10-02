@@ -476,7 +476,8 @@ or accept arbitrary host-rendered content through children. Falsy JSON results
 
 `ConfirmationTitle`, `ConfirmationRequest`, `ConfirmationAccepted` and
 `ConfirmationRejected` are **content slots inside the existing ConfirmationCard**.
-They throw a clear error outside that card, including Title. There is no new
+They throw a clear error outside that card, including Title. Title renders a
+phrasing-content span and can be composed in the card title or body. There is no new
 Confirmation root, action row, responder or approval type. All existing card
 props, submission payloads, busy state and persisted-state locks remain intact.
 Request is shown while the card is open. Accepted/Rejected require a host-selected
@@ -490,7 +491,8 @@ these content slots.
 `Queue` composes Section/Trigger/Label/Content, a bounded, keyboard-focusable
 native `QueueList`, and Item/Indicator/Content/Description/Actions/Action/Attachment/
 Image/File slots. Completion is presentational; hosts own list data and action
-handlers. Action buttons remain visible for touch and keyboard users. Supply an
+handlers. Action buttons remain visible and use a token-sized target for touch and keyboard
+users. Supply an
 accessible label to icon-only actions and a useful QueueList label. Filename width
 and image sizing use the token scale. No queue store, executor or transport is added.
 See [demo/chat-tool-queue.tsx](demo/chat-tool-queue.tsx).

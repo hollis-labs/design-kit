@@ -207,3 +207,9 @@ see `[[sysop_ui_build_quirks]]` before "fixing" it.
 
 See [theme and mode setup](../../docs/appearance.md) for the shared preference store,
 ModeToggle, ThemePicker, persistence, and the system default.
+
+## Vendored source
+
+AI Elements ports follow the [vendoring convention](docs/vendoring.md), with
+per-file provenance, a [version inventory](docs/upstream-versions.md), and upstream
+attribution and Apache-2.0 terms carried in this package’s `LICENSE`.

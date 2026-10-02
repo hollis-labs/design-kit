@@ -1,5 +1,10 @@
 # @hollis-labs/design-components
 
+## Unreleased
+
+- Document AI Elements source provenance, package-local Apache-2.0 attribution,
+  port checklist and upstream-version inventory (CW-20261002-0043).
+
 ## 0.3.0 — 2026-10-02
 
 Co-released with the other core packages (design-tokens, design-app-runtime, kit-dashboard,

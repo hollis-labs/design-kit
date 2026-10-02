@@ -55,6 +55,25 @@ describe('fail-closed admin presentation', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Deployment configuration' }))
     expect(select).toHaveBeenCalledWith({ page: 'settings', groupId: 'app.deployment' })
   })
+  it('renders a callback-free read-only preference as labelled text with provenance', () => {
+    const source = props(tether), group = tether.settings[0]
+    const manifest = { ...tether, settings: [{ ...group,
+      schema: { type: 'object', additionalProperties: false, properties: { retention: { type: 'integer', title: 'Drawer retention', enum: [5, 15], readOnly: true } } },
+      fields: { retention: { editable: false, secret: false, restart_required: false, read_only_reason: 'Read-only preference' } },
+      capabilities: { can_read: true, can_validate: false, can_update: false, can_reset: false } }] }
+    const { container } = render(<AdminContent {...source} discovery={{ ...source.discovery, manifest }} settingsActions={undefined}
+      settings={{ [group.id]: { phase: 'ready', state: { draft: {}, values: { retention: {
+        present: true, value: 15, editable: false, has_override: true, read_only_reason: 'Read-only preference',
+        source: { kind: 'override', label: 'Persisted application preference' }, apply_state: 'unknown',
+      } } } } }} />)
+    const output = screen.getByLabelText('Drawer retention')
+    expect(output.tagName).toBe('OUTPUT')
+    expect(output.textContent).toBe('15')
+    expect(container.querySelector('input, select, textarea')).toBeNull()
+    expect(screen.queryByRole('button', { name: /Save|Reset|Validate|Discard/ })).toBeNull()
+    expect(screen.getByText('Source: override — Persisted application preference')).toBeTruthy()
+    expect(screen.getByText('Apply state: Unknown')).toBeTruthy()
+  })
   it('first discovery failure is globally unavailable', () => {
     const p = props()
     render(<AdminContent {...p} discovery={{ phase: 'error', contextKey: p.contextKey, error: 'Discovery failed' }} />)

@@ -6,6 +6,7 @@
  * Divergences: One Base UI disclosure root, shared controlled state, contract tokens.
  *              Real trigger, separate action slots, retained unknown frames, safe coordinates.
  *              Read-only file paths without a host callback; shared clipboard lifecycle.
+ *              Linear delimiter parsing with a per-frame length cap.
  */
 "use client";
 import {
@@ -56,40 +57,56 @@ function coordinate(value: string) {
   const number = Number(value);
   return Number.isSafeInteger(number) && number >= 0 ? number : null;
 }
-// Ambiguous function/path delimiters can make the frame regexes backtrack.
-// Keep tool-supplied long lines readable without matching them during render.
+// Bound each frame's parsing work while retaining oversized input as inert text.
 const MAX_FRAME_CHARS = 1000;
 function parseFrame(raw: string): StackFrame {
   const text = raw.trim();
-  if (text.length > MAX_FRAME_CHARS) {
-    return {
-      raw: text,
-      functionName: null,
-      filePath: null,
-      lineNumber: null,
-      columnNumber: null,
-      isInternal: false,
-    };
+  const unknown: StackFrame = {
+    raw: text,
+    functionName: null,
+    filePath: null,
+    lineNumber: null,
+    columnNumber: null,
+    isInternal: false,
+  };
+  if (
+    text.length > MAX_FRAME_CHARS ||
+    !text.startsWith("at") ||
+    !/^\s$/.test(text[2] ?? "")
+  ) return unknown;
+
+  const body = text.slice(2).trim();
+  let functionName: string | null = null;
+  let location = body;
+  if (body.endsWith(")")) {
+    const open = body.indexOf(" (");
+    if (open < 1) return unknown;
+    functionName = body.slice(0, open).trim();
+    location = body.slice(open + 2, -1);
+    if (!functionName) return unknown;
   }
-  const withFn = text.match(/^at\s+(.+?)\s+\((.+):(\d+):(\d+)\)$/),
-    withoutFn = text.match(/^at\s+(.+):(\d+):(\d+)$/);
-  const match = withFn ?? withoutFn;
-  const valid =
-    match &&
-    coordinate(withFn ? match[3] : match[2]) !== null &&
-    coordinate(withFn ? match[4] : match[3]) !== null;
-  const path = valid ? (withFn ? match![2] : match![1]) : null;
+  // Read coordinates from the right so URL schemes and Windows drives remain paths.
+  const columnSeparator = location.lastIndexOf(":");
+  const lineSeparator = location.lastIndexOf(":", columnSeparator - 1);
+  if (lineSeparator < 1 || columnSeparator <= lineSeparator) return unknown;
+  const line = location.slice(lineSeparator + 1, columnSeparator);
+  const column = location.slice(columnSeparator + 1);
+  // Each anchored check scans a bounded digit slice once; no ambiguous frame regex.
+  if (!/^\d+$/.test(line) || !/^\d+$/.test(column)) return unknown;
+  const lineNumber = coordinate(line);
+  const columnNumber = coordinate(column);
+  if (lineNumber === null || columnNumber === null) return unknown;
+  const path = location.slice(0, lineSeparator);
   return {
     raw: text,
-    functionName: valid && withFn ? withFn[1] : null,
+    functionName,
     filePath: path,
-    lineNumber: match ? coordinate(withFn ? match[3] : match[2]) : null,
-    columnNumber: match ? coordinate(withFn ? match[4] : match[3]) : null,
+    lineNumber,
+    columnNumber,
     isInternal:
-      !!path &&
-      (path.includes("node_modules") ||
-        path.startsWith("node:") ||
-        path.includes("internal/")),
+      path.includes("node_modules") ||
+      path.startsWith("node:") ||
+      path.includes("internal/"),
   };
 }
 function parseTrace(raw: string): ParsedStackTrace {

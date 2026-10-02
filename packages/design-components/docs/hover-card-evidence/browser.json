@@ -1,0 +1,213 @@
+{
+  "results": [
+    {
+      "theme": "nanite-default",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(24, 25, 27)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "nanite-default",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(22, 24, 26)",
+        "color": "rgb(232, 234, 237)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(24, 24, 27)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-a",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(24, 24, 27)",
+        "color": "rgb(244, 244, 245)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(251, 248, 242)",
+        "color": "rgb(31, 26, 20)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-b",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(28, 24, 19)",
+        "color": "rgb(240, 234, 224)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(26, 14, 46)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-d",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(24, 18, 48)",
+        "color": "rgb(240, 232, 255)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(251, 249, 242)",
+        "color": "rgb(10, 26, 36)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-e",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(8, 17, 32)",
+        "color": "rgb(200, 224, 240)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(248, 248, 248)",
+        "color": "rgb(10, 10, 10)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "dir-f",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(22, 22, 22)",
+        "color": "rgb(240, 240, 240)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(24, 24, 27)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-p4-white",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(24, 24, 27)",
+        "color": "rgb(244, 244, 245)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(18, 59, 34)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-green-phosphor",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(18, 26, 20)",
+        "color": "rgb(0, 255, 102)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(73, 48, 0)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-amber-phosphor",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(28, 22, 14)",
+        "color": "rgb(255, 176, 0)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "light",
+      "styles": {
+        "background": "rgb(255, 255, 255)",
+        "color": "rgb(0, 0, 0)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    },
+    {
+      "theme": "sysop-hi-contrast",
+      "mode": "dark",
+      "styles": {
+        "background": "rgb(18, 18, 18)",
+        "color": "rgb(255, 255, 255)",
+        "radius": "10px",
+        "width": "256px"
+      }
+    }
+  ],
+  "errors": [],
+  "checks": [
+    "link target preserved",
+    "hover open, pointer transfer, leave close",
+    "portal and supplementary aria-hidden",
+    "focus opens, Escape closes without stealing focus",
+    "no popup tab stop",
+    "token styles in every theme/mode"
+  ]
+}

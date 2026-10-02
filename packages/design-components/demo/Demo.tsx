@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BUILTIN_THEMES, DEFAULT_THEME_ID } from '@hollis-labs/design-tokens'
-import { Button, ButtonGroup, ButtonGroupText, ButtonGroupSeparator, Collapsible, CollapsibleTrigger, CollapsibleContent } from '../src/components/ui'
+import { Button, ButtonGroup, ButtonGroupText, ButtonGroupSeparator, Collapsible, CollapsibleTrigger, CollapsibleContent, HoverCard, HoverCardTrigger, HoverCardContent } from '../src/components/ui'
 import { Callout } from '../src/components/callout'
 import './demo.css'
 
@@ -50,6 +50,13 @@ export function Demo() {
           <CollapsibleContent className="pt-3 text-sm">Host-controlled details. <a className="text-primary underline" href="#destination">Read the full details</a></CollapsibleContent>
         </Collapsible>
         <Collapsible disabled><CollapsibleTrigger render={<Button variant="outline" />}>Disabled details</CollapsibleTrigger><CollapsibleContent>Unavailable</CollapsibleContent></Collapsible>
+      </section>
+      <section className="flex flex-col gap-3 rounded-panel border border-border bg-surface p-5">
+        <h2 className="text-lg font-medium">HoverCard</h2>
+        <HoverCard>
+          <HoverCardTrigger href="#destination" delay={100} closeDelay={100} className="w-fit text-primary underline">Preview destination</HoverCardTrigger>
+          <HoverCardContent align="start">Supplementary destination preview. The same information is available below.</HoverCardContent>
+        </HoverCard>
       </section>
       <section id="destination" className="flex flex-col gap-3">
         <h2 className="text-lg font-medium">Destination and existing Callout</h2>

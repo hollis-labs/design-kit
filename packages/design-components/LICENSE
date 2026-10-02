@@ -24,9 +24,18 @@ SOFTWARE.
 Third-party source: shadcn/ui
 ===========================
 
-The ButtonGroup, Collapsible and HoverCard ports identified by shadcn/ui
-provenance headers derive from the pinned AI Elements copy of shadcn/ui.
-The following MIT notice applies to that source.
+The following files in src/components/ui derive from shadcn/ui's base-nova
+registry through sysop-ui (see docs/primitive-provenance.md):
+alert-dialog.tsx, badge.tsx, button.tsx, card.tsx, checkbox.tsx, command.tsx,
+dialog.tsx, dropdown-menu.tsx, input-group.tsx, input.tsx, label.tsx,
+popover.tsx, scroll-area.tsx, select.tsx, separator.tsx, sheet.tsx,
+skeleton.tsx, sonner.tsx, switch.tsx, table.tsx, tabs.tsx, textarea.tsx,
+tooltip.tsx.
+
+The button-group.tsx, collapsible.tsx and hover-card.tsx ports in that directory
+derive from the pinned AI Elements copy of shadcn/ui, as their headers record.
+The following MIT notice applies to the shadcn/ui-derived source in all files
+named above; Hollis Labs modifications retain the original licence above.
 
 MIT License
 

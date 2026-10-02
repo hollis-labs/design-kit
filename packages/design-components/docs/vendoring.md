@@ -44,6 +44,19 @@ copy read, not a claim that it was authored by Vercel:
  */
 ```
 
+### Retrospective attribution of an inherited file
+
+For source inherited before this convention, verify its origin from the actual
+historical file and the relevant registry revision. Do not label shadcn's
+Base UI registry source as a Radix port or as Vercel-authored AI Elements source.
+Retain the same origin, copyright, Upstream, Source, Version and Divergences
+fields, but identify a comparison reference explicitly when the actual original
+generator revision is unrecorded. A History line may name the first recorded
+local commit/date; it must not present that as a known upstream copy date.
+Use `attribution audited <date>` instead of inventing a `vendored <date>`.
+Keep a file-level evidence table with those limits, as in
+[the earlier primitive audit](primitive-provenance.md).
+
 ## Licence and attribution travel with each package
 
 The canonical reference texts live in

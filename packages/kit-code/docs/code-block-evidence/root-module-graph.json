@@ -1,0 +1,180 @@
+{
+  "inputs": {
+    "packages/kit-code/dist/use-clipboard.js": {
+      "bytes": 1025,
+      "imports": [
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "format": "esm"
+    },
+    "packages/kit-code/dist/code-block.js": {
+      "bytes": 4227,
+      "imports": [
+        {
+          "path": "react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@hollis-labs/design-components",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "lucide-react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "packages/kit-code/dist/use-clipboard.js",
+          "kind": "import-statement",
+          "original": "./use-clipboard.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "packages/kit-code/dist/snippet.js": {
+      "bytes": 2119,
+      "imports": [
+        {
+          "path": "react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@hollis-labs/design-components",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "lucide-react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "packages/kit-code/dist/use-clipboard.js",
+          "kind": "import-statement",
+          "original": "./use-clipboard.js"
+        }
+      ],
+      "format": "esm"
+    },
+    "packages/kit-code/dist/index.js": {
+      "bytes": 1060,
+      "imports": [
+        {
+          "path": "packages/kit-code/dist/code-block.js",
+          "kind": "import-statement",
+          "original": "./code-block.js"
+        },
+        {
+          "path": "packages/kit-code/dist/snippet.js",
+          "kind": "import-statement",
+          "original": "./snippet.js"
+        }
+      ],
+      "format": "esm"
+    }
+  },
+  "outputs": {
+    "../../../../../.cache/team-tmp/task-ai-elements-1/kit-code-root-graph.mjs": {
+      "imports": [
+        {
+          "path": "react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@hollis-labs/design-components",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "lucide-react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react/jsx-runtime",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "react",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "@hollis-labs/design-components",
+          "kind": "import-statement",
+          "external": true
+        },
+        {
+          "path": "lucide-react",
+          "kind": "import-statement",
+          "external": true
+        }
+      ],
+      "exports": [
+        "CodeBlock",
+        "CodeBlockActions",
+        "CodeBlockContainer",
+        "CodeBlockContent",
+        "CodeBlockCopyButton",
+        "CodeBlockFilename",
+        "CodeBlockHeader",
+        "CodeBlockLanguageSelector",
+        "CodeBlockLanguageSelectorContent",
+        "CodeBlockLanguageSelectorItem",
+        "CodeBlockLanguageSelectorTrigger",
+        "CodeBlockLanguageSelectorValue",
+        "CodeBlockTitle",
+        "Snippet",
+        "SnippetAddon",
+        "SnippetCopyButton",
+        "SnippetInput",
+        "SnippetText"
+      ],
+      "entryPoint": "packages/kit-code/dist/index.js",
+      "inputs": {
+        "packages/kit-code/dist/code-block.js": {
+          "bytesInOutput": 3766
+        },
+        "packages/kit-code/dist/use-clipboard.js": {
+          "bytesInOutput": 988
+        },
+        "packages/kit-code/dist/snippet.js": {
+          "bytesInOutput": 1949
+        },
+        "packages/kit-code/dist/index.js": {
+          "bytesInOutput": 0
+        }
+      },
+      "bytes": 7372
+    }
+  }
+}

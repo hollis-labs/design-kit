@@ -1,8 +1,37 @@
 /**
  * `@hollis-labs/kit-voice` — voice input and output components.
  *
- * Skeleton: nothing is exported yet. Components land in follow-up changes, each
- * vendored from AI Elements (Apache-2.0) and ported to Base UI and the token
- * contract. See README.md.
+ * Vendored from AI Elements (Apache-2.0) and ported to Base UI and the token contract;
+ * see README.md and docs/upstream-versions.md. The main entry carries no heavy
+ * dependency. `useControllableState` is internal.
  */
-export {}
+export {
+  MicSelector,
+  MicSelectorContent,
+  MicSelectorEmpty,
+  MicSelectorInput,
+  MicSelectorItem,
+  MicSelectorLabel,
+  MicSelectorList,
+  MicSelectorTrigger,
+  MicSelectorValue,
+} from './mic-selector'
+export type {
+  MicSelectorContentProps,
+  MicSelectorEmptyProps,
+  MicSelectorInputProps,
+  MicSelectorItemProps,
+  MicSelectorLabelProps,
+  MicSelectorListProps,
+  MicSelectorProps,
+  MicSelectorTriggerProps,
+  MicSelectorValueProps,
+} from './mic-selector'
+export { SpeechInput } from './speech-input'
+export type {
+  SpeechInputAvailability,
+  SpeechInputError,
+  SpeechInputErrorCode,
+  SpeechInputProps,
+} from './speech-input'
+export { useAudioDevices } from './use-audio-devices'

@@ -54,3 +54,100 @@ export function removeMediaDevices() {
 }
 
 export const settle = (ms = 60) => new Promise<void>((resolve) => setTimeout(resolve, ms))
+
+/** `window.isSecureContext`, which jsdom does not provide. Returns a restore function. */
+export function setSecureContext(value: boolean) {
+  const original = Object.getOwnPropertyDescriptor(window, 'isSecureContext')
+  Object.defineProperty(window, 'isSecureContext', { configurable: true, value })
+  return () => {
+    if (original) Object.defineProperty(window, 'isSecureContext', original)
+    else Reflect.deleteProperty(window, 'isSecureContext')
+  }
+}
+
+interface FakeSegment {
+  transcript: string
+  isFinal: boolean
+}
+
+/** A Web Speech recognizer that does nothing until a test emits events on it. */
+export class FakeSpeechRecognition extends EventTarget {
+  static instances: FakeSpeechRecognition[] = []
+  continuous = false
+  interimResults = false
+  lang = ''
+  start = vi.fn()
+  stop = vi.fn()
+  abort = vi.fn()
+
+  constructor() {
+    super()
+    FakeSpeechRecognition.instances.push(this)
+  }
+
+  emitStart() {
+    this.dispatchEvent(new Event('start'))
+  }
+
+  emitEnd() {
+    this.dispatchEvent(new Event('end'))
+  }
+
+  emitError(error: string) {
+    this.dispatchEvent(Object.assign(new Event('error'), { error }))
+  }
+
+  /** `resultIndex` is where the new results start in the cumulative list, as in the spec. */
+  emitResult(segments: FakeSegment[], resultIndex = 0) {
+    const results = segments.map((segment) =>
+      Object.assign([{ transcript: segment.transcript, confidence: 1 }], { isFinal: segment.isFinal })
+    )
+    this.dispatchEvent(Object.assign(new Event('result'), { resultIndex, results }))
+  }
+}
+
+/** A MediaRecorder that records nothing real: stop() emits one chunk, then `stop`. */
+export class FakeMediaRecorder extends EventTarget {
+  static instances: FakeMediaRecorder[] = []
+  static mimeType = 'audio/mp4'
+  static chunk = 'audio-bytes'
+  state: 'inactive' | 'recording' = 'inactive'
+  mimeType = FakeMediaRecorder.mimeType
+  start = vi.fn(() => {
+    this.state = 'recording'
+  })
+
+  constructor(public stream: MediaStream) {
+    super()
+    FakeMediaRecorder.instances.push(this)
+  }
+
+  stop = vi.fn(() => {
+    this.state = 'inactive'
+    const data = new Blob(FakeMediaRecorder.chunk ? [FakeMediaRecorder.chunk] : [], { type: this.mimeType })
+    this.dispatchEvent(Object.assign(new Event('dataavailable'), { data }))
+    this.dispatchEvent(new Event('stop'))
+  })
+}
+
+type SpeechGlobals = { SpeechRecognition?: unknown; webkitSpeechRecognition?: unknown; MediaRecorder?: unknown }
+
+/** Sets or removes the three speech-related globals on `window`; returns a restore function. */
+export function setSpeechGlobals(globals: SpeechGlobals) {
+  const keys = ['SpeechRecognition', 'webkitSpeechRecognition', 'MediaRecorder'] as const
+  const originals = keys.map((key) => [key, Object.getOwnPropertyDescriptor(window, key)] as const)
+  for (const key of keys) {
+    Reflect.deleteProperty(window, key)
+    if (globals[key] !== undefined) {
+      Object.defineProperty(window, key, { configurable: true, writable: true, value: globals[key] })
+    }
+  }
+  FakeSpeechRecognition.instances = []
+  FakeMediaRecorder.instances = []
+  return () => {
+    for (const [key, descriptor] of originals) {
+      Reflect.deleteProperty(window, key)
+      if (descriptor) Object.defineProperty(window, key, descriptor)
+    }
+  }
+}

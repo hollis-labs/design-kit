@@ -21,7 +21,7 @@
 
 import { Button, cn } from "@hollis-labs/design-components";
 import { LoaderCircleIcon, MicIcon, SquareIcon } from "lucide-react";
-import type { ComponentProps, MouseEvent } from "react";
+import type { ComponentProps } from "react";
 import {
   useCallback,
   useEffect,
@@ -92,6 +92,11 @@ export type SpeechInputProps = Omit<ComponentProps<typeof Button>, "onError"> & 
   /** BCP 47 tag for Web Speech. Read each time recognition starts. */
   lang?: string;
 };
+
+// Base UI hands its handlers a React MouseEvent extended with preventBaseUIHandler.
+type ButtonClickEvent = Parameters<
+  NonNullable<ComponentProps<typeof Button>["onClick"]>
+>[0];
 
 const subscribeNever = () => () => {};
 
@@ -371,7 +376,7 @@ export const SpeechInput = ({
     setIsListening(false);
   }, []);
 
-  const toggle = (event: MouseEvent<HTMLButtonElement>) => {
+  const toggle = (event: ButtonClickEvent) => {
     onClick?.(event);
     if (event.defaultPrevented) {
       return;

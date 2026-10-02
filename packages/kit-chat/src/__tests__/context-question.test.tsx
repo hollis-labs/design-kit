@@ -10,7 +10,7 @@ describe('suggestion actions', () => {
   it('reports the host suggestion without submitting a surrounding form and leaves disabled inert', () => {
     const click = vi.fn(), submit = vi.fn(); render(<form onSubmit={submit}><Suggestions><Suggestion suggestion="Explain" onClick={click} /><Suggestion suggestion="Disabled" disabled onClick={click} /></Suggestions></form>)
     fireEvent.click(screen.getByRole('button', { name: 'Explain' })); fireEvent.click(screen.getByRole('button', { name: 'Disabled' }))
-    expect(click).toHaveBeenCalledExactlyOnceWith('Explain'); expect(submit).not.toHaveBeenCalled()
+    expect(click).toHaveBeenCalledOnce(); expect(click).toHaveBeenCalledWith('Explain'); expect(submit).not.toHaveBeenCalled()
     expect(screen.getByRole('group', { name: 'Suggestions' }).tabIndex).toBe(0)
   })
 })
@@ -18,7 +18,7 @@ describe('numeric context presentation', () => {
   it('shows known zero costs/tokens and host usage with a clamped capacity meter', () => {
     render(<Usage usedTokens={150} maxTokens={100} usage={{ inputTokens: 0, outputTokens: 50 }} cost={{ totalUSD: 0, inputUSD: 0, outputUSD: 0.5 }} />)
     expect(screen.getByRole('progressbar').getAttribute('value')).toBe('100')
-    expect(screen.getByText('150 / 100')).toBeTruthy();expect(screen.getAllByText('$0.00')).toHaveLength(2)
+    expect(screen.getByText('150 / 100')).toBeTruthy();expect(screen.getByText('$0.00')).toBeTruthy();expect(screen.getByText('• $0.00')).toBeTruthy()
     expect(screen.getByText('$0.50', { exact: false })).toBeTruthy()
     expect(screen.getAllByText('Unknown', { exact: false }).length).toBeGreaterThan(0)
   })

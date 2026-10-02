@@ -37,7 +37,7 @@ export const ContextContentHeader = ({ children, className, ...props }: ContextC
   const value = useContextValue(), part = fraction(value)
   return <div className={cn('w-full space-y-2 p-3', className)} {...props}>{children ?? <>
     <div className="flex items-center justify-between gap-3 text-xs"><p>{percentage(part)}</p><p className="font-mono text-muted-foreground">{countText(value.usedTokens)} / {known(value.maxTokens) && value.maxTokens > 0 ? countText(value.maxTokens) : 'Unknown'}</p></div>
-    {part !== undefined && <progress aria-label="Context capacity used" max={100} value={part * 100} className="h-2 w-full overflow-hidden rounded-pill bg-muted accent-primary" />}
+    {part !== undefined && <progress aria-label="Context capacity used" max={100} value={part * 100} className="h-2 w-full overflow-hidden appearance-none rounded-pill bg-muted [&::-webkit-progress-bar]:bg-muted [&::-webkit-progress-value]:bg-primary [&::-moz-progress-bar]:bg-primary" />}
   </>}</div>
 }
 export type ContextContentBodyProps = ComponentProps<'div'>

@@ -8,7 +8,7 @@
  * This is a presentation form, not a Tangent transport or approval-card replacement.
  */
 import { Button, Textarea, cn } from '@hollis-labs/design-components'
-import { createContext, useContext, useId, useRef, useState, type ComponentProps, type FormEvent } from 'react'
+import { createContext, useContext, useId, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
 export interface QuestionValue { selectedValues: readonly string[]; text: string }
 export interface QuestionResponse { selectedValues: readonly string[]; text?: string }
 export type QuestionSelectionMode = 'single' | 'multiple'
@@ -50,7 +50,7 @@ export type QuestionDescriptionProps = ComponentProps<'p'>
 export const QuestionDescription = ({ className, ...props }: QuestionDescriptionProps) => <p className={cn('text-sm text-muted-foreground', className)} {...props} />
 export type QuestionOptionsProps = ComponentProps<'div'>
 export const QuestionOptions = ({ className, ...props }: QuestionOptionsProps) => { const { selectionMode } = useQuestion(); return <div role={selectionMode === 'single' ? 'radiogroup' : 'group'} className={cn('flex flex-wrap gap-2', className)} {...props} /> }
-export type QuestionOptionProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'checked' | 'defaultChecked' | 'children' | 'name'> & { value: string; children?: React.ReactNode }
+export type QuestionOptionProps = Omit<ComponentProps<'input'>, 'type' | 'value' | 'checked' | 'defaultChecked' | 'children' | 'name'> & { value: string; children?: ReactNode }
 export const QuestionOption = ({ value, children, className, disabled, onChange, ...props }: QuestionOptionProps) => {
   const question = useQuestion(), checked = question.value.selectedValues.includes(value)
   return <label className={cn('flex cursor-pointer items-center gap-2 rounded-control border border-border p-3 text-sm has-checked:bg-accent has-checked:text-accent-foreground has-disabled:cursor-default has-disabled:opacity-50', className)}>

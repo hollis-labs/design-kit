@@ -3,7 +3,7 @@
  * Upstream: packages/elements/src/queue.tsx
  * Source:   https://github.com/vercel/ai-elements/blob/6a9d5b1822ffb10bba4bd97175f01edd7d8651cd/packages/elements/src/queue.tsx
  * Version:  ai-elements 1.9.0 @ 6a9d5b1 (2026-08-21); vendored 2026-10-02
- * Divergences: Base UI disclosure; native bounded scroll list; actions visible on keyboard/touch; token file/image geometry and styling; no implicit animations.
+ * Divergences: Base UI disclosure; native bounded scroll list; chevron follows aria-expanded; actions visible on keyboard/touch; token file/image geometry and styling; no implicit animations.
  */
 
 import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger, cn } from '@hollis-labs/design-components'
@@ -213,7 +213,7 @@ export const QueueSectionLabel = ({
   ...props
 }: QueueSectionLabelProps) => (
   <span className={cn("flex items-center gap-2", className)} {...props}>
-    <ChevronDownIcon className="size-4 transition-transform motion-reduce:transition-none group-data-[closed]:-rotate-90" />
+    <ChevronDownIcon className="size-4 -rotate-90 transition-transform motion-reduce:transition-none group-aria-expanded:rotate-0" />
     {icon}
     <span>
       {count} {label}

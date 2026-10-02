@@ -475,7 +475,8 @@ Place `PromptInputActionAddAttachments` in its toolbar to open the native picker
 file and `accept`, `max_file_size` or `max_files`. `accept` supports MIME patterns
 and filename extensions; `multiple`, `attachmentCount`, `maxFiles`, `maxFileSize`
 (bytes), and `disabled` control intake. The picker resets after every selection.
-Drops stay local; ordinary text drops are left alone. There are no document event
+Drops stay local; ordinary text drops are left alone. Disabled file drops are
+cancelled to avoid browser navigation, without emitting intake events. There are no document event
 listeners, fetching, attachment stores, screenshot capture or composer trigger changes.
 
 ```tsx
@@ -498,6 +499,9 @@ compose an accessible Base UI **Popover**: click/touch or keyboard activation op
 it, Escape closes it, and focus returns to its trigger. Use `render={<Button />}`
 instead of Radix `asChild`; removal buttons belong outside the preview trigger.
 These previews are not hover-only. Removal controls are always visible.
+For attachment-only submission, supply your own host submit button in
+`ChatInput.toolbarEnd` and set `showSubmitButton={false}`; the built-in ChatInput
+submit intentionally depends on text. The dropzone never submits a message.
 Caller-supplied media URLs are rendered by browser media elements; the host decides
 which URLs are appropriate and revokes blob URLs when removed or on unmount.
 

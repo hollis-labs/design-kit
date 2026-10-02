@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   AudioPlayer,
   AudioPlayerControlBar,
@@ -12,6 +12,16 @@ import {
   AudioPlayerTimeRange,
   AudioPlayerVolumeRange,
 } from '../src/audio-player'
+import { Transcription, TranscriptionSegment } from '../src'
+import type { TranscriptionSegmentData } from '../src'
+
+const SEGMENTS: TranscriptionSegmentData[] = [
+  { text: 'A', startSecond: 0, endSecond: 0.5 },
+  { text: 'rising', startSecond: 0.5, endSecond: 1.2 },
+  { text: 'tone,', startSecond: 1.2, endSecond: 2 },
+  { text: 'generated', startSecond: 2, endSecond: 3 },
+  { text: 'in the page.', startSecond: 3, endSecond: 4 },
+]
 
 /** A mono 16-bit PCM WAV of a rising tone, built in the browser so the fixture needs no asset file. */
 function toneWav(seconds: number, sampleRate = 22050): Blob {
@@ -42,15 +52,22 @@ function toneWav(seconds: number, sampleRate = 22050): Blob {
 // The host owns the audio: a Blob here, a URL (`src`) in most apps. kit-voice only plays it.
 export function AudioSection({ panelClassName }: { panelClassName: string }) {
   const [blob] = useState(() => toneWav(4))
+  const audio = useRef<HTMLAudioElement>(null)
+  const [time, setTime] = useState(0)
   return (
     <section aria-labelledby="audio-player" className={panelClassName}>
       <h2 className="text-label font-medium" id="audio-player">AudioPlayer</h2>
       <p className="text-control text-fg-muted">
         Built on media-chrome (an optional peer, behind the <code>/audio-player</code> subpath). This
-        plays a four-second tone generated in the page, through a Blob.
+        plays a four-second tone generated in the page, through a Blob; the words under it follow the audio and click to seek it.
       </p>
       <AudioPlayer data-testid="player">
-        <AudioPlayerElement blob={blob} data-testid="audio" />
+        <AudioPlayerElement
+          blob={blob}
+          data-testid="audio"
+          onTimeUpdate={(event) => setTime(event.currentTarget.currentTime)}
+          ref={audio}
+        />
         <AudioPlayerControlBar>
           <AudioPlayerPlayButton />
           <AudioPlayerSeekBackwardButton seekOffset={1} />
@@ -62,6 +79,17 @@ export function AudioSection({ panelClassName }: { panelClassName: string }) {
           <AudioPlayerVolumeRange />
         </AudioPlayerControlBar>
       </AudioPlayer>
+      <div data-testid="paired-transcription">
+        <Transcription
+          currentTime={time}
+          onSeek={(seconds) => {
+            if (audio.current) audio.current.currentTime = seconds
+          }}
+          segments={SEGMENTS}
+        >
+          {(segment, index) => <TranscriptionSegment index={index} key={segment.startSecond} segment={segment} />}
+        </Transcription>
+      </div>
     </section>
   )
 }

@@ -1,7 +1,8 @@
 /**
- * Real-browser check of the microphone paths jsdom cannot cover: the MediaRecorder
- * fallback, MicSelector's real Popover, the permission re-prompt loop and the
- * insecure-context behaviour. Manual evidence, not run by CI.
+ * Real-browser check of what jsdom cannot cover: the microphone paths (the MediaRecorder
+ * fallback, MicSelector's real Popover, the permission re-prompt loop, the insecure
+ * context) and VoiceSelector's dialog and Transcription's seeking in a real layout.
+ * Manual evidence, not run by CI.
  *
  *   npm run demo:build -w @hollis-labs/kit-voice
  *   PW_DIR=<dir containing node_modules/playwright-core> \
@@ -223,7 +224,67 @@ const gum = (page) => page.evaluate(() => window.__gum?.calls ?? null)
   await context.close()
 }
 
-// ---- F. Screenshots: recording state plus the open selector, light and dark, two themes
+// ---- G. VoiceSelector in a real Dialog
+{
+  const { page, context } = await open('voice-selector')
+  const voiceTrigger = page.locator('[data-testid="voice-trigger"]')
+  const dialog = page.getByRole('dialog', { name: 'Choose a voice' })
+  await voiceTrigger.click()
+  await dialog.waitFor()
+  check('voice dialog opens, named by its title', true)
+  check('three voices listed', (await items(page).count()) === 3, await items(page).allInnerTexts())
+  check(
+    'gender and accent are announced by name (role=img + aria-label)',
+    (await dialog.locator('[role="img"][aria-label="female"]').count()) === 1 &&
+      (await dialog.locator('[role="img"][aria-label="british"]').count()) === 1
+  )
+
+  await dialog.getByPlaceholder('Search voices...').fill('oli')
+  await page.waitForTimeout(200)
+  check('search narrows to the match (keywords)', (await items(page).count()) === 1 && /Oliver/.test(await items(page).first().innerText()))
+  await dialog.getByPlaceholder('Search voices...').fill('')
+  await page.waitForTimeout(200)
+
+  await page.locator('[data-testid="preview-aria"]').click()
+  check(
+    'preview marks itself playing without selecting the row or closing the dialog',
+    (await page.locator('[data-testid="preview-aria"]').getAttribute('aria-label')) === 'Pause preview' &&
+      (await page.locator('[data-testid="voice-value"]').innerText()) === 'none' &&
+      (await dialog.isVisible())
+  )
+
+  await page.keyboard.press('Escape')
+  await dialog.waitFor({ state: 'detached' })
+  check('Escape closes it and chooses nothing', (await page.locator('[data-testid="voice-value"]').innerText()) === 'none')
+
+  await voiceTrigger.click()
+  await dialog.waitFor()
+  await items(page).filter({ hasText: 'Mei' }).click()
+  await dialog.waitFor({ state: 'detached' })
+  check(
+    'choosing a voice closes the dialog and sets the value',
+    (await page.locator('[data-testid="voice-value"]').innerText()) === 'mei' && (await voiceTrigger.innerText()).includes('Mei')
+  )
+  await context.close()
+}
+
+// ---- H. Transcription follows the host's clock and seeks on click
+{
+  const { page, context } = await open('transcription')
+  const active = () => page.locator('[data-slot="transcription-segment"][data-active="true"]').allInnerTexts()
+  check('at 1.0s the active segment is "input"', JSON.stringify(await active()) === '["input"]', await active())
+  await page.locator('[data-testid="time"]').fill('2')
+  check('the active segment follows the controlled time', JSON.stringify(await active()) === '["arrives"]', await active())
+  await page.locator('[data-slot="transcription-segment"]', { hasText: 'text' }).click()
+  check(
+    'clicking a segment seeks the host clock to its start',
+    (await page.locator('[data-testid="time-value"]').innerText()) === '3.0s' && JSON.stringify(await active()) === '["text"]',
+    await page.locator('[data-testid="time-value"]').innerText()
+  )
+  await context.close()
+}
+
+// ---- F. Screenshots, light and dark, two themes: recording + open MicSelector; voice dialog; transcription
 for (const theme of ['nanite-default', 'sysop-p4-white']) {
   for (const mode of ['dark', 'light']) {
     const { page, context } = await open(`shot-${theme}-${mode}`, {
@@ -238,6 +299,19 @@ for (const theme of ['nanite-default', 'sysop-p4-white']) {
     await page.waitForFunction(() => document.querySelectorAll('[data-slot="command-item"]').length > 0)
     await page.waitForTimeout(500)
     await page.screenshot({ path: path.join(here, `${theme}-${mode}.png`) })
+    await page.keyboard.press('Escape')
+    await popup(page).waitFor({ state: 'detached' })
+
+    // The voice dialog, one row previewing, and the transcription mid-playback.
+    await page.locator('[data-testid="time"]').fill('2')
+    await page.locator('[data-testid="voice-trigger"]').click()
+    await page.getByRole('dialog', { name: 'Choose a voice' }).waitFor()
+    await page.locator('[data-testid="preview-aria"]').click()
+    await page.waitForTimeout(400)
+    await page.screenshot({ path: path.join(here, `voice-${theme}-${mode}.png`) })
+    await page.keyboard.press('Escape')
+    await page.getByRole('dialog').waitFor({ state: 'detached' })
+    await page.locator('section[aria-labelledby="transcription"]').screenshot({ path: path.join(here, `transcription-${theme}-${mode}.png`) })
     await context.close()
   }
 }

@@ -31,7 +31,7 @@ and are used under the Apache License, Version 2.0, reproduced below. Hollis Lab
 not replace these terms for those files. Each derived file carries a provenance header stating its
 upstream path, pinned revision and what was changed; docs/upstream-versions.md lists them.
 
-Scope: src/speech-input.tsx, src/mic-selector.tsx, src/use-audio-devices.ts
+Scope: src/speech-input.tsx, src/mic-selector.tsx, src/use-audio-devices.ts, src/voice-selector.tsx, src/voice-selector-context.ts, src/transcription.tsx
 (the pinned AI Elements checkout has no NOTICE file)
 
 Copyright 2023 Vercel, Inc.

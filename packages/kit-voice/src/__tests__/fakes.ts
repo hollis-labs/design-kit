@@ -154,3 +154,13 @@ export function setSpeechGlobals(globals: SpeechGlobals) {
     }
   }
 }
+
+/** cmdk calls scrollIntoView and ResizeObserver, neither of which jsdom has. */
+export function installCmdkStubs() {
+  Element.prototype.scrollIntoView = vi.fn()
+  globalThis.ResizeObserver ??= class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver
+}

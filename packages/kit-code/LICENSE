@@ -20,8 +20,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Vendored AI Elements files (identified by their provenance headers) retain the
-Vercel Apache-2.0 license. Original Hollis Labs files remain MIT.
+Vendored AI Elements files retain the Vercel Apache-2.0 license.
+Scope: src/code-block.tsx, src/snippet.tsx, src/file-tree.tsx, src/stack-trace.tsx,
+src/test-results.tsx, src/commit.tsx, src/agent.tsx.
+Original Hollis Labs files remain MIT.
 
 Copyright 2023 Vercel, Inc.
 

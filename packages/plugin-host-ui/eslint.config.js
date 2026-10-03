@@ -7,7 +7,7 @@ import { designConfig } from '@hollis-labs/eslint-config-design'
 export default defineConfig([
   globalIgnores(['dist', 'examples/**/dist']),
   {
-    files: ['**/*.{ts,js}'],
+    files: ['**/*.{ts,tsx,js}'],
     extends: [js.configs.recommended, tseslint.configs.recommended],
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },

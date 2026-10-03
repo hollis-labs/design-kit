@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  test: { include: ['test/**/*.test.ts'], pool: 'forks', maxWorkers: 1 },
+  test: { include: ['test/**/*.test.{ts,tsx}'], pool: 'forks', maxWorkers: 1 },
 })

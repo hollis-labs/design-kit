@@ -10,6 +10,16 @@ anything specific to it.
 
 ---
 
+## kit-admin 0.1.0 — 2026-10-03 — first release (independent version)
+
+`kit-admin` releases controlled manifest-driven admin navigation and page
+composition, including the read-only settings text fix. It requires core
+`^0.4.0`, kit-settings `^0.2.0` and kit-observe `^0.1.1`, and ships an MIT LICENSE.
+The prior packed Chromium proof covers one read-only Nanite backend; release-pin
+harness evidence is pending. Real-backend writes and Tachyon remain unproven.
+
+---
+
 ## 0.4.0 — 2026-10-02 — six core packages, independent settings and observe updates
 
 The six core packages move together to `0.4.0`. design-app-runtime and

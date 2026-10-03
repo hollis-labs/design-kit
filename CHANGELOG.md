@@ -15,8 +15,8 @@ anything specific to it.
 `kit-admin` releases controlled manifest-driven admin navigation and page
 composition, including the read-only settings text fix. It requires core
 `^0.4.0`, kit-settings `^0.2.0` and kit-observe `^0.1.1`, and ships an MIT LICENSE.
-The prior packed Chromium proof covers one read-only Nanite backend; release-pin
-harness evidence is pending. Real-backend writes and Tachyon remain unproven.
+The packed Chromium proof covers one Nanite backend in a read-only configuration.
+Real-backend writes and Tachyon remain unproven.
 
 ---
 

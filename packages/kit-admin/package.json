@@ -1,6 +1,10 @@
 {
   "name": "@hollis-labs/kit-admin",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "description": "Controlled manifest-driven admin navigation and page composition; host-owned data, routes and commands.",
   "keywords": [
     "react",

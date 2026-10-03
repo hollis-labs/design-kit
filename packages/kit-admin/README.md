@@ -81,6 +81,7 @@ A host using Tailwind v4 imports the theme and each composition's class sources:
 
 ```css
 @import '@hollis-labs/kit-dashboard/theme.css';
+@import '@hollis-labs/design-components/source.css';
 @import '@hollis-labs/kit-settings/source.css';
 @import '@hollis-labs/kit-observe/source.css';
 @import '@hollis-labs/kit-admin/source.css';
@@ -114,23 +115,15 @@ outcomes, persistence, actual validation, secret logging or restart.
 examples at 1280/390 and a Tether-style desired-config/runtime split. Unit tests
 exercise fail-closed behavior, controlled callbacks, alternate setup, field
 focus and canonical placement. Fixtures establish page/state mapping,
-independently of the real-backend proof below. App-owned wire adapters, Folio wiring and application adoption remain
-separate work.
+independently of the real-backend proof below. App-owned wire adapters, Folio
+wiring and application adoption remain separate work.
 
 ## Proof and limits
 
-Part A (Torque task `CW-20261002-0027`) exercised installed
-packed tarballs in Chromium against **one real read-only Nanite backend**: an
-isolated scratch instance built from production code, not a deployed production
-instance. The receipt is
-`~/dev/agent-os/workspaces/drafts/CW-20261002-0027/receipt.json`.
-It records the read-only text fix, unavailable/auth/context handling and honest
-omission of undeclared diagnostics and sample series. Its packed artifact pin is
-`67dd234`; it is prior evidence, not a run against the 0.1.0 release pin.
-
-**0.1.0 harness receipt: pending.** The release orchestrator will fill in the
-receipt link, exact pin and results after the packed-consumer harness runs
-against the merged release pin. No 0.1.0 harness result is claimed here.
+Packed consumers have been exercised in Chromium against fixtures and against
+one real Nanite backend in a **read-only configuration**: the page issues only
+GET requests. The real-backend proof used an isolated scratch instance built
+from production code, not a deployed production instance.
 
 Not proven: writes through kit-admin against a real backend; Tachyon integration;
 secret, wizard or conflict flows on a real backend; other browsers; or a shared

@@ -46,6 +46,19 @@ function SettingsPage({ props, manifest }: { props: AdminContentProps; manifest:
   const states = Object.fromEntries(manifest.settings.map(group => [group.id, settings[group.id]?.state]))
   const change: NonNullable<AdminContentProps['settingsActions']>['onDraftChange'] = (id, draft) => { if (readReady(settings[id])) actions?.onDraftChange(id, draft) }
   const normal = selection.mode !== 'setup'
+  let presentedGroup = selected, presentedStates = states
+  const state = selected && states[selected.id]
+  // Limit only this view; validate the host inputs before copying so malformed
+  // permissions/provenance stay unavailable rather than being repaired here.
+  if (normal && !actions && selected && state && !settingsMetadataProblem(selected, state)) {
+    presentedGroup = { ...selected, capabilities: {
+      ...(selected.capabilities as Record<string, unknown>), can_validate: false, can_update: false, can_reset: false,
+    } }
+    presentedStates = { ...states, [selected.id]: { ...state, draft: {}, values: Object.fromEntries(
+      Object.entries(state.values).map(([key, value]) => [key, value.editable
+        ? { ...value, editable: false, read_only_reason: 'This view has no editing actions.' } : value]),
+    ) } }
+  }
   if (!manifest.settings.length) return <Notice>Settings unsupported: no settings groups declared.</Notice>
   return <section aria-label="Admin Settings" className="flex min-w-0 flex-col gap-4">
     <GroupLinks manifest={manifest} props={props} />
@@ -55,7 +68,7 @@ function SettingsPage({ props, manifest }: { props: AdminContentProps; manifest:
       {settings[selected.id]?.phase === 'loading' ? <Notice>{settings[selected.id]?.state ? 'Refreshing settings snapshot; writes suspended.' : 'Waiting for a settings snapshot.'}</Notice> : null}
       <fieldset disabled={!readReady(settings[selected.id]) || !actions} className="min-w-0 border-0 p-0">
         <SettingsProvenanceRenderer key={`${props.contextKey}:${manifest.app.id}:${manifest.revision}:${selected.id}`}
-          contractVersion={manifest.contract_version} groups={[selected]} states={states} onDraftChange={change} readOnlyContext={!actions}
+          contractVersion={manifest.contract_version} groups={[presentedGroup!]} states={presentedStates} onDraftChange={change} readOnlyContext={!actions}
           onSave={readReady(settings[selected.id]) && actions?.onSave ? actions.onSave : undefined}
           onReset={readReady(settings[selected.id]) && actions?.onReset ? actions.onReset : undefined}
           onValidate={readReady(settings[selected.id]) && actions?.onValidate ? actions.onValidate : undefined}

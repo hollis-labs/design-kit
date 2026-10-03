@@ -74,6 +74,54 @@ describe('fail-closed admin presentation', () => {
     expect(screen.getByText('Source: override — Persisted application preference')).toBeTruthy()
     expect(screen.getByText('Apply state: Unknown')).toBeTruthy()
   })
+  it('presents writable declarations as text without actions and restores editors with actions', () => {
+    const source = props(tether), group = tether.settings[0]
+    const manifest: AdminManifest = { ...tether, settings: [{ ...group,
+      schema: { type: 'object', additionalProperties: false, properties: {
+        shutdown_timeout: { type: 'integer', title: 'Shutdown timeout', enum: [15, 30] },
+        socket_path: { type: 'string', title: 'Configured socket path', readOnly: true },
+      } },
+    }] }
+    const settings = source.settings!
+    const state = settings[group.id]!.state!
+    const withDraft = { ...settings, [group.id]: { ...settings[group.id]!, state: {
+      ...state, draft: { shutdown_timeout: { kind: 'value' as const, value: 15 } },
+    } } }
+    const original = structuredClone({ manifest, settings: withDraft })
+    const { container, rerender } = render(<AdminContent {...source} discovery={{ ...source.discovery, manifest }}
+      settings={withDraft} settingsActions={undefined} />)
+    expect(screen.getByLabelText('Shutdown timeout').tagName).toBe('OUTPUT')
+    expect(screen.getByLabelText('Shutdown timeout').textContent).toBe('30')
+    expect(screen.getByText('Read only: This view has no editing actions.')).toBeTruthy()
+    expect(screen.getByLabelText('Configured socket path').tagName).toBe('OUTPUT')
+    expect(container.querySelector('select, input, textarea')).toBeNull()
+    expect(screen.queryByRole('button', { name: /Save|Reset|Validate|Discard|Remove override/ })).toBeNull()
+    expect(screen.getByText('Source: override — app override')).toBeTruthy()
+    expect(screen.getByText('Source: env — deployment environment')).toBeTruthy()
+    expect(screen.getByText('Read only: Managed by deployment configuration')).toBeTruthy()
+    expect(screen.getByText('Apply state: Pending restart')).toBeTruthy()
+    expect(screen.getByText('Apply state: Unknown')).toBeTruthy()
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect({ manifest, settings: withDraft }).toEqual(original)
+
+    rerender(<AdminContent {...source} discovery={{ ...source.discovery, manifest }} settings={withDraft} />)
+    const select = screen.getByLabelText('Shutdown timeout') as HTMLSelectElement
+    expect(select.tagName).toBe('SELECT')
+    expect(select.matches(':disabled')).toBe(false)
+    expect(screen.getByRole('button', { name: 'Discard changes' })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Save changes' }))
+    expect(source.settingsActions!.onSave).toHaveBeenCalledWith(group.id, { set: { shutdown_timeout: 15 }, unset: [] })
+    expect({ manifest, settings: withDraft }).toEqual(original)
+  })
+  it('does not repair malformed capabilities for callback-free Settings', () => {
+    const source = props(tether), group = tether.settings[0]
+    const manifest = { ...tether, settings: [{ ...group,
+      capabilities: { can_read: true, can_validate: false, can_update: true, can_reset: true },
+    }] }
+    render(<AdminContent {...source} discovery={{ ...source.discovery, manifest }} settingsActions={undefined} />)
+    expect(screen.getByRole('alert').textContent).toContain('Writable groups require read and validation capabilities.')
+    expect(screen.queryByLabelText('Shutdown timeout')).toBeNull()
+  })
   it('first discovery failure is globally unavailable', () => {
     const p = props()
     render(<AdminContent {...p} discovery={{ phase: 'error', contextKey: p.contextKey, error: 'Discovery failed' }} />)

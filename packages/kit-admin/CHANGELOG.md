@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Render callback-free Settings as read-only text even for writable declarations,
+  using a presentation copy without changing host data or backend capabilities.
+
 - Use the optional settings text presentation when the host supplies no settings
   callbacks, so read-only preferences render labelled values without disabled
   editor affordances. Keep source, locks and apply state in canonical Settings.

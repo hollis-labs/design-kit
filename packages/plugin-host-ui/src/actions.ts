@@ -39,11 +39,12 @@ export function createPluginActionDispatcher<Input>(options: DispatcherOptions<I
   }
   return {
     dispose() { disposed = true; for (const controller of pending) controller.abort('cancelled'); pending.clear() },
-    async dispatch(value: unknown, contribution: ContributionRef, parent?: AbortSignal): Promise<ActionResult> {
+    async dispatch(value: unknown, contribution: ContributionRef, parent?: AbortSignal, binding?: string, onExecutionStart?: () => boolean): Promise<ActionResult> {
       const fail = (reason: ActionRefusalReason) => { try { options.report(reason, contribution) } catch { /* reporting does not grant authority */ } return refusal(reason) }
       if (disposed || parent?.aborted) return fail('cancelled')
       const parsed = parsePluginAction(value)
       if (!parsed.accepted) return fail(parsed.reason)
+      const intent = parsed.intent
       const adapter = options.adapter
       if (!adapter) return fail('unsupported-action')
       const releases: (() => void)[] = []
@@ -54,11 +55,21 @@ export function createPluginActionDispatcher<Input>(options: DispatcherOptions<I
         const source = pin(contribution)
         if (!source) return fail('stale-owner')
         const projection = options.catalog.inspect(source.entry, source.pin.ref)
-        if (!projection.accepted || !projection.projection.action || actionFingerprint(projection.projection.action) !== actionFingerprint(parsed.intent)) return fail('invalid-metadata')
+        if (!projection.accepted) return fail('invalid-metadata')
+        const resolve = () => {
+          if (binding !== undefined) {
+            if (source.entry.representation !== 'component' || !binding || !adapter.bindings) return undefined
+            const resolved = parsePluginAction(adapter.bindings.resolve(source.pin.ref, binding, intent))
+            return resolved.accepted ? resolved.intent : undefined
+          }
+          return projection.projection.action
+        }
+        const declared = resolve()
+        if (!declared) return fail(binding !== undefined ? 'unsupported-action' : 'invalid-metadata')
+        if (actionFingerprint(declared) !== actionFingerprint(intent)) return fail('invalid-metadata')
         const policy = options.catalog.actionPolicy(projection.projection.region)
-        if (!policy || policy.cardinality === 'none' || !policy.allowedTags.includes(parsed.intent.type)) return fail('unsupported-action')
+        if (!policy || policy.cardinality === 'none' || !policy.allowedTags.includes(intent.type)) return fail('unsupported-action')
         let target: ActionPin | undefined
-        const intent = parsed.intent
         if (intent.type !== 'navigate') {
           const [owner, key] = intent.type === 'command' ? intent.command.split('/') : [intent.entry.owner_id, intent.entry.local_key]
           const snapshot = options.registry.snapshot()
@@ -82,6 +93,8 @@ export function createPluginActionDispatcher<Input>(options: DispatcherOptions<I
           if (!sameScope(adapter!.scope.getSnapshot(), options.scope)) return 'absent-scope'
           if (adapter!.invocation.getSnapshot() !== invocation) return 'cancelled'
           if (!live(source!.pin) || (target && !live(target))) return 'stale-owner'
+          const currentBinding = resolve()
+          if (!currentBinding || actionFingerprint(currentBinding) !== actionFingerprint(intent)) return 'unsupported-action'
           return undefined
         }
         const changed = () => { try { const reason = check(); if (reason) controller.abort(reason) } catch { controller.abort('stale-owner') } }
@@ -104,6 +117,10 @@ export function createPluginActionDispatcher<Input>(options: DispatcherOptions<I
           if (controller.signal.aborted) return refusal(codes.has(controller.signal.reason) ? controller.signal.reason as ActionRefusalReason : 'cancelled')
           const invalid = check(); if (invalid) return refusal(invalid)
           if (validated.status === 'refused') return validated
+          // A host receipt observer can fence a deadline before any effect starts.
+          if (onExecutionStart && !onExecutionStart()) return refusal('cancelled')
+          if (controller.signal.aborted) return refusal('cancelled')
+          const fenced = check(); if (fenced) return refusal(fenced)
           let response: ActionResult
           switch (intent.type) {
             case 'command': response = await adapter.command(intent, context, controller.signal); break

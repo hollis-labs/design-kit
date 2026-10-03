@@ -14,7 +14,12 @@ export interface ActionContext {
   /** Compiled by the host gateway; never a plugin-supplied generation or export. */
   target?: ContributionRef
 }
+/** Host-compiled allowlist. Requests never supply a resolver or a source lease. */
+export interface PluginActionBindingResolver {
+  resolve(source: ContributionRef, binding: string, requested: PluginActionIntent): PluginActionIntent | undefined
+}
 export interface PluginActionsAdapter {
+  bindings?: PluginActionBindingResolver
   scope: Observable<HostScope | undefined>
   invocation: Observable<Readonly<Record<string, unknown>>>
   /** Resolve route/typed arguments/effect/capability/caller policy on every invocation. */

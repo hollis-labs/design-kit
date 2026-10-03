@@ -12,7 +12,8 @@
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
-    "source.css"
+    "source.css",
+    "ISOLATION.md"
   ],
   "exports": {
     ".": {
@@ -31,6 +32,10 @@
     "./settings": {
       "types": "./dist/settings.d.ts",
       "import": "./dist/settings.js"
+    },
+    "./isolation": {
+      "types": "./dist/isolation.d.ts",
+      "import": "./dist/isolation.js"
     }
   },
   "repository": {

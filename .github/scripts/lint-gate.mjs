@@ -61,6 +61,7 @@ const BLOCKING = [
   'packages/kit-chat',
   'packages/kit-account',
   'packages/kit-settings',
+  'packages/plugin-host-ui',
   'packages/kit-observe',
   'packages/kit-admin',
   'packages/kit-voice',

@@ -104,7 +104,19 @@ export interface HostDiagnostic {
   reason: string
   ref?: ContributionRef
 }
+/** Structural DOM surface only: core never imports the optional isolation implementation. */
+export interface PluginFrameController {
+  isCurrent(view: ContributionView): boolean
+  subscribe(listener: () => void): () => void
+  mount(container: HTMLElement, view: ContributionView, props: Readonly<Record<string, unknown>>): PluginFrameMount
+}
+export interface PluginFrameMount extends Observable<PluginFrameRenderState> {
+  update(props: Readonly<Record<string, unknown>>): void
+  dispose(): void
+}
+export type PluginFrameRenderState = { status: 'loading' | 'ready' } | { status: 'failed'; reason: string }
 export interface PluginHostAdapter<Input> {
+  frameController?: PluginFrameController
   scope: HostScope
   settings?: PluginSettingsAdapter
   actions?: PluginActionsAdapter
@@ -129,11 +141,13 @@ export interface HostSnapshot {
 }
 /** Read surface used by React; input transport stays with the host runtime owner. */
 export interface PluginHostReader extends Observable<HostSnapshot> {
+  frameController?: PluginFrameController
   settings?: PluginSettingsAdapter
   scope: HostScope
   renderContext: Observable<Readonly<Record<string, unknown>>>
   retain(): () => void
   dispatchAction(intent: unknown, contribution: ContributionRef, signal?: AbortSignal): Promise<ActionResult>
+  dispatchBoundAction(binding: string, intent: unknown, contribution: ContributionRef, signal?: AbortSignal, onExecutionStart?: () => boolean): Promise<ActionResult>
   ordering(region: string): OrderingPolicy | undefined
   isCurrent(view: ContributionView): boolean
   report(event: HostDiagnostic): void
@@ -219,7 +233,7 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
         const value = current ? adopted.value : undefined
         const availability = !inspected.accepted ? 'unavailable' : entry.status !== 'accepted' ? 'inactive' : !current
           ? 'unavailable' : entry.representation !== 'component' ? 'available' : isolationMode === null
-          ? 'unavailable' : isolationMode === 'sandboxed-frame' ? 'isolated-controller-required' : 'available'
+          ? 'unavailable' : isolationMode === 'sandboxed-frame' ? adapter.frameController ? 'available' : 'isolated-controller-required' : 'available'
         if (!['accepted', 'declared_not_selected', 'refused', 'unavailable'].includes(entry.status)) report({ stage: 'projection', reason: 'unknown-status', ref })
         const candidate: ContributionView = Object.freeze({ ...projected, ref, id, representation: entry.representation, widget: inspected.accepted && inspected.widget, refusal: inspected.accepted ? undefined : inspected.refusal, status: ['accepted', 'declared_not_selected', 'refused', 'unavailable'].includes(entry.status) ? entry.status : 'unavailable', statusReason: entry.status_reason,
           props: Object.freeze({ ...(projected.props ?? {}) }), value, availability })
@@ -249,8 +263,9 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
   }
   return {
     dispatchAction: actions.dispatch,
+    dispatchBoundAction: (binding, intent, contribution, signal, onExecutionStart) => actions.dispatch(intent, contribution, signal, binding, onExecutionStart),
     ordering: adapter.catalog.ordering,
-    scope, settings: adapter.settings, renderContext: adapter.renderContext,
+    scope, settings: adapter.settings, renderContext: adapter.renderContext, frameController: adapter.frameController,
     getSnapshot: () => snapshot, getServerSnapshot: () => serverSnapshot,
     subscribe(listener) { listeners.add(listener); return () => { listeners.delete(listener) } },
     report,
@@ -261,6 +276,10 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
         try {
           releases.push(adapter.registry.subscribe(() => refresh()))
           releases.push(adapter.isolation.subscribe(() => refresh()))
+          if (adapter.frameController) releases.push(adapter.frameController.subscribe(() => {
+            if (disposed) return
+            snapshot = Object.freeze({ ...snapshot, version: snapshot.version + 1 }); emit()
+          }))
           refresh(true)
         } catch (error) { retains = 0; releaseResources(); throw error }
       }
@@ -272,7 +291,14 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
       }
     },
     isCurrent(view) {
-      if (disposed || (view.representation === 'component' && mode() !== 'main-origin') || view.status !== 'accepted' || view.availability !== 'available') return false
+      if (disposed || view.status !== 'accepted' || view.availability !== 'available') return false
+      if (view.representation === 'component') {
+        const effective = mode()
+        if (effective === null) return false
+        if (effective === 'sandboxed-frame') {
+          try { if (!adapter.frameController?.isCurrent(view)) return false } catch { return false }
+        }
+      }
       try {
         const raw = adapter.registry.snapshot()
         const current = adapter.registry.get(view.ref.kind, `${view.ref.owner}/${view.ref.key}`)

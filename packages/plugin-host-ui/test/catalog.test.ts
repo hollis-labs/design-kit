@@ -124,3 +124,12 @@ it('checks a host-supplied declared placement reader against the projected regio
   expect(inspect({ ...harness().entry(), metadata: { slot: 'other' } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-region' } })
   expect(inspect({ ...harness().entry(), metadata: { slot: 'rail' } }, defs).accepted).toBe(true)
 })
+
+it('exposes required catalog-supported inactive entries without choosing host activation policy', async () => {
+  const h = harness(); h.runtime.retain()
+  for (const status of ['declared_not_selected', 'refused', 'unavailable']) {
+    const result = await h.runtime.sync([{ ...h.entry(), required: true, status }])
+    expect(result.planning).toMatchObject({ accepted: true, requiredInactive: [{ ref: { kind: 'panel', owner: 'sample' }, status }] })
+    expect(h.runtime.getSnapshot().views[0]?.availability).toBe('inactive')
+  }
+})

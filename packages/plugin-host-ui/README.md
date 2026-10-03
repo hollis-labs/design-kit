@@ -1,6 +1,6 @@
 # @hollis-labs/plugin-host-ui
 
-Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. This package currently exports **only `./vite`**. Rendering, root and settings APIs are separate work; this is neither a plugin loader nor a consumer migration. CW-20261003-0051 follows ADR draft `tesseract://item/01M41F8TKPQTMR6AVM3J7GRY69`.
+Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. This package currently exports **only `./vite`**. Rendering, root and settings APIs are separate work; this is neither a plugin loader nor a consumer migration. CW-20261003-0051 follows the plugin-host-ui design draft.
 
 ## Host importmap
 

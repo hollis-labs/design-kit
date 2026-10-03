@@ -5,7 +5,10 @@
     "allowImportingTsExtensions": false,
     "declaration": true,
     "rootDir": "./src",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {}
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

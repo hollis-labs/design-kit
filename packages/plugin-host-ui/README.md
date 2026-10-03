@@ -1,6 +1,6 @@
 # @hollis-labs/plugin-host-ui
 
-Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. Exports: `.` for the runtime, ordering and scoped layout stores; `./react` for selectors and render primitives; `./vite` for importmap provisioning; `./source.css` for Tailwind scanning. The package follows the plugin-host-ui design draft. It is private until a separately approved release.
+Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. Exports: `.` for the runtime, ordering and scoped layout stores; `./react` for selectors and render primitives; `./vite` for importmap provisioning; `./settings` for optional configuration forms; `./source.css` for Tailwind scanning. The package follows the plugin-host-ui design draft. It is private until a separately approved release.
 
 ## Host importmap
 
@@ -111,3 +111,46 @@ npm run example:render:build -w @hollis-labs/plugin-host-ui
 ```
 
 The host imports design-tokens' theme/token CSS and design-components' documented styles once. In Tailwind v4, import this package's `source.css` alongside design-components' source integration. The package defines no palette and does not override the app theme. React, React DOM and Vite peers are optional at package level: install React/DOM for `./react`, Vite for `./vite`. This extraction changes no consumer app.
+
+## Plugin configuration (`./settings`)
+
+Install `@hollis-labs/kit-settings@^0.2.0` to use this entry. It is an optional peer so runtime/render/provisioning users need not install the settings kit. Import its documented `source.css` alongside this package's source integration. Forms compose the kit's `SettingsGroupForm` and `SettingsProvenanceRenderer`; no field controls or query client are copied into this package.
+
+```ts
+import { projectPluginSettings, createPluginSettingsController } from '@hollis-labs/plugin-host-ui/settings'
+
+const projection = projectPluginSettings(runtimeFieldsOrManifestConfig, {
+  id: 'notes.config', label: 'Notes configuration',
+  can_read: true, can_validate: true, can_update: true, can_reset: true,
+  permissions: {
+    name: { editable: true, restart_required: false },
+    token: { editable: true, restart_required: false },
+  },
+  reserved_keys: [hostIsolationFieldKey],
+})
+const controller = createPluginSettingsController(projection, host.settings, {
+  kind: 'plugin', owner: 'notes', generation: acceptedGeneration,
+  scope: { kind: 'project', id: stableProjectId },
+})
+// <PluginConfigForm controller={controller} />
+// At owner revoke or scope change, before another generation loads:
+controller.dispose()
+```
+
+The input is a runtime `ConfigFieldDef[]` (key/type/label/description/default/required/options/component) or a manifest `config` object with `fields` and `secrets` maps. Bool/boolean maps to boolean; int/integer to integer; number remains a finite number control, including strict numeric draft text while editing; string stays string. Select uses a non-empty unique homogeneous scalar enum, including booleans and finite numbers. Invalid/mixed/nested choices, nested/custom schemas, unknown assertions and custom component requests return `{ status: 'unsupported-schema', reason }`; the form presents an unavailable state. There is no automatic string fallback.
+
+Secret fields become write-only strings with `secret: true`; defaults, examples and enums are omitted. Independent manifest secret declarations merge by key, with duplicate identities refused. The output is a frozen flat object schema with `additionalProperties: false`, required keys, matching field permissions and explicit read/validate/update/reset capabilities. Read-only fields need a reason; restart-required fields need an apply target. Defaults are annotations only: values and fallbacks are resolved by the host, never inferred in the form.
+
+`SettingsScope` is `{ kind: 'client' | 'environment' | 'project', id }`; its non-empty ID is supplied by the host. A controller owns one immutable scope and one plugin owner/generation or host app target. It has no persistent cache. The optional root adapter `settings` hook carries promise-based `read`, `validate`, `save` and `reset`, each receiving the target and `AbortSignal`. Enable capabilities only when the host implements them. Read returns `{ revision, values, apply? }`; revisions are opaque non-empty revision/ETag strings. Validate receives `{ revision, changes: { set, unset } }`; save receives the same validated intent; reset receives `{ revision, keys }`. Mutations return `{ status: 'saved', snapshot }` or `{ status: 'conflict', revision }`. This is an adapter interface, not a new backend wire schema. The host enforces target ownership, permissions, revision checks and secret storage on its backend.
+
+The controller calls host validation before every save/reset and blocks local invalid values. Backend exceptions and validation messages are not echoed; user-visible errors contain safe generic text. A background refresh preserves dirty edits and their original snapshot; changed revisions produce an explicit conflict and block writes until discard/reload. Read refresh never quietly rebases a draft. `cancel()` aborts pending work, clears the draft and adopts a pending verified snapshot if available; `dispose()` also clears values and fences all late results. The form retains the controller and clears its drafts on last form unload, including Strict Mode cleanup. The host must dispose controllers at owner revoke or scope change, even if a form is retained elsewhere.
+
+Snapshot `values` contain per-field `{ present, editable, has_override, ... }`. Ordinary present values include a typed scalar `value`; absent values omit it. Secret values contain only `present` and matching `secret_present` with permission metadata; a secret snapshot containing even an own undefined `value` is rejected. Existing secrets are never reconstructed. Replacement secret input exists only in controlled transient drafts and the in-flight host request. Secret drafts clear after completed save/reset attempts (including rejection/failure), cancellation, unload and disposal; ordinary drafts remain on failed mutations. Do not log or serialize controller drafts/requests, cache them in a query client, or put them in localStorage/layout preferences. Host validation/persistence must not echo submitted credentials into snapshots or metadata.
+
+## Host app isolation setting
+
+`projectAppIsolationSettings(hostFieldKey, capabilities)` constructs a separate host-owned group with exactly `sandboxed-frame | main-origin`, no default, and the host's stable group/field keys. Pass it to a controller with `{ kind: 'app', appId, scope }` and render `AppIsolationConfigForm`. Plugin projection always has plugin origin; it cannot create this host projection or use its app target. Plugin and app groups/drafts are never merged. The host should additionally reserve this field key in plugin projection and enforce the target namespaces in its backend.
+
+The host snapshot supplies the mode, revision, editability/read-only reason, override presence, `source: { kind: 'default' | 'env' | 'file' | 'override', label }`, and `apply_state: 'active' | 'pending_restart' | 'unknown'`. Missing/unsupported provenance blocks writes. The host declares restart requirements/targets and supplies reconciled `apply: { restartRequired, applyTargets }`; optional `onApply(targets)` forwards intent to a host-owned operation, never performs a restart in this package. No source, default or application state is guessed.
+
+Changing the select updates a draft only. The render runtime's `adapter.isolation` must continue to read the host's verified **effective mode**, never this draft or a stored desired value pending restart. The host/app policy chooses sandboxed-frame by default and may choose main-origin for development; this package chooses neither. Actual frame rendering, bridges, CSP and effective-mode application belong to the host's separate isolation controller.

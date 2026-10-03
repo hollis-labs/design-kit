@@ -10,3 +10,9 @@
 - Add React provider/selectors, per-export error/Suspense boundaries, panel/drawer/widget bodies and controlled review dialog.
 - Add explicit app isolation seam and a minimal host example; frame rendering remains separate.
 - Make React, React DOM and Vite peers optional; add Tailwind source integration.
+
+### Settings entry
+
+- Add strict runtime/manifest scalar configuration projection and optional kit-settings integration.
+- Add abortable revision-aware settings controller and controlled forms with transient secret custody.
+- Add a separate host-owned app isolation setting with provenance and explicit apply status.

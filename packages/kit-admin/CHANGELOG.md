@@ -2,6 +2,9 @@
 
 ## 0.1.0 - 2026-10-03 - first release
 
+- Render callback-free Settings as read-only text even for writable declarations,
+  using a presentation copy without changing host data or backend capabilities.
+
 - Controlled admin navigation/content/standalone composition per the
   [admin shell spec](../../docs/admin-shell-spec.md), over existing dashboard
   layouts, settings provenance/setup and observation components. Host-owned

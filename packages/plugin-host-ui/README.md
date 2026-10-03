@@ -210,6 +210,10 @@ Use `dispatchPluginAction(intent, { host: runtime, contribution: view.ref }, sig
 
 No window events, routing implementation, command RPC or modal component mounting is installed by this package. The render-host example uses ordinary external stores and promises to approve navigation directly. Hosts own the schemas and transport; parsed-value checks cannot recover raw JSON token forms.
 
-The optional [`./isolation` contract](./ISOLATION.md) supplies closed protocol, CSP
-and lifecycle helpers for a host-provided frame controller. It does not execute
-plugins or claim browser containment.
+The optional [`./isolation` entry](./ISOLATION.md) supplies a verified-byte registry
+importer, opaque frame controller and closed protocol/CSP helpers. `./vite` packages
+reviewed runtime artifacts and a fixed bootstrap. Install the optional graph lexer
+peer and provide app-owned policy delivery, live registry leases and typed action
+bindings. Each surface gets its own confirmed realm; mode changes fence all old
+sessions before replacement. See the integration contract, Chromium harness and
+limits in ISOLATION.md, including self-navigation egress and main-origin authority.

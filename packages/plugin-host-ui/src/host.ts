@@ -1,3 +1,5 @@
+import { isSlotCatalog, type SlotCatalog, type CatalogRefusal } from './catalog.js'
+import { orderContributions, type OrderingPolicy } from './order.js'
 import type { PluginSettingsAdapter } from './settings-contract.js'
 /** Built-in registry v2 render kind names; hosts opt in upstream. */
 export const PANEL_KIND = 'panel'
@@ -14,6 +16,10 @@ export interface RegistryEntry {
   status_reason?: string
   representation: string
   metadata: unknown
+  schema_version: number
+  required: boolean
+  declarative?: unknown
+  handler?: { id: string }
   component?: { export: string; region: string }
 }
 export interface AdoptedEntry extends RegistryEntry {
@@ -68,6 +74,8 @@ export interface AppIsolationSnapshot {
   revision: string
 }
 export interface ViewProjection {
+  /** Host-validated presentation data; no inline wire schema is defined here. */
+  data?: unknown
   label: string
   region: string
   description?: string
@@ -78,6 +86,9 @@ export interface ViewProjection {
 }
 export interface ContributionView extends ViewProjection {
   ref: ContributionRef
+  representation: string
+  widget: boolean
+  refusal?: CatalogRefusal
   id: string
   status: string
   statusReason?: string
@@ -86,7 +97,7 @@ export interface ContributionView extends ViewProjection {
   availability: 'available' | 'inactive' | 'unavailable' | 'isolated-controller-required'
 }
 export interface HostDiagnostic {
-  stage: 'registry' | 'projection' | 'panels' | 'isolation' | 'render' | 'persistence'
+  stage: 'catalog' | 'registry' | 'projection' | 'panels' | 'isolation' | 'render' | 'persistence'
   reason: string
   ref?: ContributionRef
 }
@@ -94,9 +105,7 @@ export interface PluginHostAdapter<Input> {
   scope: HostScope
   settings?: PluginSettingsAdapter
   registry: PluginRegistryInstance<Input>
-  /** The host projects already validated declarations; catalog/schema policy is upstream. */
-  project(entry: RegistryEntry): ViewProjection | undefined
-  reserved(ref: ContributionRef): boolean
+  catalog: SlotCatalog
   isolation: Observable<AppIsolationSnapshot>
   renderContext: Observable<Readonly<Record<string, unknown>>>
   panels: {
@@ -112,6 +121,7 @@ export interface HostSnapshot {
   revision: number
   isolationMode: PluginIsolationMode | null
   views: readonly ContributionView[]
+  refusals: readonly CatalogRefusal[]
 }
 /** Read surface used by React; input transport stays with the host runtime owner. */
 export interface PluginHostReader extends Observable<HostSnapshot> {
@@ -119,12 +129,15 @@ export interface PluginHostReader extends Observable<HostSnapshot> {
   scope: HostScope
   renderContext: Observable<Readonly<Record<string, unknown>>>
   retain(): () => void
+  ordering(region: string): OrderingPolicy | undefined
   isCurrent(view: ContributionView): boolean
   report(event: HostDiagnostic): void
   resolveIcon(name: string): unknown
 }
+export interface HostPlanningResult { accepted: boolean; refusals: readonly CatalogRefusal[] }
+export interface HostSyncResult { registryResult: unknown; planning: HostPlanningResult }
 export interface PluginHostRuntime<Input> extends PluginHostReader {
-  sync(input: Input | string): Promise<unknown>
+  sync(input: Input | string): Promise<HostSyncResult>
   dispose(): void
 }
 const emptyViews: readonly ContributionView[] = Object.freeze([])
@@ -136,14 +149,17 @@ function sameView(a: ContributionView, b: ContributionView): boolean {
   return a.id === b.id && a.ref.hostInstance === b.ref.hostInstance && a.ref.generation === b.ref.generation &&
     a.label === b.label && a.region === b.region && a.description === b.description && a.icon === b.icon &&
     a.priority === b.priority && a.manifestOrder === b.manifestOrder && a.status === b.status &&
-    a.statusReason === b.statusReason && a.availability === b.availability && a.value === b.value && shallowEqual(a.props, b.props)
+    a.statusReason === b.statusReason && a.representation === b.representation && a.widget === b.widget &&
+    JSON.stringify(a.data) === JSON.stringify(b.data) && a.refusal?.reason === b.refusal?.reason && a.availability === b.availability && a.value === b.value && shallowEqual(a.props, b.props)
 }
 
 /** One reconciliation controller per explicit runtime, regardless of selector count. */
 export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>): PluginHostRuntime<Input> {
+  if (!isSlotCatalog(adapter.catalog)) throw new Error('A validated host slot catalog is required')
   const scope = Object.freeze({ ...adapter.scope })
-  const serverSnapshot: HostSnapshot = Object.freeze({ version: 0, hostInstance: '', revision: 0, isolationMode: null, views: emptyViews })
+  const serverSnapshot: HostSnapshot = Object.freeze({ version: 0, hostInstance: '', revision: 0, isolationMode: null, views: emptyViews, refusals: Object.freeze([]) })
   let snapshot = serverSnapshot
+  let planning: HostPlanningResult = Object.freeze({ accepted: true, refusals: Object.freeze([]) })
   let disposed = false, retains = 0
   const releases: (() => void)[] = []
   const listeners = new Set<() => void>()
@@ -177,33 +193,44 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
     const old = new Map(snapshot.views.map(v => [v.id, v]))
     const seen = new Set<string>()
     const next: ContributionView[] = []
+    const refusals: CatalogRefusal[] = []
     for (const entry of raw.contributions) {
       const ref = Object.freeze({ hostInstance: raw.hostInstance, owner: entry.owner_id, generation: entry.owner_generation, kind: entry.kind, key: entry.local_key })
       const id = contributionId(ref)
       if (seen.has(id)) { report({ stage: 'projection', reason: 'duplicate-identity', ref }); continue }
       seen.add(id)
       try {
-        if (adapter.reserved(ref)) { report({ stage: 'projection', reason: 'reserved', ref }); continue }
-        const projected = adapter.project(entry)
-        if (!projected || !projected.region || !projected.label) continue
-        const adopted = entry.status === 'accepted' ? adapter.registry.get(entry.kind, `${entry.owner_id}/${entry.local_key}`) : undefined
+        const inspected = adapter.catalog.inspect(entry, ref)
+        if (!inspected.accepted) { refusals.push(inspected.refusal); report({ stage: 'catalog', reason: inspected.refusal.reason, ref }) }
+        const projected = inspected.projection
+        const adopted = inspected.accepted && entry.status === 'accepted' ? adapter.registry.get(entry.kind, `${entry.owner_id}/${entry.local_key}`) : undefined
         const current = adopted?.hostInstance === raw.hostInstance && adopted.owner_generation === entry.owner_generation &&
           adopted.owner_id === entry.owner_id && adopted.local_key === entry.local_key && adopted.kind === entry.kind &&
           adopted.status === 'accepted' && adopted.isActive()
         const value = current ? adopted.value : undefined
-        const availability = entry.status !== 'accepted' ? 'inactive' : !current || entry.representation !== 'component' || isolationMode === null
+        const availability = !inspected.accepted ? 'unavailable' : entry.status !== 'accepted' ? 'inactive' : !current
+          ? 'unavailable' : entry.representation !== 'component' ? 'available' : isolationMode === null
           ? 'unavailable' : isolationMode === 'sandboxed-frame' ? 'isolated-controller-required' : 'available'
         if (!['accepted', 'declared_not_selected', 'refused', 'unavailable'].includes(entry.status)) report({ stage: 'projection', reason: 'unknown-status', ref })
-        const candidate: ContributionView = Object.freeze({ ...projected, ref, id, status: entry.status, statusReason: entry.status_reason,
+        const candidate: ContributionView = Object.freeze({ ...projected, ref, id, representation: entry.representation, widget: inspected.accepted && inspected.widget, refusal: inspected.accepted ? undefined : inspected.refusal, status: ['accepted', 'declared_not_selected', 'refused', 'unavailable'].includes(entry.status) ? entry.status : 'unavailable', statusReason: entry.status_reason,
           props: Object.freeze({ ...(projected.props ?? {}) }), value, availability })
         const previous = old.get(id)
         next.push(previous && sameView(previous, candidate) ? previous : candidate)
-      } catch { report({ stage: 'projection', reason: 'projection-failed', ref }) }
+      } catch {
+        const refusal: CatalogRefusal = Object.freeze({ ref, required: entry.required, reason: 'projection-failed' })
+        planning = Object.freeze({ accepted: false, refusals: Object.freeze([...refusals, refusal]) })
+        report({ stage: 'catalog', reason: refusal.reason, ref })
+        return
+      }
     }
-    const same = next.length === snapshot.views.length && next.every((v, i) => v === snapshot.views[i]) &&
+    planning = Object.freeze({ accepted: !refusals.some(refusal => refusal.required), refusals: Object.freeze(refusals) })
+    // Registry acceptance is upstream; only this host's publication is withheld.
+    if (!planning.accepted) return
+    const ordered = [...new Set(next.map(view => view.region))].flatMap(region => orderContributions(next.filter(view => view.region === region), [], adapter.catalog.ordering(region)))
+    const same = ordered.length === snapshot.views.length && ordered.every((v, i) => v === snapshot.views[i]) &&
       snapshot.hostInstance === raw.hostInstance && snapshot.revision === raw.revision && snapshot.isolationMode === isolationMode
     if (same) { if (forcePanels) reconcilePanels(snapshot.views); return }
-    snapshot = Object.freeze({ version: snapshot.version + 1, hostInstance: raw.hostInstance, revision: raw.revision, isolationMode, views: Object.freeze(next) })
+    snapshot = Object.freeze({ version: snapshot.version + 1, hostInstance: raw.hostInstance, revision: raw.revision, isolationMode, views: Object.freeze(ordered), refusals: planning.refusals })
     reconcilePanels(snapshot.views)
     emit()
   }
@@ -212,6 +239,7 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
     try { adapter.panels.releaseScope(scope) } catch { report({ stage: 'panels', reason: 'release-failed' }) }
   }
   return {
+    ordering: adapter.catalog.ordering,
     scope, settings: adapter.settings, renderContext: adapter.renderContext,
     getSnapshot: () => snapshot, getServerSnapshot: () => serverSnapshot,
     subscribe(listener) { listeners.add(listener); return () => { listeners.delete(listener) } },
@@ -234,19 +262,24 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
       }
     },
     isCurrent(view) {
-      if (disposed || mode() !== 'main-origin' || view.status !== 'accepted' || view.availability !== 'available') return false
+      if (disposed || (view.representation === 'component' && mode() !== 'main-origin') || view.status !== 'accepted' || view.availability !== 'available') return false
       try {
         const raw = adapter.registry.snapshot()
         const current = adapter.registry.get(view.ref.kind, `${view.ref.owner}/${view.ref.key}`)
         return raw.registryVersion === 2 && raw.hostInstance === view.ref.hostInstance && current?.status === 'accepted' &&
           current.hostInstance === view.ref.hostInstance && current.owner_generation === view.ref.generation &&
           current.owner_id === view.ref.owner && current.local_key === view.ref.key && current.kind === view.ref.kind &&
-          current.value === view.value && current.isActive() && !adapter.reserved(view.ref)
+          current.representation === view.representation && current.value === view.value && current.isActive() &&
+          raw.contributions.some(entry => entry.owner_id === view.ref.owner && entry.owner_generation === view.ref.generation &&
+            entry.kind === view.ref.kind && entry.local_key === view.ref.key && entry.status === 'accepted' && (() => {
+              const inspected = adapter.catalog.inspect(entry, view.ref)
+              return inspected.accepted && inspected.projection.region === view.region && inspected.representation === view.representation
+            })())
       } catch { return false }
     },
     async sync(input) {
       if (disposed) throw new Error('Plugin host runtime is disposed')
-      try { const result = await adapter.registry.sync(input); refresh(); return result }
+      try { const result = await adapter.registry.sync(input); refresh(); return { registryResult: result, planning } }
       catch (error) { report({ stage: 'registry', reason: 'sync-failed' }); throw error }
     },
     dispose() {

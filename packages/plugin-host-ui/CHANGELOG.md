@@ -16,3 +16,10 @@
 - Add strict runtime/manifest scalar configuration projection and optional kit-settings integration.
 - Add abortable revision-aware settings controller and controlled forms with transient secret custody.
 - Add a separate host-owned app isolation setting with provenance and explicit apply status.
+
+### Host catalog
+
+- Replace adapter-level project/reserved callbacks with a required validated, frozen host catalog; no aliases or implicit kind/region opt-in.
+- Add named refusals and safe optional fallbacks; required unsupported entries withhold the host revision/panel update without registry rollback.
+- Add explicit region ordering/widget acceptance and host-validated declarative views/renderer, distinct from plugin component execution.
+- Sync now returns separate registryResult/planning outcomes; region selector ordering comes from the catalog. Migration notes describe the clean break and later app adoption.

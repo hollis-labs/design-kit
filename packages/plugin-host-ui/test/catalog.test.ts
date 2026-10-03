@@ -92,3 +92,56 @@ describe('host catalog policy', () => {
     expect(h.runtime.getSnapshot().views.map(view => view.ref.key)).toEqual(ordering === 'priority-ascending' ? ['b', 'c', 'a'] : ordering === 'priority-descending' ? ['a', 'c', 'b'] : ['c', 'a', 'b'])
   })
 })
+
+it('validates and freezes optional region action policy; absence admits no actions', () => {
+  const defs = definitions()
+  expect(createSlotCatalog(defs).actionPolicy('rail')).toBeUndefined()
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'optional', allowedTags: ['command', 'modal'] } }]
+  const catalog = createSlotCatalog(defs)
+  expect(catalog.actionPolicy('rail')).toEqual({ cardinality: 'optional', allowedTags: ['command', 'modal'] })
+  expect(Object.isFrozen(catalog.actionPolicy('rail')?.allowedTags)).toBe(true)
+  for (const actions of [
+    { cardinality: 'optional', allowedTags: ['handler'] },
+    { cardinality: 'none', allowedTags: ['command'] },
+    { cardinality: 'required', allowedTags: [] },
+  ]) expect(() => createSlotCatalog({ ...defs, regions: [{ ...defs.regions[0]!, actions: actions as never }] })).toThrow()
+})
+
+it.each([
+  { priority: 1.5 }, { priority: 2147483648 }, { priority: -2147483649 },
+  { manifestOrder: 0.5 }, { manifestOrder: Number.MAX_SAFE_INTEGER + 1 },
+  { data: { integer: Number.MAX_SAFE_INTEGER + 1 } }, { props: { value: Infinity } },
+])('rejects unsafe parsed projection numbers %j', metadata => {
+  expect(inspect({ ...harness().entry(), metadata })).toMatchObject({ accepted: false, refusal: { reason: 'projection-failed' } })
+})
+it('accepts explicit zero priority, safe manifest order and a parsed exponent value', () => {
+  const metadata = { priority: 0, manifestOrder: Number.MAX_SAFE_INTEGER, data: JSON.parse('{"value":1e2}') }
+  expect(inspect({ ...harness().entry(), metadata })).toMatchObject({ accepted: true, projection: metadata })
+})
+
+it('checks a host-supplied declared placement reader against the projected region', () => {
+  const defs = definitions(); defs.kinds = defs.kinds.map(kind => ({ ...kind, declaredRegion: entry => (entry.metadata as { slot?: string }).slot }))
+  expect(inspect({ ...harness().entry(), metadata: { slot: 'other' } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-region' } })
+  expect(inspect({ ...harness().entry(), metadata: { slot: 'rail' } }, defs).accepted).toBe(true)
+})
+
+it('exposes required catalog-supported inactive entries without choosing host activation policy', async () => {
+  const h = harness(); h.runtime.retain()
+  for (const status of ['declared_not_selected', 'refused', 'unavailable']) {
+    const result = await h.runtime.sync([{ ...h.entry(), required: true, status }])
+    expect(result.planning).toMatchObject({ accepted: true, requiredInactive: [{ ref: { kind: 'panel', owner: 'sample' }, status }] })
+    expect(h.runtime.getSnapshot().views[0]?.availability).toBe('inactive')
+  }
+})
+
+it('enforces declared region action cardinality and tags without an inline schema preset', () => {
+  const defs = definitions(), entry = harness().entry()
+  const action = { type: 'navigate' as const, route: 'host.settings', parameters: {} }
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'required', allowedTags: ['navigate'] } }]
+  expect(inspect(entry, defs)).toMatchObject({ accepted: false, refusal: { reason: 'invalid-metadata' } })
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: true, projection: { action } })
+  expect(inspect({ ...entry, metadata: { action: { type: 'handler' } } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'optional', allowedTags: ['command'] } }]
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+})

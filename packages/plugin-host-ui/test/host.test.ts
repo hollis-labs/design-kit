@@ -80,3 +80,12 @@ it('diagnoses persistence failure while retaining in-memory preferences', () => 
   expect(layout.getSnapshot().order).toEqual(['one'])
   expect(diagnostic).toHaveBeenCalledWith(expect.objectContaining({ reason: 'layout-write-failed' }))
 })
+
+it('breaks mixed-kind region ties by owner/key before kind and generation', () => {
+  const h = harness(); h.runtime.retain(); const view = h.runtime.getSnapshot().views[0]!
+  const a = { ...view, ref: { ...view.ref, owner: 'a-owner', kind: 'widget' } }
+  const z = { ...view, ref: { ...view.ref, owner: 'z-owner', kind: 'panel' } }
+  expect(orderContributions([z, a]).map(item => item.ref.owner)).toEqual(['a-owner', 'z-owner'])
+  const sameOwner = { ...z, ref: { ...z.ref, key: 'a-key', kind: 'widget' } }
+  expect(orderContributions([z, sameOwner]).map(item => item.ref.key)).toEqual(['a-key', 'view'])
+})

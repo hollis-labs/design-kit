@@ -1,6 +1,7 @@
 import { contributionId } from './host.js'
 import type { ContributionView } from './host.js'
 export interface OrderingPolicy {
+  manifestOnly?: boolean
   direction?: 'ascending' | 'descending'
   defaultPriority?: number
 }
@@ -13,7 +14,7 @@ export function orderContributions<T extends ContributionView>(views: readonly T
   const finite = (n: number | undefined, fallback: number) => n !== undefined && Number.isFinite(n) ? n : fallback
   const sign = policy.direction === 'descending' ? -1 : 1
   return [...selected, ...[...byId.values()].sort((a, b) =>
-    sign * (finite(a.priority, policy.defaultPriority ?? 10) - finite(b.priority, policy.defaultPriority ?? 10)) ||
+    (policy.manifestOnly ? 0 : sign * (finite(a.priority, policy.defaultPriority ?? 10) - finite(b.priority, policy.defaultPriority ?? 10))) ||
     finite(a.manifestOrder, 0) - finite(b.manifestOrder, 0) ||
     (contributionId(a.ref) < contributionId(b.ref) ? -1 : contributionId(a.ref) > contributionId(b.ref) ? 1 : 0))]
 }

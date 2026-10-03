@@ -1,7 +1,7 @@
 import '@hollis-labs/design-tokens/design-tokens.css'
 import { useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createPluginHostRuntime, type AdoptedEntry, type Observable, type RegistryEntry, type AppIsolationSnapshot } from '../../src/index.js'
+import { createSlotCatalog, createPluginHostRuntime, type AdoptedEntry, type Observable, type RegistryEntry, type AppIsolationSnapshot } from '../../src/index.js'
 import { PluginHostProvider, PluginPanelBody, WidgetRenderer, usePluginSlots } from '../../src/react.js'
 function externalStore<T>(value: T): Observable<T> {
   return { getSnapshot: () => value, getServerSnapshot: () => value, subscribe: () => () => {} }
@@ -9,8 +9,8 @@ function externalStore<T>(value: T): Observable<T> {
 function Panel() { const [count, setCount] = useState(0); return <button onClick={() => setCount(count + 1)}>Owned panel: {count}</button> }
 function Widget() { return <p>Owned widget</p> }
 const entries: RegistryEntry[] = [
-  { owner_id: 'example', owner_generation: '1', local_key: 'panel', kind: 'panel', status: 'accepted', representation: 'component', metadata: {}, component: { export: 'Panel', region: 'example.rail' } },
-  { owner_id: 'example', owner_generation: '1', local_key: 'widget', kind: 'widget', status: 'accepted', representation: 'component', metadata: {}, component: { export: 'Widget', region: 'example.canvas' } },
+  { owner_id: 'example', owner_generation: '1', local_key: 'panel', kind: 'panel', status: 'accepted', representation: 'component', schema_version: 1, required: false, metadata: {}, component: { export: 'Panel', region: 'example.rail' } },
+  { owner_id: 'example', owner_generation: '1', local_key: 'widget', kind: 'widget', status: 'accepted', representation: 'component', schema_version: 1, required: false, metadata: {}, component: { export: 'Widget', region: 'example.canvas' } },
 ]
 let revision = 0, current: RegistryEntry[] = []
 const listeners = new Set<() => void>()
@@ -32,8 +32,16 @@ const panelStore = new Map<string, readonly string[]>()
 const runtime = createPluginHostRuntime({
   scope: { appId: 'example', environmentId: 'development', clientId: 'browser' }, registry, isolation,
   renderContext: externalStore<Readonly<Record<string, unknown>>>({}),
-  project: entry => entry.component ? { label: entry.local_key, region: entry.component.region } : undefined,
-  reserved: () => false,
+  catalog: createSlotCatalog({
+    kinds: [
+      { kind: 'panel', schemaVersion: 1, role: 'contribution', representations: ['component'], regions: ['example.rail'], validate: () => true, project: entry => ({ label: entry.local_key, region: entry.component!.region }) },
+      { kind: 'widget', schemaVersion: 1, role: 'widget', representations: ['component'], regions: ['example.canvas'], validate: () => true, project: entry => ({ label: entry.local_key, region: entry.component!.region }) },
+    ],
+    regions: [
+      { name: 'example.rail', representation: 'component', kinds: ['panel'], widgetKinds: [], ordering: 'priority-ascending' },
+      { name: 'example.canvas', representation: 'component', kinds: ['widget'], widgetKinds: ['widget'], ordering: 'manifest' },
+    ], reserved: () => false,
+  }),
   panels: { reconcile(scope, views) { panelStore.set(scope.clientId, views.map(view => view.id)) }, releaseScope(scope) { panelStore.delete(scope.clientId) } },
   diagnostics: event => console.warn(event.reason),
 })

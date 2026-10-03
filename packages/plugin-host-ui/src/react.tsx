@@ -2,7 +2,7 @@ import { Component, createContext, createElement, Suspense, useContext, useEffec
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@hollis-labs/design-components'
 import type { ContributionView, PluginHostReader } from './host.js'
 import { drawerTabId, PANEL_KIND, DRAWER_TAB_KIND } from './host.js'
-import { orderContributions, type OrderingPolicy } from './order.js'
+import { orderContributions } from './order.js'
 
 const HostContext = createContext<PluginHostReader | null>(null)
 export function PluginHostProvider({ runtime, children }: { runtime: PluginHostReader; children: ReactNode }) {
@@ -18,8 +18,9 @@ export function usePluginViews() {
   const host = usePluginHost()
   return useSyncExternalStore(host.subscribe, host.getSnapshot, host.getServerSnapshot).views
 }
-export function usePluginSlots(region: string, savedOrder: readonly string[] = [], policy?: OrderingPolicy) {
-  const views = usePluginViews()
+export function usePluginSlots(region: string, savedOrder: readonly string[] = []) {
+  const views = usePluginViews(), host = usePluginHost()
+  const policy = host.ordering(region)
   return useMemo(() => orderContributions(views.filter(view => view.region === region), savedOrder, policy), [views, region, savedOrder, policy])
 }
 export function usePluginPanels() {
@@ -52,7 +53,7 @@ function ViewNotice({ children }: { children: ReactNode }) {
 /** The lease is checked at render time as well as at snapshot projection time. */
 function CurrentView({ view, props }: { view: ContributionView; props: Readonly<Record<string, unknown>> }) {
   const host = usePluginHost()
-  if (!host.isCurrent(view)) return <ViewNotice>Plugin view unavailable.</ViewNotice>
+  if (view.representation !== 'component' || !host.isCurrent(view)) return <ViewNotice>Plugin view unavailable.</ViewNotice>
   return createElement(view.value as ComponentType<Record<string, unknown>>, props)
 }
 export function PluginPanelBody({ panel, fallback, loading }: { panel: ContributionView; fallback?: ReactNode; loading?: ReactNode }) {
@@ -61,7 +62,7 @@ export function PluginPanelBody({ panel, fallback, loading }: { panel: Contribut
   useSyncExternalStore(host.subscribe, host.getSnapshot, host.getServerSnapshot)
   const context = useSyncExternalStore(host.renderContext.subscribe, host.renderContext.getSnapshot, host.renderContext.getServerSnapshot)
   if (panel.availability === 'isolated-controller-required') return <ViewNotice>Isolated renderer required.</ViewNotice>
-  if (!host.isCurrent(panel)) return fallback ?? <ViewNotice>Plugin view unavailable.</ViewNotice>
+  if (panel.representation !== 'component' || !host.isCurrent(panel)) return fallback ?? <ViewNotice>Plugin view unavailable.</ViewNotice>
   return <PluginRenderBoundary resetKey={panel.value} fallback={fallback} onError={() => host.report({ stage: 'render', reason: 'component-failed', ref: panel.ref })}>
     <Suspense fallback={loading ?? <ViewNotice>Loading plugin view…</ViewNotice>}>
       <CurrentView key={JSON.stringify([panel.ref.hostInstance, panel.ref.owner, panel.ref.generation, panel.ref.kind, panel.ref.key])} view={panel} props={{ ...panel.props, ...context }} />
@@ -72,7 +73,32 @@ export function PluginDrawerTabBody({ tab, fallback, loading }: { tab: Contribut
   return <div data-plugin-tab={drawerTabId(tab.ref)}><PluginPanelBody panel={tab} fallback={fallback} loading={loading} /></div>
 }
 export function WidgetRenderer({ widget, fallback, loading }: { widget?: ContributionView; fallback?: ReactNode; loading?: ReactNode }) {
-  return widget ? <PluginPanelBody panel={widget} fallback={fallback} loading={loading} /> : fallback ?? <ViewNotice>Widget unavailable.</ViewNotice>
+  return widget?.widget ? <PluginPanelBody panel={widget} fallback={fallback} loading={loading} /> : fallback ?? <ViewNotice>Widget unavailable.</ViewNotice>
+}
+export interface PluginDeclarativeBodyProps {
+  view: ContributionView
+  /** Host rendering binding for the already validated data; never a plugin export. */
+  render(data: unknown, view: ContributionView, props: Readonly<Record<string, unknown>>): ReactNode
+  fallback?: ReactNode
+  loading?: ReactNode
+}
+function CurrentDeclarativeView({ view, render, props }: PluginDeclarativeBodyProps & { props: Readonly<Record<string, unknown>> }) {
+  const host = usePluginHost()
+  if (view.representation !== 'declarative' || !host.isCurrent(view)) return <ViewNotice>Plugin contribution unavailable.</ViewNotice>
+  return render(view.data, view, props)
+}
+export function PluginDeclarativeBody({ view, render, fallback, loading }: PluginDeclarativeBodyProps) {
+  const host = usePluginHost()
+  useSyncExternalStore(host.subscribe, host.getSnapshot, host.getServerSnapshot)
+  const context = useSyncExternalStore(host.renderContext.subscribe, host.renderContext.getSnapshot, host.renderContext.getServerSnapshot)
+  const identity = JSON.stringify([view.ref.hostInstance, view.ref.owner, view.ref.generation, view.ref.kind, view.ref.key])
+  const resetKey = useMemo(() => ({ identity, value: view.value, render }), [identity, view.value, render])
+  if (view.representation !== 'declarative' || !host.isCurrent(view)) return fallback ?? <ViewNotice>Plugin contribution unavailable.</ViewNotice>
+  return <PluginRenderBoundary resetKey={resetKey} fallback={fallback} onError={() => host.report({ stage: 'render', reason: 'declarative-binding-failed', ref: view.ref })}>
+    <Suspense fallback={loading ?? <ViewNotice>Loading plugin contribution…</ViewNotice>}>
+      <CurrentDeclarativeView key={identity} view={view} render={render} props={{ ...view.props, ...context }} />
+    </Suspense>
+  </PluginRenderBoundary>
 }
 export interface PluginReviewRow {
   /** Stable semantic identity; labels are presentation and need not be unique. */

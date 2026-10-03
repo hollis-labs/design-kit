@@ -1,3 +1,4 @@
+import { createSlotCatalog } from '../src/catalog.js'
 import { describe, expect, it, vi } from 'vitest'
 import {
   bundleDigest, createPluginRegistry,
@@ -51,13 +52,12 @@ describe('published registry v2 compatibility', () => {
       registry, scope: { appId: 'app', environmentId: 'test', clientId: 'browser' },
       isolation: store<AppIsolationSnapshot>({ appId: 'app', effectiveMode: 'main-origin', revision: '1' }),
       renderContext: store<Readonly<Record<string, unknown>>>({}), panels,
-      diagnostics: vi.fn(), reserved: () => false,
-      project: entry => ({ label: entry.local_key, region: entry.component!.region }),
+      diagnostics: vi.fn(), catalog: createSlotCatalog({ kinds: [{ kind: PANEL_KIND, schemaVersion: 1, role: 'contribution', representations: ['component'], regions: ['rail'], validate: () => true, project: entry => ({ label: entry.local_key, region: entry.component!.region }) }], regions: [{ name: 'rail', representation: 'component', kinds: [PANEL_KIND], widgetKinds: [], ordering: 'manifest' }], reserved: () => false }),
     })
     const release = runtime.retain()
     try {
       const input = await document(['accepted', 'declared_not_selected', 'unavailable', 'future-status', 'refused'])
-      expect(await runtime.sync(input)).toMatchObject({ accepted: true, resolved: 1 })
+      expect(await runtime.sync(input)).toMatchObject({ registryResult: { accepted: true, resolved: 1 }, planning: { accepted: true } })
       expect(real.snapshot()).toMatchObject({ registryVersion: 2, hostInstance: input.host_instance, revision: 1 })
       expect(real.snapshot().contributions.find(entry => entry.local_key === 'future-status')).toMatchObject({ status: 'unavailable', resolved: false })
       expect(onDiagnostic).toHaveBeenCalledWith(expect.objectContaining({ type: 'status-diagnostic', diagnostic: expect.objectContaining({ reason: 'unknown-status' }) }))
@@ -107,4 +107,26 @@ describe('published registry v2 compatibility', () => {
       expect(importModule).not.toHaveBeenCalled()
     } finally { await registry.clear() }
   })
+})
+
+it('keeps the published registry revision while withholding required unsupported host presentation', async () => {
+  const real = createPluginRegistry({ kinds, regions, runtimes: { react: '19.2.4' }, stylesheets: false })
+  const panels = { reconcile: vi.fn(), releaseScope: vi.fn() }
+  const runtime = createPluginHostRuntime({
+    registry: real, scope: { appId: 'app', environmentId: 'test', clientId: 'browser' },
+    catalog: createSlotCatalog({ kinds: [], regions: [], reserved: () => false }),
+    isolation: store<AppIsolationSnapshot>({ appId: 'app', effectiveMode: 'main-origin', revision: '1' }),
+    renderContext: store<Readonly<Record<string, unknown>>>({}), panels, diagnostics: vi.fn(),
+  })
+  const release = runtime.retain(), snapshot = runtime.getSnapshot(), calls = panels.reconcile.mock.calls.length
+  try {
+    const input = await document(['declared_not_selected'])
+    input.contributions[PANEL_KIND]!['notes/declared_not_selected']!.required = true
+    const result = await runtime.sync(input)
+    expect(result.registryResult).toMatchObject({ accepted: true, resolved: 0 })
+    expect(real.snapshot().revision).toBe(1)
+    expect(result.planning).toMatchObject({ accepted: false, refusals: [{ reason: 'unsupported-kind', required: true, ref: { kind: PANEL_KIND } }] })
+    expect(runtime.getSnapshot()).toBe(snapshot)
+    expect(panels.reconcile).toHaveBeenCalledTimes(calls)
+  } finally { release(); runtime.dispose(); await real.clear() }
 })

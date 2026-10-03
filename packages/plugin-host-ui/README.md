@@ -79,18 +79,51 @@ The structural `PluginRegistryInstance<Input>` accepts a registry v2 instance (`
 The adapter supplies:
 
 - `scope`: app, environment, optional project, client; each runtime owns one immutable scope.
-- `project(entry)`: validated declaration to region, label, icon name, props, priority and manifest order, or undefined to omit. Region names and kind selection are host-defined; no Nanite slot vocabulary is installed.
-- `reserved(ref)`: host core-name protection. Each ref carries host epoch, owner, generation, kind and local key.
-- `isolation`: stable external store of the app's effective `sandboxed-frame` or `main-origin` mode and setting revision. The package chooses no default. Host/app settings apply the default sandboxed-frame policy and development override. A missing/invalid app setting blocks rendering. Frame mode projects an unavailable renderer notice and registers no same-realm panels; a frame/bridge controller is separate work.
+- `catalog`: a validated `createSlotCatalog` result containing the host's explicit kinds, regions, metadata validators/projections, reserved policy, accepted widget kinds and ordering. There are no presets or implicit panel/drawer opt-ins. Each ref carries host epoch, owner, generation, kind and local key.
+- `isolation`: stable external store of the app's effective `sandboxed-frame` or `main-origin` mode and setting revision. The package chooses no default. Host/app settings apply the default sandboxed-frame policy and development override. A missing/invalid app setting blocks rendering. Frame mode blocks plugin component rendering and registers no same-realm panels; host-rendered declarative surfaces remain available; a frame/bridge controller is separate work.
 - `renderContext`: stable external store of host-owned render props. These overwrite declaration props; a session host can explicitly supply `session_id`. No global session/store/query-client dependency is assumed. Promises can feed `runtime.sync`; external stores supply synchronous snapshots.
 - `panels.reconcile(scope, views)` and `releaseScope(scope)`: replace/release this scope's accepted, available panel projection, preserving other scopes and core panels.
 - optional `icons.resolve(name)` and required `diagnostics(event)`: host icon mapping and code-only failure reporting. Components never display raw thrown exception text.
 
-All observable stores need stable `getSnapshot()` objects until they change and an appropriate `getServerSnapshot()`. The runtime caches projected snapshots even though registry snapshots may be freshly allocated. Entries with unknown status, `declared_not_selected`, `refused`, or `unavailable` remain visible as metadata and never resolve or mount. `isCurrent(view)` checks epoch, owner/generation, kind/key, export identity, active lease, reserved names and isolation again immediately before rendering. Concurrent async sync completion after disposal cannot re-publish views.
+All observable stores need stable `getSnapshot()` objects until they change and an appropriate `getServerSnapshot()`. The runtime caches projected snapshots even though registry snapshots may be freshly allocated. Entries with unknown status (normalized to `unavailable`), `declared_not_selected`, `refused`, or `unavailable` remain visible as validated metadata and never resolve or mount. `isCurrent(view)` checks epoch, owner/generation, kind/key, export identity, active lease, reserved names and isolation again immediately before rendering. Concurrent async sync completion after disposal cannot re-publish views.
 
 ## React API
 
-`usePluginViews()` observes the projected set; `usePluginSlots(region, savedOrder?, policy?)` selects/arranges a host region; `usePluginPanels()` selects panel declarations; `usePluginDrawerTabs(region)` selects drawer tab declarations. Exported root constants `PANEL_KIND = "panel"`, `DRAWER_TAB_KIND = "drawer.tab"`, and `WIDGET_KIND = "widget"` are the registry v2 kind names; the runtime and hooks use these names. Hooks return inactive metadata too so hosts can show diagnostics; bodies mount only current accepted views. Catalogs and typed action dispatch are separate work.
+### Host catalog and declarative rendering
+
+`createSlotCatalog({ kinds, regions, reserved })` validates and freezes a copy of the host policy. Each kind supplies `kind`, `schemaVersion`, `representations`, named `regions`, `role: "contribution" | "widget"`, and synchronous `validate(entry)` / `project(entry)` functions. Each region supplies its `name`, one `representation`, accepted `kinds`, explicit `widgetKinds`, and `ordering: "priority-ascending" | "priority-descending" | "manifest"`. Missing validators, duplicate names, dangling references and invalid policies fail construction. A widget is supported only when its role and region opt-in both allow it. `slot` is declarative-only. No Nanite vocabulary is installed. Validators and projectors must be pure; the host owns schema policy and authorization.
+
+Projected labels, region, icon, ordering, props and optional `data` are validated and copied. Data/props must be finite JSON values; executable, cyclic or prototype-bearing projections are refused. `data` is an opaque host-validated presentation value, **not a new inline-slot wire schema**. A component's projected region must match its declared component region. Declarative regions never execute browser exports; `PluginDeclarativeBody` receives a host `render(data, view, props)` binding, with host context merged last. It uses the same per-view error/Suspense boundaries and live unload checks as component bodies. `PluginPanelBody` only accepts component views; `WidgetRenderer` also requires a catalog-approved widget. Isolation affects plugin component execution, not ordinary host rendering of validated declarative data.
+
+For example, a host may declare its own notice schema and binding:
+
+```ts
+const catalog = createSlotCatalog({
+  kinds: [{
+    kind: 'host.example.notice', schemaVersion: 1, role: 'contribution',
+    representations: ['declarative'], regions: ['example.inline'],
+    validate: entry => isHostNotice(entry.declarative),
+    project: entry => ({ label: 'Notice', region: 'example.inline', data: projectHostNotice(entry.declarative) }),
+  }],
+  regions: [{ name: 'example.inline', representation: 'declarative',
+    kinds: ['host.example.notice'], widgetKinds: [], ordering: 'manifest' }],
+  reserved: ref => hostReservedIdentity(ref),
+})
+```
+
+`isHostNotice`, `projectHostNotice` and `hostReservedIdentity` are host-supplied functions. No detailed inline schema or renderer is assumed by the package. Regions order ascending/descending with default priority 10, stable manifest order and canonical identity ties, or solely manifest order when declared. Saved user order wins for present identities; new declarations follow region policy. `runtime.ordering(region)` exposes that policy; unknown regions have no policy.
+
+Catalog refusals name the contribution ref, `required` flag and fixed reason (`unsupported-kind`, `unsupported-schema`, `unsupported-representation`, `unsupported-region`, `unsupported-widget`, `reserved`, `invalid-metadata`, or `projection-failed`). Optional unsupported declarations produce a generic unavailable view with empty props/data and no unvalidated plugin label. Unknown component regions are not installed by fallback. Refusals are available on accepted host snapshots and through code-only diagnostics.
+
+`runtime.sync(input)` returns `{ registryResult, planning: { accepted, refusals } }`. A required catalog refusal withholds the **entire host snapshot and panel reconciliation**, including when the registry lists that required entry as inactive. This is host presentation planning, not registry rollback: the registry may have accepted and advanced its own revision. Existing views still check live registry leases before rendering, so an old host snapshot cannot restore a revoked generation. The host handles failed planning, then supplies a corrected registry revision/policy. A catalog change requires a new runtime; policy mutation does not change an existing catalog.
+
+### Migration to the catalog API
+
+Replace adapter-level `project` / `reserved` with the required `catalog: createSlotCatalog(...)`; move projection and validation into explicit kind definitions and reserved checks into catalog policy. Supply all regions, widget opt-ins and ordering; there are no aliases or overloads. Read registry sync results from `result.registryResult` and host planning from `result.planning`. Region selector ordering now comes from the catalog, rather than a hook-level policy argument.
+
+Later Nanite adoption is a separate clean break: map nav-rail to `nav.item`, drawers to `drawer.tab`, right rail to `panel`, settings surfaces to `settings.region`/`settings.field`, and inline toolbar/message/composer/context surfaces to declarative `slot`. Declare separate widget-accepting component regions where needed, and explicit modal/command destinations. Migrate declaration IDs and layout keys deliberately. Existing manifests are not translated; the live app remains unchanged. Typed action adapters are a separate addition.
+
+`usePluginViews()` observes the projected set; `usePluginSlots(region, savedOrder?)` selects/arranges a host region using the catalog's declared ordering; `usePluginPanels()` selects panel declarations; `usePluginDrawerTabs(region)` selects drawer tab declarations. Exported root constants `PANEL_KIND = "panel"`, `DRAWER_TAB_KIND = "drawer.tab"`, and `WIDGET_KIND = "widget"` are the registry v2 kind names; the runtime and hooks use these names. Hooks return inactive metadata too so hosts can show diagnostics; bodies mount only current accepted views. Typed action dispatch is a separate addition.
 
 `PluginPanelBody({ panel, fallback?, loading? })`, `PluginDrawerTabBody({ tab, ... })`, and `WidgetRenderer({ widget?, ... })` give each export its own error boundary and Suspense fallback. Owner/generation/epoch changes remount owned state. Unrelated revisions preserve healthy child state. Failed boundaries reset when the export value changes; `PluginRenderBoundary` is also exported for direct composition. Drawer IDs are `plugin:<encoded owner>:<encoded local key>`; selection IDs are durable `contributionId(ref)` tuples including kind, owner and local key. These two ID forms have different purposes.
 

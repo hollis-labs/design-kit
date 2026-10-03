@@ -133,3 +133,15 @@ it('exposes required catalog-supported inactive entries without choosing host ac
     expect(h.runtime.getSnapshot().views[0]?.availability).toBe('inactive')
   }
 })
+
+it('enforces declared region action cardinality and tags without an inline schema preset', () => {
+  const defs = definitions(), entry = harness().entry()
+  const action = { type: 'navigate' as const, route: 'host.settings', parameters: {} }
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'required', allowedTags: ['navigate'] } }]
+  expect(inspect(entry, defs)).toMatchObject({ accepted: false, refusal: { reason: 'invalid-metadata' } })
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: true, projection: { action } })
+  expect(inspect({ ...entry, metadata: { action: { type: 'handler' } } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'optional', allowedTags: ['command'] } }]
+  expect(inspect({ ...entry, metadata: { action } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-action' } })
+})

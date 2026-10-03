@@ -1,3 +1,4 @@
+import { parsePluginAction } from './actions-contract.js'
 import type { ContributionRef, RegistryEntry, ViewProjection } from './host.js'
 import type { OrderingPolicy } from './order.js'
 export type PluginActionTag = 'command' | 'navigate' | 'modal'
@@ -23,13 +24,15 @@ export interface SlotRegionDefinition {
   ordering: 'priority-ascending' | 'priority-descending' | 'manifest'
   /** Absent means no actions are admitted. */
   actions?: RegionActionPolicy
+  /** Explicit host modal destination; absent/false is not a modal region. */
+  modal?: boolean
 }
 export interface SlotCatalogDefinitions {
   kinds: readonly SlotKindDefinition[]
   regions: readonly SlotRegionDefinition[]
   reserved(ref: ContributionRef): boolean
 }
-export type CatalogRefusalReason = 'unsupported-kind' | 'unsupported-schema' | 'unsupported-representation' | 'unsupported-region' | 'unsupported-widget' | 'reserved' | 'invalid-metadata' | 'projection-failed'
+export type CatalogRefusalReason = 'unsupported-kind' | 'unsupported-schema' | 'unsupported-representation' | 'unsupported-region' | 'unsupported-widget' | 'reserved' | 'invalid-metadata' | 'projection-failed' | 'unsupported-action'
 export interface CatalogRefusal { ref: ContributionRef; required: boolean; reason: CatalogRefusalReason }
 export type CatalogProjection = { accepted: true; projection: ViewProjection; representation: ContributionRepresentation; widget: boolean }
   | { accepted: false; refusal: CatalogRefusal; projection: ViewProjection }
@@ -68,7 +71,7 @@ function normalize(value: ViewProjection): ViewProjection {
   if (!props || Array.isArray(props) || typeof props !== 'object') throw new Error('Invalid projection props')
   return Object.freeze({ label: value.label, region: value.region, description: value.description, icon: value.icon,
     priority: value.priority, manifestOrder: value.manifestOrder, props: props as Readonly<Record<string, unknown>>,
-    data: value.data === undefined ? undefined : frozenData(value.data) })
+    data: value.data === undefined ? undefined : frozenData(value.data), action: value.action })
 }
 /** No preset kinds or regions: construction snapshots and validates all host policy. */
 export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCatalog {
@@ -89,6 +92,7 @@ export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCata
     if (region.actions !== undefined && (!region.actions || !['required', 'optional', 'none'].includes(region.actions.cardinality) || !names(region.actions.allowedTags) ||
       region.actions.allowedTags.some((tag: string) => !['command', 'navigate', 'modal'].includes(tag)) ||
       (region.actions.cardinality === 'none' ? region.actions.allowedTags.length !== 0 : region.actions.allowedTags.length === 0))) invalid()
+    if (region.modal !== undefined && (typeof region.modal !== 'boolean' || (region.modal && (region.representation !== 'component' || !region.widgetKinds.length)))) invalid()
     for (const kind of region.kinds) {
       const descriptor = kinds.get(kind)
       if (!descriptor || !descriptor.regions.includes(region.name) || !descriptor.representations.includes(region.representation)) invalid()
@@ -121,6 +125,12 @@ export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCata
           (entry.representation === 'component' && entry.component?.region !== region.name)) return refuse('unsupported-region')
       try { if (kind.declaredRegion && kind.declaredRegion(entry) !== projection.region) return refuse('unsupported-region') } catch { return refuse('unsupported-region') }
       if (kind.role === 'widget' && !region.widgetKinds.includes(kind.kind)) return refuse('unsupported-widget')
+      if (projection.action !== undefined) {
+        const parsed = parsePluginAction(projection.action)
+        if (!parsed.accepted) return refuse(parsed.reason)
+        if (!region.actions || region.actions.cardinality === 'none' || !region.actions.allowedTags.includes(parsed.intent.type)) return refuse('unsupported-action')
+        projection = Object.freeze({ ...projection, action: parsed.intent })
+      } else if (region.actions?.cardinality === 'required') return refuse('invalid-metadata')
       return Object.freeze({ accepted: true, projection, representation: entry.representation as ContributionRepresentation, widget: kind.role === 'widget' })
     },
   })

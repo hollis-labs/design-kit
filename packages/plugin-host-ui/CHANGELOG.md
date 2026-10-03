@@ -23,3 +23,11 @@
 - Add named refusals and safe optional fallbacks; required unsupported entries withhold the host revision/panel update without registry rollback.
 - Add explicit region ordering/widget acceptance and host-validated declarative views/renderer, distinct from plugin component execution.
 - Sync now returns separate registryResult/planning outcomes; region selector ordering comes from the catalog. Migration notes describe the clean break and later app adoption.
+
+### Typed actions and catalog policy
+
+- Add the closed command/navigate/modal intent union, direct typed host adapters, explicit refusal results and usePluginAction.
+- Pin live source/target identities and declarations, require per-invocation host authorization and abort/fence calls on revocation, scope/context changes, cancellation and disposal.
+- Require explicit region action policy and explicit modal widget regions; refuse historical handler actions without aliases.
+- Validate safe projection numbers and host-declared placement, order mixed-kind ties by owner/key, and expose required inactive entries in planning.
+- Migrate historical four-intent dispatch to three intents: handler actions become command-backed targets; keep registry handler representation unchanged.

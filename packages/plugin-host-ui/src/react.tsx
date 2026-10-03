@@ -1,4 +1,6 @@
-import { Component, createContext, createElement, Suspense, useContext, useEffect, useMemo, useSyncExternalStore, type ComponentType, type ErrorInfo, type ReactNode } from 'react'
+import { dispatchPluginAction } from './actions.js'
+import type { ActionResult } from './actions-contract.js'
+import { Component, createContext, createElement, Suspense, useCallback, useRef, useContext, useEffect, useMemo, useSyncExternalStore, type ComponentType, type ErrorInfo, type ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@hollis-labs/design-components'
 import type { ContributionView, PluginHostReader } from './host.js'
 import { drawerTabId, PANEL_KIND, DRAWER_TAB_KIND } from './host.js'
@@ -29,6 +31,23 @@ export function usePluginPanels() {
 }
 export function usePluginDrawerTabs(region: string) {
   return usePluginSlots(region).filter(view => view.ref.kind === DRAWER_TAB_KIND)
+}
+/** Stable typed intent callback; unmount/runtime replacement cancels this hook's requests. */
+export function usePluginAction() {
+  const host = usePluginHost()
+  const mounted = useRef<PluginHostReader | null>(null), pending = useRef(new Set<AbortController>())
+  useEffect(() => {
+    mounted.current = host
+    const controllers = pending.current
+    return () => { mounted.current = null; for (const controller of controllers) controller.abort(); controllers.clear() }
+  }, [host])
+  return useCallback(async (view: ContributionView, signal?: AbortSignal): Promise<ActionResult> => {
+    if (mounted.current !== host || signal?.aborted) return { status: 'refused', reason: 'cancelled' }
+    const controller = new AbortController(), abort = () => controller.abort()
+    pending.current.add(controller); signal?.addEventListener('abort', abort, { once: true })
+    try { return await dispatchPluginAction(view.action, { host, contribution: view.ref }, controller.signal) }
+    finally { pending.current.delete(controller); signal?.removeEventListener('abort', abort) }
+  }, [host])
 }
 interface BoundaryProps {
   resetKey: unknown

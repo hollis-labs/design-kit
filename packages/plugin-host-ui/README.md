@@ -189,3 +189,23 @@ The host snapshot supplies the mode, revision, editability/read-only reason, ove
 Changing the select updates a draft only. The render runtime's `adapter.isolation` must continue to read the host's verified **effective mode**, never this draft or a stored desired value pending restart. The host/app policy chooses sandboxed-frame by default and may choose main-origin for development; this package chooses neither. Actual frame rendering, bridges, CSP and effective-mode application belong to the host's separate isolation controller.
 
 Current render-time lease checks scan/re-inspect the registry snapshot per view (O(n)); this deliberately favors correctness before an indexed performance optimization.
+
+### Typed actions
+
+A region opts into actions with `actions: { cardinality: 'required' | 'optional' | 'none', allowedTags: [...] }`. Omission allows no actions. A required policy requires a projected action; a none policy requires an empty tag list. Catalog creation validates and freezes the policy. A host kind projector returns one optional `action` on the view after validating its declaration. There are no built-in declaration schemas or region presets.
+
+The closed intent union is:
+
+```ts
+{ type: 'command', command: 'owner/local_key', arguments: { /* JSON */ } }
+{ type: 'navigate', route: 'host-approved-route-id', parameters: { /* JSON */ } }
+{ type: 'modal', region: 'host.modal', entry: { owner_id: 'owner', local_key: 'widget' }, props: { /* JSON */ } }
+```
+
+`handler` is an `unsupported-action` refusal, with no alias. The registry's `handler` representation is separate: command targets use an existing accepted command entry with that representation. Modal targets use an accepted, live `widget` entry in an explicitly published component region with `modal: true` and widget acceptance. The host gateway pins the target generation; intents cannot supply a generation, lease or export. Navigation accepts a route identifier, not an arbitrary URL: the host validates it against its route registry.
+
+The optional `adapter.actions` supplies live `scope` and `invocation` external stores and promise-based `validate`, `command`, `navigate`, and `modal` methods. Every invocation first calls `validate` to enforce the host's typed argument, effect, capability, route and caller policy. The invocation store contains verified host context, never plugin-supplied caller identity; replace its immutable snapshot when that context changes. All four methods receive a frozen `ActionContext` and an `AbortSignal`. Only the matching typed operation runs after successful validation. Results are `{ status: 'success' }` or `{ status: 'refused', reason: <named code> }`; exceptions and malformed host results become `host-failed` without exposing their contents.
+
+Use `dispatchPluginAction(intent, { host: runtime, contribution: view.ref }, signal)` outside React, or `const dispatch = usePluginAction()` and `await dispatch(view, signal)` inside the provider. The hook callback is stable for its runtime and cancels its pending calls on unmount. The source may be declarative or component-based: dispatch uses its host catalog binding, never assumes a declarative payload, and does not implement a frame bridge. Dispatch requires the exact current catalog-projected action, an accepted active source lease and matching host scope. Arguments/parameters/props are copied and frozen JSON objects. A changed source/target generation, declaration, registry epoch, scope or verified invocation context invalidates the call; unload/dispose and caller cancellation abort it. Late results are fenced, including hosts that ignore cancellation. Abort cannot undo an effect a host already committed: host operations must honor the signal at their own effect boundary.
+
+No window events, routing implementation, command RPC or modal component mounting is installed by this package. The render-host example uses ordinary external stores and promises to approve navigation directly. Hosts own the schemas and transport; parsed-value checks cannot recover raw JSON token forms.

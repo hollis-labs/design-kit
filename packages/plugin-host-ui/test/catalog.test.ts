@@ -106,3 +106,15 @@ it('validates and freezes optional region action policy; absence admits no actio
     { cardinality: 'required', allowedTags: [] },
   ]) expect(() => createSlotCatalog({ ...defs, regions: [{ ...defs.regions[0]!, actions: actions as never }] })).toThrow()
 })
+
+it.each([
+  { priority: 1.5 }, { priority: 2147483648 }, { priority: -2147483649 },
+  { manifestOrder: 0.5 }, { manifestOrder: Number.MAX_SAFE_INTEGER + 1 },
+  { data: { integer: Number.MAX_SAFE_INTEGER + 1 } }, { props: { value: Infinity } },
+])('rejects unsafe parsed projection numbers %j', metadata => {
+  expect(inspect({ ...harness().entry(), metadata })).toMatchObject({ accepted: false, refusal: { reason: 'projection-failed' } })
+})
+it('accepts explicit zero priority, safe manifest order and a parsed exponent value', () => {
+  const metadata = { priority: 0, manifestOrder: Number.MAX_SAFE_INTEGER, data: JSON.parse('{"value":1e2}') }
+  expect(inspect({ ...harness().entry(), metadata })).toMatchObject({ accepted: true, projection: metadata })
+})

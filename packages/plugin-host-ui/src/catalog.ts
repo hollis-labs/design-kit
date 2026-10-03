@@ -47,7 +47,7 @@ function invalid(): never { throw new Error('Invalid host slot catalog') }
 /** Copy JSON projections; reject executable, cyclic, nonfinite or prototype-bearing data. */
 function frozenData(value: unknown, ancestors = new Set<object>()): unknown {
   if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
-  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value === 'number' && Number.isFinite(value) && (!Number.isInteger(value) || Number.isSafeInteger(value))) return value
   if (typeof value !== 'object' || value === null || ancestors.has(value)) throw new Error('Invalid projection data')
   if (!Array.isArray(value) && Object.getPrototypeOf(value) !== Object.prototype && Object.getPrototypeOf(value) !== null) throw new Error('Invalid projection data')
   ancestors.add(value)
@@ -60,8 +60,8 @@ function normalize(value: ViewProjection): ViewProjection {
   if (!value || !name(value.label) || !name(value.region) ||
       (value.description !== undefined && typeof value.description !== 'string') ||
       (value.icon !== undefined && typeof value.icon !== 'string') ||
-      (value.priority !== undefined && !Number.isFinite(value.priority)) ||
-      (value.manifestOrder !== undefined && !Number.isFinite(value.manifestOrder))) throw new Error('Invalid projection')
+      (value.priority !== undefined && (!Number.isSafeInteger(value.priority) || value.priority < -2147483648 || value.priority > 2147483647)) ||
+      (value.manifestOrder !== undefined && !Number.isSafeInteger(value.manifestOrder))) throw new Error('Invalid projection')
   const props = value.props === undefined ? Object.freeze({}) : frozenData(value.props)
   if (!props || Array.isArray(props) || typeof props !== 'object') throw new Error('Invalid projection props')
   return Object.freeze({ label: value.label, region: value.region, description: value.description, icon: value.icon,

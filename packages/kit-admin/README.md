@@ -1,8 +1,8 @@
 # @hollis-labs/kit-admin
 
-Private **0.0.0** controlled admin composition, implemented from the approved
-[admin shell spec](../../docs/admin-shell-spec.md). No registry adoption or
-application integration is claimed by this package build.
+**0.1.0** is the first release of controlled admin composition, implemented
+from the approved [admin shell spec](../../docs/admin-shell-spec.md). The host
+owns data, routes and commands.
 
 `AdminNavigation` projects declared destinations through dashboard `NavRail`.
 `AdminContent` supplies the inner page region for an existing host shell.
@@ -88,7 +88,7 @@ A host using Tailwind v4 imports the theme and each composition's class sources:
 
 Set the host's theme and document shell reset as usual. Style evidence uses
 `sysop-p4-white` and includes dashboard CSS. Internal ranges are components and
-dashboard `^0.3.0`, settings and observe `^0.1.0`, tokens `^0.3.0`; React 19,
+dashboard `^0.4.0`, settings `^0.2.0`, observe `^0.1.1`, tokens `^0.4.0`; React 19,
 Tailwind 4, Base UI and lucide use the workspace's existing peers.
 
 ## Local fixture review
@@ -113,6 +113,18 @@ outcomes, persistence, actual validation, secret logging or restart.
 [Browser evidence and reproduction](docs/evidence.md) covers the approved
 examples at 1280/390 and a Tether-style desired-config/runtime split. Unit tests
 exercise fail-closed behavior, controlled callbacks, alternate setup, field
-focus and canonical placement. Fixtures are not the real Tachyon/Nanite two-app
-acceptance proof. Packed external consumers, wire adapters, Folio wiring,
-backend atomicity, app adoption and publishing remain separate work.
+focus and canonical placement. Fixtures establish page/state mapping,
+independently of the real-backend proof below. App-owned wire adapters, Folio
+wiring and application adoption remain separate work.
+
+## Proof and limits
+
+Packed consumers have been exercised in Chromium against fixtures and against
+one real Nanite backend in a **read-only configuration**: the page issues only
+GET requests. The real-backend proof used an isolated scratch instance built
+from production code, not a deployed production instance.
+
+Not proven: writes through kit-admin against a real backend; Tachyon integration;
+secret, wizard or conflict flows on a real backend; other browsers; or a shared
+typed read client. Backend atomicity and two-app acceptance are not established
+by the read-only Nanite proof.

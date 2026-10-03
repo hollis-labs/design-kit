@@ -30,7 +30,7 @@ available just relocates the drift somewhere harder to see.
 | `packages/kit-account` | controlled local-first account surfaces; private `0.0.0`, unpublished | MIT |
 | `packages/kit-settings` | controlled schema-driven settings forms, provenance and a setup wizard; release version `0.2.0` | MIT |
 | `packages/kit-observe` | controlled read-only health, stats, sample series and diagnostics; release version `0.1.1` | MIT |
-| `packages/kit-admin` | controlled admin directory, settings/setup, status and diagnostics; private `0.0.0`, unpublished | MIT |
+| `packages/kit-admin` | controlled admin directory, settings/setup, status and diagnostics; release version `0.1.0` | MIT |
 | `packages/kit-voice` | voice input and output components (speech input, microphone and voice selection, transcript, audio playback); private `0.0.0`, unpublished | MIT AND Apache-2.0 |
 | `packages/kit-workflow` | opt-in controlled workflow canvas; private `0.0.0`, unpublished | MIT AND Apache-2.0 |
 | `packages/kit-code` | code and developer presentation; private `0.0.0`, unpublished | MIT AND Apache-2.0 |

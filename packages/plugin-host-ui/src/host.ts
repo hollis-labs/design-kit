@@ -1,3 +1,8 @@
+/** Built-in registry v2 render kind names; hosts opt in upstream. */
+export const PANEL_KIND = 'panel'
+export const DRAWER_TAB_KIND = 'drawer.tab'
+export const WIDGET_KIND = 'widget'
+
 /** Structural view of registry v2. No registry package or wire parser is bundled. */
 export interface RegistryEntry {
   owner_id: string
@@ -153,7 +158,7 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
     }
   }
   function reconcilePanels(views: readonly ContributionView[]) {
-    try { adapter.panels.reconcile(scope, views.filter(v => v.ref.kind === 'panel' && v.availability === 'available')) }
+    try { adapter.panels.reconcile(scope, views.filter(v => v.ref.kind === PANEL_KIND && v.availability === 'available')) }
     catch { report({ stage: 'panels', reason: 'reconcile-failed' }) }
   }
   function refresh(forcePanels = false) {

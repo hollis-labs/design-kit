@@ -90,11 +90,11 @@ All observable stores need stable `getSnapshot()` objects until they change and 
 
 ## React API
 
-`usePluginViews()` observes the projected set; `usePluginSlots(region, savedOrder?, policy?)` selects/arranges a host region; `usePluginPanels()` selects panel declarations; `usePluginDrawerTabs(region)` selects drawer-tab declarations. Hooks return inactive metadata too so hosts can show diagnostics; bodies mount only current accepted views. Catalogs and typed action dispatch are separate work.
+`usePluginViews()` observes the projected set; `usePluginSlots(region, savedOrder?, policy?)` selects/arranges a host region; `usePluginPanels()` selects panel declarations; `usePluginDrawerTabs(region)` selects drawer tab declarations. Exported root constants `PANEL_KIND = "panel"`, `DRAWER_TAB_KIND = "drawer.tab"`, and `WIDGET_KIND = "widget"` are the registry v2 kind names; the runtime and hooks use these names. Hooks return inactive metadata too so hosts can show diagnostics; bodies mount only current accepted views. Catalogs and typed action dispatch are separate work.
 
 `PluginPanelBody({ panel, fallback?, loading? })`, `PluginDrawerTabBody({ tab, ... })`, and `WidgetRenderer({ widget?, ... })` give each export its own error boundary and Suspense fallback. Owner/generation/epoch changes remount owned state. Unrelated revisions preserve healthy child state. Failed boundaries reset when the export value changes; `PluginRenderBoundary` is also exported for direct composition. Drawer IDs are `plugin:<encoded owner>:<encoded local key>`; selection IDs are durable `contributionId(ref)` tuples including kind, owner and local key. These two ID forms have different purposes.
 
-`PluginReviewDialog` is controlled: title/description, rows with semantic `id`, label, description and added/removed/unchanged state, busy/error, `onOpenChange`, and `onApprove`. Duplicate labels remain distinct rows. Busy disables close/cancel/approve; the host owns the async transaction, permission policy and bundle digest pinning. Review UI does not grant capabilities.
+`PluginReviewDialog` is controlled: title/description, rows with semantic `id`, label, description and added/removed/changed/unchanged state, optional `plugin: { id, version? }`, `currentBundle: { version?, digest? }` and `previousBundle: { version?, digest? }` display fields, busy/error, `onOpenChange`, and `onApprove`. Duplicate labels remain distinct rows. Busy disables close/cancel/approve; the host owns the async transaction, permission policy and bundle digest pinning. `onApprove()` receives no payload (including no click event); displayed bundle details do not replace host-owned digest pinning. Review UI does not grant capabilities.
 
 ## Ordering and persistence
 

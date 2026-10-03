@@ -1,7 +1,7 @@
 import { Component, createContext, createElement, Suspense, useContext, useEffect, useMemo, useSyncExternalStore, type ComponentType, type ErrorInfo, type ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@hollis-labs/design-components'
 import type { ContributionView, PluginHostReader } from './host.js'
-import { drawerTabId } from './host.js'
+import { drawerTabId, PANEL_KIND, DRAWER_TAB_KIND } from './host.js'
 import { orderContributions, type OrderingPolicy } from './order.js'
 
 const HostContext = createContext<PluginHostReader | null>(null)
@@ -24,10 +24,10 @@ export function usePluginSlots(region: string, savedOrder: readonly string[] = [
 }
 export function usePluginPanels() {
   const views = usePluginViews()
-  return useMemo(() => views.filter(view => view.ref.kind === 'panel'), [views])
+  return useMemo(() => views.filter(view => view.ref.kind === PANEL_KIND), [views])
 }
 export function usePluginDrawerTabs(region: string) {
-  return usePluginSlots(region).filter(view => view.ref.kind === 'drawer-tab')
+  return usePluginSlots(region).filter(view => view.ref.kind === DRAWER_TAB_KIND)
 }
 interface BoundaryProps {
   resetKey: unknown
@@ -79,12 +79,17 @@ export interface PluginReviewRow {
   id: string
   label: string
   description?: string
-  change: 'added' | 'removed' | 'unchanged'
+  change: 'added' | 'removed' | 'changed' | 'unchanged'
 }
+export interface PluginReviewIdentity { id: string; version?: string }
+export interface PluginReviewBundle { version?: string; digest?: string }
 export interface PluginReviewDialogProps {
   open: boolean
   title: string
   description?: string
+  plugin?: PluginReviewIdentity
+  currentBundle?: PluginReviewBundle
+  previousBundle?: PluginReviewBundle
   rows: readonly PluginReviewRow[]
   busy?: boolean
   error?: string
@@ -92,16 +97,23 @@ export interface PluginReviewDialogProps {
   onApprove(): void
 }
 /** Controlled review UI only. The host owns admission, grants and digest pinning. */
-export function PluginReviewDialog({ open, title, description, rows, busy = false, error, onOpenChange, onApprove }: PluginReviewDialogProps) {
+export function PluginReviewDialog({ open, title, description, plugin, currentBundle, previousBundle, rows, busy = false, error, onOpenChange, onApprove }: PluginReviewDialogProps) {
   return <Dialog open={open} onOpenChange={next => { if (!busy) onOpenChange(next) }}>
     <DialogContent showCloseButton={!busy}>
       <DialogHeader><DialogTitle>{title}</DialogTitle><DialogDescription>{description ?? 'Review the requested plugin changes.'}</DialogDescription></DialogHeader>
+      {(plugin || currentBundle || previousBundle) && <dl className="space-y-3 text-caption">
+        {plugin && <><dt>Plugin identity</dt><dd>{plugin.id}</dd>{plugin.version && <><dt>Plugin version</dt><dd>{plugin.version}</dd></>}</>}
+        {currentBundle?.version && <><dt>Current bundle version</dt><dd>{currentBundle.version}</dd></>}
+        {currentBundle?.digest && <><dt>Current bundle digest</dt><dd className="break-all">{currentBundle.digest}</dd></>}
+        {previousBundle?.version && <><dt>Previous bundle version</dt><dd>{previousBundle.version}</dd></>}
+        {previousBundle?.digest && <><dt>Previous bundle digest</dt><dd className="break-all">{previousBundle.digest}</dd></>}
+      </dl>}
       <ul className="space-y-3">{rows.map(row => <li key={row.id} className="text-body">
         <span>{row.label}</span> <span className="text-caption text-fg-muted">{row.change}</span>
         {row.description && <p className="text-caption text-fg-muted">{row.description}</p>}
       </li>)}</ul>
       {error && <p role="alert" className="text-caption text-danger">{error}</p>}
-      <DialogFooter><Button variant="ghost" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button><Button disabled={busy} onClick={onApprove}>{busy ? 'Applying…' : 'Approve'}</Button></DialogFooter>
+      <DialogFooter><Button variant="ghost" disabled={busy} onClick={() => onOpenChange(false)}>Cancel</Button><Button disabled={busy} onClick={() => onApprove()}>{busy ? 'Applying…' : 'Approve'}</Button></DialogFooter>
     </DialogContent>
   </Dialog>
 }

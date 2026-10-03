@@ -118,3 +118,9 @@ it('accepts explicit zero priority, safe manifest order and a parsed exponent va
   const metadata = { priority: 0, manifestOrder: Number.MAX_SAFE_INTEGER, data: JSON.parse('{"value":1e2}') }
   expect(inspect({ ...harness().entry(), metadata })).toMatchObject({ accepted: true, projection: metadata })
 })
+
+it('checks a host-supplied declared placement reader against the projected region', () => {
+  const defs = definitions(); defs.kinds = defs.kinds.map(kind => ({ ...kind, declaredRegion: entry => (entry.metadata as { slot?: string }).slot }))
+  expect(inspect({ ...harness().entry(), metadata: { slot: 'other' } }, defs)).toMatchObject({ accepted: false, refusal: { reason: 'unsupported-region' } })
+  expect(inspect({ ...harness().entry(), metadata: { slot: 'rail' } }, defs).accepted).toBe(true)
+})

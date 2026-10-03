@@ -12,6 +12,8 @@ export interface SlotKindDefinition {
   /** Host-owned validation/projection, not an inline-slot wire schema. */
   validate(entry: RegistryEntry): boolean
   project(entry: RegistryEntry): ViewProjection
+  /** Optional declared-placement reader, e.g. validated metadata.slot. */
+  declaredRegion?(entry: RegistryEntry): string | undefined
 }
 export interface SlotRegionDefinition {
   name: string
@@ -76,7 +78,7 @@ export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCata
   for (const kind of definitions.kinds) {
     if (!kind || !name(kind.kind) || kinds.has(kind.kind) || !Number.isSafeInteger(kind.schemaVersion) || kind.schemaVersion < 1 ||
         !names(kind.representations) || !kind.representations.length || kind.representations.some((rep: ContributionRepresentation) => !representations.has(rep)) ||
-        !names(kind.regions) || !['contribution', 'widget'].includes(kind.role) || typeof kind.validate !== 'function' || typeof kind.project !== 'function' ||
+        !names(kind.regions) || !['contribution', 'widget'].includes(kind.role) || typeof kind.validate !== 'function' || typeof kind.project !== 'function' || (kind.declaredRegion !== undefined && typeof kind.declaredRegion !== 'function') ||
         (kind.kind === 'slot' && kind.representations.some((rep: ContributionRepresentation) => rep !== 'declarative')) ||
         (kind.role === 'widget' && kind.representations.some((rep: ContributionRepresentation) => rep !== 'component'))) invalid()
     kinds.set(kind.kind, Object.freeze({ ...kind, representations: Object.freeze([...kind.representations]), regions: Object.freeze([...kind.regions]) }))
@@ -117,6 +119,7 @@ export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCata
       const region = regions.get(projection.region)
       if (!region || !kind.regions.includes(region.name) || !region.kinds.includes(entry.kind) || region.representation !== entry.representation ||
           (entry.representation === 'component' && entry.component?.region !== region.name)) return refuse('unsupported-region')
+      try { if (kind.declaredRegion && kind.declaredRegion(entry) !== projection.region) return refuse('unsupported-region') } catch { return refuse('unsupported-region') }
       if (kind.role === 'widget' && !region.widgetKinds.includes(kind.kind)) return refuse('unsupported-widget')
       return Object.freeze({ accepted: true, projection, representation: entry.representation as ContributionRepresentation, widget: kind.role === 'widget' })
     },

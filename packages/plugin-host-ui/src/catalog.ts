@@ -1,5 +1,7 @@
 import type { ContributionRef, RegistryEntry, ViewProjection } from './host.js'
 import type { OrderingPolicy } from './order.js'
+export type PluginActionTag = 'command' | 'navigate' | 'modal'
+export interface RegionActionPolicy { cardinality: 'required' | 'optional' | 'none'; allowedTags: readonly PluginActionTag[] }
 export type ContributionRepresentation = 'component' | 'declarative' | 'handler'
 export interface SlotKindDefinition {
   kind: string
@@ -17,6 +19,8 @@ export interface SlotRegionDefinition {
   kinds: readonly string[]
   widgetKinds: readonly string[]
   ordering: 'priority-ascending' | 'priority-descending' | 'manifest'
+  /** Absent means no actions are admitted. */
+  actions?: RegionActionPolicy
 }
 export interface SlotCatalogDefinitions {
   kinds: readonly SlotKindDefinition[]
@@ -32,6 +36,7 @@ export interface SlotCatalog {
   regions: readonly SlotRegionDefinition[]
   inspect(entry: RegistryEntry, ref: ContributionRef): CatalogProjection
   ordering(region: string): OrderingPolicy | undefined
+  actionPolicy(region: string): RegionActionPolicy | undefined
 }
 const catalogs = new WeakSet<object>()
 export function isSlotCatalog(value: unknown): value is SlotCatalog { return typeof value === 'object' && value !== null && catalogs.has(value) }
@@ -79,18 +84,22 @@ export function createSlotCatalog(definitions: SlotCatalogDefinitions): SlotCata
   for (const region of definitions.regions) {
     if (!region || !name(region.name) || regions.has(region.name) || !representations.has(region.representation) || !names(region.kinds) || !names(region.widgetKinds) ||
         !['priority-ascending', 'priority-descending', 'manifest'].includes(region.ordering)) invalid()
+    if (region.actions !== undefined && (!region.actions || !['required', 'optional', 'none'].includes(region.actions.cardinality) || !names(region.actions.allowedTags) ||
+      region.actions.allowedTags.some((tag: string) => !['command', 'navigate', 'modal'].includes(tag)) ||
+      (region.actions.cardinality === 'none' ? region.actions.allowedTags.length !== 0 : region.actions.allowedTags.length === 0))) invalid()
     for (const kind of region.kinds) {
       const descriptor = kinds.get(kind)
       if (!descriptor || !descriptor.regions.includes(region.name) || !descriptor.representations.includes(region.representation)) invalid()
     }
     for (const widget of region.widgetKinds) if (!region.kinds.includes(widget) || kinds.get(widget)?.role !== 'widget' || region.representation !== 'component') invalid()
-    regions.set(region.name, Object.freeze({ ...region, kinds: Object.freeze([...region.kinds]), widgetKinds: Object.freeze([...region.widgetKinds]) }))
+    regions.set(region.name, Object.freeze({ ...region, kinds: Object.freeze([...region.kinds]), widgetKinds: Object.freeze([...region.widgetKinds]), actions: region.actions ? Object.freeze({ cardinality: region.actions.cardinality, allowedTags: Object.freeze([...region.actions.allowedTags]) }) : undefined }))
   }
   for (const kind of kinds.values()) for (const region of kind.regions) if (!regions.get(region)?.kinds.includes(kind.kind)) invalid()
   const policies = new Map([...regions].map(([key, region]) => [key, Object.freeze(region.ordering === 'manifest' ? { manifestOnly: true } : { direction: region.ordering === 'priority-descending' ? 'descending' as const : 'ascending' as const, defaultPriority: 10 })]))
   const catalog: SlotCatalog = Object.freeze({
     kinds: Object.freeze([...kinds.values()]), regions: Object.freeze([...regions.values()]),
     ordering: (region: string) => policies.get(region),
+    actionPolicy: (region: string) => regions.get(region)?.actions,
     inspect(entry: RegistryEntry, ref: ContributionRef): CatalogProjection {
       // Refused metadata never leaks labels/props/data from an unvalidated declaration.
       const refuse = (reason: CatalogRefusalReason): CatalogProjection => Object.freeze({ accepted: false, refusal: Object.freeze({ ref, required: entry.required === true, reason }),

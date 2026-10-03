@@ -92,3 +92,17 @@ describe('host catalog policy', () => {
     expect(h.runtime.getSnapshot().views.map(view => view.ref.key)).toEqual(ordering === 'priority-ascending' ? ['b', 'c', 'a'] : ordering === 'priority-descending' ? ['a', 'c', 'b'] : ['c', 'a', 'b'])
   })
 })
+
+it('validates and freezes optional region action policy; absence admits no actions', () => {
+  const defs = definitions()
+  expect(createSlotCatalog(defs).actionPolicy('rail')).toBeUndefined()
+  defs.regions = [{ ...defs.regions[0]!, actions: { cardinality: 'optional', allowedTags: ['command', 'modal'] } }]
+  const catalog = createSlotCatalog(defs)
+  expect(catalog.actionPolicy('rail')).toEqual({ cardinality: 'optional', allowedTags: ['command', 'modal'] })
+  expect(Object.isFrozen(catalog.actionPolicy('rail')?.allowedTags)).toBe(true)
+  for (const actions of [
+    { cardinality: 'optional', allowedTags: ['handler'] },
+    { cardinality: 'none', allowedTags: ['command'] },
+    { cardinality: 'required', allowedTags: [] },
+  ]) expect(() => createSlotCatalog({ ...defs, regions: [{ ...defs.regions[0]!, actions: actions as never }] })).toThrow()
+})

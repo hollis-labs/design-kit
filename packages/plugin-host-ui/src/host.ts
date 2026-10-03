@@ -1,3 +1,4 @@
+import type { PluginSettingsAdapter } from './settings-contract.js'
 /** Built-in registry v2 render kind names; hosts opt in upstream. */
 export const PANEL_KIND = 'panel'
 export const DRAWER_TAB_KIND = 'drawer.tab'
@@ -91,6 +92,7 @@ export interface HostDiagnostic {
 }
 export interface PluginHostAdapter<Input> {
   scope: HostScope
+  settings?: PluginSettingsAdapter
   registry: PluginRegistryInstance<Input>
   /** The host projects already validated declarations; catalog/schema policy is upstream. */
   project(entry: RegistryEntry): ViewProjection | undefined
@@ -113,6 +115,7 @@ export interface HostSnapshot {
 }
 /** Read surface used by React; input transport stays with the host runtime owner. */
 export interface PluginHostReader extends Observable<HostSnapshot> {
+  settings?: PluginSettingsAdapter
   scope: HostScope
   renderContext: Observable<Readonly<Record<string, unknown>>>
   retain(): () => void
@@ -209,7 +212,7 @@ export function createPluginHostRuntime<Input>(adapter: PluginHostAdapter<Input>
     try { adapter.panels.releaseScope(scope) } catch { report({ stage: 'panels', reason: 'release-failed' }) }
   }
   return {
-    scope, renderContext: adapter.renderContext,
+    scope, settings: adapter.settings, renderContext: adapter.renderContext,
     getSnapshot: () => snapshot, getServerSnapshot: () => serverSnapshot,
     subscribe(listener) { listeners.add(listener); return () => { listeners.delete(listener) } },
     report,

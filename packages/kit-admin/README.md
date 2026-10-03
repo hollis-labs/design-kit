@@ -81,7 +81,6 @@ A host using Tailwind v4 imports the theme and each composition's class sources:
 
 ```css
 @import '@hollis-labs/kit-dashboard/theme.css';
-@import '@hollis-labs/design-components/source.css';
 @import '@hollis-labs/kit-settings/source.css';
 @import '@hollis-labs/kit-observe/source.css';
 @import '@hollis-labs/kit-admin/source.css';

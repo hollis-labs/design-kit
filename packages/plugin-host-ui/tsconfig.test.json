@@ -4,6 +4,6 @@
     "src",
     "test",
     "vitest.config.ts",
-    "examples/**/*.ts"
+    "examples"
   ]
 }

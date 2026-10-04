@@ -1,20 +1,79 @@
-# Optional frame contract
+# Optional frame isolation
 
-`@hollis-labs/plugin-host-ui/isolation` exports pure closed bridge parsers,
-a mount state machine, bounded invocation receipts, window binding checks,
-reverse-order cleanup and the typed frame CSP builder. It has no runtime peers.
-Core and React call the structural `PluginFrameController` on the host adapter;
-they do not import this entry. The host must supply a reviewed controller to make
-sandboxed component views available. Declarative controls remain parent-rendered.
+`@hollis-labs/plugin-host-ui/isolation` exports the closed bridge contract and
+`createPluginFrameBrowser`, an optional registry importer and structural frame
+controller. Core, React and settings entries do not import isolation or its graph
+lexer peer. Install the optional `es-module-lexer` peer for isolation or frame
+artifact packaging. React, React DOM and configured design exports execute inside
+the frame from a reviewed inventory; the parent uses its own singleton in
+main-origin mode. Declarative controls remain parent-rendered.
 
-This contract does not create frames, import executable bytes or prove browser
-containment. The host controller owns document delivery, verified-byte execution,
-live owner/mount leases, navigation fencing and DOM/resource cleanup. Its
-`isCurrent` must reject a revoked mount or stale effective app setting. Its mount
-surface publishes loading, ready or failed explicitly, and must fence failures
-before reporting them. Core checks registry adoption and controller currency
-before mounting and rechecks on registry/controller notifications. Controller
-notifications also advance the host snapshot so retained view bodies re-render.
+## Host integration
+
+Build runtime entries with `buildFrameArtifacts` and the fixed classic bootstrap
+with `buildFrameBootstrap` from `./vite`. Every entry emits one standalone ESM
+module, bundling its internal graph and retaining only approved bare peer imports.
+Declare explicit export names and compatible package versions. Packaging refuses
+unreviewed externals, leftover relative/computed imports, asset graphs and network
+CSS. Inventories carry frozen exact bytes and SHA-256 digests. The graph lexer is
+syntax admission, not a restriction on arbitrary JavaScript once admitted.
+
+Create one `createPluginFrameBrowser` per app host. Supply its `importModule` as
+the existing registry's verified-bundle importer and the same controller as the
+host adapter's `frameController`. Its review callback must pin owner, generation,
+host instance, bundle digest, effective mode, requested exports and the approved
+runtime inventory after checking manifest/version/variant/install policy.
+The registry still verifies and adopts the bundle; this package verifies the
+provided bytes again and never fetches the source URL. Without signature assurance
+it reports `unsigned`, not signature verification.
+
+Supply live registry checks (`isActive`, `isOwnerActive`, `subscribeLeases`), a
+lazy `host` reader, compiled per-view bindings and a schema/allowlist JSON `props`
+projection. Never project credentials or service handles. The existing host action
+adapter performs grants, typed target/argument/effect and verified caller checks.
+The frame receives only declared typed command/navigate/modal bindings.
+
+The app supplies a complete `{appId,effectiveMode,revision}` store with no loader
+default. `main-origin` additionally requires explicit host authorization through
+`allowMainOrigin`, and reports ambient-authority risk. Provision the app importmap
+with its reviewed React/design peers before parent imports; parent rendering stays
+on the existing React path. The app must unmount cooperative main-origin views
+before changing mode. Arbitrary parent code already executed cannot be recalled.
+No failed sandbox import falls back to main-origin or restores an old generation.
+
+`delivery.provision` serves the exact `FrameDocument.html` with its CSP and
+Permissions-Policy headers and returns a dedicated frame URL and release callback.
+Alternatively it may return exact `srcdoc` after admitting the inherited parent
+CSP. `policyAdmitted: true` is a host assurance, not browser-policy introspection.
+The runtime also embeds the matching CSP meta policy. A host unable to serve or
+admit the policy must refuse with `policy-unavailable`; parent CSP is never relaxed.
+Frame URLs must not redirect or execute different documents. Bootstrap hash and
+per-document importmap nonce are distinct from the bridge nonce. The nonce is set
+before insertion; verified modules use digest-bound data URLs without byte rewrites.
+
+## Handles and surface lifecycle
+
+An inert handle pins `(hostInstance, owner, generation, digest, exportName)`.
+The registry adopts a frozen plain namespace containing only these frozen,
+non-callable handles for exports actually confirmed in an opaque verification
+realm. That realm is disposed before importer completion and cannot dispatch calls.
+Handles are owner-generation bound and may serve multiple contributions/surfaces.
+
+Every surface creates its own frame, cryptographic nonce, MessageChannel, realm,
+leases and state machine. It re-verifies the pinned inventory, imports the exact
+bytes and reports its own actual exports before that surface can mount and become
+ready. Initialization is never inherited from verification or a sibling session.
+Mount rechecks live registry/source ownership and the private digest-bound handle;
+forged, revoked, different-generation or different-digest handles are refused.
+
+Inventories are refcounted per owner generation. Disposing one surface preserves
+siblings. Owner unload/replacement, effective mode/revision change or explicit
+`revokeGeneration` fences all that generation's sessions before replacement can
+mount. Cleanup closes ports, aborts calls, detaches frames/listeners/timers and
+releases documents independently even if a cleanup throws. Late callbacks cannot
+restore authority. Core checks registry adoption and controller currency, and
+controller notifications advance the host snapshot. A frame navigation after its
+initial document load revokes the session.
 
 ## Wire shapes
 
@@ -78,7 +137,34 @@ scope/context. Unknown result IDs are ignored; duplicate invocation IDs revoke.
 
 The CSP builder accepts only a fixed bootstrap hash and a separate per-document
 nonce, and refuses directive injection as policy-unavailable. A frame policy
-cannot relax its inherited parent policy. No browser enforcement is claimed by
-these parser/DOM tests. Self-navigation may cause network egress before a host
+cannot relax its inherited parent policy. Parser/DOM tests establish contract behavior; the separate Chromium harness
+establishes only the browser mechanisms it exercises. Self-navigation may cause network egress before a host
 observes it and revokes the channel; this contract promises no universal egress or
 CPU/memory containment. Main-origin components have ambient document authority.
+
+
+## Browser verification and limits
+
+After building, run `node packages/plugin-host-ui/test/browser/run.mjs` from the
+repository root with Playwright Chromium installed. `PLAYWRIGHT_EXECUTABLE_PATH`
+can select an existing compatible executable. The harness runs a loopback host,
+real registry, React/design runtime artifacts and dedicated frame response policy
+in a fresh browser context. It uses test-only port instrumentation to inject hostile
+packets; production exposes no such port handle.
+
+The harness covers exact verified bytes with a changed bundle URL, frozen export
+handles, absent/forged exports, separate frame realms, sibling disposal, typed
+allowed/denied effects, invocation/scope/target cancellation and uncertain late
+effects, replay/schema/nonce/version/transfer rejection, opaque parent DOM/storage/
+cookie denial, fetch/subresources/forms/popups/top-navigation restrictions, focus
+and a parent-owned modal, cleanup failure, mode fencing, parent React singleton
+and self-navigation detection. Window source/origin/nonce/port/version/schema admission is exercised before
+legitimate binding in both browser realms and also covered by contract tests. Browser results apply to the tested Chromium and
+host delivery; applications must verify their own browser, inherited policies and
+runtime variants. Unsupported runtime/module graphs are refused.
+
+Self-navigation can send a request before load detection revokes the session. This
+is observed by the harness, not hidden as universal network denial. CPU/memory and
+all possible browser egress are outside this contract. Sandbox isolation does not
+establish provenance, signature trust, manifest permission or host grant validity.
+Main-origin execution has ambient document authority and cooperative cleanup.

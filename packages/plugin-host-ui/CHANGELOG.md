@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add the optional verified-byte frame importer/controller, frozen owner-generation export handles and independent per-surface sessions.
+- Add exact-byte bootstrap/importmap delivery, reviewed standalone runtime artifact packaging and explicit main-origin admission.
+- Fence owner/mode replacement before cleanup and preserve sibling artifact inventories; reuse the existing typed action gateway with uncertain interruption receipts.
+- Add a real Chromium acceptance harness and document host delivery responsibilities, self-navigation egress and ambient main-origin limits.
+
 ## 0.1.0
 
 - Add explicit host runtime entries, Vite dev/production importmaps, scoped stylesheet leases and a host-owned version admission seam.

@@ -1,6 +1,9 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import type { Plugin, ResolvedConfig } from 'vite'
+import { build, type Plugin, type ResolvedConfig, type Rollup } from 'vite'
+import { fileURLToPath } from 'node:url'
+import { sha256Bytes, base64Bytes } from './isolation/bytes.js'
+import type { BridgeArtifact, BridgeImport } from './isolation/protocol.js'
 
 export type { StylesheetOwner, StylesheetLeases } from './stylesheets.js'
 
@@ -108,4 +111,50 @@ export function pluginHostImportmap(options: PluginHostImportmapOptions): Plugin
       },
     },
   }
+}
+
+export interface FrameArtifactBuildOptions { entries: readonly HostEntry[]; root?: string }
+/** Each output is a standalone ESM artifact; only reviewed bare peers stay external. */
+export async function buildFrameArtifacts(options: FrameArtifactBuildOptions): Promise<{ artifacts: readonly BridgeArtifact[]; imports: readonly BridgeImport[] }> {
+  const { reviewFrameModule } = await import('./isolation/graph.js')
+  const names = options.entries.map(entry => entry.specifier)
+  // Reuse the host entry validator; this does not build or install anything.
+  pluginHostImportmap({ entries: options.entries })
+  const artifacts: BridgeArtifact[] = [], imports: BridgeImport[] = []
+  for (const [index, entry] of options.entries.entries()) {
+    const virtual = resolve(options.root ?? process.cwd(), '.plugin-frame-entry.js'), id = `runtime-${index}`
+    const output = await build({ root: options.root, configFile: false, logLevel: 'silent', plugins: [{
+      name: 'plugin-frame-entry', resolveId: source => source === virtual ? `\0${virtual}` : undefined,
+      load: source => source === `\0${virtual}` ? [entry.exports.length ? `export { ${entry.exports.join(', ')} } from ${JSON.stringify(entry.source)};` : '', entry.defaultExport ? `export { default } from ${JSON.stringify(entry.source)};` : ''].join('\n') : undefined,
+    }], build: { write: false, minify: true, target: 'es2022', lib: { entry: virtual, formats: ['es'] },
+      rollupOptions: { external: source => source !== entry.specifier && names.includes(source), output: { inlineDynamicImports: true } } }, define: { 'process.env.NODE_ENV': JSON.stringify('production') },
+    }) as Rollup.RollupOutput | Rollup.RollupOutput[]
+    const bundle = Array.isArray(output) ? output[0] : output
+    const chunks = bundle.output.filter((item): item is Rollup.OutputChunk => item.type === 'chunk')
+    if (chunks.length !== 1 || !chunks[0].isEntry || chunks[0].imports.some(name => !names.includes(name)) || chunks[0].dynamicImports.some(name => !names.includes(name))) throw new Error('unsupported-variant')
+    const module = new TextEncoder().encode(chunks[0].code)
+    await reviewFrameModule(module, names)
+    artifacts.push(Object.freeze({ id, kind: 'module', sha256: await sha256Bytes(module), base64: base64Bytes(module) }))
+    imports.push(Object.freeze({ specifier: entry.specifier, artifact: id }))
+    for (const asset of bundle.output) {
+      if (asset.type !== 'asset') continue
+      if (!asset.fileName.endsWith('.css')) throw new Error('unsupported-variant')
+      const css = typeof asset.source === 'string' ? asset.source : new TextDecoder().decode(asset.source)
+      if (/@import\b/iu.test(css) || [...css.matchAll(/url\(\s*['"]?([^)'"\s]+)/giu)].some(match => !match[1].startsWith('data:'))) throw new Error('unsupported-variant')
+      const bytes = new TextEncoder().encode(css)
+      artifacts.push(Object.freeze({ id: `${id}-style`, kind: 'style', sha256: await sha256Bytes(bytes), base64: base64Bytes(bytes) }))
+    }
+  }
+  return Object.freeze({ artifacts: Object.freeze(artifacts), imports: Object.freeze(imports) })
+}
+/** Fixed host bootstrap artifact. CSP hashes these exact emitted bytes. */
+export async function buildFrameBootstrap(): Promise<string> {
+  const output = await build({ configFile: false, logLevel: 'silent', build: { write: false, minify: true, target: 'es2022',
+    lib: { entry: fileURLToPath(new URL('./isolation/bootstrap-entry.js', import.meta.url)), name: 'PluginFrameBootstrap', formats: ['iife'] },
+    rollupOptions: { output: { inlineDynamicImports: true } },
+  } }) as Rollup.RollupOutput | Rollup.RollupOutput[]
+  const bundle = Array.isArray(output) ? output[0] : output
+  const chunks = bundle.output.filter((item): item is Rollup.OutputChunk => item.type === 'chunk')
+  if (chunks.length !== 1 || chunks[0].imports.length || chunks[0].dynamicImports.length) throw new Error('unsupported-variant')
+  return chunks[0].code
 }

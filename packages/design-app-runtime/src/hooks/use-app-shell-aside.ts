@@ -109,7 +109,11 @@ export interface AppShellAsideHandle {
  * - In-memory temporary overlay open state (never written to storage)
  * - Safe admitted focus return and resize preservation
  */
-export function useAppShellAside(options: UseAppShellAsideOptions = {}): AppShellAsideHandle {
+export function useAppShellAside(
+  optionsOrStore: UseAppShellAsideOptions | AppShellAsideStore = {},
+): AppShellAsideHandle {
+  const options: UseAppShellAsideOptions =
+    'getSnapshot' in optionsOrStore ? { store: optionsOrStore } : optionsOrStore
   const {
     store: providedStore,
     isNarrow: controlledNarrow,

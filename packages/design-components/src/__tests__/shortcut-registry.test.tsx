@@ -261,6 +261,125 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
       expect(handleEscapeFn!()).toBe(false)
       expect(customStack.hasActiveLayer()).toBe(false)
     })
+
+    it('preserves native handler across stable-prop parent rerenders without retiring registration', () => {
+      const onEscape = vi.fn(() => 'closed' as const)
+
+      function Child() {
+        useLayeredEscape({
+          active: true,
+          onEscape,
+          escapeStack: customStack,
+        })
+        return <div>Child Layer</div>
+      }
+
+      function Parent() {
+        const [count, setCount] = useState(0)
+        return (
+          <div>
+            <button onClick={() => setCount((c) => c + 1)}>Rerender Parent ({count})</button>
+            <Child />
+          </div>
+        )
+      }
+
+      render(<Parent />)
+      expect(customStack.getActiveLayers()).toHaveLength(1)
+
+      // Trigger parent rerender with stable props on child
+      const button = screen.getByRole('button', { name: /Rerender Parent/ })
+      fireEvent.click(button)
+      fireEvent.click(button)
+
+      // Layer must remain registered and live
+      expect(customStack.getActiveLayers()).toHaveLength(1)
+
+      // Native Escape keydown must execute current onEscape
+      const esc = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
+      const handled = customStack.handleKeyDown(esc)
+
+      expect(handled).toBe(true)
+      expect(onEscape).toHaveBeenCalledTimes(1)
+    })
+
+    it('nested child mount inside parent overlay: deepest DOM element takes Escape precedence and unmount restores parent', () => {
+      const parentEscape = vi.fn(() => 'closed' as const)
+      const childEscape = vi.fn(() => 'closed' as const)
+
+      function ChildOverlay({
+        childEl,
+        setChildEl,
+        childEscape,
+        stack,
+      }: {
+        childEl: HTMLDivElement | null
+        setChildEl: (el: HTMLDivElement | null) => void
+        childEscape: () => 'closed'
+        stack: EscapeStack
+      }) {
+        useLayeredEscape({
+          active: true,
+          onEscape: childEscape,
+          rootElement: childEl,
+          escapeStack: stack,
+        })
+        return (
+          <div ref={setChildEl} data-testid="child-overlay">
+            <button data-testid="child-button">Inside Child</button>
+          </div>
+        )
+      }
+
+      function NestedHierarchy({ childOpen }: { childOpen: boolean }) {
+        const [parentEl, setParentEl] = useState<HTMLDivElement | null>(null)
+        const [childEl, setChildEl] = useState<HTMLDivElement | null>(null)
+
+        useLayeredEscape({
+          active: true,
+          onEscape: parentEscape,
+          rootElement: parentEl,
+          escapeStack: customStack,
+        })
+
+        return (
+          <div ref={setParentEl} data-testid="parent-overlay">
+            Parent Overlay
+            {childOpen && (
+              <ChildOverlay
+                childEl={childEl}
+                setChildEl={setChildEl}
+                childEscape={childEscape}
+                stack={customStack}
+              />
+            )}
+          </div>
+        )
+      }
+
+      const { rerender } = render(<NestedHierarchy childOpen={true} />)
+      const childBtn = screen.getByTestId('child-button')
+
+      // Escape targeting inside child overlay: child consumes, parent is untouched
+      const esc1 = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
+      Object.defineProperty(esc1, 'target', { value: childBtn })
+      const handled1 = customStack.handleKeyDown(esc1)
+
+      expect(handled1).toBe(true)
+      expect(childEscape).toHaveBeenCalledTimes(1)
+      expect(parentEscape).not.toHaveBeenCalled()
+
+      // Unmount child
+      rerender(<NestedHierarchy childOpen={false} />)
+
+      // Escape targeting parent overlay: parent consumes
+      const esc2 = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
+      Object.defineProperty(esc2, 'target', { value: screen.getByTestId('parent-overlay') })
+      const handled2 = customStack.handleKeyDown(esc2)
+
+      expect(handled2).toBe(true)
+      expect(parentEscape).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('useShiftShift Hook', () => {
@@ -460,6 +579,150 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
       // Retired negative control
       expect(triggerFn!()).toBe(false)
     })
+
+    it('preserves native Shift-Shift listener across parent rerenders with stable props', () => {
+      let currentTime = 1000
+      const onTrigger = vi.fn()
+
+      function Child() {
+        useShiftShift({
+          onTrigger,
+          thresholdMs: 300,
+          getTime: () => currentTime,
+          escapeStack: customStack,
+        })
+        return <div>Shift-Shift Child</div>
+      }
+
+      function Parent() {
+        const [count, setCount] = useState(0)
+        return (
+          <div>
+            <button onClick={() => setCount((c) => c + 1)}>Rerender ({count})</button>
+            <Child />
+          </div>
+        )
+      }
+
+      render(<Parent />)
+
+      // Parent rerenders
+      const button = screen.getByRole('button', { name: /Rerender/ })
+      fireEvent.click(button)
+      fireEvent.click(button)
+
+      // Native Shift-Shift taps must still trigger
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      currentTime = 1200
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+
+      expect(onTrigger).toHaveBeenCalledTimes(1)
+    })
+
+    it('ignores Shift keydown repeat (holding Shift down does NOT count as double tap)', () => {
+      let currentTime = 1000
+      const onTrigger = vi.fn()
+
+      function TestShiftRepeat() {
+        useShiftShift({
+          onTrigger,
+          thresholdMs: 300,
+          getTime: () => currentTime,
+          escapeStack: customStack,
+        })
+        return <div>Shift Repeat Test</div>
+      }
+
+      render(<TestShiftRepeat />)
+
+      // First initial Shift keydown
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+
+      // Subsequent keydown events caused by holding Shift key (event.repeat = true)
+      currentTime = 1100
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', repeat: true }))
+      currentTime = 1150
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift', repeat: true }))
+
+      expect(onTrigger).not.toHaveBeenCalled()
+    })
+
+    it('handles clock-zero and clock backwards boundaries without false triggers', () => {
+      let currentTime = 0
+      const onTrigger = vi.fn()
+
+      function TestClockBoundaries() {
+        useShiftShift({
+          onTrigger,
+          thresholdMs: 300,
+          getTime: () => currentTime,
+          escapeStack: customStack,
+        })
+        return <div>Clock Test</div>
+      }
+
+      render(<TestClockBoundaries />)
+
+      // Clock is 0: invalid, must not record valid tap
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      currentTime = 100
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      expect(onTrigger).not.toHaveBeenCalled()
+
+      // Tap 1 at 1000
+      currentTime = 1000
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+
+      // Clock moves backwards to 500 (delta = -500, negative): must not trigger
+      currentTime = 500
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      expect(onTrigger).not.toHaveBeenCalled()
+
+      // Next tap at 650 (delta = 150 <= 300 relative to 500): triggers
+      currentTime = 650
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      expect(onTrigger).toHaveBeenCalledTimes(1)
+    })
+
+    it('suppresses Shift-Shift when an unregistered modal overlay exists in the DOM', () => {
+      let currentTime = 1000
+      const onTrigger = vi.fn()
+
+      function TestUnregisteredOverlay() {
+        useShiftShift({
+          onTrigger,
+          thresholdMs: 300,
+          getTime: () => currentTime,
+          escapeStack: customStack,
+        })
+        return <div>Test</div>
+      }
+
+      render(<TestUnregisteredOverlay />)
+
+      // Insert an unregistered modal dialog into document.body
+      const dialog = document.createElement('div')
+      dialog.setAttribute('role', 'dialog')
+      dialog.getClientRects = () => [{} as DOMRect] as unknown as DOMRectList
+      document.body.appendChild(dialog)
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      currentTime = 1150
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+
+      expect(onTrigger).not.toHaveBeenCalled()
+
+      // Remove dialog
+      document.body.removeChild(dialog)
+
+      // Now admitted
+      currentTime = 1500
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+      currentTime = 1650
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
+
+      expect(onTrigger).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('useShortcut & useQuickSearchShortcut', () => {
@@ -557,6 +820,133 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
         }),
       )
       expect(onOpen).toHaveBeenCalledTimes(2)
+    })
+
+    it('preserves native shortcut listener across parent rerenders with stable props', () => {
+      const onTrigger = vi.fn()
+
+      function Child() {
+        useShortcut({
+          key: 'k',
+          modifiers: { ctrl: true },
+          onTrigger,
+          escapeStack: customStack,
+        })
+        return <div>Shortcut Child</div>
+      }
+
+      function Parent() {
+        const [count, setCount] = useState(0)
+        return (
+          <div>
+            <button onClick={() => setCount((c) => c + 1)}>Rerender ({count})</button>
+            <Child />
+          </div>
+        )
+      }
+
+      render(<Parent />)
+
+      // Parent rerenders
+      const button = screen.getByRole('button', { name: /Rerender/ })
+      fireEvent.click(button)
+      fireEvent.click(button)
+
+      // Shortcut must still trigger
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))
+      expect(onTrigger).toHaveBeenCalledTimes(1)
+    })
+
+    it('suppresses single-key shortcuts without modifiers inside interactive elements (buttons, links)', () => {
+      const onSlash = vi.fn()
+
+      function TestSlash() {
+        useShortcut({
+          key: '/',
+          allowInInteractive: false,
+          onTrigger: onSlash,
+          escapeStack: customStack,
+        })
+        return (
+          <div>
+            <button data-testid="test-btn">Click me</button>
+            <a href="#test" data-testid="test-link">
+              Link
+            </a>
+          </div>
+        )
+      }
+
+      render(<TestSlash />)
+      const btn = screen.getByTestId('test-btn')
+
+      // Keydown targeting button: suppressed by interactive target guard
+      fireEvent.keyDown(btn, { key: '/' })
+      expect(onSlash).not.toHaveBeenCalled()
+
+      // Keydown targeting window / non-interactive target: fires
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: '/' }))
+      expect(onSlash).toHaveBeenCalledTimes(1)
+    })
+
+    it('allows modifier shortcuts (Mod+K) inside interactive elements when not editable', () => {
+      const onModK = vi.fn()
+
+      function TestModK() {
+        useShortcut({
+          key: 'k',
+          modifiers: { ctrl: true },
+          onTrigger: onModK,
+          escapeStack: customStack,
+        })
+        return (
+          <div>
+            <button data-testid="test-btn">Button</button>
+            <input data-testid="test-input" />
+          </div>
+        )
+      }
+
+      render(<TestModK />)
+      const btn = screen.getByTestId('test-btn')
+      const input = screen.getByTestId('test-input')
+
+      // Keydown inside button: admitted because Mod+K has modifiers
+      fireEvent.keyDown(btn, { key: 'k', ctrlKey: true })
+      expect(onModK).toHaveBeenCalledTimes(1)
+
+      // Keydown inside input: suppressed by editable target guard
+      fireEvent.keyDown(input, { key: 'k', ctrlKey: true })
+      expect(onModK).toHaveBeenCalledTimes(1)
+    })
+
+    it('suppresses shortcuts when an unregistered modal overlay exists in the DOM', () => {
+      const onTrigger = vi.fn()
+
+      function TestUnregistered() {
+        useShortcut({
+          key: 'k',
+          modifiers: { ctrl: true },
+          onTrigger,
+          escapeStack: customStack,
+        })
+        return <div>Test</div>
+      }
+
+      render(<TestUnregistered />)
+
+      const dialog = document.createElement('div')
+      dialog.setAttribute('role', 'dialog')
+      dialog.getClientRects = () => [{} as DOMRect] as unknown as DOMRectList
+      document.body.appendChild(dialog)
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))
+      expect(onTrigger).not.toHaveBeenCalled()
+
+      document.body.removeChild(dialog)
+
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true }))
+      expect(onTrigger).toHaveBeenCalledTimes(1)
     })
   })
 

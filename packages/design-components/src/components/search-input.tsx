@@ -11,6 +11,8 @@ interface SearchInputProps {
   debounceMs?: number
   /** Bind `/` (when not already typing) to focus this input. Default: true. */
   slashToFocus?: boolean
+  /** Whether to retain focus when clearing non-empty query with Escape. Default: false (blur on clear). */
+  retainFocusOnClear?: boolean
 }
 
 const DEFAULT_DEBOUNCE_MS = 250
@@ -39,6 +41,7 @@ export function SearchInput({
   ariaLabel = 'Search',
   debounceMs = DEFAULT_DEBOUNCE_MS,
   slashToFocus = true,
+  retainFocusOnClear = false,
 }: SearchInputProps) {
   const [local, setLocal] = useState(value)
   const [syncedValue, setSyncedValue] = useState(value)
@@ -101,6 +104,9 @@ export function SearchInput({
               }
               setLocal('')
               onChange('')
+              if (!retainFocusOnClear) {
+                inputRef.current?.blur()
+              }
             } else {
               inputRef.current?.blur()
             }

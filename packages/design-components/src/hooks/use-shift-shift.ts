@@ -1,6 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 import { defaultEscapeStack, type EscapeStack } from '../lib/escape-stack'
-import { isComposingEvent, isEditableTarget } from '../lib/keyboard-guards'
+import {
+  hasActiveModalOverlay,
+  isComposingEvent,
+  isEditableTarget,
+} from '../lib/keyboard-guards'
 
 export interface UseShiftShiftOptions {
   /** Callback fired upon two consecutive Shift presses within the threshold. */
@@ -15,10 +19,16 @@ export interface UseShiftShiftOptions {
   preventInEditable?: boolean
   /** Whether to suppress during IME composition. Default: true. */
   preventInIME?: boolean
-  /** Whether to suppress when an active modal overlay owns keyboard focus. Default: true. */
+  /** Suspend shortcut when an active modal overlay owns keyboard focus. Default: true. */
   preventWhenOverlayActive?: boolean
   /** Optional custom EscapeStack to check for active overlay ownership. */
   escapeStack?: EscapeStack
+  /** Caller-owned admission predicate. If returns false, shortcut is suppressed. */
+  isAdmitted?: () => boolean
+  /** Whether the shortcut is accessible (not disabled/inert). Default: true. */
+  accessible?: boolean
+  /** Source generation token to invalidate stale registrations. */
+  sourceGeneration?: unknown
 }
 
 export interface UseShiftShiftResult {
@@ -27,44 +37,59 @@ export interface UseShiftShiftResult {
   /** Manually reset the double-tap timer. */
   reset: () => void
   /**
-   * Test-only positive/negative control invocation.
-   * Returns true if invocation succeeded within live frame, false if retired.
+   * Test-only positive/negative control invocation with full admission checks.
+   * Returns true if invocation succeeded within live frame, false if retired or unadmitted.
    */
   trigger: () => boolean
 }
 
 export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResult {
-  const {
-    onTrigger,
-    thresholdMs = 300,
-    enabled = true,
-    getTime,
-    preventInEditable = true,
-    preventInIME = true,
-    preventWhenOverlayActive = true,
-    escapeStack = defaultEscapeStack,
-  } = options
+  const { enabled = true } = options
 
-  const mounted = useRef(false)
+  const leaseRef = useRef(0)
+  const activeLeaseRef = useRef(0)
+  const currentLeaseRef = useRef(0)
   const frame = {}
   const currentFrame = useRef(frame)
   const lastShiftTime = useRef<number>(0)
+  const latestRef = useRef<{
+    options: UseShiftShiftOptions
+    live: () => boolean
+  }>({
+    options,
+    live: () => false,
+  })
 
   useLayoutEffect(() => {
     currentFrame.current = frame
   })
 
   useLayoutEffect(() => {
-    mounted.current = true
+    const lease = ++leaseRef.current
+    activeLeaseRef.current = lease
+    currentLeaseRef.current = lease
     return () => {
-      mounted.current = false
+      if (activeLeaseRef.current === lease) {
+        activeLeaseRef.current = 0
+      }
     }
   }, [])
 
-  const live = () => mounted.current && currentFrame.current === frame
+  const live = () =>
+    activeLeaseRef.current !== 0 &&
+    activeLeaseRef.current === currentLeaseRef.current &&
+    currentFrame.current === frame
 
-  const resolveNow = (): number => {
-    if (getTime) return getTime()
+  // Refresh latest handler, options, and live fence on every commit
+  useLayoutEffect(() => {
+    latestRef.current = {
+      options,
+      live,
+    }
+  })
+
+  const resolveNow = (customGetTime?: () => number): number => {
+    if (customGetTime) return customGetTime()
     if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
       return performance.now()
     }
@@ -75,19 +100,34 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
     if (!enabled) return
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (!live() || !enabled) return
+      const current = latestRef.current
+      if (!current.live() || current.options.enabled === false) return
 
-      // Suppress if active overlay owns keys
-      if (preventWhenOverlayActive && escapeStack.hasActiveLayer()) {
+      const opts = current.options
+      const stack = opts.escapeStack ?? defaultEscapeStack
+
+      // Suppress if active overlay owns keys (escapeStack OR unregistered modal overlay)
+      if (
+        opts.preventWhenOverlayActive !== false &&
+        (stack.hasActiveLayer() || hasActiveModalOverlay())
+      ) {
         lastShiftTime.current = 0
         return
       }
 
+      if (opts.isAdmitted && !opts.isAdmitted()) return
+      if (opts.accessible === false) return
+
       // Suppress if default already prevented
       if (event.defaultPrevented) return
 
+      // Shift keydown repeat guard: holding Shift down fires repeated keydown events; ignore them
+      if (event.repeat) {
+        return
+      }
+
       // Suppress during active IME composition
-      if (preventInIME && isComposingEvent(event)) {
+      if (opts.preventInIME !== false && isComposingEvent(event)) {
         lastShiftTime.current = 0
         return
       }
@@ -99,7 +139,7 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
       }
 
       // Suppress in editable targets
-      if (preventInEditable && isEditableTarget(event.target)) {
+      if (opts.preventInEditable !== false && isEditableTarget(event.target)) {
         lastShiftTime.current = 0
         return
       }
@@ -110,13 +150,27 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
         return
       }
 
-      const now = resolveNow()
-      const delta = now - lastShiftTime.current
+      const now = resolveNow(opts.getTime)
 
-      if (lastShiftTime.current > 0 && delta <= thresholdMs) {
+      // Clock-zero and invalid time controls
+      if (now <= 0 || !Number.isFinite(now)) {
+        lastShiftTime.current = 0
+        return
+      }
+
+      // Backwards clock control: if time jumped backwards, reset window to current time
+      if (lastShiftTime.current > 0 && now < lastShiftTime.current) {
+        lastShiftTime.current = now
+        return
+      }
+
+      const delta = now - lastShiftTime.current
+      const threshold = opts.thresholdMs ?? 300
+
+      if (lastShiftTime.current > 0 && delta >= 0 && delta <= threshold) {
         event.preventDefault()
         lastShiftTime.current = 0
-        onTrigger()
+        opts.onTrigger()
       } else {
         lastShiftTime.current = now
       }
@@ -133,27 +187,36 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('blur', handleBlur)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    enabled,
-    thresholdMs,
-    getTime,
-    preventInEditable,
-    preventInIME,
-    preventWhenOverlayActive,
-    escapeStack,
-    onTrigger,
-  ])
+  }, [enabled])
 
   return {
     isLive: live,
     reset: () => {
       lastShiftTime.current = 0
     },
-    trigger: () => {
-      if (!live() || !enabled) return false
-      onTrigger()
+    trigger: (): boolean => {
+      const current = latestRef.current
+      if (!current.live() || current.options.enabled === false) return false
+
+      const opts = current.options
+      const stack = opts.escapeStack ?? defaultEscapeStack
+
+      if (
+        opts.preventWhenOverlayActive !== false &&
+        (stack.hasActiveLayer() || hasActiveModalOverlay())
+      ) {
+        return false
+      }
+
+      if (opts.isAdmitted && !opts.isAdmitted()) return false
+      if (opts.accessible === false) return false
+
+      const target = typeof document !== 'undefined' ? document.activeElement : null
+      if (opts.preventInEditable !== false && isEditableTarget(target)) return false
+
+      opts.onTrigger()
       return true
     },
   }
 }
+

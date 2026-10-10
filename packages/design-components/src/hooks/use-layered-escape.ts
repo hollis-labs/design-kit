@@ -49,6 +49,8 @@ export interface UseLayeredEscapeResult {
   handleEscape: (event?: KeyboardEvent) => boolean
 }
 
+let globalActivationSeq = 0
+
 export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEscapeResult {
   const {
     active,
@@ -62,11 +64,22 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
     fallbackReturnTarget,
     rootElement,
     escapeStack = defaultEscapeStack,
-    sourceGeneration,
   } = options
 
   const layerId = useId()
-  const mounted = useRef(false)
+  const leaseRef = useRef(0)
+  const activeLeaseRef = useRef(0)
+  const currentLeaseRef = useRef(0)
+  const seqRef = useRef<number | null>(null)
+
+  // eslint-disable-next-line react-hooks/refs -- sequence must be captured in render order so child renders after parent take precedence
+  if (active && seqRef.current === null) {
+    seqRef.current = ++globalActivationSeq
+  } else if (!active) {
+    // eslint-disable-next-line react-hooks/refs -- sequence must be reset when layer becomes inactive
+    seqRef.current = null
+  }
+
   const frame = {}
   const currentFrame = useRef(frame)
 
@@ -75,13 +88,21 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
   })
 
   useLayoutEffect(() => {
-    mounted.current = true
+    const lease = ++leaseRef.current
+    activeLeaseRef.current = lease
+    currentLeaseRef.current = lease
     return () => {
-      mounted.current = false
+      if (activeLeaseRef.current === lease) {
+        activeLeaseRef.current = 0
+      }
+      escapeStack.unregister(layerId)
     }
-  }, [])
+  }, [layerId, escapeStack])
 
-  const live = () => mounted.current && currentFrame.current === frame
+  const live = () =>
+    activeLeaseRef.current !== 0 &&
+    activeLeaseRef.current === currentLeaseRef.current &&
+    currentFrame.current === frame
 
   const focusReturn: FocusReturnOptions = {
     trigger,
@@ -89,15 +110,18 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
     fallbackTarget: fallbackReturnTarget,
   }
 
+  // Refresh registration on every committed render to preserve current frame token
+  // across stable-prop rerenders without changing LIFO stack position
   useLayoutEffect(() => {
-    if (!live()) return
+    if (activeLeaseRef.current === 0) return
 
-    const unregister = escapeStack.register({
+    escapeStack.register({
       id: layerId,
       scopeId,
       priority,
       active,
       accessible,
+      activationSeq: seqRef.current ?? 0,
       live,
       onEscape: (e) => {
         if (!live()) return false
@@ -110,26 +134,7 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
       focusReturn,
       rootElement,
     })
-
-    return () => {
-      unregister()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    layerId,
-    active,
-    accessible,
-    scopeId,
-    priority,
-    onEscape,
-    onClearInput,
-    trigger,
-    isAdmitted,
-    fallbackReturnTarget,
-    rootElement,
-    escapeStack,
-    sourceGeneration,
-  ])
+  })
 
   return {
     layerId,

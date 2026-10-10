@@ -19,22 +19,25 @@ export interface FocusReturnOptions {
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
+function isAdmittedElement(el: unknown): el is HTMLElement {
+  if (!el || !(el instanceof HTMLElement)) return false
+  if (!el.isConnected) return false
+  if (el.matches(':disabled')) return false
+  if (el.hasAttribute('inert') || Boolean(el.closest('[inert]'))) return false
+  if (el.getAttribute('aria-hidden') === 'true' || Boolean(el.closest('[aria-hidden="true"]'))) return false
+  return true
+}
+
 /** Resolve the admitted focus return element. */
 export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLElement | null {
   const rawTrigger = typeof options.trigger === 'function' ? options.trigger() : options.trigger
-  if (
-    rawTrigger &&
-    rawTrigger instanceof HTMLElement &&
-    rawTrigger.isConnected &&
-    !rawTrigger.matches(':disabled') &&
-    (!options.isAdmitted || options.isAdmitted(rawTrigger))
-  ) {
+  if (isAdmittedElement(rawTrigger) && (!options.isAdmitted || options.isAdmitted(rawTrigger))) {
     return rawTrigger
   }
 
   const rawFallback =
     typeof options.fallbackTarget === 'function' ? options.fallbackTarget() : options.fallbackTarget
-  if (rawFallback && rawFallback instanceof HTMLElement && rawFallback.isConnected) {
+  if (isAdmittedElement(rawFallback)) {
     return rawFallback
   }
 

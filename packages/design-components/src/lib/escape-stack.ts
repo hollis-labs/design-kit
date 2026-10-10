@@ -39,6 +39,8 @@ export interface LayeredEscapeRegistration {
   onClearInput?: () => boolean
   /** Optional focus return configuration for when the layer closes. */
   focusReturn?: FocusReturnOptions
+  /** Monotonic activation sequence number representing render/activation order. */
+  activationSeq?: number
   /** Root DOM element of the layer, if available, for scope/containment checks. */
   rootElement?: HTMLElement | null | (() => HTMLElement | null)
 }
@@ -68,7 +70,11 @@ export class EscapeStack {
       this.layers.push(layer)
     }
 
-    this.ensureListener()
+    if (this.getActiveLayers().length > 0) {
+      this.ensureListener()
+    } else {
+      this.removeListener()
+    }
 
     return () => {
       this.unregister(layer.id)
@@ -91,11 +97,57 @@ export class EscapeStack {
     return this.layers.filter((l) => l.active && l.accessible && l.live())
   }
 
-  /** Retrieve the topmost (innermost) active layer. */
-  getTopLayer(): LayeredEscapeRegistration | null {
+  /** Retrieve the topmost (innermost) active layer, respecting DOM containment, scope priority and LIFO order. */
+  getTopLayer(target?: EventTarget | null): LayeredEscapeRegistration | null {
     const active = this.getActiveLayers()
     if (active.length === 0) return null
-    // LIFO: last registered / activated layer is at the end of the array
+
+    // If target element is provided, check for DOM containment among registered rootElements
+    if (target instanceof Element) {
+      const containing = active.filter((l) => {
+        const root = typeof l.rootElement === 'function' ? l.rootElement() : l.rootElement
+        return root instanceof Element && root.contains(target)
+      })
+
+      if (containing.length > 0) {
+        // Deepest DOM descendant wins; if equal, check scope priority; else activationSeq; else LIFO
+        containing.sort((a, b) => {
+          const rootA = typeof a.rootElement === 'function' ? a.rootElement() : a.rootElement
+          const rootB = typeof b.rootElement === 'function' ? b.rootElement() : b.rootElement
+          if (rootA instanceof Element && rootB instanceof Element && rootA !== rootB) {
+            if (rootA.contains(rootB)) return -1 // B is inside A, so B is deeper
+            if (rootB.contains(rootA)) return 1  // A is inside B, so A is deeper
+          }
+          if (a.scopeId && a.scopeId === b.scopeId && (a.priority ?? 0) !== (b.priority ?? 0)) {
+            return (a.priority ?? 0) - (b.priority ?? 0)
+          }
+          if (
+            a.activationSeq !== undefined &&
+            b.activationSeq !== undefined &&
+            a.activationSeq !== b.activationSeq
+          ) {
+            return a.activationSeq - b.activationSeq
+          }
+          return this.layers.indexOf(a) - this.layers.indexOf(b)
+        })
+        return containing[containing.length - 1]
+      }
+    }
+
+    // Outside DOM containment: sort active layers by scope priority (if shared scopeId), activationSeq, then LIFO index
+    active.sort((a, b) => {
+      if (a.scopeId && a.scopeId === b.scopeId && (a.priority ?? 0) !== (b.priority ?? 0)) {
+        return (a.priority ?? 0) - (b.priority ?? 0)
+      }
+      if (
+        a.activationSeq !== undefined &&
+        b.activationSeq !== undefined &&
+        a.activationSeq !== b.activationSeq
+      ) {
+        return a.activationSeq - b.activationSeq
+      }
+      return this.layers.indexOf(a) - this.layers.indexOf(b)
+    })
     return active[active.length - 1]
   }
 
@@ -110,18 +162,16 @@ export class EscapeStack {
     if (event.defaultPrevented) return false
     if (isComposingEvent(event)) return false
 
-    const topLayer = this.getTopLayer()
+    const topLayer = this.getTopLayer(event.target)
     if (!topLayer) return false
-
-    // Consume native event immediately to protect background and sibling listeners
-    event.preventDefault()
-    event.stopPropagation()
-    if (typeof event.stopImmediatePropagation === 'function') {
-      event.stopImmediatePropagation()
-    }
 
     // 1. Try input clearing first if layer declared an input clear hook
     if (topLayer.onClearInput && topLayer.onClearInput()) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (typeof event.stopImmediatePropagation === 'function') {
+        event.stopImmediatePropagation()
+      }
       return true
     }
 
@@ -129,10 +179,18 @@ export class EscapeStack {
     const result = topLayer.onEscape(event)
     const handled = result === true || result === 'cleared' || result === 'closed'
 
-    // 3. If closed and focus return options are present, restore focus
-    if (result === 'closed' || result === true) {
-      if (topLayer.focusReturn) {
-        restoreAdmittedFocus(topLayer.focusReturn)
+    if (handled) {
+      event.preventDefault()
+      event.stopPropagation()
+      if (typeof event.stopImmediatePropagation === 'function') {
+        event.stopImmediatePropagation()
+      }
+
+      // 3. If closed and focus return options are present, restore focus
+      if (result === 'closed' || result === true) {
+        if (topLayer.focusReturn) {
+          restoreAdmittedFocus(topLayer.focusReturn)
+        }
       }
     }
 
@@ -142,14 +200,15 @@ export class EscapeStack {
   private ensureListener(): void {
     if (this.listenerAttached) return
     if (typeof window === 'undefined') return
-    window.addEventListener('keydown', this.boundHandler, true) // capture phase ensures precedence over bubbling
+    // Bubble phase allows nested inputs and Base UI components to process Escape first
+    window.addEventListener('keydown', this.boundHandler, false)
     this.listenerAttached = true
   }
 
   private removeListener(): void {
     if (!this.listenerAttached) return
     if (typeof window === 'undefined') return
-    window.removeEventListener('keydown', this.boundHandler, true)
+    window.removeEventListener('keydown', this.boundHandler, false)
     this.listenerAttached = false
   }
 

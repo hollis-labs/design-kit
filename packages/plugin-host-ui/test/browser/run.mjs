@@ -1,20 +1,30 @@
+import { createHash } from 'node:crypto'
 import assert from 'node:assert/strict'
 import { createServer } from 'node:http'
-import { mkdtemp, writeFile, rm } from 'node:fs/promises'
+import { mkdtemp, writeFile, readFile, rm, mkdir } from 'node:fs/promises'
 import { join, dirname } from 'node:path'
 import { tmpdir } from 'node:os'
-import { fileURLToPath } from 'node:url'
-import { build } from 'vite'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { chromium } from 'playwright'
-import { buildFrameArtifacts, buildFrameBootstrap } from '../../dist/vite.js'
 import { artifactModuleUrl } from '../../dist/isolation/bytes.js'
-const root = dirname(dirname(dirname(fileURLToPath(import.meta.url))))
+const sourceRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))))
+const root = process.env.CANDIDATE_CONSUMER_ROOT ?? sourceRoot
+const toolsEntry = join(root, '.candidate-tools.mjs')
+await writeFile(toolsEntry, "export { build } from 'vite'; export { buildFrameArtifacts, buildFrameBootstrap } from '@hollis-labs/plugin-host-ui/vite';")
+const { build, buildFrameArtifacts, buildFrameBootstrap } = await import(pathToFileURL(toolsEntry).href)
 const scratch = await mkdtemp(join(process.env.TMPDIR ?? tmpdir(), 'plugin-frame-browser-'))
 let browser, server
+const pinned = process.env.PINNED_MODULES === '1'
+const evidenceRoot = process.env.ACCEPTANCE_EVIDENCE_ROOT
+if (evidenceRoot) await mkdir(evidenceRoot, { recursive: true })
+const responseHashes = [], policyDenials = []
+const policyReceipt = process.env.PRODUCTION_CSP_RECEIPT ? JSON.parse(await readFile(process.env.PRODUCTION_CSP_RECEIPT, 'utf8')) : undefined
+let tamper = ''
+const modules = new Map(), usedModuleScopes = new Set(), usedDocumentIds = new Set()
 const docs = new Map(), requests = [], proofs = []
 try {
-  const ui = join(scratch, 'ui.js')
-  await writeFile(ui, 'import { createElement, useState } from "react"; export function FrameButton({label}) { const [count,setCount] = useState(0); return createElement("button",{onClick:()=>setCount(count+1)},label+":"+count) }')
+  const ui = join(root, '.candidate-ui.js')
+  await writeFile(ui, 'import { createElement, useState } from "react"; import { Button } from "@hollis-labs/design-components"; export function FrameButton({label}) { const [count,setCount] = useState(0); return createElement(Button,{onClick:()=>setCount(count+1)},label+":"+count) }')
   const entries = []
   for (const specifier of ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime']) {
     const module = await import(specifier)
@@ -28,34 +38,74 @@ export function View({label}) { return createElement(FrameButton, {label}); } Vi
 globalThis.pluginHook=useState; globalThis.pluginParentReadable=(()=>{try{return !!parent.document.body}catch{return false}})();
 globalThis.pluginStorageReadable=(()=>{try{return !!localStorage.getItem('secret')}catch{return false}})();
 globalThis.pluginCookieReadable=(()=>{try{return document.cookie.includes('secret')}catch{return false}})();
-globalThis.pluginProof='exact-pinned-bytes';`
-  const fixture = { ...inventory, bootstrap, plugin }
-  const output = await build({ root, configFile: false, logLevel: 'silent', build: { write: false, minify: false, target: 'es2022',
-    lib: { entry: join(root, 'test/browser/client.ts'), formats: ['es'] }, rollupOptions: { external: entries.map(entry => entry.specifier), output: { inlineDynamicImports: true } },
+globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:true}, '*');`
+  const fixture = { ...inventory, bootstrap, plugin, pinned }
+  const clientEntry = join(root, '.candidate-client.ts')
+  await writeFile(clientEntry, await readFile(join(sourceRoot, 'test/browser/client.ts')))
+  const output = await build({ root, configFile: false, logLevel: 'silent', define: { 'process.env.NODE_ENV': JSON.stringify('production') }, build: { write: false, minify: false, target: 'es2022',
+    lib: { entry: clientEntry, formats: ['es'] }, rollupOptions: { external: pinned ? [] : entries.map(entry => entry.specifier), output: { inlineDynamicImports: true } },
   } })
   const hostOutput = Array.isArray(output) ? output[0] : output
   const client = hostOutput.output.find(item => item.type === 'chunk').code
+  if (evidenceRoot) { await writeFile(join(evidenceRoot, 'runtime-inventory.json'), JSON.stringify(fixture, null, 2)); await writeFile(join(evidenceRoot, 'host-client.js'), client) }
   const imports = Object.fromEntries(inventory.imports.map(row => [row.specifier, artifactModuleUrl(inventory.artifacts.find(artifact => artifact.id === row.artifact), 'app')]))
   server = createServer(async (req, res) => {
     requests.push({ path: req.url, method: req.method })
+    if (req.url === '/control' && req.method === 'POST') { let body = ''; for await (const chunk of req) body += chunk; tamper = body; res.writeHead(204).end(); return }
+    if (req.url === '/modules' && req.method === 'POST') {
+      let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 32_000_000) { res.writeHead(413).end(); return } }
+      const { artifacts, scope } = JSON.parse(body), urls = {}, admitted = new Map()
+      if (usedModuleScopes.has(scope)) { res.writeHead(409).end(); return }
+      for (const artifact of artifacts.filter(row => row.kind === 'module')) {
+        const path = `/modules/${scope}/${artifact.sha256}/${artifact.id}.js`
+        const bytes = Buffer.from(artifact.base64, 'base64')
+        if (createHash('sha256').update(bytes).digest('hex') !== artifact.sha256) { res.writeHead(400).end(); return }
+        if (modules.has(path)) { res.writeHead(409).end(); return }
+        admitted.set(path, bytes)
+        urls[artifact.id] = `http://127.0.0.1:${server.address().port}${path}`
+      }
+      usedModuleScopes.add(scope); for (const [path, bytes] of admitted) modules.set(path, bytes)
+      res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(urls)); return
+    }
+    if (req.url.startsWith('/modules/')) {
+      if (req.method === 'DELETE') { for (const key of modules.keys()) if (key.startsWith(req.url + '/')) modules.delete(key); res.writeHead(204).end(); return }
+      const bytes = modules.get(req.url)
+      if (!bytes) { res.writeHead(404).end(); return }
+      const body = (tamper === 'plugin' && req.url.endsWith('/plugin.js')) || (tamper === 'runtime' && req.url.endsWith('/runtime-0.js')) ? Buffer.from("parent.postMessage({tamperedExecution:true}, '*'); export const View = () => null;") : bytes
+      responseHashes.push({ path: req.url, sha256: createHash('sha256').update(body).digest('hex'), tamper })
+      res.writeHead(200, { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }).end(body); return
+    }
     if (req.url === '/documents' && req.method === 'POST') {
       let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 2_000_000) { res.writeHead(413).end(); return } }
-      const doc = JSON.parse(body); docs.set(doc.frameId, doc); res.writeHead(204).end(); return
+      const doc = JSON.parse(body); if (usedDocumentIds.has(doc.frameId)) { res.writeHead(409).end(); return } usedDocumentIds.add(doc.frameId); docs.set(doc.frameId, doc); res.writeHead(204).end(); return
     }
     if (req.url.startsWith('/frame/')) {
       const id = req.url.slice('/frame/'.length), doc = docs.get(id)
       if (req.method === 'DELETE') { docs.delete(id); res.writeHead(204).end(); return }
       if (!doc) { res.writeHead(404).end(); return }
-      res.writeHead(200, { 'Content-Type': 'text/html', 'Content-Security-Policy': doc.csp, 'Permissions-Policy': doc.permissionsPolicy, 'Referrer-Policy': 'no-referrer' }).end(doc.html); return
+      res.writeHead(200, { 'Content-Type': 'text/html', 'Content-Security-Policy': doc.csp, 'Permissions-Policy': doc.permissionsPolicy, 'Referrer-Policy': 'no-referrer', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }).end(doc.html); return
     }
     if (req.url === '/fixture') { res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(fixture)); return }
     if (req.url === '/client.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end(client); return }
-    if (req.url === '/') { res.writeHead(200, { 'Content-Type': 'text/html', 'Set-Cookie': 'secret=parent; SameSite=Strict' }).end(`<!doctype html><html><head><script type="importmap">${JSON.stringify({ imports }).replaceAll('<', '\\u003c')}</script></head><body><button id="parent-focus">Parent focus</button><div id="main-view"></div><script type="module" src="/client.js"></script></body></html>`); return }
+    if (req.url === '/') { res.writeHead(200, { 'Content-Type': 'text/html', 'Set-Cookie': 'secret=parent; SameSite=Strict', ...(pinned ? { 'Content-Security-Policy': policyReceipt?.csp ?? "script-src 'self' 'sha256-I1swIBtbR1QnY1/IgmK00boupM7TEi+/BltRerODeSY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.tldraw.com; font-src 'self' data: https://cdn.tldraw.com; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" } : {}) }).end(`<!doctype html><html><head>${pinned ? '' : `<script type="importmap">${JSON.stringify({ imports: pinned ? {} : imports }).replaceAll('<', '\\u003c')}</script>`}</head><body><button id="parent-focus">Parent focus</button><div id="main-view"></div><script type="module" src="/client.js"></script></body></html>`); return }
     if (req.url === '/changed-plugin.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end('throw new Error("changed URL executed")'); return }
-    res.writeHead(200).end('egress observed')
+    res.writeHead(req.url === '/self-navigation' ? 200 : 404).end(req.url === '/self-navigation' ? 'egress observed' : 'unknown route')
   })
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
   const origin = `http://127.0.0.1:${server.address().port}`
+  if (pinned) {
+    const scope = 'sealed-route-control', artifact = inventory.artifacts.find(row => row.kind === 'module')
+    const provision = () => fetch(origin + '/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scope, artifacts: [artifact] }) })
+    const first = await provision(); assert.equal(first.status, 200)
+    const url = Object.values(await first.json())[0]
+    assert.equal((await provision()).status, 409)
+    assert.equal(createHash('sha256').update(Buffer.from(await (await fetch(url)).arrayBuffer())).digest('hex'), artifact.sha256)
+    assert.equal((await fetch(origin + '/modules/' + scope, { method: 'DELETE' })).status, 204)
+    assert.equal((await fetch(url)).status, 404)
+    assert.equal((await provision()).status, 409)
+    assert.equal((await fetch(origin + '/modules/unknown.js')).status, 404)
+    proofs.push('sealed route replacement and reuse after release refuse; admitted bytes stay exact; unknown routes refuse')
+  }
   browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH, headless: true })
   const context = await browser.newContext({ acceptDownloads: false })
   await context.addInitScript(() => {
@@ -82,17 +132,28 @@ globalThis.pluginProof='exact-pinned-bytes';`
       wrappers.set(listener, wrapped); return add.call(this, type, wrapped, options)
     }
     EventTarget.prototype.removeEventListener = function (type, listener, options) { return remove.call(this, type, wrappers.get(listener) ?? listener, options) }
-    if (window === top) return
+    if (window === top) { globalThis.tamperedExecutions = 0; globalThis.pluginExecutions = 0; addEventListener('message', event => { if (event.data?.tamperedExecution) globalThis.tamperedExecutions++; if (event.data?.pluginExecuted) globalThis.pluginExecutions++ }); return }
     const send = MessagePort.prototype.postMessage
     MessagePort.prototype.postMessage = function (packet, ...rest) { globalThis.fixturePort = this; globalThis.fixturePacket = packet; return send.call(this, packet, ...rest) }
   })
   const page = await context.newPage(), errors = []; let downloads = 0, popups = 0
+  if (process.env.DEBUG_FRAME_PROOF) {
+    const debug = await context.newCDPSession(page)
+    await debug.send('Debugger.enable')
+    await debug.send('Debugger.setPauseOnExceptions', { state: 'all' })
+    debug.on('Debugger.paused', event => { console.error('CAUGHT FRAME EXCEPTION:', event.data?.description ?? event.reason); void debug.send('Debugger.resume').catch(() => {}) })
+  }
+  page.on('console', message => { if (process.env.DEBUG_FRAME_PROOF) console.error('BROWSER CONSOLE:', message.text()); if (/integrity|Content Security Policy|violates/iu.test(message.text())) policyDenials.push(message.text()) })
   page.on('download', () => downloads++); page.on('popup', () => popups++)
   page.on('pageerror', error => { errors.push(error.message); console.error('PAGE ERROR:', error.message) })
   await page.goto(origin); await page.waitForFunction(() => !!globalThis.fixtureHost)
   await page.evaluate(() => localStorage.setItem('secret', 'parent'))
   const call = (method, ...args) => page.evaluate(({ method, args }) => globalThis.fixtureHost[method](...args), { method, args })
   assert.equal((await call('load')).registryResult.accepted, true)
+  const graphRequestStart = requests.length
+  for (const code of ['import \"./mutable.js\"', 'import \"https://outside.invalid/module.js\"', 'import(location.href)', 'import \"unreviewed\"']) assert.equal(await call('forbiddenGraph', code), 'unsupported-variant')
+  assert.equal(requests.slice(graphRequestStart).some(request => request.path === '/modules' || request.path === '/documents'), false)
+  proofs.push('relative, remote, computed and unreviewed bare imports refuse before delivery or executable load')
   const info = await call('info')
   assert.equal(info.frames, 0, 'verification realm must be disposed before returning adoption handles')
   assert.equal(info.views.find(v => v.key === 'first').frozen, true)
@@ -101,13 +162,28 @@ globalThis.pluginProof='exact-pinned-bytes';`
   assert.equal(await call('spoofHandle'), false)
   proofs.push('frame-confirmed inert namespace; missing exports unavailable; forged handles refused')
   const first = await call('mount'), second = await call('mount', 'second')
-  await page.waitForFunction(({ first, second }) => globalThis.fixtureHost.state(first).status === 'ready' && globalThis.fixtureHost.state(second).status === 'ready', { first, second }, { timeout: 15_000 })
+  console.log('Initial surface states:', await call('state', first), await call('state', second))
+  try { await page.waitForFunction(({ first, second }) => globalThis.fixtureHost.state(first).status === 'ready' && globalThis.fixtureHost.state(second).status === 'ready', { first, second }, { timeout: 15_000 }) } catch (error) { console.error('SURFACE FAILURE:', await call('state', first), await call('state', second), await call('info')); throw error }
   const frames = page.frames().filter(frame => frame !== page.mainFrame()), a = frames[0], b = frames[1]
   await a.getByRole('button', { name: 'verified:0' }).click(); assert.equal(await a.getByRole('button').textContent(), 'verified:1')
   assert.equal(await b.getByRole('button').textContent(), 'verified:0')
   const containment = await a.evaluate(() => ({ parent: globalThis.pluginParentReadable, storage: globalThis.pluginStorageReadable, cookie: globalThis.pluginCookieReadable, exact: globalThis.pluginProof }))
   assert.deepEqual(containment, { parent: false, storage: false, cookie: false, exact: 'exact-pinned-bytes' })
   assert.equal(requests.filter(req => req.path === '/changed-plugin.js').length, 0)
+  if (pinned) {
+    assert.equal(await a.evaluate(() => Array.from(document.scripts).some(script => !!script.nonce) || !!document.querySelector('meta[http-equiv="Content-Security-Policy"]')), false)
+    assert.equal(await a.evaluate(async () => globalThis.pluginHook === (await import('react')).useState), true)
+    for (const realm of [page, a]) {
+      const denied = await realm.evaluate(async () => {
+        const sources = ['data:text/javascript,globalThis.cspBypass=true', URL.createObjectURL(new Blob(['globalThis.cspBypass=true'], { type: 'text/javascript' }))]
+        const results = []
+        for (const source of sources) { try { await import(source); results.push(false) } catch { results.push(true) } }
+        URL.revokeObjectURL(sources[1]); return { results, executed: globalThis.cspBypass === true }
+      })
+      assert.deepEqual(denied, { results: [true, true], executed: false })
+    }
+    proofs.push('unchanged parent and dedicated child script CSP refuse data/blob; approved bare peer resolves one React singleton per frame')
+  }
   assert.ok(await page.evaluate(() => globalThis.fixtureWindowRejections >= 6)); assert.ok(await a.evaluate(() => globalThis.fixtureWindowRejections >= 6))
   proofs.push('window bootstrap rejects wrong source/origin/nonce/port/version/schema before legitimate binding')
   proofs.push('per-frame React/design exports mount; independent realms; exact bytes with changed source URL; opaque DOM/storage/cookie denial')
@@ -196,9 +272,11 @@ globalThis.pluginProof='exact-pinned-bytes';`
   assert.equal(await page.locator('iframe').count(), 0)
   assert.equal(await call('oldIsCurrent'), false)
   assert.equal((await call('state', modeSurface)).status, 'failed')
+  if (!pinned) {
   assert.equal(await call('mainSingleton'), true)
   await call('mainRender'); await page.getByRole('button', { name: 'main:0' }).waitFor()
   proofs.push('mode replacement fences old frames before main-origin; same-realm React singleton')
+  } else proofs.push('immutable-delivery mode refuses main-origin instead of a data fallback')
   await call('load', 'sandboxed-frame'); const replacement = await call('mount')
   await page.waitForFunction(index => globalThis.fixtureHost.state(index).status === 'ready', replacement)
   const fresh = page.frames().find(frame => frame !== page.mainFrame())
@@ -206,11 +284,49 @@ globalThis.pluginProof='exact-pinned-bytes';`
   await page.waitForFunction(index => globalThis.fixtureHost.state(index).status === 'failed', replacement)
   assert.ok(requests.some(req => req.path === '/self-navigation'))
   proofs.push('self-navigation egress observed, then session revoked: explicitly not universal network denial')
+  if (pinned) {
+    for (const target of ['plugin', 'runtime']) {
+      await page.evaluate(target => fetch('/control', { method: 'POST', body: target }), target)
+      await call('load', 'sandboxed-frame')
+      assert.notEqual((await call('info')).views.find(view => view.key === 'first')?.available, 'available')
+      assert.equal(await page.locator('iframe').count(), 0)
+      assert.equal(await page.evaluate(() => globalThis.tamperedExecutions), 0)
+    }
+    await page.evaluate(() => fetch('/control', { method: 'POST', body: '' }))
+    await call('load', 'sandboxed-frame')
+    const restored = await call('mount')
+    await page.waitForFunction(index => globalThis.fixtureHost.state(index).status === 'ready', restored)
+    proofs.push('browser SRI refuses tampered plugin and runtime responses after provisioning; clean replay restores exact-byte execution')
+  }
   await call('shutdown')
   assert.equal(await page.locator('iframe').count(), 0)
   assert.deepEqual(errors, [])
+  if (pinned) {
+    const unsupported = await browser.newContext()
+    await unsupported.addInitScript(() => {
+      if (window === top) { globalThis.pluginExecutions = 0; addEventListener('message', event => { if (event.data?.pluginExecuted) globalThis.pluginExecutions++ }); return }
+      const append = Element.prototype.append
+      Element.prototype.append = function (...nodes) {
+        for (const node of nodes) if (node instanceof HTMLScriptElement && node.type === 'importmap') { const value = JSON.parse(node.textContent); delete value.integrity; node.textContent = JSON.stringify(value) }
+        return append.apply(this, nodes)
+      }
+    })
+    const unsupportedPage = await unsupported.newPage()
+    await unsupportedPage.goto(origin)
+    await unsupportedPage.waitForFunction(() => !!globalThis.fixtureHost)
+    const start = requests.length
+    await unsupportedPage.evaluate(() => globalThis.fixtureHost.load())
+    assert.equal(await unsupportedPage.evaluate(() => globalThis.pluginExecutions), 0)
+    assert.equal(await unsupportedPage.locator('iframe').count(), 0)
+    assert.equal(requests.slice(start).some(request => request.path.endsWith('/plugin.js')), false)
+    assert.equal(await unsupportedPage.evaluate(() => globalThis.fixtureHost.info().views.some(view => view.key === 'first' && view.available === 'available')), false)
+    await unsupportedPage.evaluate(() => globalThis.fixtureHost.shutdown())
+    await unsupported.close()
+    proofs.push('removed-integrity capability control fails preflight before requesting/executing plugin bytes; no fallback')
+  }
   await context.close()
+  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, responseHashes, requests, policyDenials, errors }, null, 2))
   for (const proof of proofs) console.log('PASS: ' + proof)
   console.log('Browser acceptance complete; expected policy-denial console errors are not application failures.')
-} catch (error) { console.error('BROWSER PROOF FAILED:', error); throw error }
-finally { await browser?.close(); if (server) await new Promise(resolve => server.close(resolve)); await rm(scratch, { recursive: true, force: true }) }
+} catch (error) { if (evidenceRoot) await writeFile(join(evidenceRoot, 'failure.json'), JSON.stringify({ error: String(error), responseHashes, policyDenials, requests }, null, 2)); console.error('BROWSER PROOF FAILED:', error); throw error }
+finally { await rm(toolsEntry, { force: true }); await rm(join(root, '.candidate-ui.js'), { force: true }); await rm(join(root, '.candidate-client.ts'), { force: true }); await browser?.close(); if (server) await new Promise(resolve => server.close(resolve)); await rm(scratch, { recursive: true, force: true }) }

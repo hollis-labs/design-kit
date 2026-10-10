@@ -168,3 +168,51 @@ is observed by the harness, not hidden as universal network denial. CPU/memory a
 all possible browser egress are outside this contract. Sandbox isolation does not
 establish provenance, signature trust, manifest permission or host grant validity.
 Main-origin execution has ambient document authority and cooperative cleanup.
+
+
+## Immutable same-origin module delivery
+
+`PluginFrameBrowserOptions.moduleDelivery` accepts a `FrameModuleDelivery`.
+Its `provision(artifacts, scope)` receives the verified inventory, including a
+harmless package-owned integrity probe, and returns `{urls, release}`. Return one
+canonical absolute HTTP(S) URL per module artifact ID, on the parent origin;
+each path contains that artifact's SHA-256. Queries, fragments, credentials,
+extra/missing modules and duplicate URLs are refused. Styles remain verified
+inline artifacts. The derived admitted manifest binds module IDs, byte digests, fixed JavaScript media type, canonical URLs and integrity metadata. All static/dynamic/transitive imports are checked against the pinned bare-peer mapping; computed, relative, URL and import.meta graphs refuse. The protocol's existing init/bridge shapes are unchanged.
+
+The host server owns this response store. It must authenticate provisioning,
+validate bounded canonical bytes/digests, snapshot each response immutably,
+serve exact JavaScript bytes with `Content-Type: text/javascript`,
+`X-Content-Type-Options: nosniff`, and CORS permitting the opaque frame (`null`
+origin, no credentials). A credential-free dedicated response may use
+`Access-Control-Allow-Origin: *`. Never redirect, interpolate scripts, return
+mutable source URLs or route the response through an untrusted proxy/service
+worker. A digest in a URL alone is no evidence of response integrity.
+The host must refuse unknown routes, redirects, digest/content mismatches and attempted replacement. Keep admitted mappings stable until their frames stop; revoke/stop authority separately from deleting bytes, and never rebind an old URL to a replacement generation. The lifetime release removes only the scope's store; deletion/replacement must
+not alter any other active scope. Provisioning must not expose host credentials
+to the frame. This library grants no server authority or new HTTP routes.
+
+The runtime verifies the provided artifacts again, pins the URL inventory,
+and generates an importmap `integrity` entry for every module. In each opaque
+realm it first deliberately imports a harmless package-owned probe with an
+incorrect integrity digest. A browser that accepts that probe is refused as
+`policy-unavailable` before plugin execution. The bootstrap removes readable nonce attributes and CSP metadata after importmap installation, before any plugin module executes; parsed/header CSP remains enforced. The plugin and its approved bare
+peer graph then load under the correct SRI digests, without rewriting bytes.
+Each frame retains a separate module singleton set and bridge lifecycle.
+
+This mode requires a dedicated same-origin frame response whose exact document,
+CSP and Permissions-Policy are admitted by the host's `delivery.provision`.
+The child script policy names only pinned module URLs plus its trusted bootstrap
+hash/document nonce; it has no data/blob script source. The parent policy is
+unchanged. `srcdoc` is refused, since its inherited policy cannot admit a new
+bootstrap or importmap nonce under Tangent's production script policy.
+Main-origin is refused in this mode; there is no fallback to the legacy data-URL
+mode. The latter remains explicit existing behavior when `moduleDelivery` is
+absent and requires a separately admissible host policy.
+
+Run the focused harness with `PINNED_MODULES=1 node test/browser/run.mjs` after
+building. It exercises the parent self+Tangent-shim script policy, exact-byte
+opaque rendering, plugin/runtime response tampering after provisioning,
+changed sourceUrl, clean replay and the existing bridge/isolation contracts.
+A passing browser receipt applies to that browser and delivery adapter only.
+Production Tangent endpoint adoption is separate from a local candidate proof.

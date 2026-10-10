@@ -1,11 +1,12 @@
 import { createFrameWindowBinding } from './controller.js'
 import { parseWindowMessage, parseBridgeMessage, encodeBridgeMessage, BRIDGE_LIMITS, type BridgeMessage, type BridgeBinding, type BridgeOutcome } from './protocol.js'
 import { artifactModuleUrl, verifyArtifact } from './bytes.js'
+import { admitFrameModuleLocations, type FrameModuleLocations } from './delivery.js'
 /** Bundled as a fixed classic bootstrap before any plugin executes. No host service authority. */
 export function startFrameBootstrap() {
   const configuration = document.getElementById('plugin-frame-config')?.textContent
   if (!configuration) return
-  const config = JSON.parse(configuration) as { bridge_version: number; frame_id: string; nonce: string; parent_origin: string }
+  const config = JSON.parse(configuration) as { bridge_version: number; frame_id: string; nonce: string; parent_origin: string; modules?: FrameModuleLocations }
   if (!parseWindowMessage({ bridge_version: config.bridge_version, frame_id: config.frame_id, nonce: config.nonce, type: 'ready-window' }).accepted) return
   const documentNonce = (document.currentScript as HTMLScriptElement | null)?.nonce
   let port: MessagePort | undefined, sent = 0, received = 0, phase: 'binding' | 'initializing' | 'initialized' | 'ready' | 'disposed' = 'binding'
@@ -27,16 +28,34 @@ export function startFrameBootstrap() {
   }
   async function initialize(message: Extract<BridgeMessage, { type: 'init' }>) {
     try {
+      const delivered = config.modules ? await admitFrameModuleLocations(message.artifacts, config.modules.urls, config.parent_origin) : undefined
       const urls: Record<string, string> = Object.create(null)
       for (const artifact of message.artifacts) {
         const bytes = await verifyArtifact(artifact)
         if (phase === 'disposed') return
-        if (artifact.kind === 'module') urls[artifact.id] = artifactModuleUrl(artifact, config.frame_id)
+        if (artifact.kind === 'module') urls[artifact.id] = delivered ? delivered.urls[artifact.id] : artifactModuleUrl(artifact, config.frame_id)
         else { const style = document.createElement('style'); style.textContent = new TextDecoder('utf-8', { fatal: true }).decode(bytes); document.head.append(style) }
       }
       if (!urls.plugin || !documentNonce) return fail('policy-unavailable')
+      const probeUrl = delivered?.urls['integrity-probe']
+      if (delivered && !probeUrl) return fail('policy-unavailable')
+      const integrity = delivered ? { ...delivered.integrity, [probeUrl!]: 'sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' } : undefined
       const imports = Object.fromEntries(message.imports.map(entry => [entry.specifier, urls[entry.artifact]]))
-      const map = document.createElement('script'); map.type = 'importmap'; map.nonce = documentNonce; map.textContent = JSON.stringify({ imports }); document.head.append(map)
+      const map = document.createElement('script'); map.type = 'importmap'; map.nonce = documentNonce; map.textContent = JSON.stringify({ imports, ...(delivered ? { integrity } : {}) }); document.head.append(map)
+      // Importmap installation is complete. Do not expose the bootstrap nonce
+      // to arbitrary plugin code: parsed/header CSP remains enforced after
+      // removing its metadata and nonce attributes from the document.
+      for (const script of Array.from(document.scripts)) { script.nonce = ''; script.removeAttribute('nonce') }
+      for (const meta of Array.from(document.querySelectorAll('meta[http-equiv]'))) {
+        if (meta.getAttribute('http-equiv')?.toLowerCase() === 'content-security-policy') meta.remove()
+      }
+      if (probeUrl) {
+        // A harmless package-owned module must fail SRI before any plugin executes.
+        // Browsers which ignore importmap integrity fail closed here.
+        let enforced = false
+        try { await import(/* @vite-ignore */ probeUrl) } catch { enforced = true }
+        if (!enforced) return fail('policy-unavailable')
+      }
       context = message.context; bindings = message.bindings
       const sdk = Object.freeze({
         bindings,

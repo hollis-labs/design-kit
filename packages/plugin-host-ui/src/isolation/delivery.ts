@@ -1,9 +1,10 @@
 import { base64Bytes, verifyArtifact } from './bytes.js'
+import type { FrameOwner } from './controller.js'
 import type { BridgeArtifact, BridgeImport } from './protocol.js'
 
 /** Host-owned immutable response store. Never an adapter for sourceUrl. */
 export interface FrameModuleDelivery {
-  provision(artifacts: readonly BridgeArtifact[], scope: string, imports: readonly BridgeImport[]): Promise<{
+  provision(artifacts: readonly BridgeArtifact[], scope: string, imports: readonly BridgeImport[], owner: Readonly<FrameOwner>): Promise<{
     readonly urls: Readonly<Record<string, string>>
     release(): void
   }>

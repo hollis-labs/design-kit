@@ -17,7 +17,7 @@ let browser, server
 const pinned = process.env.PINNED_MODULES === '1'
 const evidenceRoot = process.env.ACCEPTANCE_EVIDENCE_ROOT
 if (evidenceRoot) await mkdir(evidenceRoot, { recursive: true })
-const responseHashes = [], policyDenials = [], moduleManifests = []
+const responseHashes = [], policyDenials = [], moduleManifests = [], responseHeaders = []
 const policyReceipt = process.env.PRODUCTION_CSP_RECEIPT ? JSON.parse(await readFile(process.env.PRODUCTION_CSP_RECEIPT, 'utf8')) : undefined
 let tamper = ''
 const modules = new Map(), usedModuleScopes = new Set(), usedDocumentIds = new Set()
@@ -54,7 +54,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     if (req.url === '/control' && req.method === 'POST') { let body = ''; for await (const chunk of req) body += chunk; tamper = body; res.writeHead(204).end(); return }
     if (req.url === '/modules' && req.method === 'POST') {
       let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 32_000_000) { res.writeHead(413).end(); return } }
-      const { artifacts, scope, imports = [] } = JSON.parse(body), urls = {}, admitted = new Map()
+      const { artifacts, scope, imports = [], owner } = JSON.parse(body), urls = {}, admitted = new Map()
       if (usedModuleScopes.has(scope)) { res.writeHead(409).end(); return }
       for (const artifact of artifacts.filter(row => row.kind === 'module')) {
         const path = `/modules/${scope}/${artifact.sha256}/${artifact.id}.js`
@@ -65,7 +65,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
         admitted.set(path, bytes)
         urls[artifact.id] = `http://127.0.0.1:${server.address().port}${path}`
       }
-      moduleManifests.push({scope, imports, entries: artifacts.filter(row => row.kind === 'module').map(row => ({id: row.id, sha256: row.sha256, mediaType: 'text/javascript', url: urls[row.id]}))}); usedModuleScopes.add(scope); for (const [path, bytes] of admitted) modules.set(path, bytes)
+      moduleManifests.push({scope, owner, imports, entries: artifacts.filter(row => row.kind === 'module').map(row => ({id: row.id, sha256: row.sha256, mediaType: 'text/javascript', url: urls[row.id]}))}); usedModuleScopes.add(scope); for (const [path, bytes] of admitted) modules.set(path, bytes)
       res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(urls)); return
     }
     if (req.url.startsWith('/modules/')) {
@@ -88,7 +88,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     }
     if (req.url === '/fixture') { res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(fixture)); return }
     if (req.url === '/client.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end(client); return }
-    if (req.url === '/') { res.writeHead(200, { 'Content-Type': 'text/html', 'Set-Cookie': 'secret=parent; SameSite=Strict', ...(pinned ? { 'Content-Security-Policy': policyReceipt?.csp ?? "script-src 'self' 'sha256-I1swIBtbR1QnY1/IgmK00boupM7TEi+/BltRerODeSY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.tldraw.com; font-src 'self' data: https://cdn.tldraw.com; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" } : {}) }).end(`<!doctype html><html><head>${pinned ? '' : `<script type="importmap">${JSON.stringify({ imports: pinned ? {} : imports }).replaceAll('<', '\\u003c')}</script>`}</head><body><button id="parent-focus">Parent focus</button><div id="main-view"></div><script type="module" src="/client.js"></script></body></html>`); return }
+    if (req.url === '/') { res.writeHead(200, { 'Content-Type': 'text/html', 'Set-Cookie': 'secret=parent; SameSite=Strict', ...(pinned ? { ...(policyReceipt ? {'Permissions-Policy':policyReceipt.permissions_policy} : {}), 'Content-Security-Policy': policyReceipt?.csp ?? "script-src 'self' 'sha256-I1swIBtbR1QnY1/IgmK00boupM7TEi+/BltRerODeSY='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://cdn.tldraw.com; font-src 'self' data: https://cdn.tldraw.com; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'" } : {}) }).end(`<!doctype html><html><head>${pinned ? '' : `<script type="importmap">${JSON.stringify({ imports: pinned ? {} : imports }).replaceAll('<', '\\u003c')}</script>`}</head><body><button id="parent-focus">Parent focus</button><div id="main-view"></div><script type="module" src="/client.js"></script></body></html>`); return }
     if (req.url === '/changed-plugin.js') { res.writeHead(200, { 'Content-Type': 'text/javascript' }).end('throw new Error("changed URL executed")'); return }
     res.writeHead(req.url === '/self-navigation' ? 200 : 404).end(req.url === '/self-navigation' ? 'egress observed' : 'unknown route')
   })
@@ -96,7 +96,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
   const origin = `http://127.0.0.1:${server.address().port}`
   if (pinned) {
     const scope = 'sealed-route-control', probeBytes = Buffer.from('export const routeProbe = true;'), artifact = {id:'route-probe', kind:'module', sha256:createHash('sha256').update(probeBytes).digest('hex'), base64:probeBytes.toString('base64')}
-    const provision = () => fetch(origin + '/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scope, artifacts: [artifact] }) })
+    const provision = () => fetch(origin + '/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scope, artifacts: [artifact], owner: {hostInstance:'route-control-host', owner:'route-control', generation:'1'} }) })
     const first = await provision(); assert.equal(first.status, 200)
     const url = Object.values(await first.json())[0]
     assert.equal((await provision()).status, 409)
@@ -137,7 +137,8 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     const send = MessagePort.prototype.postMessage
     MessagePort.prototype.postMessage = function (packet, ...rest) { globalThis.fixturePort = this; globalThis.fixturePacket = packet; return send.call(this, packet, ...rest) }
   })
-  const page = await context.newPage(), errors = []; let downloads = 0, popups = 0
+  const page = await context.newPage()
+  page.on('response', response => { const headers = response.headers(); responseHeaders.push({url:response.url(), status:response.status(), headers:Object.fromEntries(['content-type','content-security-policy','permissions-policy','referrer-policy','cache-control','x-content-type-options','access-control-allow-origin','location'].filter(name => headers[name] !== undefined).map(name => [name,headers[name]]))}) }), errors = []; let downloads = 0, popups = 0
   if (process.env.DEBUG_FRAME_PROOF) {
     const debug = await context.newCDPSession(page)
     await debug.send('Debugger.enable')
@@ -333,7 +334,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     }
   }
   await context.close()
-  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, moduleManifests, responseHashes, requests, policyDenials, errors }, null, 2))
+  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, moduleManifests, responseHeaders, responseHashes, requests, policyDenials, errors }, null, 2))
   for (const proof of proofs) console.log('PASS: ' + proof)
   console.log('Browser acceptance complete; expected policy-denial console errors are not application failures.')
 } catch (error) { if (evidenceRoot) await writeFile(join(evidenceRoot, 'failure.json'), JSON.stringify({ error: String(error), responseHashes, policyDenials, requests }, null, 2)); console.error('BROWSER PROOF FAILED:', error); throw error }

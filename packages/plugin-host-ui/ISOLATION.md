@@ -173,8 +173,8 @@ Main-origin execution has ambient document authority and cooperative cleanup.
 ## Immutable same-origin module delivery
 
 `PluginFrameBrowserOptions.moduleDelivery` accepts a `FrameModuleDelivery`.
-Its `provision(artifacts, scope, imports)` receives the verified inventory, including a
-harmless package-owned integrity probe, and returns `{urls, release}`. Return one
+Its `provision(artifacts, scope, imports, owner)` receives the verified inventory, including a
+harmless package-owned integrity probe, and exact owner/incarnation/generation identity, and returns `{urls, release}`. Return one
 canonical absolute HTTP(S) URL per module artifact ID, on the parent origin;
 each path contains that artifact's SHA-256. Queries, fragments, credentials,
 extra/missing modules and duplicate URLs are refused. Styles remain verified
@@ -188,7 +188,7 @@ origin, no credentials). A credential-free dedicated response may use
 `Access-Control-Allow-Origin: *`. Never redirect, interpolate scripts, return
 mutable source URLs or route the response through an untrusted proxy/service
 worker. A digest in a URL alone is no evidence of response integrity.
-The host must refuse unknown routes, redirects, digest/content mismatches and attempted replacement. Keep admitted mappings stable until their frames stop; revoke/stop authority separately from deleting bytes, and never rebind an old URL to a replacement generation. The lifetime release removes only the scope's store; deletion/replacement must
+The host must refuse unknown routes, redirects, digest/content mismatches and attempted replacement. Keep admitted mappings stable until their frames stop; revoke/stop authority separately from deleting bytes, and MUST enforce non-reusable route identity for the entire host/server incarnation and across any persistence/restart boundary where old URLs can still be requested. Refuse replacement/reuse after disposal as well as while live. Bind route scope to the exact owner/incarnation and admitted manifest; use a fail-closed retention policy, with no rebinding after deletion. The lifetime release removes only the scope's store; deletion/replacement must
 not alter any other active scope. Provisioning must not expose host credentials
 to the frame. This library grants no server authority or new HTTP routes.
 
@@ -215,4 +215,4 @@ building. It exercises the parent self+Tangent-shim script policy, exact-byte
 opaque rendering, plugin/runtime response tampering after provisioning,
 changed sourceUrl, clean replay and the existing bridge/isolation contracts.
 A passing browser receipt applies to that browser and delivery adapter only.
-Production Tangent endpoint adoption is separate from a local candidate proof.
+Production Tangent endpoint adoption is separate from a local candidate proof. HTTP caches, service workers, redirects or global import maps must never widen the admitted graph or replace bytes behind an admitted identity. The same native integrity path must enforce the negative probe, positive rendering and every plugin/runtime/transitive load in each supported browser; otherwise refuse admission.

@@ -20,40 +20,33 @@ export interface FocusReturnOptions {
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
-function visibleReturnTarget(target: HTMLElement): boolean {
-  if (target.closest('[hidden], [inert], [aria-hidden="true"], [aria-disabled="true"]')) return false
-  const view = target.ownerDocument.defaultView
-  for (let node: HTMLElement | null = target; node; node = node.parentElement) {
-    const style = view?.getComputedStyle(node)
-    if (style?.display === 'none' || style?.visibility === 'hidden') return false
+function isAdmittedElement(el: unknown): el is HTMLElement {
+  if (!el || !(el instanceof HTMLElement)) return false
+  if (!el.isConnected) return false
+  if (el.matches('input[type="hidden"]')) return false
+  if (el.matches(':disabled') || el.closest('[aria-disabled="true"], [hidden]')) return false
+  const view = el.ownerDocument.defaultView
+  if (view) {
+    for (let node: HTMLElement | null = el; node; node = node.parentElement) {
+      const style = view.getComputedStyle(node)
+      if (style.display === 'none' || style.visibility === 'hidden') return false
+    }
   }
-  return !target.matches('input[type="hidden"]')
+  if (el.hasAttribute('inert') || Boolean(el.closest('[inert]'))) return false
+  if (el.getAttribute('aria-hidden') === 'true' || Boolean(el.closest('[aria-hidden="true"]'))) return false
+  return true
 }
 
 /** Resolve the admitted focus return element. */
 export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLElement | null {
   const rawTrigger = typeof options.trigger === 'function' ? options.trigger() : options.trigger
-  if (
-    rawTrigger &&
-    rawTrigger instanceof HTMLElement &&
-    rawTrigger.isConnected &&
-    !rawTrigger.matches(':disabled') &&
-    visibleReturnTarget(rawTrigger) &&
-    (!options.isAdmitted || options.isAdmitted(rawTrigger))
-  ) {
+  if (isAdmittedElement(rawTrigger) && (!options.isAdmitted || options.isAdmitted(rawTrigger))) {
     return rawTrigger
   }
 
   const rawFallback =
     typeof options.fallbackTarget === 'function' ? options.fallbackTarget() : options.fallbackTarget
-  if (
-    rawFallback &&
-    rawFallback instanceof HTMLElement &&
-    rawFallback.isConnected &&
-    !rawFallback.matches(':disabled') &&
-    visibleReturnTarget(rawFallback) &&
-    (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))
-  ) {
+  if (isAdmittedElement(rawFallback) && (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))) {
     return rawFallback
   }
 

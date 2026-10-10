@@ -10,6 +10,29 @@
 - Admitted connected focus return on desktop collapse/resize and narrow close, including custom triggers and explicit fallback admission. Optional `OverlaySidebar.focusReturn` delegates return resolution to Sheet after dismissal; default callers retain Sheet behavior.
 - Zero breaking changes: existing no-aside `AppShell` behavior and markup are preserved.
 
+## Unreleased — CW-20261010-0090
+
+- Add `useLayeredEscape`: centralized LIFO Escape stack, innermost overlay owns
+  keys, input-clearing before closing contract, background query/state preservation,
+  and admitted focus return with connection, disability, and caller admission guards.
+- Add `useShiftShift`: 300ms double-tap window per DEC-079 Nil specification,
+  modifier-aware, suppressed in editable targets and during IME composition (isComposing
+  or keyCode 229), reset on non-Shift key or window blur, and injectable monotonic clock
+  for deterministic test fixtures.
+- Add `useShortcut`: scoped keyboard shortcut hook with exact modifier matching
+  and active overlay suspension.
+- Add `useQuickSearchShortcut`: composite hook binding Cmd+K (macOS) / Ctrl+K
+  (Windows/Linux) as primary and Shift-Shift as alias.
+- Add shared admission guards (`isEditableTarget`, `isInteractiveTarget`, `isComposingEvent`,
+  `matchExactModifiers`, `hasActiveModalOverlay`) and focus return resolver (`restoreAdmittedFocus`).
+- Add opt-in `SearchInput.layeredEscape` for immediate consumed Escape clearing and
+  guarded slash focus; legacy debounce/blur/slash behavior remains the default.
+- Fence exposed handles by committed frame and non-revivable activation lease while
+  refreshing native listeners. Add caller source/access/admission and DOM scopes,
+  composition lifetime guards, nested popup ownership and zero-origin Shift timing.
+  Keep Escape coordination attached while portalled roots connect; closed popups
+  release ownership during their exit animation. Legacy `useArrowNav` remains unchanged.
+
 ## Unreleased — CW-20261010-0036
 
 - Add `useControlledRecordNavigation` with caller-admitted opaque IDs, explicit

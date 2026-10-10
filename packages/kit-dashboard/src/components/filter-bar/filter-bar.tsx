@@ -7,6 +7,10 @@ interface FilterBarProps {
   onSearchChange: (q: string) => void
   searchPlaceholder?: string
   searchAriaLabel?: string
+  /** Opt out of the legacy window shortcut when the host owns pane focus. */
+  slashToFocus?: boolean
+  /** Controlled pane search replaces the legacy SearchInput when supplied. */
+  searchControl?: ReactNode
   /** Count of active facet filters — shown in the row-1 badge. */
   activeFilterCount: number
   /** Optional summary string (e.g. "2 filters · 14 matches"). */
@@ -32,6 +36,8 @@ export function FilterBar({
   onSearchChange,
   searchPlaceholder,
   searchAriaLabel,
+  slashToFocus,
+  searchControl,
   activeFilterCount,
   summary,
   searchMatchCount,
@@ -51,12 +57,13 @@ export function FilterBar({
       {/* Row 1: search hero + summary + clear */}
       <div className="flex flex-wrap items-center gap-3 px-4 py-2">
         <div className="flex min-w-0 flex-1 basis-60 [&>div]:min-w-0">
-          <SearchInput
+          {searchControl ?? <SearchInput
             value={searchQuery}
             onChange={onSearchChange}
             placeholder={searchPlaceholder}
             ariaLabel={searchAriaLabel}
-          />
+            slashToFocus={slashToFocus}
+          />}
         </div>
         <div className="inline-flex h-8 items-center gap-1.5 rounded border border-border-subtle bg-panel-2/50 px-2 text-caption uppercase tracking-wider text-text-soft">
           <span className="sr-only">Active filters:</span>

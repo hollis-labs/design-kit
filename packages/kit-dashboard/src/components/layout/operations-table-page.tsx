@@ -7,7 +7,7 @@ import { Skeleton, type ColumnDef, type SortState } from '@hollis-labs/design-co
 import { DataTable } from '../data-table'
 import type { TableDensity } from '../data-table/data-table'
 
-interface OperationsTablePageProps<T> {
+export interface OperationsTablePageProps<T> {
   /* ---- header ---- */
   title: string
   /** Action buttons in the page header. */
@@ -24,6 +24,8 @@ interface OperationsTablePageProps<T> {
   onSearchChange: (q: string) => void
   searchPlaceholder?: string
   searchAriaLabel?: string
+  slashToFocus?: boolean
+  searchControl?: ReactNode
   /** Count of active facet filters (drives the row-1 badge). */
   activeFilterCount?: number
   /** Optional summary string, e.g. "2 filters · 14 matches". */
@@ -38,12 +40,17 @@ interface OperationsTablePageProps<T> {
 
   /* ---- table ---- */
   density?: TableDensity
-  onVisibleOrderChange?: (ids: string[]) => void
+  onVisibleOrderChange?: (ids: string[]) => void | boolean
   items: T[]
   columns: ColumnDef<T>[]
   getRowId: (item: T) => string
   initialSort?: SortState
   selectable?: boolean
+  selectedIds?: readonly string[]
+  selectionResetKey?: unknown
+  guardedRows?: boolean
+  interactionAllowed?: () => boolean
+  revealControls?: boolean
   onSelectionChange?: (ids: string[]) => void
   onRowOpen?: (id: string, item: T) => void
   rowAriaLabel?: (item: T) => string
@@ -87,6 +94,8 @@ export function OperationsTablePage<T>({
   onSearchChange,
   searchPlaceholder,
   searchAriaLabel,
+  slashToFocus,
+  searchControl,
   activeFilterCount = 0,
   filterSummary,
   searchMatchCount,
@@ -101,6 +110,11 @@ export function OperationsTablePage<T>({
   getRowId,
   initialSort,
   selectable,
+  selectedIds,
+  selectionResetKey,
+  guardedRows,
+  interactionAllowed,
+  revealControls,
   onSelectionChange,
   onRowOpen,
   rowAriaLabel,
@@ -114,6 +128,7 @@ export function OperationsTablePage<T>({
   return (
     <ListPageLayout
       scrollRef={scrollRef}
+      listScrollHook={guardedRows}
       header={<PageHeader title={title}>{headerActions}</PageHeader>}
       tabs={tabs}
       footer={footer}
@@ -124,6 +139,8 @@ export function OperationsTablePage<T>({
           onSearchChange={onSearchChange}
           searchPlaceholder={searchPlaceholder}
           searchAriaLabel={searchAriaLabel}
+          slashToFocus={slashToFocus}
+          searchControl={searchControl}
           activeFilterCount={activeFilterCount}
           summary={filterSummary}
           searchMatchCount={searchMatchCount}
@@ -145,6 +162,11 @@ export function OperationsTablePage<T>({
           getRowId={getRowId}
           initialSort={initialSort}
           selectable={selectable}
+          selectedIds={selectedIds}
+          selectionResetKey={selectionResetKey}
+          guardedRows={guardedRows}
+          interactionAllowed={interactionAllowed}
+          revealControls={revealControls}
           onSelectionChange={onSelectionChange}
           onRowOpen={onRowOpen}
           rowAriaLabel={rowAriaLabel}

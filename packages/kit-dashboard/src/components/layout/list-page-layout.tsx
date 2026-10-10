@@ -16,6 +16,8 @@ interface ListPageLayoutProps {
    * `scrollRootRef` so its infinite-scroll observer uses this region as root.
    */
   scrollRef?: RefObject<HTMLDivElement | null>
+  /** Optional data hook for the actual list scroll owner. */
+  listScrollHook?: boolean
   /** Scrollable page body — the table, cards, or content. */
   children: ReactNode
 }
@@ -36,6 +38,7 @@ export function ListPageLayout({
   filters,
   footer,
   scrollRef,
+  listScrollHook,
   children,
 }: ListPageLayoutProps) {
   return (
@@ -44,7 +47,7 @@ export function ListPageLayout({
       {tabs}
       {summary}
       {filters}
-      <div ref={scrollRef} className="min-h-0 flex-1 shrink overflow-auto">
+      <div ref={scrollRef} data-ops-scroll={listScrollHook ? "list" : undefined} className="min-h-0 flex-1 shrink overflow-auto">
         {children}
       </div>
       {footer}

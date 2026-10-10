@@ -9,6 +9,7 @@ export interface FilterEntityComboboxItem {
   name: string
   /** Optional trailing count badge. */
   count?: number
+  disabled?: boolean
   /** Lifecycle status — drives the optional `showStateControls` filter. */
   status?: string | null
   /** ISO timestamp — drives the optional "Last updated" sort. */
@@ -118,6 +119,7 @@ export function FilterEntityCombobox({
                 {visibleItems.map((item) => (
                   <CommandItem
                     key={item.id}
+                    disabled={item.disabled}
                     value={item.name}
                     onSelect={() => {
                       onChange(item.id)

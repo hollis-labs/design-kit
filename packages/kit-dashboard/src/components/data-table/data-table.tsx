@@ -15,7 +15,7 @@ interface DataTableProps<T> {
   /** Compact operations rows by default; comfortable for longer content. */
   density?: TableDensity
   /** Currently rendered ids after sorting/windowing; use for detail navigation. */
-  onVisibleOrderChange?: (ids: string[]) => void
+  onVisibleOrderChange?: (ids: string[]) => void | boolean
   items: T[]
   columns: ColumnDef<T>[]
   /** Stable, unique id per row. */
@@ -28,6 +28,12 @@ interface DataTableProps<T> {
   rowAriaLabel?: (item: T) => string
   /** Render a leading select-checkbox column. */
   selectable?: boolean
+  selectedIds?: readonly string[]
+  /** Opt-in synchronous selection/window retirement, preserving current sort. */
+  selectionResetKey?: unknown
+  guardedRows?: boolean
+  interactionAllowed?: () => boolean
+  revealControls?: boolean
   /** Notified with the selected row ids whenever the selection changes. */
   onSelectionChange?: (ids: string[]) => void
   /** Rows rendered per window page (infinite scroll). Default 50. */
@@ -56,16 +62,28 @@ export function DataTable<T>({
   onRowOpen,
   rowAriaLabel,
   selectable,
+  selectedIds,
+  selectionResetKey,
+  guardedRows = false,
+  interactionAllowed,
+  revealControls = false,
   onSelectionChange,
   pageSize = DEFAULT_PAGE_SIZE,
   scrollRootRef,
   emptyState,
 }: DataTableProps<T>) {
   const [sort, setSort] = useState<SortState | null>(initialSort ?? null)
-  const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [internalSelected, setSelected] = useState<Set<string>>(new Set())
+  const selected = new Set(selectedIds ?? internalSelected)
+  const reportedOrderRef = useRef<{ key: unknown; ids: string[] } | null>(null)
+  const [resetKey, setResetKey] = useState(selectionResetKey)
   const [visibleCount, setVisibleCount] = useState(pageSize)
+  if (!Object.is(resetKey, selectionResetKey)) {
+    setResetKey(selectionResetKey)
+    setSelected(new Set())
+    setVisibleCount(pageSize)
+  }
   const sentinelRef = useRef<HTMLTableRowElement | null>(null)
-  const reportedOrderRef = useRef<string[] | null>(null)
 
   // Reset the window to the first page whenever the list, sort, or page size
   // changes. Done as an adjust-state-during-render rather than an effect so it
@@ -82,6 +100,7 @@ export function DataTable<T>({
   )
 
   function handleSortClick(key: string) {
+    if (interactionAllowed && !interactionAllowed()) return
     const column = columnByKey.get(key)
     if (!column?.sortValue) return
     setSort((prev) => {
@@ -96,8 +115,8 @@ export function DataTable<T>({
     if (!sort) return items
     const column = columnByKey.get(sort.key)
     if (!column?.sortValue) return items
-    return [...items].sort((a, b) => compareBy(column, a, b, sort.dir))
-  }, [items, sort, columnByKey])
+    return [...items].sort((a, b) => compareBy(column, a, b, sort.dir) || (guardedRows ? getRowId(a).localeCompare(getRowId(b)) : 0))
+  }, [items, sort, columnByKey, guardedRows, getRowId])
 
   const visible = useMemo(() => sorted.slice(0, visibleCount), [sorted, visibleCount])
   const hasMore = visibleCount < sorted.length
@@ -108,13 +127,14 @@ export function DataTable<T>({
       return
     }
     const ids = visible.map(getRowId)
-    const previous = reportedOrderRef.current
+    const report = reportedOrderRef.current
+    const previous = Object.is(report?.key, selectionResetKey) ? report?.ids : null
     // Inline columns/getRowId/callbacks may change identity when the app stores
     // this cursor in state. Publish actual order changes, avoiding a render loop.
     if (previous?.length === ids.length && previous.every((id, index) => id === ids[index])) return
-    reportedOrderRef.current = ids
-    onVisibleOrderChange(ids)
-  }, [visible, getRowId, onVisibleOrderChange])
+    const accepted = onVisibleOrderChange(ids)
+    if (!guardedRows || accepted !== false) reportedOrderRef.current = { key: selectionResetKey, ids }
+  }, [visible, getRowId, onVisibleOrderChange, selectionResetKey, guardedRows])
 
   useEffect(() => {
     if (!hasMore) return
@@ -123,6 +143,7 @@ export function DataTable<T>({
     const root = scrollRootRef?.current ?? null
     const observer = new IntersectionObserver(
       (entries) => {
+        if (interactionAllowed && !interactionAllowed()) return
         if (entries.some((e) => e.isIntersecting)) {
           setVisibleCount((c) => Math.min(c + pageSize, sorted.length))
         }
@@ -131,9 +152,10 @@ export function DataTable<T>({
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [hasMore, sorted.length, scrollRootRef, pageSize])
+  }, [hasMore, sorted.length, scrollRootRef, pageSize, interactionAllowed])
 
   function emitSelection(next: Set<string>) {
+    if (interactionAllowed && !interactionAllowed()) return
     setSelected(next)
     onSelectionChange?.([...next])
   }
@@ -164,7 +186,7 @@ export function DataTable<T>({
                   checked={allSelected}
                   onChange={handleSelectAll}
                   className="h-3 w-3 cursor-pointer appearance-none rounded-sm border border-border bg-panel-2 checked:border-text-soft checked:bg-text-soft"
-                  aria-label="Select all rows"
+                  aria-label={revealControls ? "Select all revealed rows" : "Select all rows"}
                 />
               </th>
             )}
@@ -205,6 +227,7 @@ export function DataTable<T>({
               <DataTableRow
                 key={id}
                 density={density}
+                guarded={guardedRows}
                 item={item}
                 rowId={id}
                 columns={columns}
@@ -235,6 +258,7 @@ export function DataTable<T>({
           )}
         </tbody>
       </table>
+      {hasMore && revealControls && <button type="button" data-ops-action="reveal-more" className="m-3 rounded border border-border px-3 py-2 text-label text-text" onClick={() => { if (!interactionAllowed || interactionAllowed()) setVisibleCount(c => Math.min(c + pageSize, sorted.length)) }}>Show more</button>}
     </div>
   )
 }

@@ -1,3 +1,8 @@
+# Unreleased — CW-20261010-0073
+
+- Add data-agnostic OperationsListPage under /layout: controlled facet registry, admitted/matched/revealed/checked counts, modal or inline inspection, lifetime-fenced actions and focused-pane search.
+- Add opt-in controlled selection/reset, guarded rows and Show more seams to OperationsTablePage/DataTable. Existing defaults are retained. No registry release is performed.
+
 # @hollis-labs/kit-dashboard
 
 ## 0.4.0 — 2026-10-02

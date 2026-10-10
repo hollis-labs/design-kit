@@ -10,3 +10,5 @@ export {
   OperationsTablePage,
   type TabStripItem,
 } from './components/layout'
+
+export { OperationsListPage, type OperationsListPageProps, type OperationsFacet, type OperationsInspector, type OperationsActionScope } from './components/layout'

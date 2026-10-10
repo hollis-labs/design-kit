@@ -2,6 +2,7 @@ import { cn } from '@hollis-labs/design-components'
 
 export interface FilterChip {
   value: string
+  disabled?: boolean
   /** Display text. Defaults to `value`. */
   label?: string
   /**
@@ -46,6 +47,7 @@ export function FilterChipGroup({ label, chips, selected, onToggle }: FilterChip
             key={chip.value}
             type="button"
             aria-pressed={active}
+            disabled={chip.disabled}
             onClick={() => onToggle(chip.value)}
             className={cn(
               'rounded border px-2 py-0.5 text-caption uppercase tracking-wider transition-all',

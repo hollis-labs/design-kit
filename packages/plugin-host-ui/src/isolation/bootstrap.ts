@@ -31,15 +31,17 @@ export function startFrameBootstrap() {
       const delivered = config.modules ? await admitFrameModuleLocations(message.artifacts, config.modules.urls, config.parent_origin, message.imports) : undefined
       if (delivered && JSON.stringify(delivered.imports) !== JSON.stringify(config.modules!.imports)) return fail('policy-unavailable')
       const urls: Record<string, string> = Object.create(null)
+      let probeSize = 0
       for (const artifact of message.artifacts) {
         const bytes = await verifyArtifact(artifact)
         if (phase === 'disposed') return
+        if (artifact.id === 'integrity-probe') probeSize = bytes.byteLength
         if (artifact.kind === 'module') urls[artifact.id] = delivered ? delivered.urls[artifact.id] : artifactModuleUrl(artifact, config.frame_id)
         else { const style = document.createElement('style'); style.textContent = new TextDecoder('utf-8', { fatal: true }).decode(bytes); document.head.append(style) }
       }
       if (!urls.plugin || !documentNonce) return fail('policy-unavailable')
       const probeUrl = delivered?.urls['integrity-probe']
-      if (delivered && !probeUrl) return fail('policy-unavailable')
+      if (delivered && (!probeUrl || !delivered.urls['integrity-positive-probe'])) return fail('policy-unavailable')
       const integrity = delivered ? { ...delivered.integrity, [probeUrl!]: 'sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' } : undefined
       const imports = Object.fromEntries(message.imports.map(entry => [entry.specifier, urls[entry.artifact]]))
       const map = document.createElement('script'); map.type = 'importmap'; map.nonce = documentNonce; map.textContent = JSON.stringify({ imports, ...(delivered ? { integrity } : {}) }); document.head.append(map)
@@ -53,9 +55,16 @@ export function startFrameBootstrap() {
       if (probeUrl) {
         // A harmless package-owned module must fail SRI before any plugin executes.
         // Browsers which ignore importmap integrity fail closed here.
-        let enforced = false
+        // Delivery must provide exact probe bytes/headers with TAO. A network,
+        // missing-route or policy error is not evidence of integrity enforcement.
+        await import(/* @vite-ignore */ delivered!.urls['integrity-positive-probe'])
+        let enforced = false, policyBlocked = false
+        const denied = (event: SecurityPolicyViolationEvent) => { if (event.blockedURI === probeUrl) policyBlocked = true }
+        addEventListener('securitypolicyviolation', denied)
         try { await import(/* @vite-ignore */ probeUrl) } catch { enforced = true }
-        if (!enforced) return fail('policy-unavailable')
+        finally { await new Promise(resolve => setTimeout(resolve, 0)); removeEventListener('securitypolicyviolation', denied) }
+        const transfer = performance.getEntriesByName(probeUrl, 'resource').at(-1) as PerformanceResourceTiming | undefined
+        if (!enforced || policyBlocked || !transfer || transfer.responseStatus !== 200 || transfer.decodedBodySize !== probeSize) return fail('policy-unavailable')
       }
       context = message.context; bindings = message.bindings
       const sdk = Object.freeze({

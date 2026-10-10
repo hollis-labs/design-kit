@@ -194,9 +194,24 @@ to the frame. This library grants no server authority or new HTTP routes.
 
 The runtime verifies the provided artifacts again, pins the URL inventory,
 and generates an importmap `integrity` entry for every module. In each opaque
-realm it first deliberately imports a harmless package-owned probe with an
-incorrect integrity digest. A browser that accepts that probe is refused as
-`policy-unavailable` before plugin execution. The bootstrap removes readable nonce attributes and CSP metadata after importmap installation, before any plugin module executes; parsed/header CSP remains enforced. The plugin and its approved bare
+realm it first imports a harmless package-owned positive probe with correct SRI,
+then imports the same bytes at a separate pinned URL with an incorrect digest.
+Admission requires the latter import to reject and Resource Timing to show a
+completed HTTP 200 response with the exact decoded byte length, without a
+matching CSP denial. Delivery MUST send `Timing-Allow-Origin: *` for those
+responses. Missing timing support, missing routes, incomplete transfers or a
+browser accepting the bad digest refuse before plugin execution. The positive
+probe and plugin graph use the same native importmap integrity path.
+
+This is not intrinsic browser introspection: admission also trusts the sealed
+host to serve the exact admitted probe bytes with valid JavaScript MIME and
+opaque-origin CORS headers, without redirects or interception. HTTP 200 and
+byte length alone do not prove that contract. A host violating those assurances
+could turn a CORS/MIME error into a false integrity signal in an unsupported
+browser; that host is outside the admitted contract. Supported-browser evidence
+must include actual response hashes/headers and native bad-SRI rejection, with
+positive rendering and an unavailable-probe/unsupported-integrity refusal
+control. The bootstrap removes readable nonce attributes and CSP metadata after importmap installation, before any plugin module executes; parsed/header CSP remains enforced. The plugin and its approved bare
 peer graph then load under the correct SRI digests, without rewriting bytes.
 Each frame retains a separate module singleton set and bridge lifecycle.
 

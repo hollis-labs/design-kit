@@ -17,9 +17,10 @@ let browser, server
 const pinned = process.env.PINNED_MODULES === '1'
 const evidenceRoot = process.env.ACCEPTANCE_EVIDENCE_ROOT
 if (evidenceRoot) await mkdir(evidenceRoot, { recursive: true })
-const responseHashes = [], policyDenials = [], moduleManifests = [], responseHeaders = []
+const responseHashes = [], policyDenials = [], moduleManifests = [], responseHeaders = [], probeTransfers = []
 const policyReceipt = process.env.PRODUCTION_CSP_RECEIPT ? JSON.parse(await readFile(process.env.PRODUCTION_CSP_RECEIPT, 'utf8')) : undefined
 let tamper = ''
+let unavailableProbe = false
 const modules = new Map(), usedModuleScopes = new Set(), usedDocumentIds = new Set()
 const docs = new Map(), requests = [], proofs = []
 try {
@@ -70,11 +71,12 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     }
     if (req.url.startsWith('/modules/')) {
       if (req.method === 'DELETE') { for (const key of modules.keys()) if (key.startsWith(req.url + '/')) modules.delete(key); res.writeHead(204).end(); return }
+      if (unavailableProbe && req.url.endsWith('/integrity-probe.js')) { res.writeHead(404).end(); return }
       const bytes = modules.get(req.url)
       if (!bytes) { res.writeHead(404).end(); return }
       const body = (tamper === 'plugin' && req.url.endsWith('/plugin.js')) || (tamper === 'runtime' && req.url.endsWith('/runtime-0.js')) ? Buffer.from("parent.postMessage({tamperedExecution:true}, '*'); export const View = () => null;") : bytes
       responseHashes.push({ path: req.url, sha256: createHash('sha256').update(body).digest('hex'), tamper })
-      res.writeHead(200, { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }).end(body); return
+      res.writeHead(200, { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*', 'Timing-Allow-Origin': '*', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' }).end(body); return
     }
     if (req.url === '/documents' && req.method === 'POST') {
       let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 2_000_000) { res.writeHead(413).end(); return } }
@@ -138,7 +140,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     MessagePort.prototype.postMessage = function (packet, ...rest) { globalThis.fixturePort = this; globalThis.fixturePacket = packet; return send.call(this, packet, ...rest) }
   })
   const page = await context.newPage(), errors = []
-  page.on('response', response => { const headers = response.headers(); responseHeaders.push({url:response.url(), status:response.status(), headers:Object.fromEntries(['content-type','content-security-policy','permissions-policy','referrer-policy','cache-control','x-content-type-options','access-control-allow-origin','location'].filter(name => headers[name] !== undefined).map(name => [name,headers[name]]))}) }); let downloads = 0, popups = 0
+  page.on('response', response => { const headers = response.headers(); responseHeaders.push({url:response.url(), status:response.status(), headers:Object.fromEntries(['content-type','content-security-policy','permissions-policy','referrer-policy','cache-control','x-content-type-options','access-control-allow-origin','timing-allow-origin','location'].filter(name => headers[name] !== undefined).map(name => [name,headers[name]]))}) }); let downloads = 0, popups = 0
   if (process.env.DEBUG_FRAME_PROOF) {
     const debug = await context.newCDPSession(page)
     await debug.send('Debugger.enable')
@@ -173,6 +175,17 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
   assert.deepEqual(containment, { parent: false, storage: false, cookie: false, exact: 'exact-pinned-bytes' })
   assert.equal(requests.filter(req => req.path === '/changed-plugin.js').length, 0)
   if (pinned) {
+    for (const frame of [a, b]) {
+      const transfers = await frame.evaluate(() => performance.getEntriesByType('resource').filter(row => /\/integrity-(positive-)?probe\.js$/u.test(row.name)).map(row => ({url:row.name, status:row.responseStatus, decodedBodySize:row.decodedBodySize})))
+      assert.equal(transfers.length, 2)
+      for (const transfer of transfers) {
+        assert.equal(transfer.status, 200)
+        assert.equal(transfer.decodedBodySize, Buffer.byteLength('export const integrityProbe = true;'))
+        if (transfer.url.endsWith('/integrity-probe.js')) assert.ok(policyDenials.some(message => message.includes(transfer.url) && message.includes('computed SHA-256 integrity')))
+      }
+      probeTransfers.push(...transfers)
+    }
+    proofs.push('same opaque realm receives complete exact-size positive and bad-SRI probe responses; native SHA-256 rejection and correct-SRI rendering verified')
     assert.equal(await a.evaluate(() => Array.from(document.scripts).some(script => !!script.nonce) || !!document.querySelector('meta[http-equiv="Content-Security-Policy"]')), false)
     assert.equal(await a.evaluate(async () => globalThis.pluginHook === (await import('react')).useState), true)
     for (const realm of [page, a]) {
@@ -304,7 +317,8 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
   assert.equal(await page.locator('iframe').count(), 0)
   assert.deepEqual(errors, [])
   if (pinned) {
-    for (const control of ['integrity', 'mapping']) {
+    for (const control of ['integrity', 'mapping', 'unavailable-probe']) {
+    unavailableProbe = control === 'unavailable-probe'
     const unsupported = await browser.newContext()
     await unsupported.addInitScript(control => {
       if (window === top) { globalThis.pluginExecutions = 0; addEventListener('message', event => { if (event.data?.pluginExecuted) globalThis.pluginExecutions++ }); return }
@@ -330,11 +344,12 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     assert.equal(await unsupportedPage.evaluate(() => globalThis.fixtureHost.info().views.some(view => view.key === 'first' && view.available === 'available')), false)
     await unsupportedPage.evaluate(() => globalThis.fixtureHost.shutdown())
     await unsupported.close()
-    proofs.push(control === 'integrity' ? 'removed-integrity capability control fails preflight before requesting/executing plugin bytes; no fallback' : 'sealed document/init graph mapping mismatch refuses before requesting/executing plugin bytes')
+    unavailableProbe = false
+    proofs.push(control === 'unavailable-probe' ? 'unsupported-integrity plus missing negative probe refuses before requesting/executing plugin bytes' : control === 'integrity' ? 'removed-integrity capability control fails preflight before requesting/executing plugin bytes; no fallback' : 'sealed document/init graph mapping mismatch refuses before requesting/executing plugin bytes')
     }
   }
   await context.close()
-  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, moduleManifests, responseHeaders, responseHashes, requests, policyDenials, errors }, null, 2))
+  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, probeTransfers, moduleManifests, responseHeaders, responseHashes, requests, policyDenials, errors }, null, 2))
   for (const proof of proofs) console.log('PASS: ' + proof)
   console.log('Browser acceptance complete; expected policy-denial console errors are not application failures.')
 } catch (error) { if (evidenceRoot) await writeFile(join(evidenceRoot, 'failure.json'), JSON.stringify({ error: String(error), responseHashes, policyDenials, requests }, null, 2)); console.error('BROWSER PROOF FAILED:', error); throw error }

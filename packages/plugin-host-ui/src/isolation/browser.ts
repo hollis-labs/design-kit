@@ -256,9 +256,9 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
       if (!sameFrameOwner(reviewed.owner, { hostInstance: input.hostInstance, owner: input.owner, generation: input.generation, kind: '', key: '' }) || reviewed.digest !== input.digest || reviewed.mode !== effective.effectiveMode) throw new Error('unsupported-variant')
       const integrityProbeBytes = new TextEncoder().encode('export const integrityProbe = true;')
       const integrityProbe: BridgeArtifact = Object.freeze({ id: 'integrity-probe', kind: 'module', sha256: await sha256Bytes(integrityProbeBytes), base64: base64Bytes(integrityProbeBytes) })
-      if (options.moduleDelivery && reviewed.artifacts.some(artifact => artifact.id === integrityProbe.id)) throw new Error('unsupported-variant')
+      if (options.moduleDelivery && reviewed.artifacts.some(artifact => artifact.id === integrityProbe.id || artifact.id === 'integrity-positive-probe')) throw new Error('unsupported-variant')
       const plugin: BridgeArtifact = Object.freeze({ id: 'plugin', kind: 'module', sha256: input.digest.slice(7), base64: base64Bytes(bytes) })
-      const parsed = parseBridgeMessage(encodeBridgeMessage({ bridge_version: 1, frame_id: 'inventory', nonce: '0'.repeat(64), seq: 1, type: 'init', artifacts: [...reviewed.artifacts, plugin, ...(options.moduleDelivery ? [integrityProbe] : [])], imports: reviewed.imports, bindings: [], context: {} }))
+      const parsed = parseBridgeMessage(encodeBridgeMessage({ bridge_version: 1, frame_id: 'inventory', nonce: '0'.repeat(64), seq: 1, type: 'init', artifacts: [...reviewed.artifacts, plugin, ...(options.moduleDelivery ? [integrityProbe, Object.freeze({ ...integrityProbe, id: 'integrity-positive-probe' })] : [])], imports: reviewed.imports, bindings: [], context: {} }))
       if (!parsed.accepted || parsed.message.type !== 'init') throw new Error('invalid-message')
       const { artifacts, imports } = parsed.message, specifiers = imports.map(row => row.specifier)
       for (const artifact of artifacts) { const verified = await verifyArtifact(artifact); if (artifact.kind === 'module') await reviewFrameModule(verified, specifiers) }

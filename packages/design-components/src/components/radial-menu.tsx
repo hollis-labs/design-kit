@@ -51,9 +51,14 @@ function RadialMenuSession(props: RadialMenuProps) {
   const radiusProbe = useRef<HTMLSpanElement>(null)
   const paddingProbe = useRef<HTMLSpanElement>(null)
   const composing = useRef(false)
+  const focusRequested = useRef(true)
   const [path, setPath] = useState<string[]>([])
   const [activeId, setActiveId] = useState<string | typeof CENTER | null>(null)
-  const [geometry, setGeometry] = useState({ x: props.position.x, y: props.position.y, radius: 0 })
+  const [geometry, setGeometry] = useState({
+    x: props.position.x,
+    y: props.position.y,
+    radius: 0,
+  })
   let items = props.items
   for (const id of path) items = items.find((item) => item.id === id)?.children ?? []
   const ordered = [...items].sort((a, b) => a.angle - b.angle)
@@ -74,6 +79,7 @@ function RadialMenuSession(props: RadialMenuProps) {
   const back = () => {
     if (!admitted()) return
     if (path.length) {
+      focusRequested.current = true
       const parent = path[path.length - 1]
       setPath(path.slice(0, -1))
       setActiveId(parent)
@@ -86,8 +92,14 @@ function RadialMenuSession(props: RadialMenuProps) {
     rootElement: () => root.current,
     escapeStack: stack,
     isLayerAdmitted: admitted,
-    onEscape: () => {
-      if (composing.current || !admitted()) return "ignored"
+    onEscape: (event) => {
+      if (
+        composing.current ||
+        isComposingEvent(event) ||
+        isEditableTarget(event.target) ||
+        !admitted()
+      )
+        return "ignored"
       back()
       return path.length ? "cleared" : "closed"
     },
@@ -156,7 +168,7 @@ function RadialMenuSession(props: RadialMenuProps) {
   }, [props.position.x, props.position.y, props.sourceGeneration, path])
 
   useLayoutEffect(() => {
-    if (!owns()) return
+    if (!owns() || !focusRequested.current) return
     const id =
       activeId !== null && (activeId === CENTER || focusable.includes(activeId))
         ? activeId
@@ -165,7 +177,10 @@ function RadialMenuSession(props: RadialMenuProps) {
     const button = buttons.find((b) =>
       id === CENTER ? b.dataset.radialCenter === "true" : b.dataset.radialId === id,
     )
-    button?.focus()
+    if (button) {
+      focusRequested.current = false
+      button.focus()
+    }
   })
 
   const activate = (id: string | typeof CENTER) => {
@@ -177,6 +192,7 @@ function RadialMenuSession(props: RadialMenuProps) {
     const item = items.find((item) => item.id === id)
     if (!item || item.disabled) return
     if (item.children) {
+      focusRequested.current = true
       setPath([...path, id])
       setActiveId(null)
     } else {
@@ -186,16 +202,92 @@ function RadialMenuSession(props: RadialMenuProps) {
   }
   const buttonClass =
     "absolute flex min-h-9 min-w-9 max-w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full border border-border-subtle bg-surface px-2 py-1 font-mono text-micro text-fg shadow-lg transition-colors motion-reduce:transition-none hover:bg-surface-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:text-fg-faint"
-  const backdropDown = useRef(false)
+  const backdropDown = useRef<{
+    pointerId: number
+    target: HTMLElement
+    source: unknown
+    activation: string | number
+    live: () => boolean
+    retire: () => void
+  } | null>(null)
+  useLayoutEffect(() => {
+    const retire = () => {
+      backdropDown.current?.retire()
+      backdropDown.current = null
+    }
+    window.addEventListener("blur", retire)
+    return () => {
+      window.removeEventListener("blur", retire)
+      retire()
+    }
+  }, [])
   return createPortal(
     <div
       className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm"
       onPointerDown={(e) => {
-        backdropDown.current = e.target === e.currentTarget
+        backdropDown.current?.retire()
+        backdropDown.current = null
+        if (
+          e.target !== e.currentTarget ||
+          e.defaultPrevented ||
+          !e.isPrimary ||
+          e.button !== 0 ||
+          !owns()
+        )
+          return
+        const target = e.currentTarget
+        const menu = root.current!
+        let retired = false
+        const observer = new MutationObserver((records) => {
+          if (
+            records.some((record) =>
+              Array.from(record.removedNodes).some(
+                (node) =>
+                  node === target || node.contains(target) || node === menu || node.contains(menu),
+              ),
+            )
+          )
+            retire()
+        })
+        const retire = () => {
+          retired = true
+          observer.disconnect()
+        }
+        observer.observe(document.documentElement, {
+          childList: true,
+          subtree: true,
+        })
+        backdropDown.current = {
+          pointerId: e.pointerId,
+          target,
+          source: props.sourceGeneration,
+          activation: props.activationGeneration,
+          live: () => !retired && live(),
+          retire,
+        }
+      }}
+      onPointerCancel={(e) => {
+        if (backdropDown.current?.pointerId === e.pointerId) {
+          backdropDown.current.retire()
+          backdropDown.current = null
+        }
       }}
       onClick={(e) => {
-        if (e.target === e.currentTarget && backdropDown.current && owns()) close()
-        backdropDown.current = false
+        const press = backdropDown.current
+        if (!press || e.target !== e.currentTarget || e.detail === 0) return
+        if ("pointerId" in e.nativeEvent && e.nativeEvent.pointerId !== press.pointerId) return
+        const stillLive = press.live()
+        press.retire()
+        backdropDown.current = null
+        if (e.defaultPrevented) return
+        if (
+          stillLive &&
+          press.target === e.currentTarget &&
+          Object.is(press.source, props.sourceGeneration) &&
+          Object.is(press.activation, props.activationGeneration) &&
+          owns()
+        )
+          close()
       }}
     >
       <div
@@ -246,6 +338,7 @@ function RadialMenuSession(props: RadialMenuProps) {
           e.preventDefault()
           e.stopPropagation()
           const index = ids.indexOf(currentId ?? "")
+          focusRequested.current = true
           setActiveId(ids[(index + delta + ids.length) % ids.length])
         }}
       >

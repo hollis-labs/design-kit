@@ -92,3 +92,9 @@ Activity retirement. Browser specs cover actual Chromium mouse hold/cancellation
 keyboard actions/layers/focus and edge bounds at 1280 and 390×420, plus Chromium
 CDP touch emulation. Synthetic composition and fixture popup setup are explicitly
 labelled; neither native OS IME nor physical touchscreen hardware is claimed.
+
+Focus is requested on opening and deliberate menu navigation. Position and viewport
+commits preserve a newer foreground focus owner. A backdrop close requires the exact
+admitted primary press: its captured frame, source, activation and target must still be
+current at release. Prevented, competing and retired releases cannot close a replacement
+menu.

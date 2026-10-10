@@ -13,6 +13,8 @@ interface SearchInputProps {
   slashToFocus?: boolean
   /** Whether to retain focus when clearing non-empty query with Escape. Default: false (blur on clear). */
   retainFocusOnClear?: boolean
+  /** Opt into immediate, consumed Escape clearing for layered overlays. Default: false. */
+  layeredEscape?: boolean
 }
 
 const DEFAULT_DEBOUNCE_MS = 250
@@ -42,6 +44,7 @@ export function SearchInput({
   debounceMs = DEFAULT_DEBOUNCE_MS,
   slashToFocus = true,
   retainFocusOnClear = false,
+  layeredEscape = false,
 }: SearchInputProps) {
   const [local, setLocal] = useState(value)
   const [syncedValue, setSyncedValue] = useState(value)
@@ -66,18 +69,22 @@ export function SearchInput({
     if (!slashToFocus) return
     function onKeyDown(e: KeyboardEvent) {
       if (e.key !== '/') return
-      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
+      if (e.ctrlKey || e.metaKey || e.altKey || (layeredEscape && e.shiftKey)) return
       if (e.defaultPrevented) return
-      if (isComposingEvent(e)) return
-      if (defaultEscapeStack.hasActiveLayer()) return
-      if (hasActiveModalOverlay(document)) return
-      if (isEditableTarget(document.activeElement) || isEditableTarget(e.target)) return
+      if (layeredEscape && isComposingEvent(e)) return
+      if (layeredEscape && defaultEscapeStack.hasActiveLayer()) return
+      if (layeredEscape && hasActiveModalOverlay(document)) return
+      const active = document.activeElement
+      if (layeredEscape) {
+        if (isEditableTarget(active) || isEditableTarget(e.target)) return
+      } else if (active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement ||
+        (active instanceof HTMLElement && active.isContentEditable)) return
       e.preventDefault()
       inputRef.current?.focus()
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
-  }, [slashToFocus])
+  }, [slashToFocus, layeredEscape])
 
   return (
     <div className="flex min-w-[240px] flex-1 items-center gap-2 rounded border border-border bg-bg-elevated/50 px-2.5 py-1 focus-within:border-border">
@@ -95,6 +102,13 @@ export function SearchInput({
         value={local}
         onChange={(e) => setLocal(e.target.value)}
         onKeyDown={(e) => {
+          if (!layeredEscape && !retainFocusOnClear) {
+            if (e.key === 'Escape') {
+              setLocal('')
+              inputRef.current?.blur()
+            }
+            return
+          }
           if (e.key === 'Escape' && !isComposingEvent(e)) {
             if (local !== '') {
               e.preventDefault()

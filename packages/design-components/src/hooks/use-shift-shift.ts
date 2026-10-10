@@ -1,3 +1,5 @@
+import { useKeyboardComposition } from './use-keyboard-composition'
+import { useCommittedShortcutFrame } from './use-committed-shortcut-frame'
 import { useLayoutEffect, useRef } from 'react'
 import { defaultEscapeStack, type EscapeStack } from '../lib/escape-stack'
 import {
@@ -29,6 +31,8 @@ export interface UseShiftShiftOptions {
   accessible?: boolean
   /** Source generation token to invalidate stale registrations. */
   sourceGeneration?: unknown
+  /** Optional caller-owned DOM scope. Events outside this connected root are refused. */
+  scopeElement?: HTMLElement | null | (() => HTMLElement | null)
 }
 
 export interface UseShiftShiftResult {
@@ -46,12 +50,9 @@ export interface UseShiftShiftResult {
 export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResult {
   const { enabled = true } = options
 
-  const leaseRef = useRef(0)
-  const activeLeaseRef = useRef(0)
-  const currentLeaseRef = useRef(0)
-  const frame = {}
-  const currentFrame = useRef(frame)
-  const lastShiftTime = useRef<number>(0)
+  const live = useCommittedShortcutFrame()
+  const composing = useKeyboardComposition(options.sourceGeneration)
+  const lastShiftTime = useRef<number | null>(null)
   const latestRef = useRef<{
     options: UseShiftShiftOptions
     live: () => boolean
@@ -60,26 +61,6 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
     live: () => false,
   })
 
-  useLayoutEffect(() => {
-    currentFrame.current = frame
-  })
-
-  useLayoutEffect(() => {
-    const lease = ++leaseRef.current
-    activeLeaseRef.current = lease
-    currentLeaseRef.current = lease
-    return () => {
-      if (activeLeaseRef.current === lease) {
-        activeLeaseRef.current = 0
-      }
-    }
-  }, [])
-
-  const live = () =>
-    activeLeaseRef.current !== 0 &&
-    activeLeaseRef.current === currentLeaseRef.current &&
-    currentFrame.current === frame
-
   // Refresh latest handler, options, and live fence on every commit
   useLayoutEffect(() => {
     latestRef.current = {
@@ -87,6 +68,8 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
       live,
     }
   })
+
+  useLayoutEffect(() => { lastShiftTime.current = null }, [options.sourceGeneration, options.enabled, options.accessible])
 
   const resolveNow = (customGetTime?: () => number): number => {
     if (customGetTime) return customGetTime()
@@ -111,12 +94,14 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
         opts.preventWhenOverlayActive !== false &&
         (stack.hasActiveLayer() || hasActiveModalOverlay())
       ) {
-        lastShiftTime.current = 0
+        lastShiftTime.current = null
         return
       }
 
-      if (opts.isAdmitted && !opts.isAdmitted()) return
-      if (opts.accessible === false) return
+      if ((opts.isAdmitted && !opts.isAdmitted()) || opts.accessible === false) {
+        lastShiftTime.current = null
+        return
+      }
 
       // Suppress if default already prevented
       if (event.defaultPrevented) return
@@ -127,49 +112,55 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
       }
 
       // Suppress during active IME composition
-      if (opts.preventInIME !== false && isComposingEvent(event)) {
-        lastShiftTime.current = 0
+      if (opts.preventInIME !== false && (composing() || isComposingEvent(event))) {
+        lastShiftTime.current = null
         return
       }
 
       // Suppress when modifiers are held
       if (event.metaKey || event.ctrlKey || event.altKey) {
-        lastShiftTime.current = 0
+        lastShiftTime.current = null
         return
       }
 
       // Suppress in editable targets
       if (opts.preventInEditable !== false && isEditableTarget(event.target)) {
-        lastShiftTime.current = 0
+        lastShiftTime.current = null
+        return
+      }
+
+      const scope = typeof opts.scopeElement === 'function' ? opts.scopeElement() : opts.scopeElement
+      if (opts.scopeElement !== undefined && (!scope?.isConnected || !(event.target instanceof Node) || !scope.contains(event.target))) {
+        lastShiftTime.current = null
         return
       }
 
       // Any non-Shift key immediately resets the tap window
       if (event.key !== 'Shift') {
-        lastShiftTime.current = 0
+        lastShiftTime.current = null
         return
       }
 
       const now = resolveNow(opts.getTime)
 
       // Clock-zero and invalid time controls
-      if (now <= 0 || !Number.isFinite(now)) {
-        lastShiftTime.current = 0
+      if (!Number.isFinite(now)) {
+        lastShiftTime.current = null
         return
       }
 
       // Backwards clock control: if time jumped backwards, reset window to current time
-      if (lastShiftTime.current > 0 && now < lastShiftTime.current) {
+      if (lastShiftTime.current !== null && now < lastShiftTime.current) {
         lastShiftTime.current = now
         return
       }
 
-      const delta = now - lastShiftTime.current
+      const delta = lastShiftTime.current === null ? Infinity : now - lastShiftTime.current
       const threshold = opts.thresholdMs ?? 300
 
-      if (lastShiftTime.current > 0 && delta >= 0 && delta <= threshold) {
+      if (lastShiftTime.current !== null && delta >= 0 && delta <= threshold) {
         event.preventDefault()
-        lastShiftTime.current = 0
+        lastShiftTime.current = null
         opts.onTrigger()
       } else {
         lastShiftTime.current = now
@@ -177,24 +168,29 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
     }
 
     function handleBlur() {
-      lastShiftTime.current = 0
+      lastShiftTime.current = null
     }
 
     window.addEventListener('keydown', handleKeyDown)
     window.addEventListener('blur', handleBlur)
+    window.addEventListener('touchstart', handleBlur)
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('blur', handleBlur)
+      window.removeEventListener('touchstart', handleBlur)
+      lastShiftTime.current = null
     }
-  }, [enabled])
+  }, [enabled, composing])
 
   return {
     isLive: live,
     reset: () => {
-      lastShiftTime.current = 0
+      if (!live()) return
+      lastShiftTime.current = null
     },
     trigger: (): boolean => {
+      if (!live()) return false
       const current = latestRef.current
       if (!current.live() || current.options.enabled === false) return false
 
@@ -213,6 +209,10 @@ export function useShiftShift(options: UseShiftShiftOptions): UseShiftShiftResul
 
       const target = typeof document !== 'undefined' ? document.activeElement : null
       if (opts.preventInEditable !== false && isEditableTarget(target)) return false
+
+      if (opts.preventInIME !== false && composing()) return false
+      const scope = typeof opts.scopeElement === 'function' ? opts.scopeElement() : opts.scopeElement
+      if (opts.scopeElement !== undefined && (!scope?.isConnected || !target || !scope.contains(target))) return false
 
       opts.onTrigger()
       return true

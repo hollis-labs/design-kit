@@ -22,7 +22,14 @@ export interface FocusReturnOptions {
 function isAdmittedElement(el: unknown): el is HTMLElement {
   if (!el || !(el instanceof HTMLElement)) return false
   if (!el.isConnected) return false
-  if (el.matches(':disabled')) return false
+  if (el.matches(':disabled') || el.closest('[aria-disabled="true"], [hidden]')) return false
+  const view = el.ownerDocument.defaultView
+  if (view) {
+    for (let node: HTMLElement | null = el; node; node = node.parentElement) {
+      const style = view.getComputedStyle(node)
+      if (style.display === 'none' || style.visibility === 'hidden') return false
+    }
+  }
   if (el.hasAttribute('inert') || Boolean(el.closest('[inert]'))) return false
   if (el.getAttribute('aria-hidden') === 'true' || Boolean(el.closest('[aria-hidden="true"]'))) return false
   return true
@@ -49,7 +56,7 @@ export function restoreAdmittedFocus(options: FocusReturnOptions): boolean {
   const target = resolveAdmittedFocusTarget(options)
   if (target && typeof target.focus === 'function') {
     target.focus()
-    return true
+    return target.ownerDocument.activeElement === target
   }
   return false
 }

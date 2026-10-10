@@ -16,7 +16,7 @@
  */
 
 import { restoreAdmittedFocus, type FocusReturnOptions } from './focus-return'
-import { isComposingEvent } from './keyboard-guards'
+import { isComposingEvent, OVERLAY_SELECTOR } from './keyboard-guards'
 
 export type EscapeHandlingAction = 'cleared' | 'closed' | 'ignored'
 
@@ -94,50 +94,28 @@ export class EscapeStack {
 
   /** Retrieve all currently active, accessible, and live layers in LIFO order. */
   getActiveLayers(): LayeredEscapeRegistration[] {
-    return this.layers.filter((l) => l.active && l.accessible && l.live())
+    return this.layers.filter((l) => {
+      if (!l.active || !l.accessible || !l.live()) return false
+      if (l.rootElement === undefined) return true
+      const root = typeof l.rootElement === 'function' ? l.rootElement() : l.rootElement
+      return root instanceof HTMLElement && root.isConnected
+    })
   }
 
   /** Retrieve the topmost (innermost) active layer, respecting DOM containment, scope priority and LIFO order. */
   getTopLayer(target?: EventTarget | null): LayeredEscapeRegistration | null {
+    void target // Ownership follows the top layer, never the background event target.
     const active = this.getActiveLayers()
     if (active.length === 0) return null
 
-    // If target element is provided, check for DOM containment among registered rootElements
-    if (target instanceof Element) {
-      const containing = active.filter((l) => {
-        const root = typeof l.rootElement === 'function' ? l.rootElement() : l.rootElement
-        return root instanceof Element && root.contains(target)
-      })
-
-      if (containing.length > 0) {
-        // Deepest DOM descendant wins; if equal, check scope priority; else activationSeq; else LIFO
-        containing.sort((a, b) => {
-          const rootA = typeof a.rootElement === 'function' ? a.rootElement() : a.rootElement
-          const rootB = typeof b.rootElement === 'function' ? b.rootElement() : b.rootElement
-          if (rootA instanceof Element && rootB instanceof Element && rootA !== rootB) {
-            if (rootA.contains(rootB)) return -1 // B is inside A, so B is deeper
-            if (rootB.contains(rootA)) return 1  // A is inside B, so A is deeper
-          }
-          if (a.scopeId && a.scopeId === b.scopeId && (a.priority ?? 0) !== (b.priority ?? 0)) {
-            return (a.priority ?? 0) - (b.priority ?? 0)
-          }
-          if (
-            a.activationSeq !== undefined &&
-            b.activationSeq !== undefined &&
-            a.activationSeq !== b.activationSeq
-          ) {
-            return a.activationSeq - b.activationSeq
-          }
-          return this.layers.indexOf(a) - this.layers.indexOf(b)
-        })
-        return containing[containing.length - 1]
-      }
-    }
-
-    // Outside DOM containment: sort active layers by scope priority (if shared scopeId), activationSeq, then LIFO index
+    // Innermost registered DOM root wins, then activation order. Focus in an
+    // outer layer must never let it bypass an active inner overlay.
     active.sort((a, b) => {
-      if (a.scopeId && a.scopeId === b.scopeId && (a.priority ?? 0) !== (b.priority ?? 0)) {
-        return (a.priority ?? 0) - (b.priority ?? 0)
+      const rootA = typeof a.rootElement === 'function' ? a.rootElement() : a.rootElement
+      const rootB = typeof b.rootElement === 'function' ? b.rootElement() : b.rootElement
+      if (rootA instanceof Element && rootB instanceof Element && rootA !== rootB) {
+        if (rootA.contains(rootB)) return -1
+        if (rootB.contains(rootA)) return 1
       }
       if (
         a.activationSeq !== undefined &&
@@ -145,6 +123,9 @@ export class EscapeStack {
         a.activationSeq !== b.activationSeq
       ) {
         return a.activationSeq - b.activationSeq
+      }
+      if (a.scopeId && a.scopeId === b.scopeId && (a.priority ?? 0) !== (b.priority ?? 0)) {
+        return (a.priority ?? 0) - (b.priority ?? 0)
       }
       return this.layers.indexOf(a) - this.layers.indexOf(b)
     })
@@ -164,6 +145,18 @@ export class EscapeStack {
 
     const topLayer = this.getTopLayer(event.target)
     if (!topLayer) return false
+    const root = typeof topLayer.rootElement === 'function' ? topLayer.rootElement() : topLayer.rootElement
+    if (root instanceof HTMLElement) {
+      if (!root.isConnected || root.hasAttribute('data-nested-dialog-open')) return false
+      const target = event.target
+      if (target instanceof Element) {
+        const dialog = target.closest('[role="dialog"], [role="alertdialog"]')
+        if (dialog && dialog !== root && !dialog.contains(root)) return false
+      }
+      // A visible unregistered popup also owns Escape, including a portal sibling.
+      if (Array.from(root.ownerDocument.querySelectorAll(OVERLAY_SELECTOR)).some(overlay =>
+        overlay !== root && !overlay.contains(root) && overlay.getClientRects().length > 0)) return false
+    }
 
     // 1. Try input clearing first if layer declared an input clear hook
     if (topLayer.onClearInput && topLayer.onClearInput()) {

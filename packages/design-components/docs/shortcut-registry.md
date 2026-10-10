@@ -29,3 +29,50 @@ The architecture establishes:
 5. **Shared Admission Guards (`keyboard-guards.ts`)**:
    - Extracted Parallax Torque guards applied to `SearchInput` (`/`-to-focus with IME, modifier, overlay, and editable target checks).
    - Legacy `useArrowNav` remains published and unchanged by default.
+
+## Caller scopes and retained handles
+
+`useShortcut`, `useShiftShift`, and `useQuickSearchShortcut` accept caller-owned
+`sourceGeneration`, `accessible`, `isAdmitted`, and optional `scopeElement`.
+The scope is a connected element (or resolver); events outside it are refused.
+Admission and source transport remain application policy. Each exposed handle
+belongs to one committed render and subscription activation. Retain a handle for
+negative controls only: any subsequent commit, access change, source replacement,
+effect replay, or unmount retires it. Native listeners refresh to the current
+committed options without retiring the registration on stable-prop rerenders.
+
+`useLayeredEscape` accepts `rootElement` and `isLayerAdmitted` separately from
+focus-return `isAdmitted`. Register the popup root, not the surrounding page.
+Visible nested or portal popups defer parent Escape; the event target cannot
+promote a background layer ahead of the active inner layer. `handleEscape` refuses
+an invocation on a non-topmost layer. Caller focus fallback must be explicit.
+
+For Base UI controlled dialogs, cancel its independent Escape dismissal and allow
+propagation, so child controls and the single native bubble stack settle the event:
+
+```tsx
+onOpenChange={(open, details) => {
+  if (details.reason === 'escape-key') {
+    details.cancel()
+    details.allowPropagation()
+    return
+  }
+  if (!open) closeCurrentInspection()
+}}
+```
+
+Do not install a capture keydown listener. Input and widget handlers must be able
+to consume Escape before it reaches the window stack. The stack consumes handled
+native events immediately; `onClearInput` must return true only when it actually
+clears the current focused input.
+
+`SearchInput` keeps legacy debounced clear-and-blur and slash behavior by default.
+`layeredEscape` opts into immediate consumed clearing, composition/overlay guards,
+and exact slash modifiers. `retainFocusOnClear` retains focus after non-empty
+clearing. Existing consumers need not adopt either option.
+
+Shift timing uses `null` for no pending tap: clock zero is a legitimate origin.
+Non-finite clocks reset the window; a backwards clock establishes a new first tap.
+Source/access changes, non-Shift keys, modifiers, touchstart, blur and suppressed
+ownership reset pending taps. Native composition lifetime also fences manual
+triggers. Synthetic composition diagnostics do not prove hardware OS IME behavior.

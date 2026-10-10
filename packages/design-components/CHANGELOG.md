@@ -15,8 +15,12 @@
   (Windows/Linux) as primary and Shift-Shift as alias.
 - Add shared admission guards (`isEditableTarget`, `isInteractiveTarget`, `isComposingEvent`,
   `matchExactModifiers`, `hasActiveModalOverlay`) and focus return resolver (`restoreAdmittedFocus`).
-- Update `SearchInput` to use shared admission guards for `/`-to-focus and input-clearing
-  before closing. Legacy `useArrowNav` and existing consumers remain unchanged by default.
+- Add opt-in `SearchInput.layeredEscape` for immediate consumed Escape clearing and
+  guarded slash focus; legacy debounce/blur/slash behavior remains the default.
+- Fence exposed handles by committed frame and non-revivable activation lease while
+  refreshing native listeners. Add caller source/access/admission and DOM scopes,
+  composition lifetime guards, nested popup ownership and zero-origin Shift timing.
+  Legacy `useArrowNav` remains unchanged.
 
 ## Unreleased — CW-20261010-0036
 

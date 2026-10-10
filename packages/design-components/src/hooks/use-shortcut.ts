@@ -1,3 +1,5 @@
+import { useKeyboardComposition } from './use-keyboard-composition'
+import { useCommittedShortcutFrame } from './use-committed-shortcut-frame'
 import { useLayoutEffect, useRef } from 'react'
 import { defaultEscapeStack, type EscapeStack } from '../lib/escape-stack'
 import {
@@ -41,6 +43,8 @@ export interface UseShortcutOptions {
   accessible?: boolean
   /** Source generation token to invalidate stale registrations. */
   sourceGeneration?: unknown
+  /** Optional caller-owned DOM scope. Events outside this connected root are refused. */
+  scopeElement?: HTMLElement | null | (() => HTMLElement | null)
 }
 
 export interface UseShortcutResult {
@@ -56,11 +60,8 @@ export interface UseShortcutResult {
 export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
   const { enabled = true } = options
 
-  const leaseRef = useRef(0)
-  const activeLeaseRef = useRef(0)
-  const currentLeaseRef = useRef(0)
-  const frame = {}
-  const currentFrame = useRef(frame)
+  const live = useCommittedShortcutFrame()
+  const composing = useKeyboardComposition(options.sourceGeneration)
   const latestRef = useRef<{
     options: UseShortcutOptions
     live: () => boolean
@@ -68,26 +69,6 @@ export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
     options,
     live: () => false,
   })
-
-  useLayoutEffect(() => {
-    currentFrame.current = frame
-  })
-
-  useLayoutEffect(() => {
-    const lease = ++leaseRef.current
-    activeLeaseRef.current = lease
-    currentLeaseRef.current = lease
-    return () => {
-      if (activeLeaseRef.current === lease) {
-        activeLeaseRef.current = 0
-      }
-    }
-  }, [])
-
-  const live = () =>
-    activeLeaseRef.current !== 0 &&
-    activeLeaseRef.current === currentLeaseRef.current &&
-    currentFrame.current === frame
 
   // Refresh latest handler, options, and live fence on every commit
   useLayoutEffect(() => {
@@ -121,7 +102,7 @@ export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
       if (event.defaultPrevented) return
 
       // IME composition guard
-      if (!opts.allowInIME && isComposingEvent(event)) {
+      if (!opts.allowInIME && (composing() || isComposingEvent(event))) {
         return
       }
 
@@ -134,6 +115,9 @@ export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
       if (!opts.allowInEditable && isEditableTarget(event.target)) {
         return
       }
+
+      const scope = typeof opts.scopeElement === 'function' ? opts.scopeElement() : opts.scopeElement
+      if (opts.scopeElement !== undefined && (!scope?.isConnected || !(event.target instanceof Node) || !scope.contains(event.target))) return
 
       // Match key (case-insensitive for letters)
       const targetKey = opts.key.toLowerCase()
@@ -157,11 +141,12 @@ export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [enabled])
+  }, [enabled, composing])
 
   return {
     isLive: live,
     trigger: (event?: KeyboardEvent): boolean => {
+      if (!live()) return false
       const current = latestRef.current
       if (!current.live() || current.options.enabled === false) return false
 
@@ -180,14 +165,18 @@ export function useShortcut(options: UseShortcutOptions): UseShortcutResult {
 
       const e = event ?? new KeyboardEvent('keydown', { key: opts.key, bubbles: true, cancelable: true })
 
+      if (e.key.toLowerCase() !== opts.key.toLowerCase()) return false
       if (e.defaultPrevented) return false
-      if (!opts.allowInIME && isComposingEvent(e)) return false
+      if (!opts.allowInIME && (composing() || isComposingEvent(e))) return false
 
       const target = e.target ?? (typeof document !== 'undefined' ? document.activeElement : null)
       if (opts.allowInInteractive === false && isInteractiveTarget(target)) return false
       if (!opts.allowInEditable && isEditableTarget(target)) return false
 
-      if (opts.modifiers && !matchExactModifiers(e, opts.modifiers)) return false
+      const scope = typeof opts.scopeElement === 'function' ? opts.scopeElement() : opts.scopeElement
+      if (opts.scopeElement !== undefined && (!scope?.isConnected || !(target instanceof Node) || !scope.contains(target))) return false
+
+      if (!matchExactModifiers(e, opts.modifiers)) return false
 
       if (opts.preventDefault !== false && typeof e.preventDefault === 'function') {
         e.preventDefault()

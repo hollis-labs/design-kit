@@ -1,3 +1,4 @@
+import { useCommittedShortcutFrame } from './use-committed-shortcut-frame'
 import { useId, useLayoutEffect, useRef } from 'react'
 import {
   defaultEscapeStack,
@@ -38,6 +39,8 @@ export interface UseLayeredEscapeOptions {
   escapeStack?: EscapeStack
   /** Source generation token to invalidate stale registrations. */
   sourceGeneration?: unknown
+  /** Current source/selection admission, separate from focus-return admission. */
+  isLayerAdmitted?: () => boolean
 }
 
 export interface UseLayeredEscapeResult {
@@ -67,9 +70,7 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
   } = options
 
   const layerId = useId()
-  const leaseRef = useRef(0)
-  const activeLeaseRef = useRef(0)
-  const currentLeaseRef = useRef(0)
+  const live = useCommittedShortcutFrame()
   const seqRef = useRef<number | null>(null)
 
   // eslint-disable-next-line react-hooks/refs -- sequence must be captured in render order so child renders after parent take precedence
@@ -80,29 +81,7 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
     seqRef.current = null
   }
 
-  const frame = {}
-  const currentFrame = useRef(frame)
-
-  useLayoutEffect(() => {
-    currentFrame.current = frame
-  })
-
-  useLayoutEffect(() => {
-    const lease = ++leaseRef.current
-    activeLeaseRef.current = lease
-    currentLeaseRef.current = lease
-    return () => {
-      if (activeLeaseRef.current === lease) {
-        activeLeaseRef.current = 0
-      }
-      escapeStack.unregister(layerId)
-    }
-  }, [layerId, escapeStack])
-
-  const live = () =>
-    activeLeaseRef.current !== 0 &&
-    activeLeaseRef.current === currentLeaseRef.current &&
-    currentFrame.current === frame
+  useLayoutEffect(() => () => escapeStack.unregister(layerId), [layerId, escapeStack])
 
   const focusReturn: FocusReturnOptions = {
     trigger,
@@ -113,8 +92,6 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
   // Refresh registration on every committed render to preserve current frame token
   // across stable-prop rerenders without changing LIFO stack position
   useLayoutEffect(() => {
-    if (activeLeaseRef.current === 0) return
-
     escapeStack.register({
       id: layerId,
       scopeId,
@@ -122,7 +99,7 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
       active,
       accessible,
       activationSeq: seqRef.current ?? 0,
-      live,
+      live: () => live() && (!options.isLayerAdmitted || options.isLayerAdmitted()),
       onEscape: (e) => {
         if (!live()) return false
         return onEscape(e)
@@ -140,11 +117,14 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
     layerId,
     isTopmost: () => {
       const top = escapeStack.getTopLayer()
-      return Boolean(top && top.id === layerId)
+      return live() && Boolean(top && top.id === layerId)
     },
     handleEscape: (event?: KeyboardEvent) => {
-      if (!live() || !active || !accessible) return false
+      if (!live() || !active || !accessible || (options.isLayerAdmitted && !options.isLayerAdmitted())) return false
+      const root = typeof rootElement === 'function' ? rootElement() : rootElement
       const e = event ?? new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })
+      if (!event && root) Object.defineProperty(e, 'target', { value: root })
+      if (escapeStack.getTopLayer(e.target)?.id !== layerId) return false
       return escapeStack.handleKeyDown(e)
     },
   }

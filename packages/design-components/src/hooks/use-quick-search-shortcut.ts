@@ -15,6 +15,10 @@ export interface UseQuickSearchShortcutOptions {
   preventWhenOverlayActive?: boolean
   /** Optional custom EscapeStack to check for active overlay ownership. */
   escapeStack?: EscapeStack
+  accessible?: boolean
+  sourceGeneration?: unknown
+  isAdmitted?: () => boolean
+  scopeElement?: HTMLElement | null | (() => HTMLElement | null)
 }
 
 export interface UseQuickSearchShortcutResult {
@@ -46,6 +50,10 @@ export function useQuickSearchShortcut(
     enabled,
     preventWhenOverlayActive,
     escapeStack,
+    accessible: options.accessible,
+    sourceGeneration: options.sourceGeneration,
+    isAdmitted: options.isAdmitted,
+    scopeElement: options.scopeElement,
   })
 
   // Alias: Shift-Shift
@@ -56,6 +64,10 @@ export function useQuickSearchShortcut(
     getTime,
     preventWhenOverlayActive,
     escapeStack,
+    accessible: options.accessible,
+    sourceGeneration: options.sourceGeneration,
+    isAdmitted: options.isAdmitted,
+    scopeElement: options.scopeElement,
   })
 
   return {

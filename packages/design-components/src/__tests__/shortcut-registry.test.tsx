@@ -663,11 +663,11 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
 
       render(<TestClockBoundaries />)
 
-      // Clock is 0: invalid, must not record valid tap
+      // Zero is a legitimate monotonic clock origin.
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
       currentTime = 100
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
-      expect(onTrigger).not.toHaveBeenCalled()
+      expect(onTrigger).toHaveBeenCalledTimes(1)
 
       // Tap 1 at 1000
       currentTime = 1000
@@ -676,12 +676,12 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
       // Clock moves backwards to 500 (delta = -500, negative): must not trigger
       currentTime = 500
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
-      expect(onTrigger).not.toHaveBeenCalled()
+      expect(onTrigger).toHaveBeenCalledTimes(1)
 
       // Next tap at 650 (delta = 150 <= 300 relative to 500): triggers
       currentTime = 650
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Shift' }))
-      expect(onTrigger).toHaveBeenCalledTimes(1)
+      expect(onTrigger).toHaveBeenCalledTimes(2)
     })
 
     it('suppresses Shift-Shift when an unregistered modal overlay exists in the DOM', () => {
@@ -953,7 +953,7 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
   describe('SearchInput Integration with Extracted Guards', () => {
     it('focuses input on "/" keypress when not in editable target', () => {
       const onChange = vi.fn()
-      render(<SearchInput value="" onChange={onChange} slashToFocus={true} />)
+      render(<SearchInput value="" onChange={onChange} slashToFocus={true} layeredEscape />)
 
       const input = screen.getByRole('searchbox')
       const focusSpy = vi.spyOn(input, 'focus')
@@ -964,7 +964,7 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
 
     it('suppresses "/" focus during IME composition or modifiers', () => {
       const onChange = vi.fn()
-      render(<SearchInput value="" onChange={onChange} slashToFocus={true} />)
+      render(<SearchInput value="" onChange={onChange} slashToFocus={true} layeredEscape />)
 
       const input = screen.getByRole('searchbox')
       const focusSpy = vi.spyOn(input, 'focus')
@@ -980,7 +980,7 @@ describe('Keyboard Architecture & Admission Guards (CW-20261010-0090)', () => {
 
     it('clears query text on Escape and consumes event without closing outer container', () => {
       const onChange = vi.fn()
-      render(<SearchInput value="active query" onChange={onChange} />)
+      render(<SearchInput value="active query" onChange={onChange} layeredEscape />)
 
       const input = screen.getByRole('searchbox') as HTMLInputElement
       expect(input.value).toBe('active query')

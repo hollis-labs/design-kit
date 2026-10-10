@@ -10,6 +10,11 @@
 
 - Fullscreen dispatch verifies its exact current popup ownership; admitted return also preserves a newer plain foreground focus owner. Forwarded React callback-ref cleanup is retained.
 
+## Unreleased — CW-20261010-0091
+
+- Add `useLongPress`: configurable deliberate holds (1000ms, 8px defaults), pointer/scroll/lifetime cancellation, exact gesture release-click custody, and non-revivable committed-frame/source/access/activation admission. Touch scrolling remains native.
+- Add controlled `RadialMenu`: fixed-angle token-scaled actions, nested back/close, disabled actions, viewport clamping, keyboard rotary/Tab navigation, layered Escape and admitted focus return. Nil and a distinct message idiom are evidenced in isolated Parallax stories. No version or publication change.
+
 ## Unreleased — CW-20261010-0072
 
 - Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).

@@ -175,3 +175,9 @@ export { SearchPalette } from './components/search-palette'
 export type { SearchPaletteProps, SearchPaletteOption, SearchPaletteFilter } from './components/search-palette'
 export { CycleModeToggle, SearchAddToggle } from './components/cycle-mode-toggle'
 export type { CycleModeToggleProps, SearchAddToggleProps } from './components/cycle-mode-toggle'
+
+/* Deliberate pointer holds and radial actions (CW-20261010-0091). */
+export { useLongPress } from './hooks/use-long-press'
+export type { LongPressGesture, UseLongPressOptions, UseLongPressResult } from './hooks/use-long-press'
+export { RadialMenu } from './components/radial-menu'
+export type { RadialMenuItem, RadialMenuProps } from './components/radial-menu'

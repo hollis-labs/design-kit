@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { StrictMode, useState } from 'react'
 import { describe, it, expect } from 'vitest'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { AppShell } from '../components/layout/app-shell'
@@ -228,5 +228,49 @@ describe('AppShell optional aside', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }))
     await waitFor(() => expect(document.activeElement).toBe(fallback))
     fallback.remove()
+  })
+})
+
+describe('AppShell owns only current narrow-to-desktop focus return', () => {
+  function setup(generation: unknown = 'source-a') {
+    const target = document.createElement('button')
+    target.textContent = 'Current desktop target'
+    document.body.append(target)
+    const shell = (narrow: boolean, nextGeneration = generation, admitted = true) => (
+      <StrictMode><AppShell isNarrow={narrow} asideOverlayOpen={narrow}
+        aside={<button>Popup editor</button>} asideSourceGeneration={nextGeneration}
+        asideFocusReturnTarget={target} isAsideTriggerAdmitted={() => admitted}
+        asideFocusFallbackTarget={target} isAsideFallbackAdmitted={() => admitted}>Body</AppShell></StrictMode>
+    )
+    return { target, shell }
+  }
+  it('returns from the actual portaled popup after resize cleanup', async () => {
+    const { target, shell } = setup()
+    const view = render(shell(true))
+    const editor = await screen.findByRole('button', { name: 'Popup editor' })
+    editor.focus()
+    expect(document.activeElement).toBe(editor)
+    view.rerender(shell(false))
+    await waitFor(() => expect(document.activeElement).toBe(target))
+    target.remove()
+  })
+  it.each(['replacement', 'unadmitted', 'competing', 'unmount', 'outside', 'blur'])('rejects %s ownership after popup removal', async (boundary) => {
+    const { target, shell } = setup()
+    const view = render(shell(true))
+    const editor = await screen.findByRole('button', { name: 'Popup editor' })
+    editor.focus()
+    const competing = document.createElement('div')
+    competing.setAttribute('role', 'dialog')
+    if (boundary === 'competing') document.body.append(competing)
+    const outside = document.createElement('button')
+    if (boundary === 'outside') { document.body.append(outside); outside.focus() }
+    if (boundary === 'blur') { editor.blur(); await Promise.resolve(); expect(editor.isConnected).toBe(true) }
+    if (boundary === 'unmount') view.unmount()
+    else view.rerender(shell(false, boundary === 'replacement' ? 'source-b' : 'source-a', boundary !== 'unadmitted'))
+    await Promise.resolve()
+    await Promise.resolve()
+    expect(document.activeElement).not.toBe(target)
+    if (boundary === 'outside') expect(document.activeElement).toBe(outside)
+    competing.remove(); outside.remove(); target.remove()
   })
 })

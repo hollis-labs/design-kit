@@ -59,6 +59,8 @@ export interface AppShellAsideProps {
   asideFocusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
   /** Admission predicate to check if the trigger is still eligible to receive focus. */
   isAsideTriggerAdmitted?: (trigger: HTMLElement) => boolean
+  /** Host source/access/layer identity; a resize cannot return into a replacement source. */
+  asideSourceGeneration?: unknown
 }
 
 export interface AppShellProps extends AppShellAsideProps {
@@ -144,6 +146,7 @@ export function AppShell({
   isAsideFallbackAdmitted,
   asideFocusFallbackTarget,
   isAsideTriggerAdmitted,
+  asideSourceGeneration,
 }: AppShellProps) {
   const hasAside = aside !== undefined
 
@@ -181,30 +184,80 @@ export function AppShell({
   }, [isNarrow, isOverlayOpen, onAsideOverlayOpenChange])
 
   const desktopAsideRef = useRef<HTMLElement | null>(null)
+  const overlayAsideRef = useRef<HTMLDivElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
 
-  const returnPending = useRef(false)
+  const returnPending = useRef<{ kind: 'desktop' | 'overlay'; generation: unknown; activation: number } | null>(null)
+  const activation = useRef(0)
+  const committedAside = useRef({ isNarrow, generation: asideSourceGeneration })
   const setDesktopAsideRef = useCallback((node: HTMLElement | null) => {
     if (!node && desktopAsideRef.current?.contains(document.activeElement)) {
-      returnPending.current = true
+      returnPending.current = { kind: 'desktop', generation: committedAside.current.generation, activation: activation.current }
     }
     desktopAsideRef.current = node
   }, [])
+  const popupOwnsFocus = useRef(false)
+  const popupFocusEpoch = useRef(0)
+  const rememberPopupFocus = useCallback(() => { popupFocusEpoch.current++; popupOwnsFocus.current = true }, [])
+  const releasePopupFocus = useCallback((event: FocusEvent) => {
+    if (overlayAsideRef.current?.contains(event.relatedTarget as Node | null)) return
+    if (event.relatedTarget) { popupFocusEpoch.current++; popupOwnsFocus.current = false; return }
+    // Chromium emits focusout with no destination while a focused child is
+    // being removed, before the popup ref detaches. Ordinary blur leaves the
+    // child connected; resolve that distinction after this DOM mutation.
+    const target = event.target as Node
+    const popup = overlayAsideRef.current
+    const focusEpoch = ++popupFocusEpoch.current
+    const activationEpoch = activation.current
+    const generation = committedAside.current.generation
+    queueMicrotask(() => {
+      if (popupFocusEpoch.current === focusEpoch && activation.current === activationEpoch && Object.is(committedAside.current.generation, generation) && overlayAsideRef.current === popup && target.isConnected && !popup?.contains(document.activeElement)) popupOwnsFocus.current = false
+    })
+  }, [])
+  const setOverlayAsideRef = useCallback((node: HTMLDivElement | null) => {
+    const previous = overlayAsideRef.current
+    popupFocusEpoch.current++
+    // Portals detach before this callback. Removal may emit destinationless
+    // focus-out before detaching; preserve observed ownership through that
+    // mutation. Focus to an outside node relinquishes ownership immediately.
+    if (!node && popupOwnsFocus.current) {
+      returnPending.current = { kind: 'overlay', generation: committedAside.current.generation, activation: activation.current }
+    }
+    previous?.removeEventListener('focusin', rememberPopupFocus)
+    previous?.removeEventListener('focusout', releasePopupFocus)
+    overlayAsideRef.current = node
+    popupOwnsFocus.current = Boolean(node?.contains(document.activeElement))
+    node?.addEventListener('focusin', rememberPopupFocus)
+    node?.addEventListener('focusout', releasePopupFocus)
+  }, [rememberPopupFocus, releasePopupFocus])
+
 
   const mounted = useRef(false)
   const returnFrame = {}
   const currentReturnFrame = useRef(returnFrame)
   useLayoutEffect(() => {
     mounted.current = true
-    return () => { mounted.current = false }
+    activation.current++
+    return () => { mounted.current = false; activation.current++ }
   }, [])
   // Wait for host commit guards and current refs, then reject superseded returns.
   useLayoutEffect(() => {
     currentReturnFrame.current = returnFrame
-    if (!returnPending.current) return
-    returnPending.current = false
+    const previous = committedAside.current
+    committedAside.current = { isNarrow, generation: asideSourceGeneration }
+    const pending = returnPending.current
+    returnPending.current = null
+    if (!pending || !hasAside || !Object.is(pending.generation, asideSourceGeneration)) return
+    // Popup removal only belongs to us when this same shell/source changes layout.
+    // Ordinary close belongs to Sheet; arbitrary removal must never restore focus.
+    if (pending.kind === 'overlay' && (!previous.isNarrow || isNarrow)) return
     queueMicrotask(() => {
-      if (!mounted.current || currentReturnFrame.current !== returnFrame) return
+      if (!mounted.current || activation.current !== pending.activation || currentReturnFrame.current !== returnFrame) return
+      // A surviving or newly opened nested layer retains keyboard/focus custody.
+      if (Array.from(document.querySelectorAll<HTMLElement>('[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"]')).some((layer) =>
+        layer.isConnected && !layer.hasAttribute('data-closed') && !layer.closest('[hidden], [inert], [aria-hidden="true"]') &&
+        getComputedStyle(layer).display !== 'none' && getComputedStyle(layer).visibility !== 'hidden',
+      )) return
       restoreAdmittedFocus({
         trigger: asideFocusReturnTarget ?? triggerRef.current,
         isAdmitted: isAsideTriggerAdmitted,
@@ -258,6 +311,7 @@ export function AppShell({
       {hasAside && isNarrow && (
         <div data-slot="app-shell-aside-control" className="fixed right-2 bottom-2 z-40">
         <OverlaySidebar
+          contentRef={setOverlayAsideRef}
           side="right"
           open={isOverlayOpen}
           onOpenChange={setOverlayOpen}

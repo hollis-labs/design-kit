@@ -115,6 +115,7 @@ export interface AppShellAsideHandle {
     asideFocusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
     isAsideTriggerAdmitted?: (target: HTMLElement) => boolean
     isAsideFallbackAdmitted?: (target: HTMLElement) => boolean
+    asideSourceGeneration?: unknown
   }
 }
 
@@ -262,6 +263,7 @@ export function useAppShellAside(
       asideOverlayOpen: overlayOpen,
       onAsideOverlayOpenChange: setOverlayOpen,
       isNarrow,
+      asideSourceGeneration: sourceGeneration,
       asideFocusReturnTarget: () => live() ? triggerRef.current : null,
       asideFocusFallbackTarget: focusFallbackTarget,
       isAsideTriggerAdmitted: (target) => live() && (!isTriggerAdmitted || isTriggerAdmitted(target)),

@@ -16,12 +16,14 @@ export interface FocusReturnOptions {
   /** Caller-owned admission predicate (e.g. record still in active projection). */
   isAdmitted?: (trigger: HTMLElement) => boolean
   /** Explicit fallback if trigger is missing, disconnected, or unadmitted. */
+  isFallbackAdmitted?: (target: HTMLElement) => boolean
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
 function isAdmittedElement(el: unknown): el is HTMLElement {
   if (!el || !(el instanceof HTMLElement)) return false
   if (!el.isConnected) return false
+  if (el.matches('input[type="hidden"]')) return false
   if (el.matches(':disabled') || el.closest('[aria-disabled="true"], [hidden]')) return false
   const view = el.ownerDocument.defaultView
   if (view) {
@@ -44,7 +46,7 @@ export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLEle
 
   const rawFallback =
     typeof options.fallbackTarget === 'function' ? options.fallbackTarget() : options.fallbackTarget
-  if (isAdmittedElement(rawFallback)) {
+  if (isAdmittedElement(rawFallback) && (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))) {
     return rawFallback
   }
 

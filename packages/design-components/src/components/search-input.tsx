@@ -15,12 +15,8 @@ interface SearchInputProps {
 
 const DEFAULT_DEBOUNCE_MS = 250
 
-function isEditableTarget(el: Element | null): boolean {
-  if (!el) return false
-  if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) return true
-  if (el instanceof HTMLElement && el.isContentEditable) return true
-  return false
-}
+import { isComposingEvent, isEditableTarget, hasActiveModalOverlay } from '../lib/keyboard-guards'
+import { defaultEscapeStack } from '../lib/escape-stack'
 
 /**
  * Debounced search field with optional `/`-to-focus and Esc-to-clear.
@@ -67,9 +63,12 @@ export function SearchInput({
     if (!slashToFocus) return
     function onKeyDown(e: KeyboardEvent) {
       if (e.key !== '/') return
-      if (e.ctrlKey || e.metaKey || e.altKey) return
+      if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return
       if (e.defaultPrevented) return
-      if (isEditableTarget(document.activeElement)) return
+      if (isComposingEvent(e)) return
+      if (defaultEscapeStack.hasActiveLayer()) return
+      if (hasActiveModalOverlay(document)) return
+      if (isEditableTarget(document.activeElement) || isEditableTarget(e.target)) return
       e.preventDefault()
       inputRef.current?.focus()
     }
@@ -93,9 +92,18 @@ export function SearchInput({
         value={local}
         onChange={(e) => setLocal(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            setLocal('')
-            inputRef.current?.blur()
+          if (e.key === 'Escape' && !isComposingEvent(e)) {
+            if (local !== '') {
+              e.preventDefault()
+              e.stopPropagation()
+              if (typeof e.nativeEvent?.stopImmediatePropagation === 'function') {
+                e.nativeEvent.stopImmediatePropagation()
+              }
+              setLocal('')
+              onChange('')
+            } else {
+              inputRef.current?.blur()
+            }
           }
         }}
         className="flex-1 bg-transparent text-xs text-fg placeholder:text-fg-faint/70 focus:outline-none"

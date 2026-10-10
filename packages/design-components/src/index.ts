@@ -112,3 +112,55 @@ export type { UseControllableStateParams, SetControllableState } from './hooks/u
 
 export { useControlledRecordNavigation } from './hooks/use-controlled-record-navigation'
 export type { ControlledRecordNavigationOptions, ControlledRecordNavigation } from './hooks/use-controlled-record-navigation'
+
+/* Keyboard architecture, admission guards, layered Escape stack, and shortcuts (CW-20261010-0090). */
+export {
+  EDITABLE_TARGET_SELECTOR,
+  NATIVE_INTERACTIVE_SELECTOR,
+  OVERLAY_SELECTOR,
+  isEditableTarget,
+  isInteractiveTarget,
+  isComposingEvent,
+  isMacPlatform,
+  matchExactModifiers,
+  hasActiveModalOverlay,
+  type ExactModifierConfig,
+} from './lib/keyboard-guards'
+
+export {
+  resolveAdmittedFocusTarget,
+  restoreAdmittedFocus,
+  type FocusReturnOptions,
+} from './lib/focus-return'
+
+export {
+  EscapeStack,
+  defaultEscapeStack,
+  type EscapeHandlingAction,
+  type LayeredEscapeRegistration,
+} from './lib/escape-stack'
+
+export {
+  useLayeredEscape,
+  type UseLayeredEscapeOptions,
+  type UseLayeredEscapeResult,
+} from './hooks/use-layered-escape'
+
+export {
+  useShiftShift,
+  type UseShiftShiftOptions,
+  type UseShiftShiftResult,
+} from './hooks/use-shift-shift'
+
+export {
+  useShortcut,
+  type UseShortcutOptions,
+  type UseShortcutResult,
+} from './hooks/use-shortcut'
+
+export {
+  useQuickSearchShortcut,
+  type UseQuickSearchShortcutOptions,
+  type UseQuickSearchShortcutResult,
+} from './hooks/use-quick-search-shortcut'
+

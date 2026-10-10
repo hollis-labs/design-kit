@@ -1,0 +1,52 @@
+/**
+ * Focus return resolver with connection, disabled, and caller admission guards.
+ *
+ * Rules:
+ * 1. Focus returns to the opening trigger only if it is currently connected in
+ *    the DOM (`trigger.isConnected`), not disabled (`!trigger.matches(':disabled')`),
+ *    and admitted by the caller's admission check (`isAdmitted(trigger)`).
+ * 2. If the trigger is disconnected, disabled, or fails source admission,
+ *    focus falls back to the caller's explicit fallback target.
+ * 3. No hidden persistence or uncoordinated global mutations.
+ */
+
+export interface FocusReturnOptions {
+  /** The element that opened the overlay / layer. */
+  trigger?: HTMLElement | null | (() => HTMLElement | null)
+  /** Caller-owned admission predicate (e.g. record still in active projection). */
+  isAdmitted?: (trigger: HTMLElement) => boolean
+  /** Explicit fallback if trigger is missing, disconnected, or unadmitted. */
+  fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
+}
+
+/** Resolve the admitted focus return element. */
+export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLElement | null {
+  const rawTrigger = typeof options.trigger === 'function' ? options.trigger() : options.trigger
+  if (
+    rawTrigger &&
+    rawTrigger instanceof HTMLElement &&
+    rawTrigger.isConnected &&
+    !rawTrigger.matches(':disabled') &&
+    (!options.isAdmitted || options.isAdmitted(rawTrigger))
+  ) {
+    return rawTrigger
+  }
+
+  const rawFallback =
+    typeof options.fallbackTarget === 'function' ? options.fallbackTarget() : options.fallbackTarget
+  if (rawFallback && rawFallback instanceof HTMLElement && rawFallback.isConnected) {
+    return rawFallback
+  }
+
+  return null
+}
+
+/** Restore focus to the admitted return target, returning true if focused. */
+export function restoreAdmittedFocus(options: FocusReturnOptions): boolean {
+  const target = resolveAdmittedFocusTarget(options)
+  if (target && typeof target.focus === 'function') {
+    target.focus()
+    return true
+  }
+  return false
+}

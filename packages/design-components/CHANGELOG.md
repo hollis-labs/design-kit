@@ -1,5 +1,23 @@
 # @hollis-labs/design-components
 
+## Unreleased — CW-20261010-0090
+
+- Add `useLayeredEscape`: centralized LIFO Escape stack, innermost overlay owns
+  keys, input-clearing before closing contract, background query/state preservation,
+  and admitted focus return with connection, disability, and caller admission guards.
+- Add `useShiftShift`: 300ms double-tap window per DEC-079 Nil specification,
+  modifier-aware, suppressed in editable targets and during IME composition (isComposing
+  or keyCode 229), reset on non-Shift key or window blur, and injectable monotonic clock
+  for deterministic test fixtures.
+- Add `useShortcut`: scoped keyboard shortcut hook with exact modifier matching
+  and active overlay suspension.
+- Add `useQuickSearchShortcut`: composite hook binding Cmd+K (macOS) / Ctrl+K
+  (Windows/Linux) as primary and Shift-Shift as alias.
+- Add shared admission guards (`isEditableTarget`, `isInteractiveTarget`, `isComposingEvent`,
+  `matchExactModifiers`, `hasActiveModalOverlay`) and focus return resolver (`restoreAdmittedFocus`).
+- Update `SearchInput` to use shared admission guards for `/`-to-focus and input-clearing
+  before closing. Legacy `useArrowNav` and existing consumers remain unchanged by default.
+
 ## Unreleased — CW-20261010-0036
 
 - Add `useControlledRecordNavigation` with caller-admitted opaque IDs, explicit

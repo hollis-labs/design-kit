@@ -1,5 +1,14 @@
 # @hollis-labs/design-components
 
+## Unreleased — CW-20261010-0036
+
+- Add `useControlledRecordNavigation` with caller-admitted opaque IDs, explicit
+  wrap/stop boundaries, discoverable-control availability, popup bubble/composition
+  ownership and committed-render/unmount callback fences. Source transport,
+  admission, routing and focus remain caller-owned; legacy `useArrowNav` retains
+  its window-listener API. Local candidate only; release version/publication is
+  reserved for the separate owner release window.
+
 ## 0.4.0 — 2026-10-02
 
 - Use full-strength focus rings, including destructive and invalid controls,

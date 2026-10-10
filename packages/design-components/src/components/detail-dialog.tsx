@@ -1,7 +1,8 @@
+import type { DialogOptions } from '../hooks/use-dialog-options'
 import type { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogTitle } from './ui/dialog'
 
-interface DetailDialogProps {
+export interface DetailDialogProps extends DialogOptions {
   /** The dialog is open whenever this is true. */
   open: boolean
   onClose: () => void
@@ -32,14 +33,16 @@ export function DetailDialog({
   footer,
   children,
   widthClassName,
+  ...dialogOptions
 }: DetailDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(next: boolean) => !next && onClose()}>
       <DialogContent
+        {...dialogOptions}
         className="flex h-[450px] max-h-[calc(100vh-2rem)] flex-col gap-0 overflow-hidden p-0"
         widthClassName={widthClassName ?? 'w-[600px] max-w-[calc(100vw-2rem)]'}
       >
-        <div className="flex h-20 shrink-0 flex-col justify-center gap-1.5 px-4 pr-10">
+        <div className={`flex h-20 shrink-0 flex-col justify-center gap-1.5 px-4 ${dialogOptions.showFullscreenToggle ? "pr-20" : "pr-10"}`}>
           <div className="flex min-h-0 items-start gap-2">
             {badge ? <span className="mt-0.5 shrink-0">{badge}</span> : null}
             <DialogTitle className="line-clamp-2 min-w-0 break-words text-base font-semibold leading-snug tracking-tight text-fg">

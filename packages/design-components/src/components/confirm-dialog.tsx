@@ -1,8 +1,9 @@
+import type { DialogOptions } from '../hooks/use-dialog-options'
 import type { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogTitle } from './ui/dialog'
 import { Button } from './ui/button'
 
-interface ConfirmDialogProps {
+export interface ConfirmDialogProps extends DialogOptions {
   open: boolean
   onOpenChange: (open: boolean) => void
   title: ReactNode
@@ -38,14 +39,16 @@ export function ConfirmDialog({
   destructive = true,
   busy,
   widthClassName,
+  ...dialogOptions
 }: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(next: boolean) => !next && onOpenChange(false)}>
       <DialogContent
+        {...dialogOptions}
         className="flex h-[450px] max-h-[calc(100vh-2rem)] flex-col gap-0 overflow-hidden p-0"
         widthClassName={widthClassName ?? 'w-[600px] max-w-[calc(100vw-2rem)]'}
       >
-        <div className="flex h-20 shrink-0 flex-col justify-center gap-1 pr-10 pl-4">
+        <div className={`flex h-20 shrink-0 flex-col justify-center gap-1 pl-4 ${dialogOptions.showFullscreenToggle ? "pr-20" : "pr-10"}`}>
           <DialogTitle className="text-base font-semibold leading-snug tracking-tight text-fg">
             {title}
           </DialogTitle>

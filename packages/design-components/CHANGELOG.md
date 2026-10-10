@@ -1,5 +1,15 @@
 # @hollis-labs/design-components
 
+## Unreleased — CW-20261010-0092
+
+- Add optional fullscreen chrome, reset-on-open sizing, session persistence and admitted `returnFocus` to public modal wrappers, preserving native focus and legacy defaults.
+- Add controlled `SearchPalette` with input-owned result cursor, static radio filters, layered clear/close Escape, composition safety and fenced debounce notifications.
+- Add `CycleModeToggle` and `SearchAddToggle`; preserve the appearance `ModeToggle` API and provide a caller-owned secondary action seam.
+- Scope Escape composite ownership to an explicitly declared current overlay; unrelated overlays keep their veto.
+- Add Nil and Torque isolated specimen coverage; no release, live app migration or native hardware IME/touch claim.
+
+- Fullscreen dispatch verifies its exact current popup ownership; admitted return also preserves a newer plain foreground focus owner. Forwarded React callback-ref cleanup is retained.
+
 ## Unreleased — CW-20261010-0072
 
 - Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).

@@ -71,7 +71,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     }
     if (req.url.startsWith('/modules/')) {
       if (req.method === 'DELETE') { for (const key of modules.keys()) if (key.startsWith(req.url + '/')) modules.delete(key); res.writeHead(204).end(); return }
-      if (unavailableProbe && req.url.endsWith('/integrity-probe.js')) { res.writeHead(404).end(); return }
+      if (unavailableProbe && req.url.endsWith('/integrity-probe.js')) { res.writeHead(404, { 'Content-Type': 'text/javascript', 'Access-Control-Allow-Origin': '*', 'Timing-Allow-Origin': '*', 'Cache-Control': 'no-store' }).end(); return }
       const bytes = modules.get(req.url)
       if (!bytes) { res.writeHead(404).end(); return }
       const body = (tamper === 'plugin' && req.url.endsWith('/plugin.js')) || (tamper === 'runtime' && req.url.endsWith('/runtime-0.js')) ? Buffer.from("parent.postMessage({tamperedExecution:true}, '*'); export const View = () => null;") : bytes

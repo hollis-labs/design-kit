@@ -173,12 +173,12 @@ Main-origin execution has ambient document authority and cooperative cleanup.
 ## Immutable same-origin module delivery
 
 `PluginFrameBrowserOptions.moduleDelivery` accepts a `FrameModuleDelivery`.
-Its `provision(artifacts, scope)` receives the verified inventory, including a
+Its `provision(artifacts, scope, imports)` receives the verified inventory, including a
 harmless package-owned integrity probe, and returns `{urls, release}`. Return one
 canonical absolute HTTP(S) URL per module artifact ID, on the parent origin;
 each path contains that artifact's SHA-256. Queries, fragments, credentials,
 extra/missing modules and duplicate URLs are refused. Styles remain verified
-inline artifacts. The derived admitted manifest binds module IDs, byte digests, fixed JavaScript media type, canonical URLs and integrity metadata. All static/dynamic/transitive imports are checked against the pinned bare-peer mapping; computed, relative, URL and import.meta graphs refuse. The protocol's existing init/bridge shapes are unchanged.
+inline artifacts. The derived admitted manifest binds module IDs, byte digests, fixed JavaScript media type, canonical URLs, reviewed specifier-to-artifact graph mapping and integrity metadata. The bootstrap refuses an init mapping that differs from the sealed document mapping. All static/dynamic/transitive imports are checked against the pinned bare-peer mapping; computed, relative, URL and import.meta graphs refuse. The protocol's existing init/bridge shapes are unchanged.
 
 The host server owns this response store. It must authenticate provisioning,
 validate bounded canonical bytes/digests, snapshot each response immutably,

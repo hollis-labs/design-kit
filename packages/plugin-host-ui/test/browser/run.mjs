@@ -10,14 +10,14 @@ import { artifactModuleUrl } from '../../dist/isolation/bytes.js'
 const sourceRoot = dirname(dirname(dirname(fileURLToPath(import.meta.url))))
 const root = process.env.CANDIDATE_CONSUMER_ROOT ?? sourceRoot
 const toolsEntry = join(root, '.candidate-tools.mjs')
-await writeFile(toolsEntry, "export { build } from 'vite'; export { buildFrameArtifacts, buildFrameBootstrap } from '@hollis-labs/plugin-host-ui/vite';")
-const { build, buildFrameArtifacts, buildFrameBootstrap } = await import(pathToFileURL(toolsEntry).href)
+await writeFile(toolsEntry, "export { build } from 'vite'; export { buildFrameArtifacts, buildFrameBootstrap } from '@hollis-labs/plugin-host-ui/vite'; export { reviewFrameModule } from '@hollis-labs/plugin-host-ui/isolation';")
+const { build, buildFrameArtifacts, buildFrameBootstrap, reviewFrameModule } = await import(pathToFileURL(toolsEntry).href)
 const scratch = await mkdtemp(join(process.env.TMPDIR ?? tmpdir(), 'plugin-frame-browser-'))
 let browser, server
 const pinned = process.env.PINNED_MODULES === '1'
 const evidenceRoot = process.env.ACCEPTANCE_EVIDENCE_ROOT
 if (evidenceRoot) await mkdir(evidenceRoot, { recursive: true })
-const responseHashes = [], policyDenials = []
+const responseHashes = [], policyDenials = [], moduleManifests = []
 const policyReceipt = process.env.PRODUCTION_CSP_RECEIPT ? JSON.parse(await readFile(process.env.PRODUCTION_CSP_RECEIPT, 'utf8')) : undefined
 let tamper = ''
 const modules = new Map(), usedModuleScopes = new Set(), usedDocumentIds = new Set()
@@ -54,17 +54,18 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     if (req.url === '/control' && req.method === 'POST') { let body = ''; for await (const chunk of req) body += chunk; tamper = body; res.writeHead(204).end(); return }
     if (req.url === '/modules' && req.method === 'POST') {
       let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 32_000_000) { res.writeHead(413).end(); return } }
-      const { artifacts, scope } = JSON.parse(body), urls = {}, admitted = new Map()
+      const { artifacts, scope, imports = [] } = JSON.parse(body), urls = {}, admitted = new Map()
       if (usedModuleScopes.has(scope)) { res.writeHead(409).end(); return }
       for (const artifact of artifacts.filter(row => row.kind === 'module')) {
         const path = `/modules/${scope}/${artifact.sha256}/${artifact.id}.js`
         const bytes = Buffer.from(artifact.base64, 'base64')
+        try { await reviewFrameModule(bytes, imports.map(entry => entry.specifier)) } catch { res.writeHead(400).end(); return }
         if (createHash('sha256').update(bytes).digest('hex') !== artifact.sha256) { res.writeHead(400).end(); return }
         if (modules.has(path)) { res.writeHead(409).end(); return }
         admitted.set(path, bytes)
         urls[artifact.id] = `http://127.0.0.1:${server.address().port}${path}`
       }
-      usedModuleScopes.add(scope); for (const [path, bytes] of admitted) modules.set(path, bytes)
+      moduleManifests.push({scope, imports, entries: artifacts.filter(row => row.kind === 'module').map(row => ({id: row.id, sha256: row.sha256, mediaType: 'text/javascript', url: urls[row.id]}))}); usedModuleScopes.add(scope); for (const [path, bytes] of admitted) modules.set(path, bytes)
       res.writeHead(200, { 'Content-Type': 'application/json' }).end(JSON.stringify(urls)); return
     }
     if (req.url.startsWith('/modules/')) {
@@ -94,7 +95,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
   const origin = `http://127.0.0.1:${server.address().port}`
   if (pinned) {
-    const scope = 'sealed-route-control', artifact = inventory.artifacts.find(row => row.kind === 'module')
+    const scope = 'sealed-route-control', probeBytes = Buffer.from('export const routeProbe = true;'), artifact = {id:'route-probe', kind:'module', sha256:createHash('sha256').update(probeBytes).digest('hex'), base64:probeBytes.toString('base64')}
     const provision = () => fetch(origin + '/modules', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ scope, artifacts: [artifact] }) })
     const first = await provision(); assert.equal(first.status, 200)
     const url = Object.values(await first.json())[0]
@@ -302,15 +303,21 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
   assert.equal(await page.locator('iframe').count(), 0)
   assert.deepEqual(errors, [])
   if (pinned) {
+    for (const control of ['integrity', 'mapping']) {
     const unsupported = await browser.newContext()
-    await unsupported.addInitScript(() => {
+    await unsupported.addInitScript(control => {
       if (window === top) { globalThis.pluginExecutions = 0; addEventListener('message', event => { if (event.data?.pluginExecuted) globalThis.pluginExecutions++ }); return }
+      if (control === 'mapping') {
+        const parse = JSON.parse
+        JSON.parse = function (...args) { const value = parse.apply(this, args); if (value?.parent_origin && value.modules) value.modules.imports = []; return value }
+        return
+      }
       const append = Element.prototype.append
       Element.prototype.append = function (...nodes) {
         for (const node of nodes) if (node instanceof HTMLScriptElement && node.type === 'importmap') { const value = JSON.parse(node.textContent); delete value.integrity; node.textContent = JSON.stringify(value) }
         return append.apply(this, nodes)
       }
-    })
+    }, control)
     const unsupportedPage = await unsupported.newPage()
     await unsupportedPage.goto(origin)
     await unsupportedPage.waitForFunction(() => !!globalThis.fixtureHost)
@@ -322,10 +329,11 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     assert.equal(await unsupportedPage.evaluate(() => globalThis.fixtureHost.info().views.some(view => view.key === 'first' && view.available === 'available')), false)
     await unsupportedPage.evaluate(() => globalThis.fixtureHost.shutdown())
     await unsupported.close()
-    proofs.push('removed-integrity capability control fails preflight before requesting/executing plugin bytes; no fallback')
+    proofs.push(control === 'integrity' ? 'removed-integrity capability control fails preflight before requesting/executing plugin bytes; no fallback' : 'sealed document/init graph mapping mismatch refuses before requesting/executing plugin bytes')
+    }
   }
   await context.close()
-  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, responseHashes, requests, policyDenials, errors }, null, 2))
+  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, moduleManifests, responseHashes, requests, policyDenials, errors }, null, 2))
   for (const proof of proofs) console.log('PASS: ' + proof)
   console.log('Browser acceptance complete; expected policy-denial console errors are not application failures.')
 } catch (error) { if (evidenceRoot) await writeFile(join(evidenceRoot, 'failure.json'), JSON.stringify({ error: String(error), responseHashes, policyDenials, requests }, null, 2)); console.error('BROWSER PROOF FAILED:', error); throw error }

@@ -208,10 +208,10 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
     record.sessions.add(surface)
     void (async () => {
       try {
-        const provisioned = options.moduleDelivery ? await options.moduleDelivery.provision(record.artifacts, frameId) : undefined
+        const provisioned = options.moduleDelivery ? await options.moduleDelivery.provision(record.artifacts, frameId, record.imports) : undefined
         if (ended || !current(record)) { provisioned?.release(); finish('stale-frame'); return }
         if (provisioned) moduleRelease = provisioned.release
-        const modules = provisioned ? await admitFrameModuleLocations(record.artifacts, provisioned.urls, win!.location.origin) : undefined
+        const modules = provisioned ? await admitFrameModuleLocations(record.artifacts, provisioned.urls, win!.location.origin, record.imports) : undefined
         const document = await createFrameDocument(options.bootstrap, { frameId, nonce, parentOrigin: win!.location.origin, modules })
         if (ended || !current(record)) { finish('stale-frame'); return }
         const delivery = await options.delivery.provision(document)

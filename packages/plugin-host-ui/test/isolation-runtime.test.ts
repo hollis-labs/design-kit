@@ -40,7 +40,12 @@ it('admits only verified digest-bound same-origin module responses and derives b
   const { admitFrameModuleLocations } = await import('../src/isolation.js')
   const sha256 = await sha256Bytes(bytes), artifact = { id: 'plugin', kind: 'module' as const, sha256, base64: base64Bytes(bytes) }
   const url = `https://host.test/modules/${sha256}/plugin.js`
-  const locations = await admitFrameModuleLocations([artifact], { plugin: url }, 'https://host.test')
+  const imports = [{ specifier: 'reviewed-peer', artifact: 'plugin' }]
+  const locations = await admitFrameModuleLocations([artifact], { plugin: url }, 'https://host.test', imports)
+  expect(locations.imports).toEqual(imports)
+  expect(Object.isFrozen(locations.imports[0])).toBe(true)
+  await expect(admitFrameModuleLocations([artifact], { plugin: url }, 'https://host.test', [{ specifier: 'reviewed-peer', artifact: 'missing' }])).rejects.toThrow('policy-unavailable')
+  await expect(admitFrameModuleLocations([artifact], { plugin: url }, 'https://host.test', [...imports, ...imports])).rejects.toThrow('policy-unavailable')
   expect(locations.urls.plugin).toBe(url)
   expect(locations.integrity[url]).toMatch(/^sha256-[A-Za-z0-9+/]{43}=$/u)
   for (const invalid of [`https://evil.test/${sha256}`, `data:text/javascript,${sha256}`, `${url}?mutable=1`, `${url}#other`, 'https://host.test/source.js']) {

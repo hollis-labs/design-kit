@@ -28,7 +28,8 @@ export function startFrameBootstrap() {
   }
   async function initialize(message: Extract<BridgeMessage, { type: 'init' }>) {
     try {
-      const delivered = config.modules ? await admitFrameModuleLocations(message.artifacts, config.modules.urls, config.parent_origin) : undefined
+      const delivered = config.modules ? await admitFrameModuleLocations(message.artifacts, config.modules.urls, config.parent_origin, message.imports) : undefined
+      if (delivered && JSON.stringify(delivered.imports) !== JSON.stringify(config.modules!.imports)) return fail('policy-unavailable')
       const urls: Record<string, string> = Object.create(null)
       for (const artifact of message.artifacts) {
         const bytes = await verifyArtifact(artifact)

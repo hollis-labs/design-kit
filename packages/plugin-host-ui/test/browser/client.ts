@@ -20,8 +20,8 @@ const modalAction = { type: 'modal' as const, region: 'modal.body', entry: { own
 const action = { type: 'command' as const, command: 'tools/run', arguments: {} }, bindings: readonly BridgeBinding[] = [{ id: 'run', intent: action }, { id: 'open', intent: modalAction }]
 const options: PluginFrameBrowserOptions = {
   document, appId: 'fixture', isolation: setting, bootstrap: fixture.bootstrap,
-  ...(fixture.pinned ? { moduleDelivery: { async provision(artifacts, scope) {
-    const response = await fetch('/modules', { method: 'POST', body: JSON.stringify({ artifacts, scope }) })
+  ...(fixture.pinned ? { moduleDelivery: { async provision(artifacts, scope, imports) {
+    const response = await fetch('/modules', { method: 'POST', body: JSON.stringify({ artifacts, scope, imports }) })
     if (!response.ok) throw new Error('policy-unavailable')
     const urls = await response.json()
     return { urls, release() { void fetch(`/modules/${scope}`, { method: 'DELETE' }) } }

@@ -7,6 +7,10 @@ compositions of Base UI primitives that name tokens from
 [`OverlaySidebar`](docs/overlay-sidebar.md) adds a host-controlled modal sidebar
 on the existing Sheet, with pinned chrome and a scrolling body.
 
+[`InspectionDialog`](docs/inspection-dialog.md) adds controlled bounded inspection
+chrome with host-owned focus, navigation, and arbitrary content (local candidate,
+unreleased).
+
 > **The one rule: a component may name a token, never a value.**
 > It covers **scale** as much as colour. `text-[13px]` names a value exactly as
 > much as `#1a1b26` does.

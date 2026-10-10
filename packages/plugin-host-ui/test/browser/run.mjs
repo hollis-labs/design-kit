@@ -137,8 +137,8 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     const send = MessagePort.prototype.postMessage
     MessagePort.prototype.postMessage = function (packet, ...rest) { globalThis.fixturePort = this; globalThis.fixturePacket = packet; return send.call(this, packet, ...rest) }
   })
-  const page = await context.newPage()
-  page.on('response', response => { const headers = response.headers(); responseHeaders.push({url:response.url(), status:response.status(), headers:Object.fromEntries(['content-type','content-security-policy','permissions-policy','referrer-policy','cache-control','x-content-type-options','access-control-allow-origin','location'].filter(name => headers[name] !== undefined).map(name => [name,headers[name]]))}) }), errors = []; let downloads = 0, popups = 0
+  const page = await context.newPage(), errors = []
+  page.on('response', response => { const headers = response.headers(); responseHeaders.push({url:response.url(), status:response.status(), headers:Object.fromEntries(['content-type','content-security-policy','permissions-policy','referrer-policy','cache-control','x-content-type-options','access-control-allow-origin','location'].filter(name => headers[name] !== undefined).map(name => [name,headers[name]]))}) }); let downloads = 0, popups = 0
   if (process.env.DEBUG_FRAME_PROOF) {
     const debug = await context.newCDPSession(page)
     await debug.send('Debugger.enable')

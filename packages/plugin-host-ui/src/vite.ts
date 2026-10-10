@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import * as viteApi from 'vite'
 import { build, type Plugin, type ResolvedConfig, type Rollup } from 'vite'
 import { fileURLToPath } from 'node:url'
 import { sha256Bytes, base64Bytes } from './isolation/bytes.js'
@@ -121,13 +122,16 @@ export async function buildFrameArtifacts(options: FrameArtifactBuildOptions): P
   // Reuse the host entry validator; this does not build or install anything.
   pluginHostImportmap({ entries: options.entries })
   const artifacts: BridgeArtifact[] = [], imports: BridgeImport[] = []
+  // Vite 8/Rolldown preserves external CommonJS require by default. Its native
+  // bridge owns these externals and emits ESM imports before bytes are pinned.
+  const esmExternalRequire = (viteApi as unknown as { esmExternalRequirePlugin?: (options: { external: string[] }) => Plugin }).esmExternalRequirePlugin
   for (const [index, entry] of options.entries.entries()) {
     const virtual = resolve(options.root ?? process.cwd(), '.plugin-frame-entry.js'), id = `runtime-${index}`
-    const output = await build({ root: options.root, configFile: false, logLevel: 'silent', plugins: [{
+    const output = await build({ root: options.root, configFile: false, logLevel: 'silent', plugins: [...(esmExternalRequire ? [esmExternalRequire({ external: names.filter(name => name !== entry.specifier) })] : []), {
       name: 'plugin-frame-entry', resolveId: source => source === virtual ? `\0${virtual}` : undefined,
       load: source => source === `\0${virtual}` ? [entry.exports.length ? `export { ${entry.exports.join(', ')} } from ${JSON.stringify(entry.source)};` : '', entry.defaultExport ? `export { default } from ${JSON.stringify(entry.source)};` : ''].join('\n') : undefined,
     }], build: { write: false, minify: true, target: 'es2022', lib: { entry: virtual, formats: ['es'] },
-      rollupOptions: { external: source => source !== entry.specifier && names.includes(source), output: { inlineDynamicImports: true } } }, define: { 'process.env.NODE_ENV': JSON.stringify('production') },
+      rollupOptions: { external: esmExternalRequire ? undefined : source => source !== entry.specifier && names.includes(source), output: { inlineDynamicImports: true } } }, define: { 'process.env.NODE_ENV': JSON.stringify('production') },
     }) as Rollup.RollupOutput | Rollup.RollupOutput[]
     const bundle = Array.isArray(output) ? output[0] : output
     const chunks = bundle.output.filter((item): item is Rollup.OutputChunk => item.type === 'chunk')

@@ -1,6 +1,6 @@
 # @hollis-labs/plugin-host-ui
 
-Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. Exports: `.` for the runtime, ordering and scoped layout stores; `./react` for selectors and render primitives; `./vite` for importmap provisioning; `./settings` for optional configuration forms; `./source.css` for Tailwind scanning. The package follows the plugin-host-ui design draft. It is private until a separately approved release.
+Host-neutral provisioning extracted from Nanite's importmap and `_host` entry mechanism. Exports: `.` for the runtime, ordering and scoped layout stores; `./react` for selectors and render primitives; `./vite` for importmap provisioning; `./settings` for optional configuration forms; `./source.css` for Tailwind scanning; `./isolation` for the optional verified-byte frame runtime. The package follows the plugin-host-ui design draft. It is prepared for public npm delivery. Registry publication is a separate owner-operated step; local candidate archives are not published releases.
 
 ## Host importmap
 
@@ -217,3 +217,25 @@ peer and provide app-owned policy delivery, live registry leases and typed actio
 bindings. Each surface gets its own confirmed realm; mode changes fence all old
 sessions before replacement. See the integration contract, Chromium harness and
 limits in ISOLATION.md, including self-navigation egress and main-origin authority.
+
+
+## Release compatibility and delivery
+
+The optional Vite peer accepts `^7.0.0 || ^8.0.0`; release evidence targets
+7.3.6, 8.2.2 and Tangent's actual locked 8.3.1. Components and tokens stay on
+`^0.4.0`. Install React/React DOM 19, and `es-module-lexer` for isolation;
+`kit-settings ^0.2.0` is required only by the settings entry.
+
+For parents whose script policy refuses data/blob URLs, configure the
+`moduleDelivery` option on `createPluginFrameBrowser`. The host provisions
+immutable same-origin module responses from the supplied verified inventory.
+The runtime derives native importmap SRI from those bytes, checks integrity
+support before plugin execution, and admits only dedicated frame documents.
+It refuses main-origin rendering in this delivery mode. No failed delivery
+falls back to a source URL or a different execution mode. See [ISOLATION.md](./ISOLATION.md)
+for the server authority, CORS, lifecycle and browser requirements.
+
+Each public entry is independently importable: browser code uses `.`, `./react`,
+`./settings` or `./isolation`; Node build code uses `./vite`. No consumer must
+import an internal file. A local proof must install the exact packed candidate
+and retain its digest separately from any eventual registry-release receipt.

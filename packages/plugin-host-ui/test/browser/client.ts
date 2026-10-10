@@ -1,6 +1,6 @@
-import { createPluginFrameBrowser, type PluginFrameBrowserOptions, type VerifiedUiBundle, type ReviewedFramePlan, type BridgeBinding } from '../../src/isolation.js'
-import { createPluginHostRuntime, type AppIsolationSnapshot, type ContributionView, type HostScope, type PluginFrameMount } from '../../src/host.js'
-import { createSlotCatalog } from '../../src/catalog.js'
+import { createPluginFrameBrowser, type PluginFrameBrowserOptions, type VerifiedUiBundle, type ReviewedFramePlan, type BridgeBinding } from '@hollis-labs/plugin-host-ui/isolation'
+import { createPluginHostRuntime, type AppIsolationSnapshot, type ContributionView, type HostScope, type PluginFrameMount } from '@hollis-labs/plugin-host-ui'
+import { createSlotCatalog } from '@hollis-labs/plugin-host-ui'
 import { createPluginRegistry, bundleDigest, type PluginRegistryResponse, type KindDescriptor, type RegionDescriptor } from '@hollis-labs/plugin-registry'
 import { useState, createElement } from 'react'
 function store<T>(initial: T) {
@@ -8,7 +8,7 @@ function store<T>(initial: T) {
   const listeners = new Set<() => void>()
   return { getSnapshot: () => value, getServerSnapshot: () => value, subscribe(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener) } }, set(next: T) { value = next; for (const listener of [...listeners]) listener() } }
 }
-interface Fixture { bootstrap: string; artifacts: ReviewedFramePlan['artifacts']; imports: ReviewedFramePlan['imports']; plugin: string }
+interface Fixture { pinned?: boolean; bootstrap: string; artifacts: ReviewedFramePlan['artifacts']; imports: ReviewedFramePlan['imports']; plugin: string }
 const fixture = await (await fetch('/fixture')).json() as Fixture
 const setting = store<AppIsolationSnapshot>({ appId: 'fixture', effectiveMode: 'sandboxed-frame', revision: '1' })
 const hostScope: HostScope = { appId: 'fixture', environmentId: 'test', clientId: 'browser' }
@@ -20,6 +20,12 @@ const modalAction = { type: 'modal' as const, region: 'modal.body', entry: { own
 const action = { type: 'command' as const, command: 'tools/run', arguments: {} }, bindings: readonly BridgeBinding[] = [{ id: 'run', intent: action }, { id: 'open', intent: modalAction }]
 const options: PluginFrameBrowserOptions = {
   document, appId: 'fixture', isolation: setting, bootstrap: fixture.bootstrap,
+  ...(fixture.pinned ? { moduleDelivery: { async provision(artifacts, scope, imports, owner) {
+    const response = await fetch('/modules', { method: 'POST', body: JSON.stringify({ artifacts, scope, imports, owner }) })
+    if (!response.ok) throw new Error('policy-unavailable')
+    const urls = await response.json()
+    return { urls, release() { void fetch(`/modules/${scope}`, { method: 'DELETE' }) } }
+  } } } : {}),
   delivery: { async provision(doc) {
     const response = await fetch('/documents', { method: 'POST', body: JSON.stringify(doc) })
     if (!response.ok) throw new Error('policy-unavailable')
@@ -76,6 +82,11 @@ async function mount(key = 'first') {
 }
 Object.assign(globalThis, { fixtureHost: {
   load, mount, events, receipts,
+  async forbiddenGraph(code: string) {
+    const bytes = new TextEncoder().encode(code)
+    try { await frames.importModule({ owner: 'forbidden', generation: '1', hostInstance: 'fixture-host', digest: await bundleDigest(bytes), bytes, sourceUrl: '/changed-plugin.js', signal: new AbortController().signal }); return 'accepted' }
+    catch (error) { return error instanceof Error ? error.message : 'refused' }
+  },
   info: () => ({ executionCount, frames: document.querySelectorAll('iframe').length, views: runtime.getSnapshot().views.map(view => ({ key: view.ref.key, available: view.availability, current: runtime.isCurrent(view), frozen: Object.isFrozen(view.value), callable: typeof view.value === 'function' })), events: [...events] }),
   oldIsCurrent: () => frames.isCurrent(views[0]!),
   state: (index: number) => surfaces[index]?.getSnapshot(),

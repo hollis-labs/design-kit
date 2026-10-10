@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Prepare the package for public delivery, preserving the public runtime,
+  React/settings/isolation and Node-only Vite export boundaries.
+- Admit optional Vite 7 and 8 peers with components/tokens ^0.4.
+- Add immutable same-origin frame module delivery with native importmap SRI,
+  a fail-closed integrity preflight, and dedicated-document execution under an
+  unchanged parent CSP. This mode refuses srcdoc/main-origin fallback.
+- Preserve exact-byte graphs, per-frame runtime singletons, typed bridges and
+  owner/generation fences; publication and consumer adoption remain separate.
+
+
 - Add the optional verified-byte frame importer/controller, frozen owner-generation export handles and independent per-surface sessions.
 - Add exact-byte bootstrap/importmap delivery, reviewed standalone runtime artifact packaging and explicit main-origin admission.
 - Fence owner/mode replacement before cleanup and preserve sibling artifact inventories; reuse the existing typed action gateway with uncertain interruption receipts.

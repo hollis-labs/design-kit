@@ -4,6 +4,7 @@ import { BRIDGE_LIMITS, encodeBridgeMessage, parseBridgeMessage, type BridgeArti
 import { artifactModuleUrl, base64Bytes, sha256Bytes, verifyArtifact } from './bytes.js'
 import { createFrameNonce, createWindowBinding, type FrameOwner, sameFrameOwner } from './controller.js'
 import { createFrameDocument, type FrameDocumentDelivery } from './document.js'
+import { admitFrameModuleLocations, type FrameModuleDelivery } from './delivery.js'
 import { FRAME_PERMISSIONS, FRAME_SANDBOX } from './csp.js'
 import { reviewFrameModule } from './graph.js'
 import { createFrameSession } from './session.js'
@@ -25,6 +26,8 @@ export interface PluginFrameBrowserOptions {
   isolation: Observable<AppIsolationSnapshot>
   bootstrap: string
   delivery: FrameDocumentDelivery
+  /** Immutable same-origin modules with browser importmap integrity enforcement. */
+  moduleDelivery?: FrameModuleDelivery
   /** Host checks reviewed manifest, compatible versions/variant, provenance and install policy. */
   review(bundle: Readonly<VerifiedUiBundle>, setting: AppIsolationSnapshot): ReviewedFramePlan | Promise<ReviewedFramePlan>
   allowMainOrigin?(setting: AppIsolationSnapshot): boolean
@@ -88,7 +91,7 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
     iframe.title = verification ? 'Plugin export verification' : 'Plugin view'
     if (verification) iframe.hidden = true
     let state: PluginFrameRenderState = Object.freeze({ status: 'loading' }), port: MessagePort | undefined, seq = 0, revision = 0, armed = false, loaded = false, ended = false
-    let view: ContributionView | undefined, deliveryRelease: (() => void) | undefined, mountProps: PluginJsonObject = {}
+    let view: ContributionView | undefined, deliveryRelease: (() => void) | undefined, moduleRelease: (() => void) | undefined, mountProps: PluginJsonObject = {}
     const bindingRows = initialBindings
     let resolveInitialized!: (exports: readonly string[]) => void, rejectInitialized!: (error: Error) => void
     const initialized = new Promise<readonly string[]>((resolve, reject) => { resolveInitialized = resolve; rejectInitialized = reject })
@@ -111,6 +114,8 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
       try { port?.close() } catch { report('cleanup-incomplete', record.owner) }
       try { iframe.remove() } catch { report('cleanup-incomplete', record.owner) }
       try { deliveryRelease?.() } catch { report('cleanup-incomplete', record.owner) }
+      try { moduleRelease?.() } catch { report('cleanup-incomplete', record.owner) }
+      moduleRelease = undefined
       record.sessions.delete(surface); record.refs--; if (!record.active && record.refs === 0) record.artifacts = Object.freeze([])
       notify()
     }
@@ -203,12 +208,20 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
     record.sessions.add(surface)
     void (async () => {
       try {
-        const document = await createFrameDocument(options.bootstrap, { frameId, nonce, parentOrigin: win!.location.origin })
+        const provisioned = options.moduleDelivery ? await options.moduleDelivery.provision(record.artifacts, frameId, record.imports, record.owner) : undefined
+        if (ended || !current(record)) { provisioned?.release(); finish('stale-frame'); return }
+        if (provisioned) moduleRelease = provisioned.release
+        const modules = provisioned ? await admitFrameModuleLocations(record.artifacts, provisioned.urls, win!.location.origin, record.imports) : undefined
+        const document = await createFrameDocument(options.bootstrap, { frameId, nonce, parentOrigin: win!.location.origin, modules })
         if (ended || !current(record)) { finish('stale-frame'); return }
         const delivery = await options.delivery.provision(document)
         if (ended || !current(record)) { delivery.release(); finish('stale-frame'); return }
-        if (delivery.policyAdmitted !== true || (!!delivery.src === (delivery.srcdoc !== undefined))) { delivery.release(); finish('policy-unavailable'); return }
         deliveryRelease = delivery.release
+        if ((modules && delivery.srcdoc !== undefined) || delivery.policyAdmitted !== true || (!!delivery.src === (delivery.srcdoc !== undefined))) { finish('policy-unavailable'); return }
+        if (modules) {
+          const url = new URL(delivery.src!)
+          if (url.origin !== win!.location.origin || url.username || url.password || url.search || url.hash || url.href !== delivery.src) { finish('policy-unavailable'); return }
+        }
         armed = true
         if (delivery.srcdoc !== undefined) iframe.srcdoc = delivery.srcdoc
         else iframe.src = delivery.src
@@ -241,8 +254,11 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
       if (input.signal.aborted || bytes.length > BRIDGE_LIMITS.artifactBytes || !/^sha256:[a-f0-9]{64}$/u.test(input.digest) || `sha256:${await sha256Bytes(bytes)}` !== input.digest) throw new Error('digest-mismatch')
       const reviewed = await options.review(bundle, effective)
       if (!sameFrameOwner(reviewed.owner, { hostInstance: input.hostInstance, owner: input.owner, generation: input.generation, kind: '', key: '' }) || reviewed.digest !== input.digest || reviewed.mode !== effective.effectiveMode) throw new Error('unsupported-variant')
+      const integrityProbeBytes = new TextEncoder().encode('export const integrityProbe = true;')
+      const integrityProbe: BridgeArtifact = Object.freeze({ id: 'integrity-probe', kind: 'module', sha256: await sha256Bytes(integrityProbeBytes), base64: base64Bytes(integrityProbeBytes) })
+      if (options.moduleDelivery && reviewed.artifacts.some(artifact => artifact.id === integrityProbe.id || artifact.id === 'integrity-positive-probe')) throw new Error('unsupported-variant')
       const plugin: BridgeArtifact = Object.freeze({ id: 'plugin', kind: 'module', sha256: input.digest.slice(7), base64: base64Bytes(bytes) })
-      const parsed = parseBridgeMessage(encodeBridgeMessage({ bridge_version: 1, frame_id: 'inventory', nonce: '0'.repeat(64), seq: 1, type: 'init', artifacts: [...reviewed.artifacts, plugin], imports: reviewed.imports, bindings: [], context: {} }))
+      const parsed = parseBridgeMessage(encodeBridgeMessage({ bridge_version: 1, frame_id: 'inventory', nonce: '0'.repeat(64), seq: 1, type: 'init', artifacts: [...reviewed.artifacts, plugin, ...(options.moduleDelivery ? [integrityProbe, Object.freeze({ ...integrityProbe, id: 'integrity-positive-probe' })] : [])], imports: reviewed.imports, bindings: [], context: {} }))
       if (!parsed.accepted || parsed.message.type !== 'init') throw new Error('invalid-message')
       const { artifacts, imports } = parsed.message, specifiers = imports.map(row => row.specifier)
       for (const artifact of artifacts) { const verified = await verifyArtifact(artifact); if (artifact.kind === 'module') await reviewFrameModule(verified, specifiers) }
@@ -257,6 +273,7 @@ export function createPluginFrameBrowser(options: PluginFrameBrowserOptions): Pl
       records.set(key(owner), record)
       if (!reviewed.signatureVerified) report('unsigned', owner)
       if (effective.effectiveMode === 'main-origin') {
+        if (options.moduleDelivery) { revoke(record, 'unsupported-variant'); throw new Error('unsupported-variant') }
         report('main-origin-ambient-authority', owner)
         try {
           const namespace = await import(/* @vite-ignore */ artifactModuleUrl(plugin, key(owner))) as Record<string, unknown>

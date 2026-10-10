@@ -168,3 +168,66 @@ is observed by the harness, not hidden as universal network denial. CPU/memory a
 all possible browser egress are outside this contract. Sandbox isolation does not
 establish provenance, signature trust, manifest permission or host grant validity.
 Main-origin execution has ambient document authority and cooperative cleanup.
+
+
+## Immutable same-origin module delivery
+
+`PluginFrameBrowserOptions.moduleDelivery` accepts a `FrameModuleDelivery`.
+Its `provision(artifacts, scope, imports, owner)` receives the verified inventory, including a
+harmless package-owned integrity probe, and exact owner/incarnation/generation identity, and returns `{urls, release}`. Return one
+canonical absolute HTTP(S) URL per module artifact ID, on the parent origin;
+each path contains that artifact's SHA-256. Queries, fragments, credentials,
+extra/missing modules and duplicate URLs are refused. Styles remain verified
+inline artifacts. The derived admitted manifest binds module IDs, byte digests, fixed JavaScript media type, canonical URLs, reviewed specifier-to-artifact graph mapping and integrity metadata. The bootstrap refuses an init mapping that differs from the sealed document mapping. All static/dynamic/transitive imports are checked against the pinned bare-peer mapping; computed, relative, URL and import.meta graphs refuse. The protocol's existing init/bridge shapes are unchanged.
+
+The host server owns this response store. It must authenticate provisioning,
+validate bounded canonical bytes/digests, snapshot each response immutably,
+serve exact JavaScript bytes with `Content-Type: text/javascript`,
+`X-Content-Type-Options: nosniff`, and CORS permitting the opaque frame (`null`
+origin, no credentials). A credential-free dedicated response may use
+`Access-Control-Allow-Origin: *`. Never redirect, interpolate scripts, return
+mutable source URLs or route the response through an untrusted proxy/service
+worker. A digest in a URL alone is no evidence of response integrity.
+The host must refuse unknown routes, redirects, digest/content mismatches and attempted replacement. Keep admitted mappings stable until their frames stop; revoke/stop authority separately from deleting bytes, and MUST enforce non-reusable route identity for the entire host/server incarnation and across any persistence/restart boundary where old URLs can still be requested. Refuse replacement/reuse after disposal as well as while live. Bind route scope to the exact owner/incarnation and admitted manifest; use a fail-closed retention policy, with no rebinding after deletion. The lifetime release removes only the scope's store; deletion/replacement must
+not alter any other active scope. Provisioning must not expose host credentials
+to the frame. This library grants no server authority or new HTTP routes.
+
+The runtime verifies the provided artifacts again, pins the URL inventory,
+and generates an importmap `integrity` entry for every module. In each opaque
+realm it first imports a harmless package-owned positive probe with correct SRI,
+then imports the same bytes at a separate pinned URL with an incorrect digest.
+Admission requires the latter import to reject and Resource Timing to show a
+completed HTTP 200 response with the exact decoded byte length, without a
+matching CSP denial. Delivery MUST send `Timing-Allow-Origin: *` for those
+responses. Missing timing support, missing routes, incomplete transfers or a
+browser accepting the bad digest refuse before plugin execution. The positive
+probe and plugin graph use the same native importmap integrity path.
+
+This is not intrinsic browser introspection: admission also trusts the sealed
+host to serve the exact admitted probe bytes with valid JavaScript MIME and
+opaque-origin CORS headers, without redirects or interception. HTTP 200 and
+byte length alone do not prove that contract. A host violating those assurances
+could turn a CORS/MIME error into a false integrity signal in an unsupported
+browser; that host is outside the admitted contract. Supported-browser evidence
+must include actual response hashes/headers and native bad-SRI rejection, with
+positive rendering and an unavailable-probe/unsupported-integrity refusal
+control. The bootstrap removes readable nonce attributes and CSP metadata after importmap installation, before any plugin module executes; parsed/header CSP remains enforced. The plugin and its approved bare
+peer graph then load under the correct SRI digests, without rewriting bytes.
+Each frame retains a separate module singleton set and bridge lifecycle.
+
+This mode requires a dedicated same-origin frame response whose exact document,
+CSP and Permissions-Policy are admitted by the host's `delivery.provision`.
+The child script policy names only pinned module URLs plus its trusted bootstrap
+hash/document nonce; it has no data/blob script source. The parent policy is
+unchanged. `srcdoc` is refused, since its inherited policy cannot admit a new
+bootstrap or importmap nonce under Tangent's production script policy.
+Main-origin is refused in this mode; there is no fallback to the legacy data-URL
+mode. The latter remains explicit existing behavior when `moduleDelivery` is
+absent and requires a separately admissible host policy.
+
+Run the focused harness with `PINNED_MODULES=1 node test/browser/run.mjs` after
+building. It exercises the parent self+Tangent-shim script policy, exact-byte
+opaque rendering, plugin/runtime response tampering after provisioning,
+changed sourceUrl, clean replay and the existing bridge/isolation contracts.
+A passing browser receipt applies to that browser and delivery adapter only.
+Production Tangent endpoint adoption is separate from a local candidate proof. HTTP caches, service workers, redirects or global import maps must never widen the admitted graph or replace bytes behind an admitted identity. The same native integrity path must enforce the negative probe, positive rendering and every plugin/runtime/transitive load in each supported browser; otherwise refuse admission.

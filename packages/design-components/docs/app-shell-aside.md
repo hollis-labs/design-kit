@@ -100,3 +100,5 @@ The popup's local focus observation distinguishes removal from ordinary blur or
 focus leaving for a portaled nested layer. `OverlaySidebar.contentRef` exposes
 its actual popup node for this layout ownership; generic OverlaySidebar unmount
 still refuses deferred focus return. No global focus or keyboard listener is added.
+
+Destinationless browser focus-out is resolved after the DOM mutation: explicit blur of a connected child relinquishes ownership; removal of that child can retain resize ownership. The local deferred observation is fenced by popup identity, focus epoch, activation and source. Explicit blur and removal in one synchronous mutation can be indistinguishable; the resize and current-source fences still apply, but that case is not claimed as an independently observed blur.

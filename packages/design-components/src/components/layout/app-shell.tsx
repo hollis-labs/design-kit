@@ -197,14 +197,29 @@ export function AppShell({
     desktopAsideRef.current = node
   }, [])
   const popupOwnsFocus = useRef(false)
-  const rememberPopupFocus = useCallback(() => { popupOwnsFocus.current = true }, [])
+  const popupFocusEpoch = useRef(0)
+  const rememberPopupFocus = useCallback(() => { popupFocusEpoch.current++; popupOwnsFocus.current = true }, [])
   const releasePopupFocus = useCallback((event: FocusEvent) => {
-    if (!overlayAsideRef.current?.contains(event.relatedTarget as Node | null)) popupOwnsFocus.current = false
+    if (overlayAsideRef.current?.contains(event.relatedTarget as Node | null)) return
+    if (event.relatedTarget) { popupFocusEpoch.current++; popupOwnsFocus.current = false; return }
+    // Chromium emits focusout with no destination while a focused child is
+    // being removed, before the popup ref detaches. Ordinary blur leaves the
+    // child connected; resolve that distinction after this DOM mutation.
+    const target = event.target as Node
+    const popup = overlayAsideRef.current
+    const focusEpoch = ++popupFocusEpoch.current
+    const activationEpoch = activation.current
+    const generation = committedAside.current.generation
+    queueMicrotask(() => {
+      if (popupFocusEpoch.current === focusEpoch && activation.current === activationEpoch && Object.is(committedAside.current.generation, generation) && overlayAsideRef.current === popup && target.isConnected && !popup?.contains(document.activeElement)) popupOwnsFocus.current = false
+    })
   }, [])
   const setOverlayAsideRef = useCallback((node: HTMLDivElement | null) => {
     const previous = overlayAsideRef.current
-    // Portals detach before this callback. Native removal does not emit blur,
-    // so preserve locally observed ownership; an actual focus-out relinquishes it.
+    popupFocusEpoch.current++
+    // Portals detach before this callback. Removal may emit destinationless
+    // focus-out before detaching; preserve observed ownership through that
+    // mutation. Focus to an outside node relinquishes ownership immediately.
     if (!node && popupOwnsFocus.current) {
       returnPending.current = { kind: 'overlay', generation: committedAside.current.generation, activation: activation.current }
     }

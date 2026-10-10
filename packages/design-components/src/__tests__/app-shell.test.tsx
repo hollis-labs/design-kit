@@ -254,7 +254,7 @@ describe('AppShell owns only current narrow-to-desktop focus return', () => {
     await waitFor(() => expect(document.activeElement).toBe(target))
     target.remove()
   })
-  it.each(['replacement', 'unadmitted', 'competing', 'unmount', 'outside'])('rejects %s ownership after popup removal', async (boundary) => {
+  it.each(['replacement', 'unadmitted', 'competing', 'unmount', 'outside', 'blur'])('rejects %s ownership after popup removal', async (boundary) => {
     const { target, shell } = setup()
     const view = render(shell(true))
     const editor = await screen.findByRole('button', { name: 'Popup editor' })
@@ -264,6 +264,7 @@ describe('AppShell owns only current narrow-to-desktop focus return', () => {
     if (boundary === 'competing') document.body.append(competing)
     const outside = document.createElement('button')
     if (boundary === 'outside') { document.body.append(outside); outside.focus() }
+    if (boundary === 'blur') { editor.blur(); await Promise.resolve(); expect(editor.isConnected).toBe(true) }
     if (boundary === 'unmount') view.unmount()
     else view.rerender(shell(false, boundary === 'replacement' ? 'source-b' : 'source-a', boundary !== 'unadmitted'))
     await Promise.resolve()

@@ -190,10 +190,10 @@ export function OperationsListPage<T>({
     invalid = true
   const ready = accessible && !page.loading && !page.errorState && !invalid
   const allowed = () => live() && ready && active
-  const paneAllowed = () =>
+  const paneAllowed = (editableInput = false) =>
     allowed() &&
     (inspector.mode === 'inline' || inspector.selectedId === null) &&
-    !composing.current &&
+    (editableInput || !composing.current) &&
     !Array.from(document.querySelectorAll<HTMLElement>(layers)).some((n) => visible(n))
   const facetAllowed = (id: string) =>
     allowed() &&
@@ -378,7 +378,7 @@ export function OperationsListPage<T>({
       disabled={!accessible || !active}
       className="w-full min-w-0 rounded border border-border bg-bg px-3 py-2 text-label text-text"
       onChange={(e) => {
-        if (paneAllowed()) page.onSearchChange(e.target.value)
+        if (paneAllowed(true)) page.onSearchChange(e.target.value)
       }}
       onKeyDown={(e) => {
         if (

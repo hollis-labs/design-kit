@@ -242,6 +242,18 @@ describe('operations list admission and lifetime', () => {
     fireEvent.click(row)
     expect(v.getByRole('region', { name: 'Record inspector' })).toBeTruthy()
   })
+  it('preserves admitted editable search updates during composition while suppressing Escape', () => {
+    const v = render(<Consumer />)
+    const search = v.getByRole('searchbox') as HTMLInputElement
+    fireEvent.compositionStart(search)
+    fireEvent.change(search, {target: {value: '字'}})
+    expect(search.value).toBe('字')
+    fireEvent.keyDown(search, {key: 'Escape'})
+    expect(search.value).toBe('字')
+    fireEvent.compositionEnd(search)
+    fireEvent.keyDown(search, {key: 'Escape'})
+    expect(search.value).toBe('')
+  })
   it('withholds counts and interactions for duplicate or nonadmitted matched IDs', () => {
     const v = render(<Consumer duplicate />)
     expect(v.getByRole('alert').textContent).toContain('identifiers')

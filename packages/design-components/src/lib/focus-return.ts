@@ -16,6 +16,7 @@ export interface FocusReturnOptions {
   /** Caller-owned admission predicate (e.g. record still in active projection). */
   isAdmitted?: (trigger: HTMLElement) => boolean
   /** Explicit fallback if trigger is missing, disconnected, or unadmitted. */
+  isFallbackAdmitted?: (target: HTMLElement) => boolean
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
@@ -38,7 +39,8 @@ export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLEle
     rawFallback &&
     rawFallback instanceof HTMLElement &&
     rawFallback.isConnected &&
-    !rawFallback.matches(':disabled')
+    !rawFallback.matches(':disabled') &&
+    (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))
   ) {
     return rawFallback
   }

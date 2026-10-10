@@ -105,7 +105,7 @@ describe('useAppShellAside hook', () => {
     expect(result.current.overlayOpen).toBe(false)
     expect(result.current.isNarrow).toBe(false)
 
-    expect(result.current.asideProps).toEqual({
+    expect(result.current.asideProps).toMatchObject({
       asideWidth: 'regular',
       asideCollapsed: true,
       onAsideCollapsedChange: expect.any(Function),
@@ -295,5 +295,59 @@ describe('admitted focus return', () => {
     })
     expect(result.current.collapsed).toBe(false)
     expect(memory.read()?.collapsed).toBe(false)
+  })
+})
+
+
+describe('callback custody', () => {
+  it('rejects every retired source, access, layer, store and unmounted callback, including reused IDs', () => {
+    const trigger = document.createElement('button')
+    const other = document.createElement('button')
+    document.body.append(trigger, other)
+    const store = createAppShellAsideStore({ storage: createMemoryStorage(), defaultCollapsed: true })
+    const replacement = createAppShellAsideStore({ storage: createMemoryStorage(), defaultCollapsed: true })
+    const { result, rerender, unmount } = renderHook(
+      ({ generation, currentStore }) => useAppShellAside({ store: currentStore, sourceGeneration: generation, isNarrow: true }),
+      { initialProps: { generation: 'source-A/access-A/layer-A', currentStore: store } },
+    )
+    result.current.triggerRef.current = trigger
+    const retired = []
+    for (const generation of ['source-B/access-A/layer-A', 'source-B/access-B/layer-A', 'source-B/access-B/layer-B', 'source-A/access-A/layer-A']) {
+      retired.push(result.current)
+      rerender({ generation, currentStore: store })
+    }
+    retired.push(result.current)
+    rerender({ generation: 'source-A/access-A/layer-A', currentStore: replacement })
+    other.focus()
+    for (const handle of retired) {
+      act(() => {
+        handle.setWidth('wide'); handle.setCollapsed(false); handle.toggleCollapsed()
+        handle.setOverlayOpen(true); handle.toggleOverlay()
+        expect(handle.restoreFocus()).toBe(false)
+      })
+    }
+    expect(store.getSnapshot()).toEqual({ width: 'regular', collapsed: true })
+    expect(replacement.getSnapshot()).toEqual({ width: 'regular', collapsed: true })
+    expect(result.current.overlayOpen).toBe(false)
+    expect(document.activeElement).toBe(other)
+    // Positive current control: same connected DOM target and actual writes.
+    act(() => {
+      result.current.setWidth('compact'); result.current.setCollapsed(false)
+      result.current.setOverlayOpen(true)
+      expect(result.current.restoreFocus()).toBe(true)
+    })
+    expect(document.activeElement).toBe(trigger)
+    expect(replacement.getSnapshot()).toEqual({ width: 'compact', collapsed: false })
+    expect(result.current.overlayOpen).toBe(true)
+    const last = result.current
+    unmount()
+    other.focus()
+    act(() => {
+      last.setWidth('wide'); last.toggleCollapsed(); last.setOverlayOpen(false)
+      expect(last.restoreFocus()).toBe(false)
+    })
+    expect(replacement.getSnapshot()).toEqual({ width: 'compact', collapsed: false })
+    expect(document.activeElement).toBe(other)
+    trigger.remove(); other.remove()
   })
 })

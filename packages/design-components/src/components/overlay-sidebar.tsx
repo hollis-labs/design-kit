@@ -1,4 +1,5 @@
-import type { ReactElement, ReactNode } from 'react'
+import { useRef, type ReactElement, type ReactNode } from 'react'
+import { resolveAdmittedFocusTarget, type FocusReturnOptions } from '../lib/focus-return'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 
 export interface OverlaySidebarProps {
@@ -11,6 +12,8 @@ export interface OverlaySidebarProps {
   readonly side?: 'left' | 'right'
   readonly header?: ReactNode
   readonly footer?: ReactNode
+  /** Caller-owned eligibility for return focus. Omit to preserve Sheet's default. */
+  readonly focusReturn?: Omit<FocusReturnOptions, 'trigger'>
   readonly children: ReactNode
 }
 
@@ -19,11 +22,12 @@ export interface OverlaySidebarProps {
  * Sheet; Base UI owns focus containment, Escape and backdrop dismissal. The host
  * owns navigation, selection and content. No layout store or viewport breakpoint.
  */
-export function OverlaySidebar({ open, onOpenChange, trigger, title, description, side = 'left', header, footer, children }: OverlaySidebarProps) {
+export function OverlaySidebar({ open, onOpenChange, trigger, title, description, side = 'left', header, footer, focusReturn, children }: OverlaySidebarProps) {
+  const triggerRef = useRef<HTMLButtonElement | null>(null)
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetTrigger render={trigger} />
-      <SheetContent side={side} className="min-w-0 max-w-full gap-0 overflow-hidden bg-bg-elevated text-control text-fg data-[side=left]:w-80 data-[side=right]:w-80">
+      <SheetTrigger ref={triggerRef} render={trigger} />
+      <SheetContent finalFocus={focusReturn ? () => resolveAdmittedFocusTarget({ ...focusReturn, trigger: triggerRef.current }) ?? false : undefined} side={side} className="min-w-0 max-w-full gap-0 overflow-hidden bg-bg-elevated text-control text-fg data-[side=left]:w-80 data-[side=right]:w-80">
         <SheetHeader className="shrink-0 border-b border-border-subtle pr-12">
           <SheetTitle className="text-control font-semibold text-fg">{title}</SheetTitle>
           {description ? <SheetDescription className="text-caption text-fg-muted">{description}</SheetDescription> : null}

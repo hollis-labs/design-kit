@@ -1,6 +1,6 @@
 import {
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -17,6 +17,7 @@ import {
 export interface FocusReturnTargetOptions {
   trigger?: HTMLElement | null | (() => HTMLElement | null)
   isAdmitted?: (trigger: HTMLElement) => boolean
+  isFallbackAdmitted?: (target: HTMLElement) => boolean
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
@@ -44,7 +45,8 @@ export function resolveAdmittedFocusTarget(options: FocusReturnTargetOptions): H
     rawFallback &&
     rawFallback instanceof HTMLElement &&
     rawFallback.isConnected &&
-    !rawFallback.matches(':disabled')
+    !rawFallback.matches(':disabled') &&
+    (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))
   ) {
     return rawFallback
   }
@@ -60,6 +62,7 @@ export interface UseAppShellAsideOptions extends AppShellAsideStoreOptions {
   /** Explicit fallback target for focus return when trigger is disconnected/disabled/unadmitted. */
   focusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
   /** Admission predicate to verify if trigger element is eligible for focus return. */
+  isFallbackAdmitted?: (target: HTMLElement) => boolean
   isTriggerAdmitted?: (trigger: HTMLElement) => boolean
   /** Active source/access/layer generation. Callbacks from retired generations will fail. */
   sourceGeneration?: unknown
@@ -96,6 +99,10 @@ export interface AppShellAsideHandle {
     asideOverlayOpen: boolean
     onAsideOverlayOpenChange: (open: boolean) => void
     isNarrow: boolean
+    asideFocusReturnTarget: () => HTMLElement | null
+    asideFocusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
+    isAsideTriggerAdmitted?: (target: HTMLElement) => boolean
+    isAsideFallbackAdmitted?: (target: HTMLElement) => boolean
   }
 }
 
@@ -119,6 +126,7 @@ export function useAppShellAside(
     isNarrow: controlledNarrow,
     focusFallbackTarget,
     isTriggerAdmitted,
+    isFallbackAdmitted,
     sourceGeneration,
     ...storeOptions
   } = options
@@ -126,27 +134,13 @@ export function useAppShellAside(
   const store = useMemo(
     () => providedStore ?? createAppShellAsideStore(storeOptions),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [providedStore, storeOptions.appNamespace, storeOptions.storageKey, storeOptions.defaultWidth, storeOptions.defaultCollapsed],
+    [providedStore, storeOptions.appNamespace, storeOptions.storageKey, storeOptions.defaultWidth, storeOptions.defaultCollapsed, storeOptions.storage, storeOptions.narrowBreakpoint],
   )
 
   const state = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot)
 
   const [overlayOpen, setOverlayOpenState] = useState(false)
   const triggerRef = useRef<HTMLElement | null>(null)
-  const isMountedRef = useRef(true)
-  const generationRef = useRef(sourceGeneration)
-
-  useEffect(() => {
-    generationRef.current = sourceGeneration
-  }, [sourceGeneration])
-
-  useEffect(() => {
-    isMountedRef.current = true
-    return () => {
-      isMountedRef.current = false
-    }
-  }, [])
-
   // Viewport detection below narrowBreakpoint using useSyncExternalStore
   const query = `(max-width: ${store.narrowBreakpoint - 1}px)`
 
@@ -173,14 +167,23 @@ export function useAppShellAside(
   const mediaNarrow = useSyncExternalStore(subscribeMedia, getMediaSnapshot, getMediaServerSnapshot)
   const isNarrow = controlledNarrow ?? mediaNarrow
 
+  // A retired lease stays retired even if a caller later reuses the same generation ID.
+  const lease = useMemo(() => ({ store, sourceGeneration, isNarrow, overlayOpen }), [store, sourceGeneration, isNarrow, overlayOpen])
+  const currentLease = useRef<typeof lease | null>(null)
+  useLayoutEffect(() => {
+    currentLease.current = lease
+    return () => { currentLease.current = null }
+  }, [lease])
+
+
   const restoreFocus = useCallback(() => {
-    if (!isMountedRef.current) return false
-    if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return false
+    if (currentLease.current !== lease) return false
 
     const target = resolveAdmittedFocusTarget({
       trigger: triggerRef.current,
       isAdmitted: isTriggerAdmitted,
       fallbackTarget: focusFallbackTarget,
+      isFallbackAdmitted,
     })
 
     if (target && typeof target.focus === 'function') {
@@ -188,7 +191,7 @@ export function useAppShellAside(
       return true
     }
     return false
-  }, [isTriggerAdmitted, focusFallbackTarget, sourceGeneration])
+  }, [isTriggerAdmitted, focusFallbackTarget, isFallbackAdmitted, lease])
 
   // Resize handling: switching between persistent desktop and narrow overlay
   const [prevNarrow, setPrevNarrow] = useState(isNarrow)
@@ -199,62 +202,45 @@ export function useAppShellAside(
     }
   }
 
-  useEffect(() => {
-    if (isNarrow && typeof document !== 'undefined') {
-      const active = document.activeElement
-      if (active && active.closest('[data-slot="app-shell-aside"]')) {
-        restoreFocus()
-      }
-    }
-  }, [isNarrow, restoreFocus])
+  const [previousSource, setPreviousSource] = useState({ store, sourceGeneration })
+  if (previousSource.store !== store || previousSource.sourceGeneration !== sourceGeneration) {
+    setPreviousSource({ store, sourceGeneration })
+    if (overlayOpen) setOverlayOpenState(false)
+  }
 
   const setWidth = useCallback(
     (width: AsideWidth) => {
-      if (!isMountedRef.current) return
-      if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return
+      if (currentLease.current !== lease) return
       store.setWidth(width)
     },
-    [store, sourceGeneration],
+    [store, lease],
   )
 
   const setCollapsed = useCallback(
     (collapsed: boolean) => {
-      if (!isMountedRef.current) return
-      if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return
+      if (currentLease.current !== lease) return
       store.setCollapsed(collapsed)
     },
-    [store, sourceGeneration],
+    [store, lease],
   )
 
   const toggleCollapsed = useCallback(() => {
-    if (!isMountedRef.current) return
-    if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return
+    if (currentLease.current !== lease) return
     store.toggleCollapsed()
-  }, [store, sourceGeneration])
+  }, [store, lease])
 
   const setOverlayOpen = useCallback(
     (open: boolean) => {
-      if (!isMountedRef.current) return
-      if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return
+      if (currentLease.current !== lease) return
       setOverlayOpenState(open)
-      if (!open) {
-        restoreFocus()
-      }
     },
-    [restoreFocus, sourceGeneration],
+    [lease],
   )
 
   const toggleOverlay = useCallback(() => {
-    if (!isMountedRef.current) return
-    if (sourceGeneration !== undefined && generationRef.current !== sourceGeneration) return
-    setOverlayOpenState((prev) => {
-      const next = !prev
-      if (!next) {
-        restoreFocus()
-      }
-      return next
-    })
-  }, [restoreFocus, sourceGeneration])
+    if (currentLease.current !== lease) return
+    setOverlayOpenState((prev) => !prev)
+  }, [lease])
 
   return {
     width: state.width,
@@ -275,6 +261,10 @@ export function useAppShellAside(
       asideOverlayOpen: overlayOpen,
       onAsideOverlayOpenChange: setOverlayOpen,
       isNarrow,
+      asideFocusReturnTarget: () => currentLease.current === lease ? triggerRef.current : null,
+      asideFocusFallbackTarget: focusFallbackTarget,
+      isAsideTriggerAdmitted: (target) => currentLease.current === lease && (!isTriggerAdmitted || isTriggerAdmitted(target)),
+      isAsideFallbackAdmitted: (target) => currentLease.current === lease && (!isFallbackAdmitted || isFallbackAdmitted(target)),
     },
   }
 }

@@ -2,6 +2,8 @@
 
 ## Unreleased — CW-20261010-0072
 
+- Commit-scoped source/store/viewport/layer leases reject retired callbacks even after ID reuse and unmount. Hook spread props carry explicit trigger/fallback admission; closing focus is owned by the underlying Sheet. Temporary overlays reset on source or viewport transitions without persisting them.
+
 - Add headless `createAppShellAsideStore` and `useAppShellAside` hook for `AppShell` aside preference management.
 - Persists aside width (`compact`, `regular`, `wide`) and collapsed state under `ops-shell:aside:v1` with `appNamespace` isolation via `createScopedStorage`.
 - In-memory only overlay open state for narrow screens below 1024px, preserving desktop state across breakpoint changes.

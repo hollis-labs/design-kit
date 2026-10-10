@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { AppShell } from '../components/layout/app-shell'
 
 /**
@@ -188,37 +189,44 @@ describe('AppShell optional aside', () => {
     expect(trigger.getAttribute('data-slot')).toBe('app-shell-aside-trigger')
   })
 
-  it('restores focus safely when narrow OverlaySidebar closes', () => {
-    const fallbackTarget = document.createElement('button')
-    document.body.appendChild(fallbackTarget)
+  it('returns focus from desktop collapse and resize to an explicit admitted target', async () => {
+    const target = document.createElement('button')
+    document.body.appendChild(target)
+    const props = { aside: <button>Aside action</button>, asideFocusReturnTarget: target }
+    const { rerender } = render(<AppShell {...props} isNarrow={false}>Body</AppShell>)
+    screen.getByRole('button', { name: 'Aside action' }).focus()
+    rerender(<AppShell {...props} isNarrow={false} asideCollapsed>Body</AppShell>)
+    await waitFor(() => expect(document.activeElement).toBe(target))
+    rerender(<AppShell {...props} isNarrow={false}>Body</AppShell>)
+    screen.getByRole('button', { name: 'Aside action' }).focus()
+    rerender(<AppShell {...props} isNarrow>Body</AppShell>)
+    await waitFor(() => expect(document.activeElement).toBe(target))
+    target.remove()
+  })
 
-    const onOpenChange = () => {}
-    const { rerender } = render(
-      <AppShell
-        isNarrow={true}
-        aside={<div data-testid="aside-content">Aside Content</div>}
-        asideOverlayOpen={true}
-        onAsideOverlayOpenChange={onOpenChange}
-        asideFocusFallbackTarget={fallbackTarget}
-      >
-        <span data-testid="shell-child" />
-      </AppShell>,
-    )
-
-    // Close overlay
-    rerender(
-      <AppShell
-        isNarrow={true}
-        aside={<div data-testid="aside-content">Aside Content</div>}
-        asideOverlayOpen={false}
-        onAsideOverlayOpenChange={onOpenChange}
-        asideFocusFallbackTarget={fallbackTarget}
-      >
-        <span data-testid="shell-child" />
-      </AppShell>,
-    )
-
-    expect(fallbackTarget).toBeTruthy()
-    document.body.removeChild(fallbackTarget)
+  it('returns from the actual custom trigger and rejects connected but retired triggers', async () => {
+    const fallback = document.createElement('button')
+    document.body.appendChild(fallback)
+    let admitted = true
+    function Example() {
+      const [open, setOpen] = useState(false)
+      return <AppShell isNarrow aside={<button>Aside action</button>}
+        asideTrigger={<button>Custom opener</button>}
+        asideOverlayOpen={open} onAsideOverlayOpenChange={setOpen}
+        isAsideTriggerAdmitted={() => admitted}
+        asideFocusFallbackTarget={fallback} isAsideFallbackAdmitted={() => true}>Body</AppShell>
+    }
+    render(<Example />)
+    const trigger = screen.getByRole('button', { name: 'Custom opener' })
+    fireEvent.click(trigger)
+    await screen.findByRole('dialog')
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+    await waitFor(() => expect(document.activeElement).toBe(trigger))
+    fireEvent.click(trigger)
+    await screen.findByRole('dialog')
+    admitted = false
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+    await waitFor(() => expect(document.activeElement).toBe(fallback))
+    fallback.remove()
   })
 })

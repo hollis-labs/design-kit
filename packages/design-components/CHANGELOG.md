@@ -2,12 +2,12 @@
 
 ## Unreleased — CW-20261010-0072
 
-- Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideProps?: AppShellAsideProps`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).
+- Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).
 - Preset widths: `compact` (w-80 / 20rem), `regular` (w-96 / 24rem, default), and `wide` (w-112 / 28rem).
 - Desktop layout reserves zero space/sliver when `asideCollapsed: true`.
 - Responsive fallback to `OverlaySidebar` below the 1024px (`lg`) breakpoint.
 - Pinned header and footer; independent aside and body scrolling.
-- Admitted connected focus return on aside close or resize.
+- Admitted connected focus return on desktop collapse/resize and narrow close, including custom triggers and explicit fallback admission. Optional `OverlaySidebar.focusReturn` delegates return resolution to Sheet after dismissal; default callers retain Sheet behavior.
 - Zero breaking changes: existing no-aside `AppShell` behavior and markup are preserved.
 
 ## Unreleased — CW-20261010-0036

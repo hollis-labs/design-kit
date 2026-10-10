@@ -61,3 +61,27 @@ fallback below the narrow screen threshold (1024px / `lg`).
    - Never guesses hidden DOM elements.
    - Resize from desktop to narrow while focus is inside the aside closes the temporary overlay
      and returns focus safely without mutating the persisted desktop collapse preference.
+
+## Host controls and focus custody
+
+The host renders a labelled desktop toggle in pinned header chrome and supplies
+`asideFocusReturnTarget` (element or getter), `isAsideTriggerAdmitted`, and an
+optional `asideFocusFallbackTarget` / `isAsideFallbackAdmitted`. Changing controlled
+`asideCollapsed` removes geometry; `onAsideCollapsedChange` is the host callback
+passed to its own toggle and child actions. AppShell installs no global shortcut.
+The narrow trigger is visible by default; a custom button is resolved by Sheet,
+including connected-but-retired admission. Sheet resolves return after dismissal
+instead of racing its automatic focus handling. Caller fallback targets must be
+current and admitted; no document query guesses a replacement.
+
+`data-slot=app-shell` exposes `data-aside-state` (persistent/collapsed/overlay)
+and `data-aside-width` while an aside is supplied. Existing desktop
+`app-shell-aside/header/body/footer` and narrow `overlay-sidebar-body/footer`
+identify the actual region owners. `aside={null}` is an explicit empty region;
+omitting the prop has no aside geometry or attributes.
+
+Aside child content must not introduce a second bounded vertical scroll owner.
+Use shell body / OverlaySidebar body as the scrolling region; put composers in
+`asideFooter`. A ChatStream can expand into its owner via `className=flex-none`
+and `viewportClassName="flex-none overflow-visible"` with auto-scroll disabled;
+its local host chooses transcript behavior. Draft/transport remain host-owned.

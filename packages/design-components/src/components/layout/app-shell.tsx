@@ -2,7 +2,7 @@ import {
   type ReactElement,
   type ReactNode,
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useSyncExternalStore,
@@ -51,7 +51,11 @@ export interface AppShellAsideProps {
    * If undefined, media query (max-width: 1023px) is evaluated in the browser.
    */
   isNarrow?: boolean
-  /** Explicit fallback target for focus return when trigger is disconnected/disabled/unadmitted. */
+  /** Explicit desktop toggle target for collapse/resize focus return. */
+  asideFocusReturnTarget?: HTMLElement | null | (() => HTMLElement | null)
+  /** Admission predicate for the explicit fallback target. */
+  isAsideFallbackAdmitted?: (target: HTMLElement) => boolean
+  /** Explicit fallback when the opening target is ineligible. */
   asideFocusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
   /** Admission predicate to check if the trigger is still eligible to receive focus. */
   isAsideTriggerAdmitted?: (trigger: HTMLElement) => boolean
@@ -136,6 +140,8 @@ export function AppShell({
   asideOverlayOpen: controlledOverlayOpen,
   onAsideOverlayOpenChange,
   isNarrow: controlledNarrow,
+  asideFocusReturnTarget,
+  isAsideFallbackAdmitted,
   asideFocusFallbackTarget,
   isAsideTriggerAdmitted,
 }: AppShellProps) {
@@ -160,37 +166,61 @@ export function AppShell({
 
   const setOverlayOpen = useCallback(
     (open: boolean) => {
-      if (onAsideOverlayOpenChange) {
-        onAsideOverlayOpenChange(open)
-      } else {
-        setInternalOverlayOpen(open)
-      }
+      setInternalOverlayOpen(open)
+      onAsideOverlayOpenChange?.(open)
     },
     [onAsideOverlayOpenChange],
   )
 
+  const lastViewport = useRef(isNarrow)
+  useLayoutEffect(() => {
+    if (lastViewport.current !== isNarrow) {
+      lastViewport.current = isNarrow
+      if (isOverlayOpen) onAsideOverlayOpenChange?.(false)
+    }
+  }, [isNarrow, isOverlayOpen, onAsideOverlayOpenChange])
+
   const desktopAsideRef = useRef<HTMLElement | null>(null)
   const triggerRef = useRef<HTMLButtonElement | null>(null)
 
-  // When switching from desktop to narrow while focus is inside the aside, restore focus
-  useEffect(() => {
-    if (!hasAside) return
-    if (isNarrow && typeof document !== 'undefined') {
-      const active = document.activeElement
-      if (active && desktopAsideRef.current?.contains(active)) {
-        restoreAdmittedFocus({
-          trigger: triggerRef.current,
-          isAdmitted: isAsideTriggerAdmitted,
-          fallbackTarget: asideFocusFallbackTarget,
-        })
-      }
+  const returnPending = useRef(false)
+  const setDesktopAsideRef = useCallback((node: HTMLElement | null) => {
+    if (!node && desktopAsideRef.current?.contains(document.activeElement)) {
+      returnPending.current = true
     }
-  }, [isNarrow, hasAside, isAsideTriggerAdmitted, asideFocusFallbackTarget])
+    desktopAsideRef.current = node
+  }, [])
+
+  const mounted = useRef(false)
+  const returnFrame = {}
+  const currentReturnFrame = useRef(returnFrame)
+  useLayoutEffect(() => {
+    mounted.current = true
+    return () => { mounted.current = false }
+  }, [])
+  // Wait for host commit guards and current refs, then reject superseded returns.
+  useLayoutEffect(() => {
+    currentReturnFrame.current = returnFrame
+    if (!returnPending.current) return
+    returnPending.current = false
+    queueMicrotask(() => {
+      if (!mounted.current || currentReturnFrame.current !== returnFrame) return
+      restoreAdmittedFocus({
+        trigger: asideFocusReturnTarget ?? triggerRef.current,
+        isAdmitted: isAsideTriggerAdmitted,
+        fallbackTarget: asideFocusFallbackTarget,
+        isFallbackAdmitted: isAsideFallbackAdmitted,
+      })
+    })
+  })
+
 
   return (
     <div
       data-slot="app-shell"
       data-has-aside={hasAside ? true : undefined}
+      data-aside-state={hasAside ? isNarrow ? isOverlayOpen ? 'overlay' : 'collapsed' : asideCollapsed ? 'collapsed' : 'persistent' : undefined}
+      data-aside-width={hasAside ? asideWidth : undefined}
       className={cn('flex h-dvh w-dvw overflow-hidden bg-bg text-fg', className)}
     >
       {nav}
@@ -200,7 +230,7 @@ export function AppShell({
       </div>
       {hasAside && !isNarrow && !asideCollapsed && (
         <aside
-          ref={desktopAsideRef}
+          ref={setDesktopAsideRef}
           data-slot="app-shell-aside"
           data-width={asideWidth}
           data-collapsed={false}
@@ -226,18 +256,15 @@ export function AppShell({
         </aside>
       )}
       {hasAside && isNarrow && (
+        <div data-slot="app-shell-aside-control" className="fixed right-2 bottom-2 z-40">
         <OverlaySidebar
           side="right"
           open={isOverlayOpen}
-          onOpenChange={(nextOpen) => {
-            setOverlayOpen(nextOpen)
-            if (!nextOpen) {
-              restoreAdmittedFocus({
-                trigger: triggerRef.current,
-                isAdmitted: isAsideTriggerAdmitted,
-                fallbackTarget: asideFocusFallbackTarget,
-              })
-            }
+          onOpenChange={setOverlayOpen}
+          focusReturn={{
+            isAdmitted: isAsideTriggerAdmitted,
+            fallbackTarget: asideFocusFallbackTarget,
+            isFallbackAdmitted: isAsideFallbackAdmitted,
           }}
           trigger={
             asideTrigger ?? (
@@ -247,7 +274,7 @@ export function AppShell({
                 data-slot="app-shell-aside-trigger"
                 aria-label={asideLabel}
                 aria-expanded={isOverlayOpen}
-                className="sr-only"
+                className="shrink-0 self-start rounded border border-border-subtle p-2 text-control"
               >
                 {asideLabel}
               </button>
@@ -260,6 +287,7 @@ export function AppShell({
         >
           {aside}
         </OverlaySidebar>
+        </div>
       )}
     </div>
   )

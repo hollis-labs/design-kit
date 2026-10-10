@@ -63,7 +63,7 @@ function AlertDialogContent({
 }: AlertDialogPrimitive.Popup.Props & DialogOptions & {
   size?: "default" | "sm"
 }) {
-  const { fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus })
+  const { popupRef, fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus }, props.ref)
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
@@ -76,6 +76,7 @@ function AlertDialogContent({
           className
         )}
         {...props}
+        ref={popupRef}
         data-fullscreen={fullscreen || undefined}
         finalFocus={admittedFinalFocus}
         style={fullscreen ? { ...props.style, inset: 0, translate: 'none', transform: 'none', width: '100%', maxWidth: 'none', height: '100dvh', maxHeight: 'none', borderRadius: 0, border: 'none', overflow: 'auto' } : props.style}

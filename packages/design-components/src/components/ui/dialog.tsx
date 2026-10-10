@@ -73,7 +73,7 @@ function DialogContent({
    */
   widthClassName?: string
 }) {
-  const { fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus })
+  const { popupRef, fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus }, props.ref)
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -90,7 +90,8 @@ function DialogContent({
               className
             )}
             {...props}
-            data-fullscreen={fullscreen || undefined}
+            ref={popupRef}
+        data-fullscreen={fullscreen || undefined}
             finalFocus={admittedFinalFocus}
             style={fullscreen ? { ...props.style, top: 0, left: 0, translate: 'none', transform: 'none', width: '100%', maxWidth: 'none', height: '100dvh', maxHeight: 'none', borderRadius: 0, border: 'none' } : props.style}
           >

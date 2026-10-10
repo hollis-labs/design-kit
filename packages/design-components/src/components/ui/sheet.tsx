@@ -63,7 +63,7 @@ function SheetContent({
   side?: "top" | "right" | "bottom" | "left"
   showCloseButton?: boolean
 }) {
-  const { fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus })
+  const { popupRef, fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus }, props.ref)
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -76,6 +76,7 @@ function SheetContent({
           className
         )}
         {...props}
+        ref={popupRef}
         data-fullscreen={fullscreen || undefined}
         finalFocus={admittedFinalFocus}
         style={fullscreen ? { ...props.style, inset: 0, translate: 'none', transform: 'none', width: '100%', maxWidth: 'none', height: '100dvh', maxHeight: 'none', borderRadius: 0, border: 'none' } : props.style}

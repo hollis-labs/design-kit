@@ -28,7 +28,11 @@ writes do not prevent the toggle. `fullscreen` with `onFullscreenChange` is a
 controlled override: the caller owns resetting it, and a storage preference never
 overrides the controlled value. No localStorage or hidden archetype key exists.
 Toggle changes dimensions of the same popup and body nodes. Pointer activation
-retains editor focus/selection; keyboard activation retains focus on the toggle.
+retains editor focus/selection; keyboard activation retains focus on the toggle. Captured toggle callbacks also
+require the exact current connected popup to own admission: nested/competing
+portals veto, with only current registered lower roots and this layer's explicit
+owned results exempted. React object/callback refs and callback cleanup compose
+with this internal popup reference.
 
 `initialFocus` and `finalFocus` keep native Base UI types and behavior. Explicit
 `returnFocus` takes precedence over `finalFocus`; omit it to preserve native
@@ -38,7 +42,9 @@ disabled, hidden, inert and aria-hidden targets, and validates the explicit
 fallback too. The return is resolved in a microtask after primitive cleanup
 releases aria-hidden. Only the matching committed closed frame and activation
 may perform it. A newer render, Activity retirement, ordinary unmount, or a newly
-active sibling overlay vetoes queued work. Admission is read when returning,
+active sibling overlay vetoes queued work. A newer plain foreground focus owner
+also vetoes return; a closing popup's own focus and document body remain eligible
+for the admitted return. Admission is read when returning,
 never cached as a target before close. OverlaySidebar's legacy `focusReturn`
 remains its existing path when new `returnFocus` is omitted; native `finalFocus`
 can also be explicitly supplied. AppShell resize/retirement policy is unchanged.

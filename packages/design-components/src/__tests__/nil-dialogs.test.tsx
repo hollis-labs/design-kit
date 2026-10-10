@@ -1,5 +1,5 @@
 import { Activity, StrictMode, useLayoutEffect, useRef, useState } from 'react'
-import { fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, renderHook, screen, waitFor } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { JsonModal } from '../components/json-payload'
 import { Sheet, SheetContent, SheetTitle } from '../components/ui/sheet'
@@ -258,7 +258,10 @@ describe('controlled sizing and explicit focus precedence', () => {
     const change = vi.fn()
     const view = renderHook(() => useDialogOptions({ fullscreen: true, fullscreenSessionKey: 'controlled', onFullscreenChange: change }), { wrapper: ({ children }) => <DialogOpenContext.Provider value={true}>{children}</DialogOpenContext.Provider> })
     expect(view.result.current.fullscreen).toBe(true)
+    const root = document.createElement('div'); root.setAttribute('role', 'dialog'); document.body.append(root)
+    view.result.current.popupRef(root)
     view.result.current.toggle()
+    root.remove()
     expect(change).toHaveBeenCalledWith(false)
     expect(view.result.current.fullscreen).toBe(true)
   })
@@ -310,5 +313,81 @@ describe('native finalFocus compatibility and competing return owner', () => {
     queued.splice(0).forEach(cb => cb())
     expect(focus).toHaveBeenCalledOnce()
     view.unmount(); target.remove()
+  })
+})
+
+describe('review foreground ownership probes', () => {
+  it('refuses a still-current captured toggle behind an actual competing Base UI portal, then admits after retirement', async () => {
+    let retained: (() => void) | undefined
+    const change = vi.fn()
+    function Probe() {
+      const { popupRef, toggle, fullscreen } = useDialogOptions({ onFullscreenChange: change })
+      useLayoutEffect(() => { retained = toggle })
+      return <DialogContent ref={popupRef}><DialogTitle>Toggle owner</DialogTitle><span>{fullscreen ? 'Expanded probe' : 'Bounded probe'}</span></DialogContent>
+    }
+    const outer = render(<Dialog open><Probe /></Dialog>)
+    await screen.findByRole('dialog', { name: 'Toggle owner' })
+    act(() => retained!())
+    await waitFor(() => expect(screen.getByText('Expanded probe')).toBeTruthy())
+    change.mockClear()
+    const captured = retained!
+    const competing = render(<Dialog open><DialogContent><DialogTitle>Competing owner</DialogTitle><button>Foreground action</button></DialogContent></Dialog>)
+    const competitor = await screen.findByRole('dialog', { name: 'Competing owner' })
+    vi.spyOn(competitor, 'getClientRects').mockReturnValue([{ width: 10 }] as unknown as DOMRectList)
+    act(() => captured())
+    expect(change).not.toHaveBeenCalled()
+    competing.unmount()
+    await waitFor(() => expect(screen.getByRole('dialog', { name: 'Toggle owner' }).closest('[aria-hidden="true"]')).toBeNull())
+    act(() => retained!())
+    expect(change).toHaveBeenCalledOnce()
+    outer.unmount()
+  })
+  it('does not steal a newer plain foreground focus owner while return is queued', () => {
+    const target = document.createElement('button'), foreground = document.createElement('button')
+    document.body.append(target, foreground)
+    const queued: (() => void)[] = []
+    const view = renderHook(() => useDialogOptions({ returnFocus: { trigger: target } }))
+    vi.spyOn(globalThis, 'queueMicrotask').mockImplementation(cb => queued.push(cb))
+    ;(view.result.current.finalFocus as () => false)()
+    foreground.focus()
+    queued.splice(0).forEach(cb => cb())
+    expect(document.activeElement).toBe(foreground)
+    view.unmount(); target.remove(); foreground.remove()
+  })
+})
+
+
+describe('exact nested toggle and forwarded ref admission', () => {
+  it('refuses a retained toggle under a native nested portal and admits after it closes', async () => {
+    let retained: (() => void) | undefined
+    const change = vi.fn()
+    function Nested() {
+      const [open, setOpen] = useState(false)
+      return <><button onClick={() => setOpen(true)}>Open nested probe</button><Dialog open={open} onOpenChange={setOpen}><DialogContent><DialogTitle>Nested toggle owner</DialogTitle></DialogContent></Dialog></>
+    }
+    function Probe() {
+      const { popupRef, toggle } = useDialogOptions({ onFullscreenChange: change })
+      useLayoutEffect(() => { retained = toggle })
+      return <DialogContent ref={popupRef}><DialogTitle>Parent toggle owner</DialogTitle><Nested /></DialogContent>
+    }
+    render(<Dialog open><Probe /></Dialog>)
+    await screen.findByRole('dialog', { name: 'Parent toggle owner' })
+    const captured = retained!
+    fireEvent.click(screen.getByText('Open nested probe'))
+    const inner = await screen.findByRole('dialog', { name: 'Nested toggle owner' })
+    act(() => captured())
+    expect(change).not.toHaveBeenCalled()
+    fireEvent.click(inner.querySelector('[data-slot="dialog-close"]')!)
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Nested toggle owner' })).toBeNull())
+    act(() => retained!())
+    expect(change).toHaveBeenCalledOnce()
+  })
+  it('forwards React callback ref cleanup through the owned popup ref', async () => {
+    const attached = vi.fn(), cleaned = vi.fn()
+    const view = render(<Dialog open><DialogContent ref={node => { if (node) { attached(node); return cleaned } }}><DialogTitle>Ref owner</DialogTitle></DialogContent></Dialog>)
+    const root = await screen.findByRole('dialog', { name: 'Ref owner' })
+    expect(attached).toHaveBeenCalledWith(root)
+    view.unmount()
+    expect(cleaned).toHaveBeenCalled()
   })
 })

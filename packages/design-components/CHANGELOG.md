@@ -8,6 +8,8 @@
 - Scope Escape composite ownership to an explicitly declared current overlay; unrelated overlays keep their veto.
 - Add Nil and Torque isolated specimen coverage; no release, live app migration or native hardware IME/touch claim.
 
+- Fullscreen dispatch verifies its exact current popup ownership; admitted return also preserves a newer plain foreground focus owner. Forwarded React callback-ref cleanup is retained.
+
 ## Unreleased — CW-20261010-0072
 
 - Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).

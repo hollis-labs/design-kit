@@ -31,7 +31,7 @@ export function InspectionDialog({
         widthClassName={widthClassName ?? 'max-w-4xl'}
         className={cn('flex h-dvh max-h-[calc(100dvh-var(--spacing)*8)] min-w-0 flex-col gap-0 overflow-hidden p-0', className)}
       >
-        <header data-slot="inspection-header" className="shrink-0 px-4 pt-3 pb-2 pr-12 [overflow-wrap:anywhere]">
+        <header data-slot="inspection-header" className={cn("shrink-0 px-4 pt-3 pb-2 [overflow-wrap:anywhere]", popupProps.showFullscreenToggle ? "pr-20" : "pr-12")}>
           <DialogTitle {...titleProps}>{title}</DialogTitle>
           {meta != null ? <div data-slot="inspection-meta" className="mt-1.5 text-caption text-fg-muted">{meta}</div> : null}
         </header>

@@ -274,3 +274,9 @@ shadcn-derived primitives inherited through sysop-ui. Their file headers and the
 package LICENSE now retain the shadcn MIT notice alongside the newer ports.
 This attribution correction ships with the next lockstep release; published
 tarballs and the workspace version are unchanged.
+
+### Optional modal and search behavior
+
+All public modal wrappers accept optional fullscreen and admitted focus-return
+policy. `SearchPalette`, `CycleModeToggle` and `SearchAddToggle` compose controlled
+local behavior. See [the API and compatibility contract](docs/nil-dialogs.md).

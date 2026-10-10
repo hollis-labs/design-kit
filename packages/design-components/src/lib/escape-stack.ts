@@ -41,6 +41,8 @@ export interface LayeredEscapeRegistration {
   focusReturn?: FocusReturnOptions
   /** Monotonic activation sequence number representing render/activation order. */
   activationSeq?: number
+  /** Explicit current controller ownership of a composite popup; other overlays still veto. */
+  ownsOverlay?: (overlay: Element) => boolean
   /** Root DOM element of the layer, if available, for scope/containment checks. */
   rootElement?: HTMLElement | null | (() => HTMLElement | null)
 }
@@ -157,7 +159,10 @@ export class EscapeStack {
       }
       // A visible unregistered popup also owns Escape, including a portal sibling.
       if (Array.from(root.ownerDocument.querySelectorAll(OVERLAY_SELECTOR)).some(overlay =>
-        overlay !== root && !overlay.contains(root) && isActiveOverlay(overlay))) return false
+        overlay !== root && !overlay.contains(root) && isActiveOverlay(overlay) &&
+            !topLayer.ownsOverlay?.(overlay) &&
+            !this.getActiveLayers().some(layer => layer.id !== topLayer.id &&
+              (typeof layer.rootElement === 'function' ? layer.rootElement() : layer.rootElement) === overlay))) return false
     }
 
     // 1. Try input clearing first if layer declared an input clear hook

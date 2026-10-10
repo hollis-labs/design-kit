@@ -34,6 +34,8 @@ export interface UseLayeredEscapeOptions {
   /** Fallback element if trigger is disconnected or unadmitted. */
   fallbackReturnTarget?: HTMLElement | null | (() => HTMLElement | null)
   /** Root element of the layer for containment checks. */
+  /** Explicit composite popup ownership, checked on each dispatch. */
+  ownsOverlay?: (overlay: Element) => boolean
   rootElement?: HTMLElement | null | (() => HTMLElement | null)
   /** Optional custom EscapeStack instance (defaults to defaultEscapeStack). */
   escapeStack?: EscapeStack
@@ -110,6 +112,7 @@ export function useLayeredEscape(options: UseLayeredEscapeOptions): UseLayeredEs
       },
       focusReturn,
       rootElement,
+      ownsOverlay: options.ownsOverlay,
     })
   })
 

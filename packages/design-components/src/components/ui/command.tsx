@@ -10,6 +10,8 @@
  */
 "use client"
 
+import type { DialogOptions } from '../../hooks/use-dialog-options'
+
 import * as React from "react"
 import { Command as CommandPrimitive } from "cmdk"
 
@@ -48,8 +50,9 @@ function CommandDialog({
   children,
   className,
   showCloseButton = false,
+  initialFocus, finalFocus, returnFocus, showFullscreenToggle, fullscreen, onFullscreenChange, fullscreenSessionKey,
   ...props
-}: Omit<React.ComponentProps<typeof Dialog>, "children"> & {
+}: Omit<React.ComponentProps<typeof Dialog>, "children"> & DialogOptions & {
   title?: string
   description?: string
   className?: string
@@ -63,6 +66,7 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
+        {...{ initialFocus, finalFocus, returnFocus, showFullscreenToggle, fullscreen, onFullscreenChange, fullscreenSessionKey }}
         className={cn(
           "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
           className

@@ -15,9 +15,17 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 
 import { cn } from "../../lib/utils"
 import { Button } from "./button"
-import { XIcon } from "lucide-react"
-function Dialog({ ...props }: DialogPrimitive.Root.Props) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+import { Maximize2, Minimize2, XIcon } from "lucide-react"
+import { DialogOpenContext, useDialogOptions, type DialogOptions } from '../../hooks/use-dialog-options'
+
+function Dialog({ children, onOpenChange, ...props }: DialogPrimitive.Root.Props) {
+  const [internalOpen, setInternalOpen] = React.useState(props.defaultOpen ?? false)
+  return <DialogOpenContext.Provider value={props.open ?? internalOpen}>
+    <DialogPrimitive.Root data-slot="dialog" {...props} onOpenChange={(open, details) => {
+      onOpenChange?.(open, details)
+      if (!details.isCanceled) setInternalOpen(open)
+    }}>{children}</DialogPrimitive.Root>
+  </DialogOpenContext.Provider>
 }
 
 function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
@@ -53,8 +61,9 @@ function DialogContent({
   children,
   showCloseButton = true,
   widthClassName,
+  showFullscreenToggle, fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus,
   ...props
-}: DialogPrimitive.Popup.Props & {
+}: DialogPrimitive.Popup.Props & DialogOptions & {
   showCloseButton?: boolean
   /**
    * Overrides the default responsive max-width (`max-w-[calc(100%-2rem)]
@@ -64,12 +73,13 @@ function DialogContent({
    */
   widthClassName?: string
 }) {
+  const { fullscreen, toggle, finalFocus: admittedFinalFocus } = useDialogOptions({ fullscreen: controlledFullscreen, onFullscreenChange, fullscreenSessionKey, returnFocus, finalFocus })
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Viewport
         data-slot="dialog-viewport"
-        className="fixed inset-0 z-[60] overflow-y-auto p-4"
+        className={cn("fixed inset-0 z-[60] overflow-y-auto", fullscreen ? "p-0" : "p-4")}
       >
         <div className="flex min-h-full items-center justify-center">
           <DialogPrimitive.Popup
@@ -80,8 +90,14 @@ function DialogContent({
               className
             )}
             {...props}
+            data-fullscreen={fullscreen || undefined}
+            finalFocus={admittedFinalFocus}
+            style={fullscreen ? { ...props.style, top: 0, left: 0, translate: 'none', transform: 'none', width: '100%', maxWidth: 'none', height: '100dvh', maxHeight: 'none', borderRadius: 0, border: 'none' } : props.style}
           >
             {children}
+            {showFullscreenToggle && <Button type="button" variant="ghost" size="icon-sm" className={cn("absolute top-2", showCloseButton ? "right-10" : "right-2")} aria-label={fullscreen ? "Exit fullscreen" : "Enter fullscreen"} aria-pressed={fullscreen} onPointerDown={event => event.preventDefault()} onClick={toggle}>
+              {fullscreen ? <Minimize2 /> : <Maximize2 />}
+            </Button>}
             {showCloseButton && (
               <DialogPrimitive.Close
                 data-slot="dialog-close"

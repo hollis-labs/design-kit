@@ -17,7 +17,7 @@ let browser, server
 const pinned = process.env.PINNED_MODULES === '1'
 const evidenceRoot = process.env.ACCEPTANCE_EVIDENCE_ROOT
 if (evidenceRoot) await mkdir(evidenceRoot, { recursive: true })
-const responseHashes = [], policyDenials = [], moduleManifests = [], responseHeaders = [], probeTransfers = []
+const responseHashes = [], policyDenials = [], moduleManifests = [], responseHeaders = [], probeTransfers = [], capabilityControls = []
 const policyReceipt = process.env.PRODUCTION_CSP_RECEIPT ? JSON.parse(await readFile(process.env.PRODUCTION_CSP_RECEIPT, 'utf8')) : undefined
 let tamper = ''
 let unavailableProbe = false
@@ -334,6 +334,8 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
       }
     }, control)
     const unsupportedPage = await unsupported.newPage()
+    const controlResponses = []
+    unsupportedPage.on('response', response => { if (/\/integrity-(positive-)?probe\.js$/u.test(response.url())) controlResponses.push({url:response.url(), status:response.status(), headers:response.headers()}) })
     await unsupportedPage.goto(origin)
     await unsupportedPage.waitForFunction(() => !!globalThis.fixtureHost)
     const start = requests.length
@@ -342,6 +344,11 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     assert.equal(await unsupportedPage.locator('iframe').count(), 0)
     assert.equal(requests.slice(start).some(request => request.path.endsWith('/plugin.js')), false)
     assert.equal(await unsupportedPage.evaluate(() => globalThis.fixtureHost.info().views.some(view => view.key === 'first' && view.available === 'available')), false)
+    if (control === 'unavailable-probe') {
+      assert.ok(controlResponses.some(response => response.url.endsWith('/integrity-positive-probe.js') && response.status === 200))
+      assert.ok(controlResponses.some(response => response.url.endsWith('/integrity-probe.js') && response.status === 404))
+    }
+    capabilityControls.push({control, responses:controlResponses, pluginRequested:false, pluginExecuted:false, admitted:false})
     await unsupportedPage.evaluate(() => globalThis.fixtureHost.shutdown())
     await unsupported.close()
     unavailableProbe = false
@@ -349,7 +356,7 @@ globalThis.pluginProof='exact-pinned-bytes'; parent.postMessage({pluginExecuted:
     }
   }
   await context.close()
-  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, probeTransfers, moduleManifests, responseHeaders, responseHashes, requests, policyDenials, errors }, null, 2))
+  if (evidenceRoot) await writeFile(join(evidenceRoot, 'acceptance.json'), JSON.stringify({ browser: browser.version(), pinned, consumerRoot: root, productionPolicyReceipt: policyReceipt, proofs, probeTransfers, capabilityControls, moduleManifests, responseHeaders, responseHashes, requests, policyDenials, errors }, null, 2))
   for (const proof of proofs) console.log('PASS: ' + proof)
   console.log('Browser acceptance complete; expected policy-denial console errors are not application failures.')
 } catch (error) { if (evidenceRoot) await writeFile(join(evidenceRoot, 'failure.json'), JSON.stringify({ error: String(error), responseHashes, policyDenials, requests }, null, 2)); console.error('BROWSER PROOF FAILED:', error); throw error }

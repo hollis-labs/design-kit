@@ -85,3 +85,18 @@ Use shell body / OverlaySidebar body as the scrolling region; put composers in
 `asideFooter`. A ChatStream can expand into its owner via `className=flex-none`
 and `viewportClassName="flex-none overflow-visible"` with auto-scroll disabled;
 its local host chooses transcript behavior. Draft/transport remain host-owned.
+
+## Resize from the narrow popup
+
+`asideSourceGeneration` identifies the host's current source/access/layer frame.
+`useAppShellAside` passes its existing `sourceGeneration` through this optional
+prop. When the focused narrow popup is removed by a switch to desktop, AppShell
+returns to the explicit current desktop trigger or fallback after modal cleanup.
+It compares the committed generation and activation, and refuses a superseded
+render, component unmount, reopened layer, or another visible open layer.
+A closed `data-closed` popup has relinquished ownership.
+
+The popup's local focus observation distinguishes removal from ordinary blur or
+focus leaving for a portaled nested layer. `OverlaySidebar.contentRef` exposes
+its actual popup node for this layout ownership; generic OverlaySidebar unmount
+still refuses deferred focus return. No global focus or keyboard listener is added.

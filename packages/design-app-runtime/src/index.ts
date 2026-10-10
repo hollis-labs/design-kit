@@ -85,3 +85,22 @@ export {
 export { createThemeStore } from './lib/theme-store'
 export type { ColorMode, ModePreference, ThemeState, ThemeStore, ThemeStoreOptions } from './lib/theme-store'
 export { useTheme } from './hooks/use-theme'
+
+// Headless AppShell aside preferences and layout hooks
+export {
+  createAppShellAsideStore,
+  parseAsidePreference,
+  createMemoryStorage,
+  VALID_ASIDE_WIDTHS,
+  type AsideWidth,
+  type AppShellAsidePreference,
+  type AppShellAsideStoreOptions,
+  type AppShellAsideStore,
+} from './lib/app-shell-aside-store'
+export {
+  useAppShellAside,
+  resolveAdmittedFocusTarget,
+  type FocusReturnTargetOptions,
+  type UseAppShellAsideOptions,
+  type AppShellAsideHandle,
+} from './hooks/use-app-shell-aside'

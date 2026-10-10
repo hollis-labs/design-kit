@@ -86,3 +86,139 @@ describe('AppShell flex chain', () => {
     expect(outer.className).toContain('h-dvh')
   })
 })
+
+describe('AppShell optional aside', () => {
+  it('renders desktop aside with default regular preset (w-96) and independent scroll slot', () => {
+    render(
+      <AppShell
+        isNarrow={false}
+        aside={<div data-testid="aside-content">Aside Content</div>}
+        asideHeader={<div data-testid="aside-header">Header</div>}
+        asideFooter={<div data-testid="aside-footer">Footer</div>}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+
+    const aside = screen.getByRole('complementary', { name: 'Aside' })
+    expect(aside).toBeTruthy()
+    expect(aside.getAttribute('data-slot')).toBe('app-shell-aside')
+    expect(aside.getAttribute('data-width')).toBe('regular')
+    expect(aside.className).toContain('w-96')
+    expect(aside.className).toContain('flex')
+    expect(aside.className).toContain('flex-col')
+    expect(aside.className).toContain('min-h-0')
+
+    const header = screen.getByTestId('aside-header')
+    expect(header.parentElement?.getAttribute('data-slot')).toBe('app-shell-aside-header')
+    expect(header.parentElement?.className).toContain('shrink-0')
+
+    const body = screen.getByTestId('aside-content').parentElement
+    expect(body?.getAttribute('data-slot')).toBe('app-shell-aside-body')
+    expect(body?.className).toContain('overflow-y-auto')
+    expect(body?.className).toContain('min-h-0')
+    expect(body?.className).toContain('flex-1')
+
+    const footer = screen.getByTestId('aside-footer')
+    expect(footer.parentElement?.getAttribute('data-slot')).toBe('app-shell-aside-footer')
+    expect(footer.parentElement?.className).toContain('shrink-0')
+  })
+
+  it('supports compact (w-80) and wide (w-112) width presets', () => {
+    const { rerender } = render(
+      <AppShell
+        isNarrow={false}
+        asideWidth="compact"
+        aside={<div data-testid="aside-content" />}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+    let aside = screen.getByRole('complementary')
+    expect(aside.getAttribute('data-width')).toBe('compact')
+    expect(aside.className).toContain('w-80')
+
+    rerender(
+      <AppShell
+        isNarrow={false}
+        asideWidth="wide"
+        aside={<div data-testid="aside-content" />}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+    aside = screen.getByRole('complementary')
+    expect(aside.getAttribute('data-width')).toBe('wide')
+    expect(aside.className).toContain('w-112')
+  })
+
+  it('reserves no empty sliver when asideCollapsed is true', () => {
+    render(
+      <AppShell
+        isNarrow={false}
+        asideCollapsed={true}
+        aside={<div data-testid="aside-content">Aside Content</div>}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+
+    expect(screen.queryByRole('complementary')).toBeNull()
+    expect(screen.queryByTestId('aside-content')).toBeNull()
+  })
+
+  it('renders OverlaySidebar fallback in narrow mode without desktop aside', () => {
+    render(
+      <AppShell
+        isNarrow={true}
+        aside={<div data-testid="aside-content">Aside Content</div>}
+        asideLabel="Assistant"
+        asideTitle="Assistant Drawer"
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+
+    // Desktop aside is NOT in the document
+    expect(screen.queryByRole('complementary')).toBeNull()
+
+    // Trigger button is available for narrow screen
+    const trigger = screen.getByRole('button', { name: 'Assistant' })
+    expect(trigger).toBeTruthy()
+    expect(trigger.getAttribute('data-slot')).toBe('app-shell-aside-trigger')
+  })
+
+  it('restores focus safely when narrow OverlaySidebar closes', () => {
+    const fallbackTarget = document.createElement('button')
+    document.body.appendChild(fallbackTarget)
+
+    const onOpenChange = () => {}
+    const { rerender } = render(
+      <AppShell
+        isNarrow={true}
+        aside={<div data-testid="aside-content">Aside Content</div>}
+        asideOverlayOpen={true}
+        onAsideOverlayOpenChange={onOpenChange}
+        asideFocusFallbackTarget={fallbackTarget}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+
+    // Close overlay
+    rerender(
+      <AppShell
+        isNarrow={true}
+        aside={<div data-testid="aside-content">Aside Content</div>}
+        asideOverlayOpen={false}
+        onAsideOverlayOpenChange={onOpenChange}
+        asideFocusFallbackTarget={fallbackTarget}
+      >
+        <span data-testid="shell-child" />
+      </AppShell>,
+    )
+
+    expect(fallbackTarget).toBeTruthy()
+    document.body.removeChild(fallbackTarget)
+  })
+})

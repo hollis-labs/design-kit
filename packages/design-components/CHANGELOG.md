@@ -1,5 +1,15 @@
 # @hollis-labs/design-components
 
+## Unreleased — CW-20261010-0072
+
+- Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideProps?: AppShellAsideProps`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).
+- Preset widths: `compact` (w-80 / 20rem), `regular` (w-96 / 24rem, default), and `wide` (w-112 / 28rem).
+- Desktop layout reserves zero space/sliver when `asideCollapsed: true`.
+- Responsive fallback to `OverlaySidebar` below the 1024px (`lg`) breakpoint.
+- Pinned header and footer; independent aside and body scrolling.
+- Admitted connected focus return on aside close or resize.
+- Zero breaking changes: existing no-aside `AppShell` behavior and markup are preserved.
+
 ## Unreleased — CW-20261010-0036
 
 - Add `useControlledRecordNavigation` with caller-admitted opaque IDs, explicit

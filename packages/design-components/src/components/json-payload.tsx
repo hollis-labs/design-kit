@@ -1,3 +1,4 @@
+import type { DialogOptions } from '../hooks/use-dialog-options'
 import { useMemo } from 'react'
 import { useCopy } from '../hooks/use-copy'
 import { safeParseObject, scalarStr } from '../lib/payload'
@@ -85,7 +86,7 @@ export function PayloadSummary({ raw, maxEntries = 6 }: PayloadSummaryProps) {
   )
 }
 
-export interface JsonModalProps {
+export interface JsonModalProps extends DialogOptions {
   open: boolean
   onClose: () => void
   title: string
@@ -100,6 +101,7 @@ export function JsonModal({
   title,
   raw,
   copyLabel = 'Copy payload',
+  ...dialogOptions
 }: JsonModalProps) {
   const value = useMemo<unknown>(() => {
     try {
@@ -111,6 +113,7 @@ export function JsonModal({
 
   return (
     <DetailDialog
+      {...dialogOptions}
       open={open}
       onClose={onClose}
       title={title}

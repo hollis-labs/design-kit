@@ -109,3 +109,6 @@ export type { ThemePickerProps } from './components/theme-picker'
 
 export { useControllableState } from './hooks/use-controllable-state'
 export type { UseControllableStateParams, SetControllableState } from './hooks/use-controllable-state'
+
+export { useControlledRecordNavigation } from './hooks/use-controlled-record-navigation'
+export type { ControlledRecordNavigationOptions, ControlledRecordNavigation } from './hooks/use-controlled-record-navigation'

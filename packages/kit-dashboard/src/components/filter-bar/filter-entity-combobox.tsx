@@ -1,6 +1,14 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { ChevronDown, Plus } from 'lucide-react'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from '@hollis-labs/design-components'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from '@hollis-labs/design-components'
 import { Popover, PopoverContent, PopoverTrigger } from '@hollis-labs/design-components'
 import { ScrollArea } from '@hollis-labs/design-components'
 
@@ -17,6 +25,8 @@ export interface FilterEntityComboboxItem {
 }
 
 interface FilterEntityComboboxProps {
+  /** Optional owner marker for scoped overlay admission. */
+  overlayOwner?: string
   icon: ReactNode
   items: FilterEntityComboboxItem[]
   value: string | null
@@ -41,6 +51,7 @@ interface FilterEntityComboboxProps {
  */
 export function FilterEntityCombobox({
   icon,
+  overlayOwner,
   items,
   value,
   onChange,
@@ -79,7 +90,7 @@ export function FilterEntityCombobox({
         <span className={isMuted ? 'text-text-subtle' : 'text-text'}>{displayLabel}</span>
         <ChevronDown className="h-3 w-3 text-text-subtle" />
       </PopoverTrigger>
-      <PopoverContent className="w-64 p-0" align="start">
+      <PopoverContent data-filter-owner={overlayOwner} className="w-64 p-0" align="start">
         <Command className={onCreate ? 'h-[300px]' : undefined}>
           <CommandInput placeholder="Search…" className="h-8 text-label" />
           {showStateControls && (

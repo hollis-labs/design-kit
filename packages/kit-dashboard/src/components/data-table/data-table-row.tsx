@@ -18,7 +18,8 @@ interface DataTableRowProps<T> {
 // Descendants marked data-row-interactive own their own clicks and must not
 // trigger row-level open (checkboxes, copy buttons, inline menus).
 const INTERACTIVE_SELECTOR = '[data-row-interactive="true"]'
-const NATIVE_OWNER = 'button, a, input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="combobox"], [role="menu"], [role="listbox"]'
+const NATIVE_OWNER =
+  'button, a, input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="combobox"], [role="menu"], [role="listbox"]'
 
 /** A single `DataTable` row. Internal — rendered by `DataTable`. */
 export function DataTableRow<T>({
@@ -35,6 +36,7 @@ export function DataTableRow<T>({
 }: DataTableRowProps<T>) {
   function handleOpen(e: React.MouseEvent<HTMLTableRowElement>) {
     if (!onOpen) return
+    if (guarded && (e.defaultPrevented || window.getSelection()?.isCollapsed === false)) return
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
     const target = e.target as HTMLElement | null
     if (target?.closest(INTERACTIVE_SELECTOR) || (guarded && target?.closest(NATIVE_OWNER))) return
@@ -43,7 +45,17 @@ export function DataTableRow<T>({
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLTableRowElement>) {
     if (!onOpen || e.target !== e.currentTarget) return
-    if (guarded && (e.defaultPrevented || e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229 || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey)) return
+    if (
+      guarded &&
+      (e.defaultPrevented ||
+        e.nativeEvent.isComposing ||
+        e.nativeEvent.keyCode === 229 ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.altKey ||
+        e.shiftKey)
+    )
+      return
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
       onOpen(rowId, item)
@@ -79,9 +91,7 @@ export function DataTableRow<T>({
         <td
           key={column.key}
           className={`px-3 ${density === 'compact' ? 'py-1.5' : 'py-3'} align-top ${alignClass(column.align)} ${
-            column.width === 'fill'
-              ? 'w-full max-w-0'
-              : 'w-px whitespace-nowrap'
+            column.width === 'fill' ? 'w-full max-w-0' : 'w-px whitespace-nowrap'
           } ${column.className ?? ''}`}
         >
           {column.cell(item)}

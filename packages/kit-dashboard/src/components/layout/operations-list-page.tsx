@@ -1,5 +1,6 @@
 import {
   useCallback,
+  useId,
   useLayoutEffect,
   useRef,
   useState,
@@ -102,11 +103,16 @@ export function OperationsListPage<T>({
   inspector,
   ...page
 }: OperationsListPageProps<T>) {
+  const facetOwner = useId()
   const inspectionTitle = useRef<HTMLHeadingElement>(null)
   const modalRoot = useRef<HTMLDivElement>(null)
   const root = useRef<HTMLDivElement>(null),
     search = useRef<HTMLInputElement>(null)
-  const trigger = useRef<{ node: HTMLElement; id: string; generation: unknown } | null>(null)
+  const trigger = useRef<{
+    node: HTMLElement
+    id: string
+    generation: unknown
+  } | null>(null)
   const pendingReturn = useRef<{ generation: unknown; epoch: number } | null>(null)
   const focusFrame = useRef<number | null>(null)
   const currentFocus = useRef<{
@@ -115,7 +121,13 @@ export function OperationsListPage<T>({
     active: boolean
     open: string | null
     revealed: string[]
-  }>({ generation: sourceGeneration, accessible, active, open: inspector.selectedId, revealed: [] })
+  }>({
+    generation: sourceGeneration,
+    accessible,
+    active,
+    open: inspector.selectedId,
+    revealed: [],
+  })
   const composing = useRef(false)
   const lifetime = useRef({ mounted: false, epoch: 0, frame: {} })
   const [epoch, setEpoch] = useState(0)
@@ -180,9 +192,25 @@ export function OperationsListPage<T>({
   const allowed = () => live() && ready && active
   const paneAllowed = () =>
     allowed() &&
-    inspector.selectedId === null &&
+    (inspector.mode === 'inline' || inspector.selectedId === null) &&
     !composing.current &&
     !Array.from(document.querySelectorAll<HTMLElement>(layers)).some((n) => visible(n))
+  const facetAllowed = (id: string) =>
+    allowed() &&
+    (inspector.mode === 'inline' || inspector.selectedId === null) &&
+    !composing.current &&
+    !Array.from(document.querySelectorAll<HTMLElement>(layers)).some(
+      (n) =>
+        visible(n) &&
+        n.closest('[data-filter-owner]')?.getAttribute('data-filter-owner') !==
+          `${facetOwner}/${id}`,
+    )
+  const inspectorAllowed = () =>
+    allowed() &&
+    !composing.current &&
+    !Array.from(document.querySelectorAll<HTMLElement>(layers)).some(
+      (n) => visible(n) && n !== modalRoot.current && !n.contains(modalRoot.current),
+    )
   const projection = JSON.stringify([page.searchQuery, facets.map((f) => [f.id, f.value])])
   const [snapshot, setSnapshot] = useState({
     sourceGeneration,
@@ -210,7 +238,10 @@ export function OperationsListPage<T>({
     open: string | null
   } | null>(null)
   if (changed)
-    setRetired({ selection: selectedIds, open: sourceChanged ? inspector.selectedId : null })
+    setRetired({
+      selection: selectedIds,
+      open: sourceChanged ? inspector.selectedId : null,
+    })
   const checked =
     ready && !changed && retired?.selection !== selectedIds
       ? [...new Set(selectedIds.filter((id) => matched.has(id)))]
@@ -248,7 +279,7 @@ export function OperationsListPage<T>({
       inspector.onSelect(null)
   })
   function select(id: string | null) {
-    if (!allowed() || (id !== null && !revealed.includes(id))) return
+    if (!inspectorAllowed() || (id !== null && !revealed.includes(id))) return
     inspector.onSelect(id)
   }
   const navigation = useControlledRecordNavigation({
@@ -262,21 +293,13 @@ export function OperationsListPage<T>({
   })
   const scope: OperationsActionScope = {
     run(action) {
-      if (
-        !allowed() ||
-        openId === null ||
-        !revealed.includes(openId) ||
-        Array.from(document.querySelectorAll<HTMLElement>(layers)).some(
-          (n) => visible(n) && n !== modalRoot.current && !n.contains(modalRoot.current),
-        )
-      )
-        return false
+      if (!inspectorAllowed() || openId === null || !revealed.includes(openId)) return false
       action()
       return true
     },
   }
   function close() {
-    if (!allowed()) return
+    if (!inspectorAllowed()) return
     inspector.onSelect(null)
     pendingReturn.current = { generation: sourceGeneration, epoch }
   }
@@ -355,11 +378,11 @@ export function OperationsListPage<T>({
       disabled={!accessible || !active}
       className="w-full min-w-0 rounded border border-border bg-bg px-3 py-2 text-label text-text"
       onChange={(e) => {
-        if (allowed()) page.onSearchChange(e.target.value)
+        if (paneAllowed()) page.onSearchChange(e.target.value)
       }}
       onKeyDown={(e) => {
         if (
-          !allowed() ||
+          !paneAllowed() ||
           composing.current ||
           e.nativeEvent.isComposing ||
           e.nativeEvent.keyCode === 229 ||
@@ -397,7 +420,7 @@ export function OperationsListPage<T>({
           }))}
           selected={facet.value}
           onToggle={(value) => {
-            if (allowed())
+            if (facetAllowed(facet.id))
               facet.onChange(
                 facet.value.includes(value)
                   ? facet.value.filter((v) => v !== value)
@@ -411,12 +434,13 @@ export function OperationsListPage<T>({
           options={facet.options}
           value={facet.value}
           onChange={(value) => {
-            if (allowed()) facet.onChange(value)
+            if (facetAllowed(facet.id)) facet.onChange(value)
           }}
         />
       ) : (
         <FilterEntityCombobox
           icon={null}
+          overlayOwner={`${facetOwner}/${facet.id}`}
           ariaLabel={facet.label}
           allLabel={facet.allLabel}
           items={facet.options.map((o) => ({
@@ -425,7 +449,7 @@ export function OperationsListPage<T>({
           }))}
           value={facet.value}
           onChange={(value) => {
-            if (allowed()) facet.onChange(value)
+            if (facetAllowed(facet.id)) facet.onChange(value)
           }}
         />
       )}
@@ -526,7 +550,7 @@ export function OperationsListPage<T>({
             onClear={
               page.onClear
                 ? () => {
-                    if (allowed()) page.onClear?.()
+                    if (paneAllowed()) page.onClear?.()
                   }
                 : undefined
             }
@@ -554,20 +578,24 @@ export function OperationsListPage<T>({
               page.onVisibleOrderChange?.(ids)
             }}
             onSelectionChange={(ids) => {
-              if (allowed()) onSelectionChange(ids.filter((id) => revealed.includes(id)))
+              if (paneAllowed()) onSelectionChange(ids.filter((id) => revealed.includes(id)))
             }}
             onRowOpen={(id) => {
               if (!paneAllowed() || !revealed.includes(id)) return
               const node = document.activeElement
               if (node instanceof HTMLElement)
                 trigger.current = { node, id, generation: sourceGeneration }
-              select(id)
+              inspector.onSelect(id)
             }}
           />
         </div>
         {inspector.mode === 'inline' && item !== undefined && (
           <section
             aria-label="Record inspector"
+            {...navigation.popupHandlers}
+            onKeyDown={(event) => {
+              if (inspectorAllowed()) navigation.popupHandlers.onKeyDown?.(event)
+            }}
             data-ops-pane="inspector"
             className="flex min-h-0 min-w-0 flex-1 flex-col border-l border-border"
           >
@@ -616,6 +644,9 @@ export function OperationsListPage<T>({
             ) : undefined
           }
           {...navigation.popupHandlers}
+          onKeyDown={(event) => {
+            if (inspectorAllowed()) navigation.popupHandlers.onKeyDown?.(event)
+          }}
           finalFocus={() => false}
         >
           {<InspectorContent item={item} scope={scope} render={inspector.renderBody} />}

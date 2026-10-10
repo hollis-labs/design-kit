@@ -21,11 +21,18 @@ const items = [
   { id: 'm-2', title: 'Middle' },
 ]
 const columns: ColumnDef<(typeof items)[number]>[] = [
-  { key: 'title', header: 'Title', width: 'fill', cell: (i) => i.title, sortValue: (i) => i.title },
+  {
+    key: 'title',
+    header: 'Title',
+    width: 'fill',
+    cell: (i) => i.title,
+    sortValue: (i) => i.title,
+  },
 ]
 const getId = (i: (typeof items)[number]) => i.id
 let saved: OperationsActionScope[] = []
 const action = vi.fn()
+const facetChange = vi.fn()
 function Consumer({
   generation = 1,
   accessible = true,
@@ -61,6 +68,17 @@ function Consumer({
       onSearchChange={setQuery}
       selectedIds={checked}
       onSelectionChange={setChecked}
+      facets={[
+        {
+          id: 'status',
+          kind: 'chips',
+          label: 'Status',
+          options: [{ value: 'all', label: 'All records' }],
+          value: [],
+          onChange: facetChange,
+        },
+      ]}
+      onClear={() => setQuery('')}
       selectable
       pageSize={2}
       inspector={{
@@ -174,6 +192,55 @@ describe('operations list admission and lifetime', () => {
     expect(retained.run(action)).toBe(true)
     fireEvent.click(v.getByRole('button', { name: 'Back to list' }))
     expect(retained.run(action)).toBe(false)
+  })
+  it('admits inline sibling controls but vetoes current pane and inspector controls under a competing layer', () => {
+    facetChange.mockClear()
+    const v = render(<Consumer />)
+    const search = v.getByRole('searchbox') as HTMLInputElement
+    const chip = v.getByRole('button', { name: 'All records' })
+    fireEvent.click(chip)
+    expect(facetChange).toHaveBeenCalledTimes(1)
+    const row = v.getAllByTestId('data-table-row')[0]
+    row.focus()
+    fireEvent.keyDown(row, { key: 'Enter' })
+    fireEvent.click(chip)
+    expect(facetChange).toHaveBeenCalledTimes(2)
+    const heading = v.getByRole('heading', { name: 'Zulu' })
+    const layer = document.createElement('div')
+    layer.setAttribute('role', 'dialog')
+    layer.getClientRects = () => [{ width: 100, height: 100 }] as unknown as DOMRectList
+    document.body.append(layer)
+    fireEvent.click(chip)
+    fireEvent.change(search, { target: { value: 'blocked' } })
+    fireEvent.click(v.getByRole('button', { name: /^Next$/ }))
+    fireEvent.click(v.getByRole('button', { name: 'Back to list' }))
+    expect(facetChange).toHaveBeenCalledTimes(2)
+    expect(search.value).toBe('')
+    expect(heading.isConnected).toBe(true)
+    expect(v.getByRole('region', { name: 'Record inspector' })).toBeTruthy()
+    layer.remove()
+    fireEvent.click(v.getByRole('button', { name: /^Next$/ }))
+    expect(v.getByRole('heading', { name: 'Alpha' })).toBeTruthy()
+    fireEvent.click(v.getByRole('button', { name: 'Back to list' }))
+    fireEvent.change(search, { target: { value: 'Alpha' } })
+    expect(search.value).toBe('Alpha')
+  })
+  it('vetoes consumed pointer events and active text selection', () => {
+    const v = render(<Consumer />)
+    const row = v.getAllByTestId('data-table-row')[0]
+    const consumed = (event: Event) => event.preventDefault()
+    row.addEventListener('click', consumed)
+    fireEvent.click(row)
+    expect(v.queryByRole('region', { name: 'Record inspector' })).toBeNull()
+    row.removeEventListener('click', consumed)
+    const selection = vi
+      .spyOn(window, 'getSelection')
+      .mockReturnValue({ isCollapsed: false } as Selection)
+    fireEvent.click(row)
+    expect(v.queryByRole('region', { name: 'Record inspector' })).toBeNull()
+    selection.mockRestore()
+    fireEvent.click(row)
+    expect(v.getByRole('region', { name: 'Record inspector' })).toBeTruthy()
   })
   it('withholds counts and interactions for duplicate or nonadmitted matched IDs', () => {
     const v = render(<Consumer duplicate />)

@@ -1,5 +1,5 @@
-import { useRef, type ReactElement, type ReactNode } from 'react'
-import { resolveAdmittedFocusTarget, type FocusReturnOptions } from '../lib/focus-return'
+import { useLayoutEffect, useRef, type ReactElement, type ReactNode } from 'react'
+import { restoreAdmittedFocus, type FocusReturnOptions } from '../lib/focus-return'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet'
 
 export interface OverlaySidebarProps {
@@ -24,10 +24,26 @@ export interface OverlaySidebarProps {
  */
 export function OverlaySidebar({ open, onOpenChange, trigger, title, description, side = 'left', header, footer, focusReturn, children }: OverlaySidebarProps) {
   const triggerRef = useRef<HTMLButtonElement | null>(null)
+  const committedReturn = useRef<{ open: boolean; focusReturn: typeof focusReturn } | null>(null)
+  useLayoutEffect(() => {
+    const frame = { open, focusReturn }
+    committedReturn.current = frame
+    return () => { if (committedReturn.current === frame) committedReturn.current = null }
+  })
+  const returnFocus = () => {
+    const frame = committedReturn.current
+    // The primitive resolves finalFocus during cleanup, before removing its
+    // modal aria-hidden markers. Check visibility after that cleanup completes.
+    queueMicrotask(() => {
+      if (!frame || frame.open || committedReturn.current !== frame) return
+      restoreAdmittedFocus({ ...frame.focusReturn, trigger: triggerRef.current })
+    })
+    return false as const
+  }
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetTrigger ref={triggerRef} render={trigger} />
-      <SheetContent finalFocus={focusReturn ? () => resolveAdmittedFocusTarget({ ...focusReturn, trigger: triggerRef.current }) ?? false : undefined} side={side} className="min-w-0 max-w-full gap-0 overflow-hidden bg-bg-elevated text-control text-fg data-[side=left]:w-80 data-[side=right]:w-80">
+      <SheetContent finalFocus={focusReturn ? returnFocus : undefined} side={side} className="min-w-0 max-w-full gap-0 overflow-hidden bg-bg-elevated text-control text-fg data-[side=left]:w-80 data-[side=right]:w-80">
         <SheetHeader className="shrink-0 border-b border-border-subtle pr-12">
           <SheetTitle className="text-control font-semibold text-fg">{title}</SheetTitle>
           {description ? <SheetDescription className="text-caption text-fg-muted">{description}</SheetDescription> : null}

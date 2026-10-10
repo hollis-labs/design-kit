@@ -1,4 +1,4 @@
-import { StrictMode, useLayoutEffect } from 'react'
+import { Activity, StrictMode, useLayoutEffect, useRef } from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, renderHook, act } from '@testing-library/react'
 import {
@@ -402,7 +402,8 @@ it('StrictMode cleanup/setup retires captured handles while current controls sti
   function Probe() {
     const handle = useAppShellAside({ store })
     current = handle
-    useLayoutEffect(() => { captured.push(handle) }, [])
+    const initialHandle = useRef(handle)
+    useLayoutEffect(() => { captured.push(initialHandle.current) }, [])
     return null
   }
   const trigger = document.createElement('button')
@@ -430,4 +431,26 @@ it('StrictMode cleanup/setup retires captured handles while current controls sti
   act(() => last.setWidth('wide'))
   expect(store.getSnapshot().width).toBe('compact')
   trigger.remove(); fallback.remove()
+})
+
+
+it('a once-working callback stays retired after preserved-state effect reactivation', () => {
+  let current: ReturnType<typeof useAppShellAside> | undefined
+  const store = createAppShellAsideStore({ storage: createMemoryStorage(), defaultCollapsed: true })
+  function Probe() { current = useAppShellAside({ store }); return <button>Retained target</button> }
+  const view = render(<Activity mode="visible"><Probe /></Activity>)
+  if (!current) throw new Error('Missing current activation')
+  current.triggerRef.current = view.getByRole('button')
+  const old = current
+  expect(old.restoreFocus()).toBe(true)
+  view.rerender(<Activity mode="hidden"><Probe /></Activity>)
+  expect(old.restoreFocus()).toBe(false)
+  view.rerender(<Activity mode="visible"><Probe /></Activity>)
+  if (!current) throw new Error('Missing new activation')
+  expect(current.restoreFocus()).toBe(true)
+  expect(old.restoreFocus()).toBe(false)
+  act(() => old.setWidth('wide'))
+  expect(store.getSnapshot().width).toBe('regular')
+  act(() => current?.setWidth('compact'))
+  expect(store.getSnapshot().width).toBe('compact')
 })

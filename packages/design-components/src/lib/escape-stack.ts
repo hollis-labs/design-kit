@@ -16,7 +16,7 @@
  */
 
 import { restoreAdmittedFocus, type FocusReturnOptions } from './focus-return'
-import { isComposingEvent, OVERLAY_SELECTOR } from './keyboard-guards'
+import { isActiveOverlay, isComposingEvent, OVERLAY_SELECTOR } from './keyboard-guards'
 
 export type EscapeHandlingAction = 'cleared' | 'closed' | 'ignored'
 
@@ -70,7 +70,9 @@ export class EscapeStack {
       this.layers.push(layer)
     }
 
-    if (this.getActiveLayers().length > 0) {
+    // Portalled popup refs can connect after the owning hook commits. Keep the
+    // coordinator attached for declared live layers; dispatch checks the root.
+    if (this.layers.some((l) => l.active && l.accessible && l.live())) {
       this.ensureListener()
     } else {
       this.removeListener()
@@ -87,7 +89,7 @@ export class EscapeStack {
     if (index >= 0) {
       this.layers.splice(index, 1)
     }
-    if (this.getActiveLayers().length === 0) {
+    if (!this.layers.some((l) => l.active && l.accessible && l.live())) {
       this.removeListener()
     }
   }
@@ -155,7 +157,7 @@ export class EscapeStack {
       }
       // A visible unregistered popup also owns Escape, including a portal sibling.
       if (Array.from(root.ownerDocument.querySelectorAll(OVERLAY_SELECTOR)).some(overlay =>
-        overlay !== root && !overlay.contains(root) && overlay.getClientRects().length > 0)) return false
+        overlay !== root && !overlay.contains(root) && isActiveOverlay(overlay))) return false
     }
 
     // 1. Try input clearing first if layer declared an input clear hook

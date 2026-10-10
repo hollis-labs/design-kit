@@ -20,7 +20,8 @@
 - Fence exposed handles by committed frame and non-revivable activation lease while
   refreshing native listeners. Add caller source/access/admission and DOM scopes,
   composition lifetime guards, nested popup ownership and zero-origin Shift timing.
-  Legacy `useArrowNav` remains unchanged.
+  Keep Escape coordination attached while portalled roots connect; closed popups
+  release ownership during their exit animation. Legacy `useArrowNav` remains unchanged.
 
 ## Unreleased — CW-20261010-0036
 

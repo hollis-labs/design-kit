@@ -1,6 +1,8 @@
 import {render,fireEvent,cleanup} from '@testing-library/react'
 import {it,expect,vi,afterEach} from 'vitest'
-import {StrictMode,useLayoutEffect} from 'react'
+import {StrictMode,useLayoutEffect,useRef,useState} from 'react'
+import {InspectionDialog} from '../components/inspection-dialog'
+import {SearchInput} from '../components/search-input'
 import {useShortcut} from '../hooks/use-shortcut'
 import {useShiftShift} from '../hooks/use-shift-shift'
 import {useLayeredEscape} from '../hooks/use-layered-escape'
@@ -105,4 +107,30 @@ it('Shift handles retire on source replacement even after access is restored',()
  const view=render(<StrictMode><Probe accessible/></StrictMode>);const old=current!;expect(old.trigger()).toBe(true)
  view.rerender(<StrictMode><Probe accessible={false}/></StrictMode>);expect(current!.trigger()).toBe(false)
  view.rerender(<StrictMode><Probe accessible/></StrictMode>);expect(old.trigger()).toBe(false);expect(current!.trigger()).toBe(true)
+})
+
+it('controlled Base UI popup routes Escape through one bubble stack after React input clearing',()=>{
+ const stack=new EscapeStack()
+ function Probe(){const [open,setOpen]=useState(true);const root=useRef<HTMLDivElement>(null);const title=useRef<HTMLHeadingElement>(null);const [query,setQuery]=useState('filter')
+  useLayeredEscape({active:open,rootElement:()=>root.current,escapeStack:stack,onEscape:()=>{setOpen(false);return 'closed'}})
+  return <InspectionDialog ref={root} open={open} title="Stack popup" titleProps={{ref:title,tabIndex:-1}} initialFocus={title} onOpenChange={(next,details)=>{if(details.reason==='escape-key'){details.cancel();details.allowPropagation();return}setOpen(next)}}><SearchInput value={query} onChange={setQuery} layeredEscape retainFocusOnClear slashToFocus={false}/></InspectionDialog>
+ }
+ const view=render(<Probe/>);const input=view.getByRole('searchbox');fireEvent.keyDown(input,{key:'Escape'});expect((input as HTMLInputElement).value).toBe('');expect(view.getByRole('dialog')).toBeTruthy();fireEvent.keyDown(input,{key:'Escape'});expect(view.queryByRole('dialog')).toBeNull();stack.reset()
+})
+
+it('a popup root connecting after registration still receives native Escape',()=>{
+ const stack=new EscapeStack();let root:HTMLElement|null=null;const action=vi.fn(()=> 'closed' as const)
+ stack.register({id:'delayed-popup',active:true,accessible:true,live:()=>true,rootElement:()=>root,onEscape:action})
+ root=document.createElement('div');root.setAttribute('role','dialog');document.body.append(root)
+ fireEvent.keyDown(root,{key:'Escape'});expect(action).toHaveBeenCalledTimes(1);root.remove();fireEvent.keyDown(window,{key:'Escape'});expect(action).toHaveBeenCalledTimes(1);stack.reset()
+})
+
+it('an exiting closed popup releases Escape ownership while an open popup retains it',()=>{
+ const stack=new EscapeStack(),action=vi.fn(()=> 'closed' as const)
+ const root=document.createElement('div');root.setAttribute('role','dialog');document.body.append(root)
+ const menu=document.createElement('div');menu.setAttribute('role','menu');menu.getClientRects=()=>[{}] as unknown as DOMRectList;document.body.append(menu)
+ stack.register({id:'popup',active:true,accessible:true,live:()=>true,rootElement:root,onEscape:action})
+ fireEvent.keyDown(root,{key:'Escape'});expect(action).not.toHaveBeenCalled()
+ menu.setAttribute('data-closed','');fireEvent.keyDown(root,{key:'Escape'});expect(action).toHaveBeenCalledTimes(1)
+ menu.remove();root.remove();stack.reset()
 })

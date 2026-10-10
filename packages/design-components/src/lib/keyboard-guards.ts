@@ -81,13 +81,18 @@ export function matchExactModifiers(
   return true
 }
 
+/** Closed popups may retain layout during an exit animation but own no keys. */
+export function isActiveOverlay(element: Element): boolean {
+  return !element.hasAttribute('data-closed') && element.getClientRects().length > 0
+}
+
 /** Check if any modal dialog or overlay is currently visible in the DOM. */
 export function hasActiveModalOverlay(doc: Document = document): boolean {
   if (!doc) return false
   const overlays = doc.querySelectorAll(OVERLAY_SELECTOR)
   for (let i = 0; i < overlays.length; i++) {
     const el = overlays[i]
-    if (el instanceof HTMLElement && el.getClientRects().length > 0) {
+    if (el instanceof HTMLElement && isActiveOverlay(el)) {
       return true
     }
   }

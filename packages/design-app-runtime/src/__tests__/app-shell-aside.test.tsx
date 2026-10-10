@@ -1,5 +1,6 @@
+import { StrictMode, useLayoutEffect } from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { renderHook, act } from '@testing-library/react'
+import { render, renderHook, act } from '@testing-library/react'
 import {
   createAppShellAsideStore,
   createMemoryStorage,
@@ -350,4 +351,83 @@ describe('callback custody', () => {
     expect(document.activeElement).toBe(other)
     trigger.remove(); other.remove()
   })
+})
+
+
+it('rejects hidden and inert connected targets and refuses an unadmitted fallback', () => {
+  const parent = document.createElement('div')
+  const trigger = document.createElement('button')
+  const fallback = document.createElement('button')
+  parent.append(trigger); document.body.append(parent, fallback)
+  for (const kind of ['hidden', 'inert']) {
+    parent.setAttribute(kind, '')
+    expect(resolveAdmittedFocusTarget({ trigger, fallbackTarget: fallback })).toBe(fallback)
+    expect(resolveAdmittedFocusTarget({ trigger, fallbackTarget: fallback, isFallbackAdmitted: () => false })).toBeNull()
+    parent.removeAttribute(kind)
+  }
+  parent.style.display = 'none'
+  expect(resolveAdmittedFocusTarget({ trigger, fallbackTarget: fallback })).toBe(fallback)
+  parent.remove(); fallback.remove()
+})
+
+
+it('retained focus callbacks cannot use superseded admission predicates', () => {
+  const trigger = document.createElement('button')
+  const fallback = document.createElement('button')
+  document.body.append(trigger, fallback)
+  const { result, rerender } = renderHook(({ admitted }) => useAppShellAside({
+    storage: memoryForAdmission, sourceGeneration: 'unchanged',
+    isTriggerAdmitted: () => admitted, focusFallbackTarget: fallback,
+    isFallbackAdmitted: () => admitted,
+  }), { initialProps: { admitted: true } })
+  result.current.triggerRef.current = trigger
+  expect(result.current.restoreFocus()).toBe(true)
+  const old = result.current
+  rerender({ admitted: false })
+  fallback.focus()
+  expect(result.current.restoreFocus()).toBe(false)
+  expect(old.restoreFocus()).toBe(false)
+  expect(document.activeElement).toBe(fallback)
+  rerender({ admitted: true })
+  expect(old.restoreFocus()).toBe(false)
+  expect(result.current.restoreFocus()).toBe(true)
+  trigger.remove(); fallback.remove()
+})
+const memoryForAdmission = createMemoryStorage<AppShellAsidePreference>()
+
+it('StrictMode cleanup/setup retires captured handles while current controls still work', () => {
+  const captured: ReturnType<typeof useAppShellAside>[] = []
+  let current: ReturnType<typeof useAppShellAside> | undefined
+  const store = createAppShellAsideStore({ storage: createMemoryStorage(), defaultCollapsed: true })
+  function Probe() {
+    const handle = useAppShellAside({ store })
+    current = handle
+    useLayoutEffect(() => { captured.push(handle) }, [])
+    return null
+  }
+  const trigger = document.createElement('button')
+  const fallback = document.createElement('button')
+  document.body.append(trigger, fallback)
+  const view = render(<StrictMode><Probe /></StrictMode>)
+  if (!current) throw new Error('No current handle')
+  current.triggerRef.current = trigger
+  expect(current.restoreFocus()).toBe(true)
+  act(() => current?.setWidth('compact'))
+  fallback.focus()
+  for (const old of captured) {
+    act(() => { old.setWidth('wide'); old.setCollapsed(false); old.setOverlayOpen(true) })
+    expect(old.restoreFocus()).toBe(false)
+  }
+  expect(store.getSnapshot()).toEqual({ width: 'compact', collapsed: true })
+  expect(document.activeElement).toBe(fallback)
+  if (!current) throw new Error('No current handle')
+  expect(current.overlayOpen).toBe(false)
+  expect(current.restoreFocus()).toBe(true)
+  const last = current
+  view.unmount()
+  fallback.focus()
+  expect(last.restoreFocus()).toBe(false)
+  act(() => last.setWidth('wide'))
+  expect(store.getSnapshot().width).toBe('compact')
+  trigger.remove(); fallback.remove()
 })

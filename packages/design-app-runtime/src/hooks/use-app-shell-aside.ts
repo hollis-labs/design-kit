@@ -21,6 +21,16 @@ export interface FocusReturnTargetOptions {
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
+function visibleReturnTarget(target: HTMLElement): boolean {
+  if (target.closest('[hidden], [inert], [aria-hidden="true"], [aria-disabled="true"]')) return false
+  const view = target.ownerDocument.defaultView
+  for (let node: HTMLElement | null = target; node; node = node.parentElement) {
+    const style = view?.getComputedStyle(node)
+    if (style?.display === 'none' || style?.visibility === 'hidden') return false
+  }
+  return !target.matches('input[type="hidden"]')
+}
+
 /**
  * Resolves an admitted focus return target:
  * 1. Checks opening trigger: must be connected in DOM, not disabled, and admitted.
@@ -34,6 +44,7 @@ export function resolveAdmittedFocusTarget(options: FocusReturnTargetOptions): H
     rawTrigger instanceof HTMLElement &&
     rawTrigger.isConnected &&
     !rawTrigger.matches(':disabled') &&
+    visibleReturnTarget(rawTrigger) &&
     (!options.isAdmitted || options.isAdmitted(rawTrigger))
   ) {
     return rawTrigger
@@ -46,6 +57,7 @@ export function resolveAdmittedFocusTarget(options: FocusReturnTargetOptions): H
     rawFallback instanceof HTMLElement &&
     rawFallback.isConnected &&
     !rawFallback.matches(':disabled') &&
+    visibleReturnTarget(rawFallback) &&
     (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))
   ) {
     return rawFallback
@@ -103,6 +115,24 @@ export interface AppShellAsideHandle {
     asideFocusFallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
     isAsideTriggerAdmitted?: (target: HTMLElement) => boolean
     isAsideFallbackAdmitted?: (target: HTMLElement) => boolean
+  }
+}
+
+/** An activation is never reused across cleanup/setup, including StrictMode. */
+function createCallbackActivation() {
+  let epoch = 0
+  let active = false
+  const listeners = new Set<() => void>()
+  return {
+    subscribe: (listener: () => void) => {
+      listeners.add(listener)
+      return () => { listeners.delete(listener) }
+    },
+    getSnapshot: () => epoch,
+    getServerSnapshot: () => 0,
+    activate: () => { active = true; epoch++; listeners.forEach((listener) => listener()) },
+    retire: () => { active = false },
+    accepts: (captured: number) => active && epoch === captured,
   }
 }
 
@@ -167,31 +197,30 @@ export function useAppShellAside(
   const mediaNarrow = useSyncExternalStore(subscribeMedia, getMediaSnapshot, getMediaServerSnapshot)
   const isNarrow = controlledNarrow ?? mediaNarrow
 
-  // A retired lease stays retired even if a caller later reuses the same generation ID.
-  const lease = useMemo(() => ({ store, sourceGeneration, isNarrow, overlayOpen }), [store, sourceGeneration, isNarrow, overlayOpen])
-  const currentLease = useRef<typeof lease | null>(null)
+  const [activation] = useState(createCallbackActivation)
+  const epoch = useSyncExternalStore(activation.subscribe, activation.getSnapshot, activation.getServerSnapshot)
   useLayoutEffect(() => {
-    currentLease.current = lease
-    return () => { currentLease.current = null }
-  }, [lease])
+    activation.activate()
+    return activation.retire
+  }, [activation])
+  // Every committed render retires earlier callbacks, including predicate-only changes.
+  const frame = {}
+  const currentFrame = useRef(frame)
+  useLayoutEffect(() => { currentFrame.current = frame })
+  const live = () => activation.accepts(epoch) && currentFrame.current === frame
 
-
-  const restoreFocus = useCallback(() => {
-    if (currentLease.current !== lease) return false
-
+  const restoreFocus = () => {
+    if (!live()) return false
     const target = resolveAdmittedFocusTarget({
       trigger: triggerRef.current,
       isAdmitted: isTriggerAdmitted,
       fallbackTarget: focusFallbackTarget,
       isFallbackAdmitted,
     })
-
-    if (target && typeof target.focus === 'function') {
-      target.focus()
-      return true
-    }
-    return false
-  }, [isTriggerAdmitted, focusFallbackTarget, isFallbackAdmitted, lease])
+    if (!target) return false
+    target.focus()
+    return target.ownerDocument.activeElement === target
+  }
 
   // Resize handling: switching between persistent desktop and narrow overlay
   const [prevNarrow, setPrevNarrow] = useState(isNarrow)
@@ -208,39 +237,11 @@ export function useAppShellAside(
     if (overlayOpen) setOverlayOpenState(false)
   }
 
-  const setWidth = useCallback(
-    (width: AsideWidth) => {
-      if (currentLease.current !== lease) return
-      store.setWidth(width)
-    },
-    [store, lease],
-  )
-
-  const setCollapsed = useCallback(
-    (collapsed: boolean) => {
-      if (currentLease.current !== lease) return
-      store.setCollapsed(collapsed)
-    },
-    [store, lease],
-  )
-
-  const toggleCollapsed = useCallback(() => {
-    if (currentLease.current !== lease) return
-    store.toggleCollapsed()
-  }, [store, lease])
-
-  const setOverlayOpen = useCallback(
-    (open: boolean) => {
-      if (currentLease.current !== lease) return
-      setOverlayOpenState(open)
-    },
-    [lease],
-  )
-
-  const toggleOverlay = useCallback(() => {
-    if (currentLease.current !== lease) return
-    setOverlayOpenState((prev) => !prev)
-  }, [lease])
+  const setWidth = (width: AsideWidth) => { if (live()) store.setWidth(width) }
+  const setCollapsed = (collapsed: boolean) => { if (live()) store.setCollapsed(collapsed) }
+  const toggleCollapsed = () => { if (live()) store.toggleCollapsed() }
+  const setOverlayOpen = (open: boolean) => { if (live()) setOverlayOpenState(open) }
+  const toggleOverlay = () => { if (live()) setOverlayOpenState((prev) => !prev) }
 
   return {
     width: state.width,
@@ -261,10 +262,10 @@ export function useAppShellAside(
       asideOverlayOpen: overlayOpen,
       onAsideOverlayOpenChange: setOverlayOpen,
       isNarrow,
-      asideFocusReturnTarget: () => currentLease.current === lease ? triggerRef.current : null,
+      asideFocusReturnTarget: () => live() ? triggerRef.current : null,
       asideFocusFallbackTarget: focusFallbackTarget,
-      isAsideTriggerAdmitted: (target) => currentLease.current === lease && (!isTriggerAdmitted || isTriggerAdmitted(target)),
-      isAsideFallbackAdmitted: (target) => currentLease.current === lease && (!isFallbackAdmitted || isFallbackAdmitted(target)),
+      isAsideTriggerAdmitted: (target) => live() && (!isTriggerAdmitted || isTriggerAdmitted(target)),
+      isAsideFallbackAdmitted: (target) => live() && (!isFallbackAdmitted || isFallbackAdmitted(target)),
     },
   }
 }

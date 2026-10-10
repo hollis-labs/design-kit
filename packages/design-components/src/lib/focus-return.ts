@@ -20,6 +20,16 @@ export interface FocusReturnOptions {
   fallbackTarget?: HTMLElement | null | (() => HTMLElement | null)
 }
 
+function visibleReturnTarget(target: HTMLElement): boolean {
+  if (target.closest('[hidden], [inert], [aria-hidden="true"], [aria-disabled="true"]')) return false
+  const view = target.ownerDocument.defaultView
+  for (let node: HTMLElement | null = target; node; node = node.parentElement) {
+    const style = view?.getComputedStyle(node)
+    if (style?.display === 'none' || style?.visibility === 'hidden') return false
+  }
+  return !target.matches('input[type="hidden"]')
+}
+
 /** Resolve the admitted focus return element. */
 export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLElement | null {
   const rawTrigger = typeof options.trigger === 'function' ? options.trigger() : options.trigger
@@ -28,6 +38,7 @@ export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLEle
     rawTrigger instanceof HTMLElement &&
     rawTrigger.isConnected &&
     !rawTrigger.matches(':disabled') &&
+    visibleReturnTarget(rawTrigger) &&
     (!options.isAdmitted || options.isAdmitted(rawTrigger))
   ) {
     return rawTrigger
@@ -40,6 +51,7 @@ export function resolveAdmittedFocusTarget(options: FocusReturnOptions): HTMLEle
     rawFallback instanceof HTMLElement &&
     rawFallback.isConnected &&
     !rawFallback.matches(':disabled') &&
+    visibleReturnTarget(rawFallback) &&
     (!options.isFallbackAdmitted || options.isFallbackAdmitted(rawFallback))
   ) {
     return rawFallback
@@ -53,7 +65,7 @@ export function restoreAdmittedFocus(options: FocusReturnOptions): boolean {
   const target = resolveAdmittedFocusTarget(options)
   if (target && typeof target.focus === 'function') {
     target.focus()
-    return true
+    return target.ownerDocument.activeElement === target
   }
   return false
 }

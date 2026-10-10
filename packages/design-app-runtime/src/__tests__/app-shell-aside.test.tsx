@@ -454,3 +454,14 @@ it('a once-working callback stays retired after preserved-state effect reactivat
   act(() => current?.setWidth('compact'))
   expect(store.getSnapshot().width).toBe('compact')
 })
+
+
+it('malformed local and injected preferences use configured defaults', () => {
+  expect(parseAsidePreference({ width: 'unknown', collapsed: 'invalid' }, { width: 'wide', collapsed: false })).toEqual({ width: 'wide', collapsed: false })
+  localStorage.setItem('aside-custom-defaults', JSON.stringify({ width: 'unknown', collapsed: 'invalid' }))
+  const local = createAppShellAsideStore({ storageKey: 'aside-custom-defaults', defaultWidth: 'wide', defaultCollapsed: false })
+  expect(local.getSnapshot()).toEqual({ width: 'wide', collapsed: false })
+  const injected = createAppShellAsideStore({ storage: { read: () => ({ width: 'unknown', collapsed: 'invalid' } as unknown as AppShellAsidePreference), write: () => {}, clear: () => {} }, defaultWidth: 'compact', defaultCollapsed: false })
+  expect(injected.getSnapshot()).toEqual({ width: 'compact', collapsed: false })
+  localStorage.removeItem('aside-custom-defaults')
+})

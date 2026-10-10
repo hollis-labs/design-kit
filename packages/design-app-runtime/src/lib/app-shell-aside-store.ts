@@ -13,15 +13,18 @@ export const VALID_ASIDE_WIDTHS: readonly AsideWidth[] = ['compact', 'regular', 
  * Validates / normalizes raw stored data into a clean AppShellAsidePreference.
  * Returns null if the stored value is completely unparseable or not an object.
  */
-export function parseAsidePreference(raw: unknown): AppShellAsidePreference | null {
+export function parseAsidePreference(
+  raw: unknown,
+  defaults: AppShellAsidePreference = { width: 'regular', collapsed: true },
+): AppShellAsidePreference | null {
   if (!raw || typeof raw !== 'object') return null
   const candidate = raw as Record<string, unknown>
   const width =
     typeof candidate.width === 'string' && VALID_ASIDE_WIDTHS.includes(candidate.width as AsideWidth)
       ? (candidate.width as AsideWidth)
-      : 'regular'
+      : defaults.width
   const collapsed =
-    typeof candidate.collapsed === 'boolean' ? candidate.collapsed : true
+    typeof candidate.collapsed === 'boolean' ? candidate.collapsed : defaults.collapsed
   return { width, collapsed }
 }
 
@@ -112,7 +115,7 @@ export function createAppShellAsideStore(options: AppShellAsideStoreOptions = {}
     options.storage ??
     createScopedStorage<AppShellAsidePreference>(resolvedKey, {
       area: 'local',
-      parse: parseAsidePreference,
+      parse: (raw) => parseAsidePreference(raw, defaultState),
     })
 
   const serverState: AppShellAsidePreference = { ...defaultState }

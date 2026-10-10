@@ -509,3 +509,7 @@ This surface is not in published 0.2.0. It ships in the next coordinated minor;
 kit-observe cannot publish until that dashboard release is available. The demo
 fixture is `/samples.html` under `npm run demo`. Geometry evidence and its
 negative controls are described in [the sample proof](docs/sample-chart-proof.md).
+
+## Generic operations list candidate
+
+See [OperationsListPage](docs/operations-list.md) for the additive /layout composition, caller admission/projection responsibilities, lifetime-fenced action scope and local consumption status.

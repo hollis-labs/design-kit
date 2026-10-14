@@ -1,5 +1,10 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- Add `ChatComposer`: `ChatInput` that owns its draft (memoized), so typing re-renders only
+  the composer. `onSubmit` receives the trimmed text; returning `false`/rejecting keeps the draft.
+
 ## 0.4.0 — 2026-10-02
 
 Co-released with the other core packages. Requires design-components and

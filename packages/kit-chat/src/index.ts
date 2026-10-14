@@ -16,6 +16,9 @@
 export { ChatInput } from './components/chat-input'
 export type { ChatInputProps } from './components/chat-input'
 
+export { ChatComposer } from './components/chat-composer'
+export type { ChatComposerProps } from './components/chat-composer'
+
 export { ChatStream } from './components/chat-stream'
 export type { ChatStreamProps } from './components/chat-stream'
 

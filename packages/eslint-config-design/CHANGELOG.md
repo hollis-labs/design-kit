@@ -1,5 +1,10 @@
 # @hollis-labs/eslint-config-design
 
+## 0.5.0 — 2026-10-10
+
+No rule implementation change since 0.4.0; align token peer and core version. Upgrade the six core packages together; ^0.4.0 excludes this minor.
+
+
 ## 0.4.0 — 2026-10-02 — version alignment, no code change
 
 Co-released with the other core packages. No source or behavior change. The

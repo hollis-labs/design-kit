@@ -1,5 +1,10 @@
 # @hollis-labs/design-tokens
 
+## 0.5.0 — 2026-10-10
+
+No token implementation change since 0.4.0; align the six-package core version. Upgrade the six core packages together; ^0.4.0 excludes this minor.
+
+
 ## 0.4.0 — 2026-10-02
 
 - Strengthen `ring` in Graphite dark (`#6e8aa8` → `#96969c`), Hacker light

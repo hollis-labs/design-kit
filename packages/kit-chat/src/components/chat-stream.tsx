@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react'
+import { memo, useCallback, useMemo, useEffect, useRef, useState, type ReactNode } from 'react'
 import { MessageScroller } from '@shadcn/react/message-scroller'
-import { LoaderCircle } from 'lucide-react'
+import { Check, Copy, Download, Info, LoaderCircle } from 'lucide-react'
 import { cn, Button } from '@hollis-labs/design-components'
+import { MessageAction, MessageActions } from './message'
+import { copyText, downloadMarkdown, safeFileName } from '../lib/message-export'
 import type {
   ChatCardItem,
   ChatItem,
@@ -26,6 +28,18 @@ export interface ChatStreamProps {
    * uses to draw a card when it adds `ChatCardItem` to the union.
    */
   readonly renderItem?: (item: ChatItem) => ReactNode
+
+  /**
+   * Built-in per-message actions for the default renderer: Copy and Download
+   * (Markdown) appear on any message that carries `source`; Details appears when
+   * `onDetails` is given. Ignored by a custom `renderItem`, which owns its own row.
+   * Off by default so existing transcripts do not change.
+   */
+  readonly messageActions?: {
+    readonly copy?: boolean
+    readonly download?: boolean
+    readonly onDetails?: (item: ChatMessageItem) => void
+  }
 
   /** Shown when `items` is empty and nothing is streaming. */
   readonly empty?: ReactNode
@@ -74,7 +88,32 @@ const ROLE_ALIGN = {
   tool: 'items-start',
 } as const satisfies Record<ChatMessageItem['role'], string>
 
-function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
+function DefaultMessageActions({ item, actions }: { readonly item: ChatMessageItem; readonly actions: NonNullable<ChatStreamProps['messageActions']> }) {
+  const [copied, setCopied] = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  const source = item.source
+  const onCopy = useCallback(() => {
+    if (source === undefined) return
+    void copyText(source).then(() => {
+      setCopied(true)
+      clearTimeout(timer.current)
+      timer.current = setTimeout(() => setCopied(false), 1500)
+    }, () => undefined)
+  }, [source])
+  const showCopy = actions.copy && source !== undefined
+  const showDownload = actions.download && source !== undefined
+  if (!showCopy && !showDownload && !actions.onDetails) return null
+  return (
+    <MessageActions data-slot="chat-message-actions">
+      {showCopy ? <MessageAction label={copied ? 'Copied' : 'Copy message'} tooltip="Copy" onClick={onCopy}>{copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}</MessageAction> : null}
+      {showDownload ? <MessageAction label="Download message as Markdown" tooltip="Download" onClick={() => downloadMarkdown(safeFileName(`${item.role}-${item.id}`, 'message'), source ?? '')}><Download className="size-3.5" /></MessageAction> : null}
+      {actions.onDetails ? <MessageAction label="Message details" tooltip="Details" onClick={() => actions.onDetails?.(item)}><Info className="size-3.5" /></MessageAction> : null}
+    </MessageActions>
+  )
+}
+
+function DefaultMessage({ item, actions }: { readonly item: ChatMessageItem; readonly actions?: ChatStreamProps['messageActions'] }) {
   return (
     <div className={cn('flex min-w-0 flex-col gap-1', ROLE_ALIGN[item.role])}>
       {item.author || item.timestamp ? (
@@ -122,6 +161,7 @@ function DefaultMessage({ item }: { readonly item: ChatMessageItem }) {
       >
         {item.content}
       </div>
+      {actions ? <DefaultMessageActions item={item} actions={actions} /> : null}
       {item.footer ? <div className="text-caption text-fg-muted">{item.footer}</div> : null}
     </div>
   )
@@ -164,12 +204,12 @@ function DefaultCard({ item }: { readonly item: ChatCardItem }) {
   )
 }
 
-function defaultRender(item: ChatItem): ReactNode {
+function renderDefault(item: ChatItem, actions?: ChatStreamProps['messageActions']): ReactNode {
   // Exhaustive by construction: adding a variant to ChatItem without handling it
   // here is a compile error at the `never` below, not a blank row at runtime.
   switch (item.kind) {
     case 'message':
-      return <DefaultMessage item={item} />
+      return <DefaultMessage item={item} actions={actions} />
     case 'marker':
       return <DefaultMarker item={item} />
     case 'card':
@@ -180,6 +220,26 @@ function defaultRender(item: ChatItem): ReactNode {
     }
   }
 }
+
+/**
+ * One transcript row, memoized on the item and the renderer.
+ *
+ * WHY: without this every parent render — a keystroke in a sibling composer, a
+ * streaming token — re-ran `renderItem` for every row and re-rendered every rendered
+ * `content` node, which is quadratic on a long thread. Hosts keep `items` entries
+ * referentially stable when unchanged (replace only the entry that changed) and pass a
+ * stable `renderItem`; an inline arrow defeats the memo but stays correct.
+ */
+const ChatStreamRow = memo(
+  function ChatStreamRow({ item, renderItem }: { readonly item: ChatItem; readonly renderItem: (item: ChatItem) => ReactNode }) {
+    return (
+      <MessageScroller.Item messageId={item.id} data-slot="chat-stream-item">
+        {renderItem(item)}
+      </MessageScroller.Item>
+    )
+  },
+  (a, b) => a.item === b.item && a.renderItem === b.renderItem,
+)
 
 /**
  * The transcript.
@@ -203,7 +263,8 @@ function defaultRender(item: ChatItem): ReactNode {
 export function ChatStream({
   items,
   status = { status: 'idle' },
-  renderItem = defaultRender,
+  renderItem,
+  messageActions,
   empty,
   loading = false,
   history,
@@ -214,6 +275,10 @@ export function ChatStream({
   viewportClassName,
   'aria-label': ariaLabel = 'Conversation',
 }: ChatStreamProps) {
+  const render = useMemo(
+    () => renderItem ?? ((item: ChatItem) => renderDefault(item, messageActions)),
+    [renderItem, messageActions?.copy, messageActions?.download, messageActions?.onDetails], // eslint-disable-line react-hooks/exhaustive-deps
+  )
   const showEmpty = !loading && !history?.error && items.length === 0 && status.status === 'idle'
 
   return (
@@ -252,9 +317,7 @@ export function ChatStream({
             {showEmpty ? <div data-slot="chat-stream-empty">{empty}</div> : null}
 
             {items.map((item) => (
-              <MessageScroller.Item key={item.id} messageId={item.id} data-slot="chat-stream-item">
-                {renderItem(item)}
-              </MessageScroller.Item>
+              <ChatStreamRow key={item.id} item={item} renderItem={render} />
             ))}
 
             {status.status === 'streaming' || status.status === 'stalled' ? (

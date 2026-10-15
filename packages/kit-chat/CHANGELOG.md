@@ -11,6 +11,8 @@
   across re-renders, including when a host passes a fresh inline `components` map.
   streamdown 2.6.0 is not affected by the per-render components-map remount that hit
   Tangent's react-markdown wrapper (tangent#102).
+- Add `ChatComposer`: `ChatInput` that owns its draft (memoized), so typing re-renders only
+  the composer. `onSubmit` receives the trimmed text; returning `false`/rejecting keeps the draft.
 
 ## 0.4.0 — 2026-10-02
 

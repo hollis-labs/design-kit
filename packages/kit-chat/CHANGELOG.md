@@ -14,6 +14,10 @@
 - Add `ChatComposer`: `ChatInput` that owns its draft (memoized), so typing re-renders only
   the composer. `onSubmit` receives the trimmed text; returning `false`/rejecting keeps the draft.
 
+## 0.5.0 — 2026-10-10
+
+No chat implementation change since 0.4.0; align component/token dependencies and core version. Upgrade the six core packages together; ^0.4.0 excludes this minor.
+
 ## 0.4.0 — 2026-10-02
 
 Co-released with the other core packages. Requires design-components and

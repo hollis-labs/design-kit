@@ -71,7 +71,7 @@
     "@eslint/js": "^9.39.4",
     "typescript-eslint": "^8.58.0",
     "globals": "^17.4.0",
-    "@hollis-labs/eslint-config-design": "^0.4.0",
+    "@hollis-labs/eslint-config-design": "^0.5.0",
     "react-dom": "^19.2.4",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -87,8 +87,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@hollis-labs/design-components": "^0.4.0",
-    "@hollis-labs/design-tokens": "^0.4.0"
+    "@hollis-labs/design-components": "^0.5.0",
+    "@hollis-labs/design-tokens": "^0.5.0"
   },
   "peerDependenciesMeta": {
     "vite": {

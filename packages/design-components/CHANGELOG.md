@@ -57,6 +57,68 @@
   its window-listener API. Local candidate only; release version/publication is
   reserved for the separate owner release window.
 
+## 0.5.0 — 2026-10-10
+
+Add controlled record navigation, shortcut/layer admission, layered Escape, long press/RadialMenu, SearchPalette/CycleModeToggle and dialog fullscreen/focus options; fix AppShell overlay resize focus custody. Upgrade the six core packages together; ^0.4.0 excludes this minor.
+
+
+## Unreleased — CW-20261010-0092
+
+- Add optional fullscreen chrome, reset-on-open sizing, session persistence and admitted `returnFocus` to public modal wrappers, preserving native focus and legacy defaults.
+- Add controlled `SearchPalette` with input-owned result cursor, static radio filters, layered clear/close Escape, composition safety and fenced debounce notifications.
+- Add `CycleModeToggle` and `SearchAddToggle`; preserve the appearance `ModeToggle` API and provide a caller-owned secondary action seam.
+- Scope Escape composite ownership to an explicitly declared current overlay; unrelated overlays keep their veto.
+- Add Nil and Torque isolated specimen coverage; no release, live app migration or native hardware IME/touch claim.
+
+- Fullscreen dispatch verifies its exact current popup ownership; admitted return also preserves a newer plain foreground focus owner. Forwarded React callback-ref cleanup is retained.
+
+## Unreleased — CW-20261010-0091
+
+- Add `useLongPress`: configurable deliberate holds (1000ms, 8px defaults), pointer/scroll/lifetime cancellation, exact gesture release-click custody, and non-revivable committed-frame/source/access/activation admission. Touch scrolling remains native.
+- Add controlled `RadialMenu`: fixed-angle token-scaled actions, nested back/close, disabled actions, viewport clamping, keyboard rotary/Tab navigation, layered Escape and admitted focus return. Nil and a distinct message idiom are evidenced in isolated Parallax stories. No version or publication change.
+
+## Unreleased — CW-20261010-0072
+
+- Add optional `AppShell` aside slot (`aside?: ReactNode`, `asideWidth?: AsideWidth`, `asideCollapsed?: boolean`, `onAsideCollapsedChange?: (collapsed: boolean) => void`).
+- Preset widths: `compact` (w-80 / 20rem), `regular` (w-96 / 24rem, default), and `wide` (w-112 / 28rem).
+- Desktop layout reserves zero space/sliver when `asideCollapsed: true`.
+- Responsive fallback to `OverlaySidebar` below the 1024px (`lg`) breakpoint.
+- Pinned header and footer; independent aside and body scrolling.
+- Admitted connected focus return on desktop collapse/resize and narrow close, including custom triggers and explicit fallback admission. Optional `OverlaySidebar.focusReturn` delegates return resolution to Sheet after dismissal; default callers retain Sheet behavior.
+- Zero breaking changes: existing no-aside `AppShell` behavior and markup are preserved.
+
+## Unreleased — CW-20261010-0090
+
+- Add `useLayeredEscape`: centralized LIFO Escape stack, innermost overlay owns
+  keys, input-clearing before closing contract, background query/state preservation,
+  and admitted focus return with connection, disability, and caller admission guards.
+- Add `useShiftShift`: 300ms double-tap window per DEC-079 Nil specification,
+  modifier-aware, suppressed in editable targets and during IME composition (isComposing
+  or keyCode 229), reset on non-Shift key or window blur, and injectable monotonic clock
+  for deterministic test fixtures.
+- Add `useShortcut`: scoped keyboard shortcut hook with exact modifier matching
+  and active overlay suspension.
+- Add `useQuickSearchShortcut`: composite hook binding Cmd+K (macOS) / Ctrl+K
+  (Windows/Linux) as primary and Shift-Shift as alias.
+- Add shared admission guards (`isEditableTarget`, `isInteractiveTarget`, `isComposingEvent`,
+  `matchExactModifiers`, `hasActiveModalOverlay`) and focus return resolver (`restoreAdmittedFocus`).
+- Add opt-in `SearchInput.layeredEscape` for immediate consumed Escape clearing and
+  guarded slash focus; legacy debounce/blur/slash behavior remains the default.
+- Fence exposed handles by committed frame and non-revivable activation lease while
+  refreshing native listeners. Add caller source/access/admission and DOM scopes,
+  composition lifetime guards, nested popup ownership and zero-origin Shift timing.
+  Keep Escape coordination attached while portalled roots connect; closed popups
+  release ownership during their exit animation. Legacy `useArrowNav` remains unchanged.
+
+## Unreleased — CW-20261010-0036
+
+- Add `useControlledRecordNavigation` with caller-admitted opaque IDs, explicit
+  wrap/stop boundaries, discoverable-control availability, popup bubble/composition
+  ownership and committed-render/unmount callback fences. Source transport,
+  admission, routing and focus remain caller-owned; legacy `useArrowNav` retains
+  its window-listener API. Local candidate only; release version/publication is
+  reserved for the separate owner release window.
+
 ## 0.4.0 — 2026-10-02
 
 - Use full-strength focus rings, including destructive and invalid controls,

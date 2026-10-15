@@ -5,6 +5,16 @@
 
 # @hollis-labs/kit-dashboard
 
+## 0.5.0 — 2026-10-10
+
+Add OperationsListPage controlled selection/projection/inspection composition and scoped search/facet seams. Upgrade the six core packages together; ^0.4.0 excludes this minor.
+
+
+- Add data-agnostic OperationsListPage under /layout: controlled facet registry, admitted/matched/revealed/checked counts, modal or inline inspection, lifetime-fenced actions and focused-pane search.
+- Add opt-in controlled selection/reset, guarded rows and Show more seams to OperationsTablePage/DataTable. Existing defaults are retained. No registry release is performed.
+
+# @hollis-labs/kit-dashboard
+
 ## 0.4.0 — 2026-10-02
 
 Requires design-components, design-tokens and design-app-runtime `^0.4.0`.

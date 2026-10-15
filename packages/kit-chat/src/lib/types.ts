@@ -38,6 +38,12 @@ export interface ChatMessageItem extends ChatItemBase {
   readonly timestamp?: ReactNode
   /** Rendered after the content, inside the row — actions, reactions, footnotes. */
   readonly footer?: ReactNode
+  /**
+   * The plain / Markdown text this message was rendered from. `content` is already a
+   * `ReactNode` and cannot be turned back into text, so the built-in Copy and
+   * Download actions work from this. A message without `source` gets neither action.
+   */
+  readonly source?: string
 }
 
 export interface ChatMarkerItem extends ChatItemBase {

@@ -1,9 +1,20 @@
 # @hollis-labs/kit-chat
 
+## Unreleased
+
+- `ChatStream` rows are memoized on item identity and `renderItem`; unchanged rows no
+  longer re-render when a sibling changes or the parent re-renders. Keep unchanged
+  `items` entries referentially stable and pass a stable `renderItem`.
+- Add `messageActions` (Copy, Download Markdown, Details) to the default message
+  renderer, driven by the new optional `ChatMessageItem.source` text.
+- Regression tests: `ChatMarkdown` keeps its DOM (and so the reader's text selection)
+  across re-renders, including when a host passes a fresh inline `components` map.
+  streamdown 2.6.0 is not affected by the per-render components-map remount that hit
+  Tangent's react-markdown wrapper (tangent#102).
+
 ## 0.5.0 — 2026-10-10
 
 No chat implementation change since 0.4.0; align component/token dependencies and core version. Upgrade the six core packages together; ^0.4.0 excludes this minor.
-
 
 ## 0.4.0 — 2026-10-02
 
